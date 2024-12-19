@@ -23,41 +23,53 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-purple-100 via-white to-blue-50 py-12 px-4">
       <div className="container max-w-md mx-auto">
-        <Card>
+        <Card className="bg-white/70 backdrop-blur-sm border-purple-100">
           <CardHeader>
-            <CardTitle className="text-2xl text-center">Login</CardTitle>
+            <CardTitle className="text-2xl text-center text-purple-900">Login</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-4">
                 <div>
-                  <Label htmlFor="email">Email Address</Label>
+                  <Label htmlFor="email" className="text-purple-900">Email Address</Label>
                   <Input
                     id="email"
                     type="email"
                     required
+                    className="border-purple-200 focus:border-primary"
                     onChange={(e) => setFormData({...formData, email: e.target.value})}
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password" className="text-purple-900">Password</Label>
                   <Input
                     id="password"
                     type="password"
                     required
+                    className="border-purple-200 focus:border-primary"
                     onChange={(e) => setFormData({...formData, password: e.target.value})}
                   />
                 </div>
               </div>
 
               <div className="flex justify-end space-x-4">
-                <Button variant="outline" type="button" onClick={() => navigate("/")}>
+                <Button 
+                  variant="outline" 
+                  type="button" 
+                  onClick={() => navigate("/")}
+                  className="border-primary text-primary hover:bg-primary/10"
+                >
                   Cancel
                 </Button>
-                <Button type="submit">Login</Button>
+                <Button 
+                  type="submit"
+                  className="bg-primary hover:bg-primary/90 text-white"
+                >
+                  Login
+                </Button>
               </div>
             </form>
           </CardContent>

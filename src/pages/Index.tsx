@@ -6,20 +6,20 @@ const Index = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+    <div className="min-h-screen bg-gradient-to-br from-purple-100 via-white to-blue-50">
       {/* Hero Section */}
       <div className="container mx-auto px-4 py-12 md:py-24">
         <div className="text-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+          <h1 className="text-4xl md:text-6xl font-bold text-purple-900 mb-6 tracking-tight">
             Know Israel
           </h1>
-          <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl md:text-2xl text-purple-800/80 mb-8 max-w-2xl mx-auto">
             Empowering Jewish college students with knowledge and confidence to engage in meaningful conversations about Israel.
           </p>
           <div className="space-x-4">
             <Button 
               size="lg"
-              className="bg-blue-600 hover:bg-blue-700 text-white"
+              className="bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-xl transition-all"
               onClick={() => navigate("/register")}
             >
               Join the Program
@@ -27,6 +27,7 @@ const Index = () => {
             <Button 
               size="lg"
               variant="outline"
+              className="border-primary text-primary hover:bg-primary/10"
               onClick={() => navigate("/login")}
             >
               Login
@@ -37,16 +38,16 @@ const Index = () => {
 
       {/* Program Overview */}
       <div className="container mx-auto px-4 py-16">
-        <h2 className="text-3xl font-bold text-center mb-12">Program Overview</h2>
+        <h2 className="text-3xl font-bold text-center mb-12 text-purple-900">Program Overview</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {lessons.map((lesson, index) => (
-            <Card key={index} className="hover:shadow-lg transition-shadow">
+            <Card key={index} className="hover:shadow-lg transition-shadow bg-white/50 backdrop-blur-sm border-purple-100">
               <CardHeader>
-                <CardTitle>Lesson {index + 1}</CardTitle>
+                <CardTitle className="text-purple-900">Lesson {index + 1}</CardTitle>
                 <CardDescription>90-minute session</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">{lesson.description}</p>
+                <p className="text-purple-800/80">{lesson.description}</p>
               </CardContent>
             </Card>
           ))}
@@ -54,16 +55,16 @@ const Index = () => {
       </div>
 
       {/* User Types */}
-      <div className="container mx-auto px-4 py-16 bg-gray-50">
-        <h2 className="text-3xl font-bold text-center mb-12">Who Can Join?</h2>
+      <div className="container mx-auto px-4 py-16 bg-gradient-to-b from-purple-50/50 to-transparent">
+        <h2 className="text-3xl font-bold text-center mb-12 text-purple-900">Who Can Join?</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {userTypes.map((type, index) => (
-            <Card key={index} className="hover:shadow-lg transition-shadow">
+            <Card key={index} className="hover:shadow-lg transition-shadow bg-white/50 backdrop-blur-sm border-purple-100">
               <CardHeader>
-                <CardTitle>{type.title}</CardTitle>
+                <CardTitle className="text-purple-900">{type.title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">{type.description}</p>
+                <p className="text-purple-800/80">{type.description}</p>
               </CardContent>
             </Card>
           ))}
@@ -72,14 +73,14 @@ const Index = () => {
 
       {/* Call to Action */}
       <div className="container mx-auto px-4 py-16 text-center">
-        <h2 className="text-3xl font-bold mb-6">Ready to Get Started?</h2>
-        <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+        <h2 className="text-3xl font-bold mb-6 text-purple-900">Ready to Get Started?</h2>
+        <p className="text-xl text-purple-800/80 mb-8 max-w-2xl mx-auto">
           Join our community and become part of the conversation about Israel through a Jewish lens.
         </p>
         <div className="space-x-4">
           <Button 
             size="lg"
-            className="bg-blue-600 hover:bg-blue-700 text-white"
+            className="bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-xl transition-all"
             onClick={() => navigate("/register")}
           >
             Register Now
@@ -87,6 +88,7 @@ const Index = () => {
           <Button 
             size="lg"
             variant="outline"
+            className="border-primary text-primary hover:bg-primary/10"
             onClick={() => navigate("/login")}
           >
             Login

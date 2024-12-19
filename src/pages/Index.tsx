@@ -16,13 +16,22 @@ const Index = () => {
           <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-2xl mx-auto">
             Empowering Jewish college students with knowledge and confidence to engage in meaningful conversations about Israel.
           </p>
-          <Button 
-            size="lg"
-            className="bg-blue-600 hover:bg-blue-700 text-white"
-            onClick={() => navigate("/register")}
-          >
-            Join the Program
-          </Button>
+          <div className="space-x-4">
+            <Button 
+              size="lg"
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+              onClick={() => navigate("/register")}
+            >
+              Join the Program
+            </Button>
+            <Button 
+              size="lg"
+              variant="outline"
+              onClick={() => navigate("/login")}
+            >
+              Login
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -67,13 +76,22 @@ const Index = () => {
         <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
           Join our community and become part of the conversation about Israel through a Jewish lens.
         </p>
-        <Button 
-          size="lg"
-          className="bg-blue-600 hover:bg-blue-700 text-white"
-          onClick={() => navigate("/register")}
-        >
-          Register Now
-        </Button>
+        <div className="space-x-4">
+          <Button 
+            size="lg"
+            className="bg-blue-600 hover:bg-blue-700 text-white"
+            onClick={() => navigate("/register")}
+          >
+            Register Now
+          </Button>
+          <Button 
+            size="lg"
+            variant="outline"
+            onClick={() => navigate("/login")}
+          >
+            Login
+          </Button>
+        </div>
       </div>
     </div>
   );

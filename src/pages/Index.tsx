@@ -37,7 +37,7 @@ const Index = () => {
           </div>
           <div className="relative h-[400px] rounded-lg overflow-hidden shadow-xl">
             <img 
-              src="/photo-1501854140801-50d01698950b" 
+              src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b"
               alt="Israel Landscape" 
               className="object-cover w-full h-full"
             />
@@ -127,22 +127,22 @@ const lessons = [
   {
     title: "Israel's Right to Exist",
     description: "Israel's right to exist and responding to accusations of occupation.",
-    image: "/photo-1517022812141-23620dba5c23"
+    image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"
   },
   {
     title: "Ethics of Warfare",
     description: "The ethics of warfare from a Torah perspective.",
-    image: "/photo-1466721591366-2d5fba72006d"
+    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6"
   },
   {
     title: "Two-State Solution",
     description: "The practicality and Torah values related to the two-state solution.",
-    image: "/photo-1498936178812-4b2e558d2937"
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475"
   },
   {
     title: "International Relations",
     description: "Navigating Israel's isolation in the international community and the Torah view.",
-    image: "/photo-1618160702438-9b02ab6515c9"
+    image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1"
   },
 ];
 
@@ -150,17 +150,17 @@ const userTypes = [
   {
     title: "Students",
     description: "College students interested in learning about Israel through a Jewish lens and engaging in meaningful conversations.",
-    image: "/photo-1721322800607-8c38375eef04"
+    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"
   },
   {
     title: "Instructors (Shluchim)",
     description: "Leaders who guide and facilitate the Know Israel courses on college campuses.",
-    image: "/photo-1582562124811-c09040d0a901"
+    image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7"
   },
   {
     title: "Administrators",
     description: "JLI on Campus program administrators who oversee and manage the program's operation.",
-    image: "/photo-1501854140801-50d01698950b"
+    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e"
   },
 ];
 

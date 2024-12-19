@@ -8,7 +8,7 @@ import ResourcesSection from "@/components/dashboard/ResourcesSection";
 
 const Index = () => {
   // For now, we'll use a simple boolean. Later when auth is implemented, this will come from the auth context
-  const isLoggedIn = true; // Changed to true for development
+  const isLoggedIn = false; // Changed back to false to show landing page by default
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">

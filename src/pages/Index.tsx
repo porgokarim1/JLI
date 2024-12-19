@@ -37,8 +37,8 @@ const Index = () => {
           </div>
           <div className="relative h-[400px] rounded-lg overflow-hidden shadow-xl">
             <img 
-              src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b"
-              alt="Israel Landscape" 
+              src="https://images.unsplash.com/photo-1542743408-218cc173cda0"
+              alt="Jerusalem Old City" 
               className="object-cover w-full h-full"
             />
           </div>
@@ -127,22 +127,22 @@ const lessons = [
   {
     title: "Israel's Right to Exist",
     description: "Israel's right to exist and responding to accusations of occupation.",
-    image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"
+    image: "https://images.unsplash.com/photo-1544967082-d9d25d867d66" // Western Wall image
   },
   {
     title: "Ethics of Warfare",
     description: "The ethics of warfare from a Torah perspective.",
-    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6"
+    image: "https://images.unsplash.com/photo-1519420573924-65fcd45245f8" // Jerusalem cityscape
   },
   {
     title: "Two-State Solution",
     description: "The practicality and Torah values related to the two-state solution.",
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475"
+    image: "https://images.unsplash.com/photo-1547483238-2cbf881a559f" // Tel Aviv modern city
   },
   {
     title: "International Relations",
     description: "Navigating Israel's isolation in the international community and the Torah view.",
-    image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1"
+    image: "https://images.unsplash.com/photo-1604847262651-49f85b5c8af4" // Israeli flag
   },
 ];
 
@@ -150,17 +150,17 @@ const userTypes = [
   {
     title: "Students",
     description: "College students interested in learning about Israel through a Jewish lens and engaging in meaningful conversations.",
-    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"
+    image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644" // Students studying
   },
   {
     title: "Instructors (Shluchim)",
     description: "Leaders who guide and facilitate the Know Israel courses on college campuses.",
-    image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7"
+    image: "https://images.unsplash.com/photo-1532619675605-1ede6c2ed2b0" // Rabbi teaching
   },
   {
     title: "Administrators",
     description: "JLI on Campus program administrators who oversee and manage the program's operation.",
-    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e"
+    image: "https://images.unsplash.com/photo-1517842645767-c639042777db" // Synagogue interior
   },
 ];
 

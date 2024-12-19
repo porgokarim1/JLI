@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 const Index = () => {
   const navigate = useNavigate();
+  // For now, we'll use a simple boolean. Later when auth is implemented, this will come from the auth context
+  const isLoggedIn = false;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
@@ -45,30 +47,32 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Program Overview */}
-      <div className="container mx-auto px-4 py-16">
-        <h2 className="text-3xl font-bold text-center mb-12 text-slate-800">Program Overview</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {lessons.map((lesson, index) => (
-            <Card key={index} className="hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-indigo-100">
-              <CardHeader>
-                <div className="w-full h-48 mb-4 rounded-t-lg overflow-hidden">
-                  <img 
-                    src={lesson.image} 
-                    alt={lesson.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <CardTitle className="text-slate-800">Lesson {index + 1}</CardTitle>
-                <CardDescription className="text-slate-600">90-minute session</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-slate-700">{lesson.description}</p>
-              </CardContent>
-            </Card>
-          ))}
+      {/* Program Overview - Only shown to logged in users */}
+      {isLoggedIn && (
+        <div className="container mx-auto px-4 py-16">
+          <h2 className="text-3xl font-bold text-center mb-12 text-slate-800">Program Overview</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {lessons.map((lesson, index) => (
+              <Card key={index} className="hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-indigo-100">
+                <CardHeader>
+                  <div className="w-full h-48 mb-4 rounded-t-lg overflow-hidden">
+                    <img 
+                      src={lesson.image} 
+                      alt={lesson.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <CardTitle className="text-slate-800">Lesson {index + 1}</CardTitle>
+                  <CardDescription className="text-slate-600">90-minute session</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-slate-700">{lesson.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* User Types */}
       <div className="container mx-auto px-4 py-16">

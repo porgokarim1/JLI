@@ -6,20 +6,20 @@ const Index = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 via-white to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
       {/* Hero Section */}
       <div className="container mx-auto px-4 py-12 md:py-24">
         <div className="text-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-purple-900 mb-6 tracking-tight">
+          <h1 className="text-4xl md:text-6xl font-bold text-slate-800 mb-6 tracking-tight">
             Know Israel
           </h1>
-          <p className="text-xl md:text-2xl text-purple-800/80 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl md:text-2xl text-slate-700 mb-8 max-w-2xl mx-auto">
             Empowering Jewish college students with knowledge and confidence to engage in meaningful conversations about Israel.
           </p>
           <div className="space-x-4">
             <Button 
               size="lg"
-              className="bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-xl transition-all"
+              className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg hover:shadow-xl transition-all"
               onClick={() => navigate("/register")}
             >
               Join the Program
@@ -27,7 +27,7 @@ const Index = () => {
             <Button 
               size="lg"
               variant="outline"
-              className="border-primary text-primary hover:bg-primary/10"
+              className="border-indigo-600 text-indigo-600 hover:bg-indigo-50"
               onClick={() => navigate("/login")}
             >
               Login
@@ -38,16 +38,16 @@ const Index = () => {
 
       {/* Program Overview */}
       <div className="container mx-auto px-4 py-16">
-        <h2 className="text-3xl font-bold text-center mb-12 text-purple-900">Program Overview</h2>
+        <h2 className="text-3xl font-bold text-center mb-12 text-slate-800">Program Overview</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {lessons.map((lesson, index) => (
-            <Card key={index} className="hover:shadow-lg transition-shadow bg-white/50 backdrop-blur-sm border-purple-100">
+            <Card key={index} className="hover:shadow-lg transition-shadow bg-white/80 backdrop-blur-sm border-indigo-100">
               <CardHeader>
-                <CardTitle className="text-purple-900">Lesson {index + 1}</CardTitle>
-                <CardDescription>90-minute session</CardDescription>
+                <CardTitle className="text-slate-800">Lesson {index + 1}</CardTitle>
+                <CardDescription className="text-slate-600">90-minute session</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-purple-800/80">{lesson.description}</p>
+                <p className="text-slate-700">{lesson.description}</p>
               </CardContent>
             </Card>
           ))}
@@ -55,16 +55,16 @@ const Index = () => {
       </div>
 
       {/* User Types */}
-      <div className="container mx-auto px-4 py-16 bg-gradient-to-b from-purple-50/50 to-transparent">
-        <h2 className="text-3xl font-bold text-center mb-12 text-purple-900">Who Can Join?</h2>
+      <div className="container mx-auto px-4 py-16">
+        <h2 className="text-3xl font-bold text-center mb-12 text-slate-800">Who Can Join?</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {userTypes.map((type, index) => (
-            <Card key={index} className="hover:shadow-lg transition-shadow bg-white/50 backdrop-blur-sm border-purple-100">
+            <Card key={index} className="hover:shadow-lg transition-shadow bg-white/80 backdrop-blur-sm border-indigo-100">
               <CardHeader>
-                <CardTitle className="text-purple-900">{type.title}</CardTitle>
+                <CardTitle className="text-slate-800">{type.title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-purple-800/80">{type.description}</p>
+                <p className="text-slate-700">{type.description}</p>
               </CardContent>
             </Card>
           ))}
@@ -73,14 +73,14 @@ const Index = () => {
 
       {/* Call to Action */}
       <div className="container mx-auto px-4 py-16 text-center">
-        <h2 className="text-3xl font-bold mb-6 text-purple-900">Ready to Get Started?</h2>
-        <p className="text-xl text-purple-800/80 mb-8 max-w-2xl mx-auto">
+        <h2 className="text-3xl font-bold mb-6 text-slate-800">Ready to Get Started?</h2>
+        <p className="text-xl text-slate-700 mb-8 max-w-2xl mx-auto">
           Join our community and become part of the conversation about Israel through a Jewish lens.
         </p>
         <div className="space-x-4">
           <Button 
             size="lg"
-            className="bg-primary hover:bg-primary/90 text-white shadow-lg hover:shadow-xl transition-all"
+            className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg hover:shadow-xl transition-all"
             onClick={() => navigate("/register")}
           >
             Register Now
@@ -88,7 +88,7 @@ const Index = () => {
           <Button 
             size="lg"
             variant="outline"
-            className="border-primary text-primary hover:bg-primary/10"
+            className="border-indigo-600 text-indigo-600 hover:bg-indigo-50"
             onClick={() => navigate("/login")}
           >
             Login

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Menu, X, BookOpen, GraduationCap, Users, BookMarked } from "lucide-react";
+import { Menu, X, GraduationCap, LogIn, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
-const NavigationBar = () => {
+const NavigationBar = ({ isAuthenticated }: { isAuthenticated?: boolean }) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -31,42 +31,57 @@ const NavigationBar = () => {
             className="flex-shrink-0 flex items-center hover:opacity-80 transition-opacity"
           >
             <GraduationCap className="h-8 w-8 text-primary" />
-            <span className="ml-2 text-xl font-bold text-gray-900">EduPortal</span>
+            <span className="ml-2 text-xl font-bold text-gray-900">Know Israel</span>
           </button>
 
           {/* Desktop navigation */}
-          <div className="hidden md:flex md:items-center md:space-x-8">
-            <Button
-              variant="ghost"
-              className="text-gray-700 hover:text-primary hover:bg-gray-50 inline-flex items-center"
-              onClick={() => navigate("/lessons")}
-            >
-              <BookOpen className="h-5 w-5 mr-2" />
-              Lessons
-            </Button>
-            <Button
-              variant="ghost"
-              className="text-gray-700 hover:text-primary hover:bg-gray-50 inline-flex items-center"
-              onClick={() => navigate("/resources")}
-            >
-              <BookMarked className="h-5 w-5 mr-2" />
-              Resources
-            </Button>
-            <Button
-              variant="ghost"
-              className="text-gray-700 hover:text-primary hover:bg-gray-50 inline-flex items-center"
-              onClick={() => navigate("/community")}
-            >
-              <Users className="h-5 w-5 mr-2" />
-              Community
-            </Button>
-            <Button
-              variant="outline"
-              className="ml-4"
-              onClick={handleSignOut}
-            >
-              Sign Out
-            </Button>
+          <div className="hidden md:flex md:items-center md:space-x-4">
+            {isAuthenticated ? (
+              <>
+                <Button
+                  variant="ghost"
+                  className="text-gray-700 hover:text-primary hover:bg-gray-50 inline-flex items-center"
+                  onClick={() => navigate("/lessons")}
+                >
+                  <LogIn className="h-5 w-5 mr-2" />
+                  Lessons
+                </Button>
+                <Button
+                  variant="ghost"
+                  className="text-gray-700 hover:text-primary hover:bg-gray-50 inline-flex items-center"
+                  onClick={() => navigate("/resources")}
+                >
+                  <UserPlus className="h-5 w-5 mr-2" />
+                  Resources
+                </Button>
+                <Button
+                  variant="outline"
+                  className="ml-4"
+                  onClick={handleSignOut}
+                >
+                  Sign Out
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  variant="ghost"
+                  className="text-gray-700 hover:text-primary hover:bg-gray-50 inline-flex items-center"
+                  onClick={() => navigate("/login")}
+                >
+                  <LogIn className="h-5 w-5 mr-2" />
+                  Login
+                </Button>
+                <Button
+                  variant="default"
+                  className="inline-flex items-center"
+                  onClick={() => navigate("/register")}
+                >
+                  <UserPlus className="h-5 w-5 mr-2" />
+                  Register
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -89,46 +104,64 @@ const NavigationBar = () => {
       {/* Mobile menu */}
       <div className={`md:hidden ${isOpen ? "block" : "hidden"}`}>
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white shadow-lg">
-          <Button
-            variant="ghost"
-            className="w-full text-left text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
-            onClick={() => {
-              navigate("/lessons");
-              setIsOpen(false);
-            }}
-          >
-            <BookOpen className="h-5 w-5 mr-2" />
-            Lessons
-          </Button>
-          <Button
-            variant="ghost"
-            className="w-full text-left text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
-            onClick={() => {
-              navigate("/resources");
-              setIsOpen(false);
-            }}
-          >
-            <BookMarked className="h-5 w-5 mr-2" />
-            Resources
-          </Button>
-          <Button
-            variant="ghost"
-            className="w-full text-left text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
-            onClick={() => {
-              navigate("/community");
-              setIsOpen(false);
-            }}
-          >
-            <Users className="h-5 w-5 mr-2" />
-            Community
-          </Button>
-          <Button
-            variant="outline"
-            className="w-full mt-4"
-            onClick={handleSignOut}
-          >
-            Sign Out
-          </Button>
+          {isAuthenticated ? (
+            <>
+              <Button
+                variant="ghost"
+                className="w-full text-left text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
+                onClick={() => {
+                  navigate("/lessons");
+                  setIsOpen(false);
+                }}
+              >
+                <LogIn className="h-5 w-5 mr-2" />
+                Lessons
+              </Button>
+              <Button
+                variant="ghost"
+                className="w-full text-left text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
+                onClick={() => {
+                  navigate("/resources");
+                  setIsOpen(false);
+                }}
+              >
+                <UserPlus className="h-5 w-5 mr-2" />
+                Resources
+              </Button>
+              <Button
+                variant="outline"
+                className="w-full mt-4"
+                onClick={handleSignOut}
+              >
+                Sign Out
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                variant="ghost"
+                className="w-full text-left text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
+                onClick={() => {
+                  navigate("/login");
+                  setIsOpen(false);
+                }}
+              >
+                <LogIn className="h-5 w-5 mr-2" />
+                Login
+              </Button>
+              <Button
+                variant="default"
+                className="w-full flex items-center"
+                onClick={() => {
+                  navigate("/register");
+                  setIsOpen(false);
+                }}
+              >
+                <UserPlus className="h-5 w-5 mr-2" />
+                Register
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </nav>

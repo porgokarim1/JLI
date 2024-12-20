@@ -9,6 +9,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { ProgramGoalsSection } from "@/components/registration/ProgramGoalsSection";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -80,7 +81,7 @@ const Register = () => {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="text-center mb-6">
                 <p className="text-lg text-gray-600">
-                  Hi There! Thank you for your interest in participating in the Know Israel program. Let's get to know you a bit.
+                  Welcome! Join us to learn about Israel through an authentic Torah perspective and gain the tools to engage in meaningful conversations.
                 </p>
               </div>
 
@@ -189,51 +190,33 @@ const Register = () => {
                   />
                 </div>
 
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox 
-                      id="terms" 
-                      required
-                      onCheckedChange={(checked) => 
-                        setFormData({...formData, agreeToTerms: checked as boolean})
-                      }
-                    />
-                    <Label htmlFor="terms">I agree to the program conditions</Label>
-                  </div>
+              <ProgramGoalsSection 
+                value={formData.rewardTier}
+                onChange={(value) => setFormData({...formData, rewardTier: value})}
+              />
 
-                  <div>
-                    <h3 className="font-medium mb-2">Choose your program goals</h3>
-                    <RadioGroup
-                      onValueChange={(value) => setFormData({...formData, rewardTier: value})}
-                      className="space-y-2"
-                    >
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="tier1" id="tier1" />
-                        <Label htmlFor="tier1">Basic Engagement (3 conversations)</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="tier2" id="tier2" />
-                        <Label htmlFor="tier2">Active Engagement (7 conversations)</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="tier3" id="tier3" />
-                        <Label htmlFor="tier3">Advanced Engagement (15 conversations)</Label>
-                      </div>
-                    </RadioGroup>
-                  </div>
-
-                  <div className="flex items-center space-x-2">
-                    <Checkbox 
-                      id="disclaimer" 
-                      required
-                      onCheckedChange={(checked) => 
-                        setFormData({...formData, agreeToDisclaimer: checked as boolean})
-                      }
-                    />
-                    <Label htmlFor="disclaimer">I agree to the program disclaimer</Label>
-                  </div>
+              <div className="space-y-4">
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="terms" 
+                    required
+                    onCheckedChange={(checked) => 
+                      setFormData({...formData, agreeToTerms: checked as boolean})
+                    }
+                  />
+                  <Label htmlFor="terms">I agree to the program conditions</Label>
                 </div>
 
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="disclaimer" 
+                    required
+                    onCheckedChange={(checked) => 
+                      setFormData({...formData, agreeToDisclaimer: checked as boolean})
+                    }
+                  />
+                  <Label htmlFor="disclaimer">I agree to the program disclaimer</Label>
+                </div>
               </div>
 
               <div className="flex justify-end space-x-4">

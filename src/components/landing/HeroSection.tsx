@@ -17,7 +17,7 @@ const HeroSection = () => {
           <div className="space-x-4">
             <Button 
               size="lg"
-              className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg hover:shadow-xl transition-all"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transition-all"
               onClick={() => navigate("/register")}
             >
               Join the Program
@@ -25,7 +25,7 @@ const HeroSection = () => {
             <Button 
               size="lg"
               variant="outline"
-              className="border-indigo-600 text-indigo-600 hover:bg-indigo-50"
+              className="border-primary text-primary hover:bg-primary/10"
               onClick={() => navigate("/login")}
             >
               Login

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Menu, X, GraduationCap, LogIn, UserPlus, BookOpen, LogOut } from "lucide-react";
+import { Menu, X, GraduationCap, LogIn, UserPlus, BookOpen, Users, Library, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -59,6 +59,22 @@ const NavigationBar = () => {
                 >
                   <BookOpen className="h-5 w-5 mr-2" />
                   Lessons
+                </Button>
+                <Button
+                  variant="ghost"
+                  className="text-gray-700 hover:text-primary hover:bg-gray-50 inline-flex items-center"
+                  onClick={() => navigate("/community")}
+                >
+                  <Users className="h-5 w-5 mr-2" />
+                  Community
+                </Button>
+                <Button
+                  variant="ghost"
+                  className="text-gray-700 hover:text-primary hover:bg-gray-50 inline-flex items-center"
+                  onClick={() => navigate("/resources")}
+                >
+                  <Library className="h-5 w-5 mr-2" />
+                  Resources
                 </Button>
                 <Button
                   variant="outline"
@@ -123,6 +139,28 @@ const NavigationBar = () => {
               >
                 <BookOpen className="h-5 w-5 mr-2" />
                 Lessons
+              </Button>
+              <Button
+                variant="ghost"
+                className="w-full text-left text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
+                onClick={() => {
+                  navigate("/community");
+                  setIsOpen(false);
+                }}
+              >
+                <Users className="h-5 w-5 mr-2" />
+                Community
+              </Button>
+              <Button
+                variant="ghost"
+                className="w-full text-left text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
+                onClick={() => {
+                  navigate("/resources");
+                  setIsOpen(false);
+                }}
+              >
+                <Library className="h-5 w-5 mr-2" />
+                Resources
               </Button>
               <Button
                 variant="outline"

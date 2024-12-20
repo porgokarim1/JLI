@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -24,8 +25,9 @@ const Register = () => {
     agreeToDisclaimer: false,
     rewardTier: ""
   });
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.agreeToTerms || !formData.agreeToDisclaimer) {
@@ -33,9 +35,38 @@ const Register = () => {
       return;
     }
 
-    // Here we would typically handle the registration with a backend
-    toast.success(`${formData.firstName}, welcome to the Know Israel Program!`);
-    navigate("/dashboard");
+    setIsLoading(true);
+
+    try {
+      // Register the user with Supabase Auth
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: {
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            campus: formData.campus,
+            organization: formData.organization,
+            gender: formData.gender,
+            phone: formData.phone,
+            reward_tier: formData.rewardTier
+          }
+        }
+      });
+
+      if (authError) throw authError;
+
+      if (authData.user) {
+        toast.success(`${formData.firstName}, welcome to the Know Israel Program!`);
+        navigate("/");
+      }
+    } catch (error) {
+      console.error('Error during registration:', error);
+      toast.error('Registration failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -202,13 +233,20 @@ const Register = () => {
                     <Label htmlFor="disclaimer">I agree to the program disclaimer</Label>
                   </div>
                 </div>
+
               </div>
 
               <div className="flex justify-end space-x-4">
-                <Button variant="outline" type="button" onClick={() => navigate("/")}>
+                <Button 
+                  variant="outline" 
+                  type="button" 
+                  onClick={() => navigate("/")}
+                >
                   Cancel
                 </Button>
-                <Button type="submit">Submit</Button>
+                <Button type="submit" disabled={isLoading}>
+                  {isLoading ? "Registering..." : "Submit"}
+                </Button>
               </div>
             </form>
           </CardContent>

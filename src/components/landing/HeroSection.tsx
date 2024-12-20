@@ -56,8 +56,8 @@ const HeroSection = () => {
         </div>
         <div className="relative h-[600px] rounded-lg overflow-hidden shadow-xl">
           <img 
-            src="https://images.unsplash.com/photo-1544967082-d9d25d867d66"
-            alt="Jerusalem Old City" 
+            src="https://media.istockphoto.com/id/1161968873/photo/tel-aviv-israel-under-an-epic-sky.jpg?s=612x612&w=0&k=20&c=01lh9quVxC64mE44YzowS-xR8RWJcqX9UBxoU0aUoXk="
+            alt="Tel Aviv Skyline" 
             className="object-cover w-full h-full"
           />
         </div>

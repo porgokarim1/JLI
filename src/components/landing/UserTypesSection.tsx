@@ -4,17 +4,17 @@ const userTypes = [
   {
     title: "Students",
     description: "College students interested in learning about Israel through a Jewish lens and engaging in meaningful conversations.",
-    image: "https://images.unsplash.com/photo-1532619675605-1ede6c2ed2b0"
+    image: "https://images.jpost.com/image/upload/q_auto/c_fill,g_faces:center,h_537,w_822/632729"
   },
   {
     title: "Instructors (Shluchim)",
     description: "Leaders who guide and facilitate the Know Israel courses on college campuses.",
-    image: "https://images.unsplash.com/photo-1509062522246-3755977927d7"
+    image: "https://i.ytimg.com/vi/b9kj-h1w2tA/sddefault.jpg"
   },
   {
     title: "Administrators",
     description: "JLI on Campus program administrators who oversee and manage the program's operation.",
-    image: "https://images.unsplash.com/photo-1505664194779-8beaceb93744"
+    image: "https://c8.alamy.com/comp/T496JM/social-concept-group-senior-jewish-people-standing-together-in-different-traditional-national-clothes-on-background-with-israel-flag-in-flat-style-T496JM.jpg"
   },
 ];
 

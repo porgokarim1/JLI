@@ -1,4 +1,4 @@
-import { NavigationBar } from "@/components/navigation/NavigationBar"
+import NavigationBar from "@/components/navigation/NavigationBar"
 import { ComingSoon } from "@/components/ui/coming-soon"
 
 export default function Community() {

@@ -5,21 +5,37 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Here we would typically handle the login with a backend
-    // For now, just show a success message and redirect
-    toast.success("Successfully logged in!");
-    navigate("/dashboard");
+    setIsLoading(true);
+
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      toast.success("Successfully logged in!");
+      navigate("/");
+    } catch (error: any) {
+      toast.error(error.message || "Failed to login");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -39,7 +55,9 @@ const Login = () => {
                     type="email"
                     required
                     className="border-purple-200 focus:border-primary"
+                    value={formData.email}
                     onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    disabled={isLoading}
                   />
                 </div>
 
@@ -50,7 +68,9 @@ const Login = () => {
                     type="password"
                     required
                     className="border-purple-200 focus:border-primary"
+                    value={formData.password}
                     onChange={(e) => setFormData({...formData, password: e.target.value})}
+                    disabled={isLoading}
                   />
                 </div>
               </div>
@@ -61,14 +81,16 @@ const Login = () => {
                   type="button" 
                   onClick={() => navigate("/")}
                   className="border-primary text-primary hover:bg-primary/10"
+                  disabled={isLoading}
                 >
                   Cancel
                 </Button>
                 <Button 
                   type="submit"
                   className="bg-primary hover:bg-primary/90 text-white"
+                  disabled={isLoading}
                 >
-                  Login
+                  {isLoading ? "Logging in..." : "Login"}
                 </Button>
               </div>
             </form>

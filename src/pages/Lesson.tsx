@@ -1,26 +1,60 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
+import NavigationBar from "@/components/navigation/NavigationBar";
+import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { ArrowLeft } from "lucide-react";
+import { LessonWithProgress } from "@/components/dashboard/types";
 
 const Lesson = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [lesson, setLesson] = useState<any>(null);
+  const [lesson, setLesson] = useState<LessonWithProgress | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchLesson = async () => {
       try {
-        const { data, error } = await supabase
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) throw new Error('User not authenticated');
+
+        // Fetch the specific lesson
+        const { data: lessonData, error: lessonError } = await supabase
           .from('lessons')
           .select('*')
           .eq('id', id)
           .single();
 
-        if (error) throw error;
-        setLesson(data);
+        if (lessonError) throw lessonError;
+
+        // Fetch progress for this lesson
+        const { data: progressData, error: progressError } = await supabase
+          .from('user_lesson_progress')
+          .select('*')
+          .eq('lesson_id', id)
+          .eq('user_id', user.id)
+          .single();
+
+        if (progressError && progressError.code !== 'PGRST116') { // PGRST116 means no rows returned
+          throw progressError;
+        }
+
+        // Combine lesson with its progress
+        const lessonWithProgress = {
+          ...lessonData,
+          progress: progressData ? {
+            status: progressData.status,
+            time_spent: progressData.time_spent,
+            last_position: progressData.last_position,
+          } : {
+            status: 'not_started' as const,
+            time_spent: 0,
+            last_position: 0,
+          }
+        };
+
+        setLesson(lessonWithProgress);
       } catch (error) {
         console.error('Error fetching lesson:', error);
         toast.error('Failed to load lesson');
@@ -34,52 +68,70 @@ const Lesson = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
+        <NavigationBar />
+        <div className="container mx-auto px-4 py-8">
+          <div className="animate-pulse space-y-4">
+            <div className="h-8 bg-gray-200 rounded w-1/4"></div>
+            <div className="h-64 bg-gray-200 rounded"></div>
+          </div>
+        </div>
       </div>
     );
   }
 
   if (!lesson) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Lesson not found</h1>
-          <Button onClick={() => navigate('/')}>Return to Dashboard</Button>
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
+        <NavigationBar />
+        <div className="container mx-auto px-4 py-8">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold mb-4">Lesson not found</h1>
+            <Button onClick={() => navigate('/lessons')}>
+              <ArrowLeft className="mr-2" /> Back to Lessons
+            </Button>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <Button 
-        variant="outline" 
-        onClick={() => navigate('/')}
-        className="mb-6"
-      >
-        ← Back to Dashboard
-      </Button>
-      
-      <div className="max-w-4xl mx-auto">
-        <div className="aspect-video mb-6 rounded-lg overflow-hidden">
-          <img 
-            src={lesson.image_url} 
-            alt={lesson.title}
-            className="w-full h-full object-cover"
-          />
-        </div>
-        
-        <h1 className="text-3xl font-bold mb-4">{lesson.title}</h1>
-        <p className="text-gray-600 mb-6">{lesson.description}</p>
-        
-        <div className="bg-gray-100 p-4 rounded-lg mb-6">
-          <p className="text-sm text-gray-600">Duration: {lesson.duration} minutes</p>
-        </div>
-        
-        {/* Placeholder for future lesson content */}
-        <div className="prose max-w-none">
-          <p>Lesson content will be added here...</p>
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
+      <NavigationBar />
+      <div className="container mx-auto px-4 py-8">
+        <Button 
+          variant="outline" 
+          onClick={() => navigate('/lessons')}
+          className="mb-6"
+        >
+          <ArrowLeft className="mr-2" /> Back to Lessons
+        </Button>
+
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <div className="mb-6">
+            <h1 className="text-3xl font-bold mb-2">{lesson.title}</h1>
+            <p className="text-gray-600">{lesson.description}</p>
+          </div>
+
+          <div className="aspect-video rounded-lg overflow-hidden mb-6">
+            <img 
+              src={lesson.image_url} 
+              alt={lesson.title}
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          <div className="flex justify-between items-center">
+            <div>
+              <span className="text-sm text-gray-500">Duration: {lesson.duration} minutes</span>
+            </div>
+            <div>
+              <span className="text-sm text-gray-500">
+                Status: {lesson.progress?.status.replace('_', ' ')}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

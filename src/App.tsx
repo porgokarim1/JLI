@@ -10,6 +10,8 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Lesson from "./pages/Lesson";
 import Lessons from "./pages/Lessons";
+import Community from "./pages/Community";
+import Resources from "./pages/Resources";
 
 const queryClient = new QueryClient();
 
@@ -59,6 +61,14 @@ const App = () => {
     {
       path: "/lessons",
       element: isAuthenticated ? <Lessons /> : <Navigate to="/login" />,
+    },
+    {
+      path: "/community",
+      element: isAuthenticated ? <Community /> : <Navigate to="/login" />,
+    },
+    {
+      path: "/resources",
+      element: isAuthenticated ? <Resources /> : <Navigate to="/login" />,
     },
   ]);
 

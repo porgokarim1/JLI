@@ -24,7 +24,6 @@ export const ProgramGoalsSection = ({ value, onChange }: ProgramGoalsSectionProp
             <Label htmlFor="basic" className="font-medium">Basic Understanding</Label>
             <p className="text-sm text-muted-foreground">
               Learn the fundamentals of Israel's significance through Torah sources and gain confidence in basic discussions
-              (3 learning sessions)
             </p>
           </div>
         </div>
@@ -35,7 +34,6 @@ export const ProgramGoalsSection = ({ value, onChange }: ProgramGoalsSectionProp
             <Label htmlFor="intermediate" className="font-medium">Active Engagement</Label>
             <p className="text-sm text-muted-foreground">
               Deepen your understanding with Torah perspectives on current events and develop skills for meaningful conversations
-              (7 learning sessions)
             </p>
           </div>
         </div>
@@ -46,7 +44,6 @@ export const ProgramGoalsSection = ({ value, onChange }: ProgramGoalsSectionProp
             <Label htmlFor="advanced" className="font-medium">Leadership Track</Label>
             <p className="text-sm text-muted-foreground">
               Master in-depth Torah sources about Israel, learn to address complex questions, and become a campus leader
-              (15 learning sessions)
             </p>
           </div>
         </div>

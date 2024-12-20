@@ -22,6 +22,13 @@ interface Lesson {
   progress?: LessonProgress;
 }
 
+const LESSON_IMAGES = [
+  "https://images.jpost.com/image/upload/q_auto/c_fill,g_faces:center,h_537,w_822/632729",
+  "https://i.ytimg.com/vi/b9kj-h1w2tA/sddefault.jpg",
+  "https://c8.alamy.com/comp/T496JM/social-concept-group-senior-jewish-people-standing-together-in-different-traditional-national-clothes-on-background-with-israel-flag-in-flat-style-T496JM.jpg",
+  "https://media.istockphoto.com/id/1161968873/photo/tel-aviv-israel-under-an-epic-sky.jpg?s=612x612&w=0&k=20&c=01lh9quVxC64mE44YzowS-xR8RWJcqX9UBxoU0aUoXk="
+];
+
 const LessonsList = () => {
   const navigate = useNavigate();
   const [lessons, setLessons] = useState<Lesson[]>([]);
@@ -49,11 +56,12 @@ const LessonsList = () => {
 
         if (progressError) throw progressError;
 
-        // Combine lessons with their progress
-        const lessonsWithProgress = lessonsData.map((lesson: Lesson) => {
+        // Combine lessons with their progress and assign new images
+        const lessonsWithProgress = lessonsData.map((lesson: Lesson, index: number) => {
           const progress = progressData.find((p: any) => p.lesson_id === lesson.id);
           return {
             ...lesson,
+            image_url: LESSON_IMAGES[index % LESSON_IMAGES.length], // Cycle through the new images
             progress: progress ? {
               status: progress.status,
               time_spent: progress.time_spent,

@@ -2,24 +2,71 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
+interface LessonProgress {
+  status: 'not_started' | 'in_progress' | 'completed';
+  time_spent?: number;
+  last_position?: number;
+}
+
+interface Lesson {
+  id: string;
+  title: string;
+  description: string;
+  duration: number;
+  image_url: string;
+  progress?: LessonProgress;
+}
+
 const LessonsList = () => {
   const navigate = useNavigate();
-  const [lessons, setLessons] = useState([]);
+  const [lessons, setLessons] = useState<Lesson[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchLessons = async () => {
+    const fetchLessonsWithProgress = async () => {
       try {
-        const { data, error } = await supabase
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) throw new Error('User not authenticated');
+
+        // Fetch lessons and their progress
+        const { data: lessonsData, error: lessonsError } = await supabase
           .from('lessons')
           .select('*')
           .order('created_at');
 
-        if (error) throw error;
-        setLessons(data || []);
+        if (lessonsError) throw lessonsError;
+
+        // Fetch progress for all lessons
+        const { data: progressData, error: progressError } = await supabase
+          .from('user_lesson_progress')
+          .select('*')
+          .eq('user_id', user.id);
+
+        if (progressError) throw progressError;
+
+        // Combine lessons with their progress
+        const lessonsWithProgress = lessonsData.map((lesson: Lesson) => {
+          const progress = progressData.find((p: any) => p.lesson_id === lesson.id);
+          return {
+            ...lesson,
+            progress: progress ? {
+              status: progress.status,
+              time_spent: progress.time_spent,
+              last_position: progress.last_position,
+            } : {
+              status: 'not_started' as const,
+              time_spent: 0,
+              last_position: 0,
+            }
+          };
+        });
+
+        setLessons(lessonsWithProgress);
       } catch (error) {
         console.error('Error fetching lessons:', error);
         toast.error('Failed to load lessons');
@@ -28,8 +75,31 @@ const LessonsList = () => {
       }
     };
 
-    fetchLessons();
+    fetchLessonsWithProgress();
   }, []);
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'completed':
+        return 'bg-green-500';
+      case 'in_progress':
+        return 'bg-blue-500';
+      default:
+        return 'bg-slate-500';
+    }
+  };
+
+  const getProgressPercentage = (progress?: LessonProgress) => {
+    if (!progress) return 0;
+    switch (progress.status) {
+      case 'completed':
+        return 100;
+      case 'in_progress':
+        return Math.min(Math.round((progress.time_spent || 0) / 60), 100);
+      default:
+        return 0;
+    }
+  };
 
   if (loading) {
     return (
@@ -58,7 +128,7 @@ const LessonsList = () => {
     <div className="container mx-auto px-4 py-8">
       <h2 className="text-2xl font-bold text-slate-800 mb-6">Your Learning Path</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {lessons.map((lesson: any, index) => (
+        {lessons.map((lesson: Lesson, index) => (
           <Card key={lesson.id} className="hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-indigo-100">
             <CardHeader>
               <div className="w-full h-48 mb-4 rounded-t-lg overflow-hidden">
@@ -68,16 +138,28 @@ const LessonsList = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <CardTitle className="text-slate-800">Lesson {index + 1}</CardTitle>
+              <div className="flex items-center justify-between mb-2">
+                <CardTitle className="text-slate-800">Lesson {index + 1}</CardTitle>
+                <Badge 
+                  variant="secondary"
+                  className={`${getStatusColor(lesson.progress?.status || 'not_started')} text-white`}
+                >
+                  {lesson.progress?.status.replace('_', ' ')}
+                </Badge>
+              </div>
               <CardDescription className="text-slate-600">{lesson.duration}-minute session</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-slate-700">{lesson.description}</p>
+              <p className="text-slate-700 mb-4">{lesson.description}</p>
+              <Progress 
+                value={getProgressPercentage(lesson.progress)} 
+                className="mb-4"
+              />
               <Button 
-                className="w-full mt-4"
+                className="w-full"
                 onClick={() => navigate(`/lesson/${lesson.id}`)}
               >
-                Start Lesson
+                {lesson.progress?.status === 'completed' ? 'Review Lesson' : 'Start Lesson'}
               </Button>
             </CardContent>
           </Card>

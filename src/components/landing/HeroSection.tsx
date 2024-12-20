@@ -7,13 +7,31 @@ const HeroSection = () => {
   return (
     <div className="container mx-auto px-4 py-12 md:py-24">
       <div className="grid md:grid-cols-2 gap-8 items-center">
-        <div className="text-left">
-          <h1 className="text-4xl md:text-6xl font-bold text-slate-800 mb-6 tracking-tight">
-            Know Israel
-          </h1>
-          <p className="text-xl md:text-2xl text-slate-700 mb-8">
-            Empowering Jewish college students with knowledge and confidence to engage in meaningful conversations about Israel.
-          </p>
+        <div className="text-left space-y-12">
+          <div className="space-y-4">
+            <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-tight">
+              <span className="text-primary">KNO</span>W
+              <br />
+              <span className="text-black">ISRAEL</span>
+              <br />
+              <span className="text-primary">KNO</span>W
+              <br />
+              <span className="text-black">TRUTH</span>
+            </h1>
+            <p className="text-2xl md:text-3xl font-bold leading-tight">
+              <span className="bg-primary px-2">AMIDST THE CHAOS</span>,
+              <br />
+              NOTHING <span className="bg-primary px-2">REALLY</span> IS
+              <br />
+              <span className="bg-primary px-2">CLEAR</span>, AS <span className="bg-primary px-2">ANSWERS</span>
+              <br />
+              <span className="bg-primary px-2">SEEM</span> <span className="bg-primary px-2">ELUSIVE</span>, AND
+              <br />
+              <span className="bg-primary px-2">IT ALL APPEARS AS</span>
+              <br />
+              IT SEEMS.
+            </p>
+          </div>
           <div className="space-x-4">
             <Button 
               size="lg"

@@ -14,7 +14,7 @@ const userTypes = [
   {
     title: "Administrators",
     description: "JLI on Campus program administrators who oversee and manage the program's operation.",
-    image: "https://www.israelhayom.com/wp-content/uploads/2023/09/Capture-350x250.png"
+    image: "https://images.theconversation.com/files/582036/original/file-20240314-18-nf0rc6.jpg?ixlib=rb-4.1.0&q=45&auto=format&w=1000&fit=clip"
   },
 ];
 

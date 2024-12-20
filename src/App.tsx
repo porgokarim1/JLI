@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate, ScrollRestoration } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate, ScrollRestoration } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import Index from "./pages/Index";
@@ -38,29 +38,31 @@ const App = () => {
     );
   }
 
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Index />,
+    },
+    {
+      path: "/register",
+      element: isAuthenticated ? <Navigate to="/" /> : <Register />,
+    },
+    {
+      path: "/login",
+      element: isAuthenticated ? <Navigate to="/" /> : <Login />,
+    },
+    {
+      path: "/lesson/:id",
+      element: isAuthenticated ? <Lesson /> : <Navigate to="/login" />,
+    },
+  ]);
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
-          <ScrollRestoration />
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route 
-              path="/register" 
-              element={isAuthenticated ? <Navigate to="/" /> : <Register />} 
-            />
-            <Route 
-              path="/login" 
-              element={isAuthenticated ? <Navigate to="/" /> : <Login />} 
-            />
-            <Route 
-              path="/lesson/:id" 
-              element={isAuthenticated ? <Lesson /> : <Navigate to="/login" />} 
-            />
-          </Routes>
-        </BrowserRouter>
+        <RouterProvider router={router} />
       </TooltipProvider>
     </QueryClientProvider>
   );

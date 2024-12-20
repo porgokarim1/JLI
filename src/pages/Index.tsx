@@ -8,6 +8,7 @@ import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import ProgressOverview from "@/components/dashboard/ProgressOverview";
 import LessonsList from "@/components/dashboard/LessonsList";
 import ResourcesSection from "@/components/dashboard/ResourcesSection";
+import NavigationBar from "@/components/navigation/NavigationBar";
 import { toast } from "sonner";
 
 const Index = () => {
@@ -29,10 +30,8 @@ const Index = () => {
       }
     };
 
-    // Check initial session
     checkUser();
 
-    // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setIsLoggedIn(!!session);
     });
@@ -52,20 +51,23 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
-      {!isLoggedIn ? (
-        <>
-          <HeroSection />
-          <UserTypesSection />
-          <CallToAction />
-        </>
-      ) : (
-        <>
-          <DashboardHeader />
-          <ProgressOverview />
-          <LessonsList />
-          <ResourcesSection />
-        </>
-      )}
+      {isLoggedIn && <NavigationBar />}
+      <div className={isLoggedIn ? "pt-16" : ""}>
+        {!isLoggedIn ? (
+          <>
+            <HeroSection />
+            <UserTypesSection />
+            <CallToAction />
+          </>
+        ) : (
+          <>
+            <DashboardHeader />
+            <ProgressOverview />
+            <LessonsList />
+            <ResourcesSection />
+          </>
+        )}
+      </div>
     </div>
   );
 };

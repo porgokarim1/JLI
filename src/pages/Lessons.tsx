@@ -11,7 +11,7 @@ const Lessons = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
         <NavigationBar />
-        <div className="pt-16 container mx-auto px-4">
+        <div className="pt-20 container mx-auto px-4">
           <div className="animate-pulse space-y-4">
             <div className="h-8 bg-gray-200 rounded w-1/4"></div>
             <div className="h-4 bg-gray-200 rounded w-1/2"></div>
@@ -33,7 +33,7 @@ const Lessons = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
       <NavigationBar />
-      <div className="pt-16 container mx-auto px-4 py-8">
+      <div className="pt-20 container mx-auto px-4 py-8">
         <Card className="mb-8 bg-white/90 backdrop-blur-sm border-indigo-100">
           <CardHeader>
             <CardTitle>Your Learning Journey</CardTitle>

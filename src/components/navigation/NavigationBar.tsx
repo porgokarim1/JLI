@@ -1,13 +1,28 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Menu, X, GraduationCap, LogIn, UserPlus } from "lucide-react";
+import { Menu, X, GraduationCap, LogIn, UserPlus, BookOpen, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
-const NavigationBar = ({ isAuthenticated }: { isAuthenticated?: boolean }) => {
+const NavigationBar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check current session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setIsAuthenticated(!!session);
+    });
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAuthenticated(!!session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   const handleSignOut = async () => {
     try {
@@ -25,7 +40,6 @@ const NavigationBar = ({ isAuthenticated }: { isAuthenticated?: boolean }) => {
     <nav className="bg-white border-b border-gray-200 fixed w-full top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
-          {/* Logo and brand section - now clickable */}
           <button 
             onClick={() => navigate("/")}
             className="flex-shrink-0 flex items-center hover:opacity-80 transition-opacity"
@@ -43,22 +57,15 @@ const NavigationBar = ({ isAuthenticated }: { isAuthenticated?: boolean }) => {
                   className="text-gray-700 hover:text-primary hover:bg-gray-50 inline-flex items-center"
                   onClick={() => navigate("/lessons")}
                 >
-                  <LogIn className="h-5 w-5 mr-2" />
+                  <BookOpen className="h-5 w-5 mr-2" />
                   Lessons
                 </Button>
                 <Button
-                  variant="ghost"
-                  className="text-gray-700 hover:text-primary hover:bg-gray-50 inline-flex items-center"
-                  onClick={() => navigate("/resources")}
-                >
-                  <UserPlus className="h-5 w-5 mr-2" />
-                  Resources
-                </Button>
-                <Button
                   variant="outline"
-                  className="ml-4"
+                  className="inline-flex items-center"
                   onClick={handleSignOut}
                 >
+                  <LogOut className="h-5 w-5 mr-2" />
                   Sign Out
                 </Button>
               </>
@@ -114,25 +121,15 @@ const NavigationBar = ({ isAuthenticated }: { isAuthenticated?: boolean }) => {
                   setIsOpen(false);
                 }}
               >
-                <LogIn className="h-5 w-5 mr-2" />
+                <BookOpen className="h-5 w-5 mr-2" />
                 Lessons
               </Button>
               <Button
-                variant="ghost"
-                className="w-full text-left text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
-                onClick={() => {
-                  navigate("/resources");
-                  setIsOpen(false);
-                }}
-              >
-                <UserPlus className="h-5 w-5 mr-2" />
-                Resources
-              </Button>
-              <Button
                 variant="outline"
-                className="w-full mt-4"
+                className="w-full flex items-center"
                 onClick={handleSignOut}
               >
+                <LogOut className="h-5 w-5 mr-2" />
                 Sign Out
               </Button>
             </>

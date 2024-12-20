@@ -8,7 +8,7 @@ const HeroSection = () => {
     <div className="container mx-auto px-4 py-12 md:py-24">
       <div className="grid md:grid-cols-2 gap-8 items-center">
         <div className="text-left space-y-12">
-          <div className="space-y-4">
+          <div className="space-y-8">
             <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-tight">
               <span className="text-primary">KNO</span>W
               <br />
@@ -18,6 +18,25 @@ const HeroSection = () => {
               <br />
               <span className="text-black">TRUTH</span>
             </h1>
+            
+            <div className="space-x-4">
+              <Button 
+                size="lg"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transition-all"
+                onClick={() => navigate("/register")}
+              >
+                Join the Program
+              </Button>
+              <Button 
+                size="lg"
+                variant="outline"
+                className="border-primary text-primary hover:bg-primary/10"
+                onClick={() => navigate("/login")}
+              >
+                Login
+              </Button>
+            </div>
+
             <p className="text-2xl md:text-3xl font-bold leading-tight">
               <span className="bg-primary px-2">AMIDST THE CHAOS</span>,
               <br />
@@ -31,23 +50,6 @@ const HeroSection = () => {
               <br />
               IT SEEMS.
             </p>
-          </div>
-          <div className="space-x-4">
-            <Button 
-              size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transition-all"
-              onClick={() => navigate("/register")}
-            >
-              Join the Program
-            </Button>
-            <Button 
-              size="lg"
-              variant="outline"
-              className="border-primary text-primary hover:bg-primary/10"
-              onClick={() => navigate("/login")}
-            >
-              Login
-            </Button>
           </div>
         </div>
         <div className="relative h-[400px] rounded-lg overflow-hidden shadow-xl">

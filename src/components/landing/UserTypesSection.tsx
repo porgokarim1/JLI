@@ -4,17 +4,17 @@ const userTypes = [
   {
     title: "Students",
     description: "College students interested in learning about Israel through a Jewish lens and engaging in meaningful conversations.",
-    image: "https://images.jpost.com/image/upload/q_auto/c_fill,g_faces:center,h_537,w_822/632729"
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc-AvbggMne_9iZImmdrLgT1qLUu88H4RG8w&s"
   },
   {
     title: "Instructors (Shluchim)",
     description: "Leaders who guide and facilitate the Know Israel courses on college campuses.",
-    image: "https://i.ytimg.com/vi/b9kj-h1w2tA/sddefault.jpg"
+    image: "https://jnf.blob.core.windows.net/images/images/librariesprovider5/college-logos/img_7920-(1).jpg?sfvrsn=85f74431_1"
   },
   {
     title: "Administrators",
     description: "JLI on Campus program administrators who oversee and manage the program's operation.",
-    image: "https://c8.alamy.com/comp/T496JM/social-concept-group-senior-jewish-people-standing-together-in-different-traditional-national-clothes-on-background-with-israel-flag-in-flat-style-T496JM.jpg"
+    image: "https://www.israelhayom.com/wp-content/uploads/2023/09/Capture-350x250.png"
   },
 ];
 

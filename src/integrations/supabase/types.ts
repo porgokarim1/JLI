@@ -9,6 +9,33 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      lessons: {
+        Row: {
+          created_at: string
+          description: string
+          duration: number
+          id: string
+          image_url: string
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          duration: number
+          id?: string
+          image_url: string
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          duration?: number
+          id?: string
+          image_url?: string
+          title?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -30,6 +57,60 @@ export type Database = {
         }
         Relationships: []
       }
+      user_lesson_progress: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          id: string
+          last_position: number | null
+          lesson_id: string
+          started_at: string | null
+          status: Database["public"]["Enums"]["lesson_status"]
+          time_spent: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          last_position?: number | null
+          lesson_id: string
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["lesson_status"]
+          time_spent?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          last_position?: number | null
+          lesson_id?: string
+          started_at?: string | null
+          status?: Database["public"]["Enums"]["lesson_status"]
+          time_spent?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_lesson_progress_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_lesson_progress_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -38,7 +119,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      lesson_status: "not_started" | "in_progress" | "completed"
     }
     CompositeTypes: {
       [_ in never]: never

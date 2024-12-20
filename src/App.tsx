@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import Index from "./pages/Index";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import Lesson from "./pages/Lesson";
 
 const queryClient = new QueryClient();
 
@@ -52,6 +53,10 @@ const App = () => {
             <Route 
               path="/login" 
               element={isAuthenticated ? <Navigate to="/" /> : <Login />} 
+            />
+            <Route 
+              path="/lesson/:id" 
+              element={isAuthenticated ? <Lesson /> : <Navigate to="/login" />} 
             />
           </Routes>
         </BrowserRouter>

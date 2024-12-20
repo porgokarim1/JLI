@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import NavigationBar from "@/components/navigation/NavigationBar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -8,83 +7,20 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { PlayCircle, CheckCircle, Clock } from "lucide-react";
-
-interface LessonProgress {
-  status: 'not_started' | 'in_progress' | 'completed';
-  time_spent?: number;
-  last_position?: number;
-}
-
-interface Lesson {
-  id: string;
-  title: string;
-  description: string;
-  duration: number;
-  image_url: string;
-  progress?: LessonProgress;
-}
+import { useLessons } from "@/components/dashboard/useLessons";
 
 const Lessons = () => {
   const navigate = useNavigate();
-  const [lessons, setLessons] = useState<Lesson[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { data: lessons, isLoading } = useLessons();
   const [totalProgress, setTotalProgress] = useState(0);
 
   useEffect(() => {
-    const fetchLessonsWithProgress = async () => {
-      try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) throw new Error('User not authenticated');
-
-        // Fetch lessons and their progress
-        const { data: lessonsData, error: lessonsError } = await supabase
-          .from('lessons')
-          .select('*')
-          .order('created_at');
-
-        if (lessonsError) throw lessonsError;
-
-        // Fetch progress for all lessons
-        const { data: progressData, error: progressError } = await supabase
-          .from('user_lesson_progress')
-          .select('*')
-          .eq('user_id', user.id);
-
-        if (progressError) throw progressError;
-
-        // Combine lessons with their progress
-        const lessonsWithProgress = lessonsData.map((lesson: Lesson) => {
-          const progress = progressData.find((p: any) => p.lesson_id === lesson.id);
-          return {
-            ...lesson,
-            progress: progress ? {
-              status: progress.status,
-              time_spent: progress.time_spent,
-              last_position: progress.last_position,
-            } : {
-              status: 'not_started' as const,
-              time_spent: 0,
-              last_position: 0,
-            }
-          };
-        });
-
-        // Calculate total progress
-        const completedCount = progressData.filter((p: any) => p.status === 'completed').length;
-        const totalProgress = (completedCount / lessonsData.length) * 100;
-        
-        setLessons(lessonsWithProgress);
-        setTotalProgress(totalProgress);
-      } catch (error) {
-        console.error('Error fetching lessons:', error);
-        toast.error('Failed to load lessons');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchLessonsWithProgress();
-  }, []);
+    if (lessons) {
+      const completedCount = lessons.filter((lesson) => lesson.progress?.status === 'completed').length;
+      const totalProgress = (completedCount / lessons.length) * 100;
+      setTotalProgress(totalProgress);
+    }
+  }, [lessons]);
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -108,7 +44,7 @@ const Lessons = () => {
     }
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
         <NavigationBar />
@@ -148,7 +84,7 @@ const Lessons = () => {
         </Card>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {lessons.map((lesson, index) => (
+          {lessons?.map((lesson, index) => (
             <Card key={lesson.id} className="hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-indigo-100">
               <CardHeader>
                 <div className="w-full h-48 mb-4 rounded-t-lg overflow-hidden">

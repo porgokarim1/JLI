@@ -19,10 +19,19 @@ const Lesson = () => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) throw new Error('User not authenticated');
 
-        // Fetch the specific lesson
+        // Fetch the specific lesson with its media
         const { data: lessonData, error: lessonError } = await supabase
           .from('lessons')
-          .select('*')
+          .select(`
+            *,
+            lesson_media (
+              id,
+              url,
+              type,
+              created_at,
+              updated_at
+            )
+          `)
           .eq('id', id)
           .single();
 
@@ -34,15 +43,16 @@ const Lesson = () => {
           .select('*')
           .eq('lesson_id', id)
           .eq('user_id', user.id)
-          .single();
+          .maybeSingle();  // Changed from .single() to .maybeSingle()
 
-        if (progressError && progressError.code !== 'PGRST116') { // PGRST116 means no rows returned
+        if (progressError && progressError.code !== 'PGRST116') {
           throw progressError;
         }
 
         // Combine lesson with its progress
         const lessonWithProgress = {
           ...lessonData,
+          media: lessonData.lesson_media,
           progress: progressData ? {
             status: progressData.status,
             time_spent: progressData.time_spent,
@@ -114,15 +124,27 @@ const Lesson = () => {
             <p className="text-gray-600">{lesson.description}</p>
           </div>
 
-          <div className="aspect-video rounded-lg overflow-hidden mb-6">
-            <img 
-              src={lesson.image_url} 
-              alt={lesson.title}
-              className="w-full h-full object-cover"
-            />
+          <div className="space-y-4">
+            {lesson.media?.map((media, index) => (
+              <div key={media.id} className="rounded-lg overflow-hidden">
+                {media.type === 'video' ? (
+                  <video 
+                    controls 
+                    className="w-full aspect-video"
+                    src={media.url}
+                  />
+                ) : (
+                  <img 
+                    src={media.url} 
+                    alt={`${lesson.title} - Media ${index + 1}`}
+                    className="w-full h-auto"
+                  />
+                )}
+              </div>
+            ))}
           </div>
 
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center mt-6">
             <div>
               <span className="text-sm text-gray-500">Duration: {lesson.duration} minutes</span>
             </div>

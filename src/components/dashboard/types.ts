@@ -25,3 +25,17 @@ export interface Lesson {
 export interface LessonWithProgress extends Lesson {
   progress?: LessonProgress;
 }
+
+export interface Profile {
+  id: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  gender: string;
+  phone: string;
+  campus: string;
+  organization: string;
+  reward_tier: string;
+  created_at: string;
+  updated_at: string;
+}

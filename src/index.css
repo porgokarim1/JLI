@@ -84,3 +84,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Add padding to main content area to prevent navbar overlap */
+.pt-16 {
+  padding-top: 4rem !important;
+}

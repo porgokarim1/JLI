@@ -1,7 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useNavigate } from "react-router-dom";
 
 const ResourcesSection = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="container mx-auto px-4 py-8 mb-8">
       <h2 className="text-2xl font-bold text-slate-800 mb-6">Additional Resources</h2>
@@ -12,7 +15,13 @@ const ResourcesSection = () => {
           </CardHeader>
           <CardContent>
             <p className="text-slate-700 mb-4">Access supplementary reading materials and resources.</p>
-            <Button variant="outline" className="w-full">View Materials</Button>
+            <Button 
+              variant="outline" 
+              className="w-full"
+              onClick={() => navigate('/study-materials')}
+            >
+              View Materials
+            </Button>
           </CardContent>
         </Card>
         <Card className="hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-indigo-100">

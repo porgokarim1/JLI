@@ -12,6 +12,8 @@ import Lesson from "./pages/Lesson";
 import Lessons from "./pages/Lessons";
 import Community from "./pages/Community";
 import Resources from "./pages/Resources";
+import Profile from "./pages/Profile";
+import StudyMaterials from "./pages/StudyMaterials";
 
 const queryClient = new QueryClient();
 
@@ -70,6 +72,14 @@ const App = () => {
       path: "/resources",
       element: isAuthenticated ? <Resources /> : <Navigate to="/login" />,
     },
+    {
+      path: "/profile",
+      element: isAuthenticated ? <Profile /> : <Navigate to="/login" />,
+    },
+    {
+      path: "/study-materials",
+      element: isAuthenticated ? <StudyMaterials /> : <Navigate to="/login" />,
+    }
   ]);
 
   return (

@@ -53,8 +53,8 @@ const ProgressOverview = () => {
   }, []);
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <Card className="bg-white/90 backdrop-blur-sm border-indigo-100 mb-8">
+    <div className="container mx-auto px-4">
+      <Card className="bg-white/90 backdrop-blur-sm border-indigo-100">
         <CardHeader>
           <CardTitle className="text-2xl text-slate-800">Your Progress</CardTitle>
           <CardDescription>Track your journey through the Know Israel program</CardDescription>

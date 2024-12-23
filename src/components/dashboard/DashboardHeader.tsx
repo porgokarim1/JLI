@@ -31,7 +31,7 @@ const DashboardHeader = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 mt-2">
+    <div className="container mx-auto px-0 mt-0">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold text-slate-800">
           {getGreeting()}, {firstName}!

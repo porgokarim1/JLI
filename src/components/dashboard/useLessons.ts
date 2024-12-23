@@ -14,7 +14,16 @@ export const useLessons = () => {
         // Fetch lessons and their progress
         const { data: lessonsData, error: lessonsError } = await supabase
           .from('lessons')
-          .select('*')
+          .select(`
+            *,
+            lesson_media (
+              id,
+              url,
+              type,
+              created_at,
+              updated_at
+            )
+          `)
           .order('created_at');
 
         if (lessonsError) throw lessonsError;
@@ -28,10 +37,11 @@ export const useLessons = () => {
         if (progressError) throw progressError;
 
         // Combine lessons with their progress
-        const lessonsWithProgress = lessonsData.map((lesson: Lesson) => {
+        const lessonsWithProgress = lessonsData.map((lesson: any) => {
           const progress = progressData.find((p: any) => p.lesson_id === lesson.id);
           return {
             ...lesson,
+            media: lesson.lesson_media,
             progress: progress ? {
               status: progress.status,
               time_spent: progress.time_spent,

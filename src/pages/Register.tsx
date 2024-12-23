@@ -30,6 +30,11 @@ const Register = () => {
       return;
     }
 
+    if (formData.password.length < 6) {
+      toast.error("Password must be at least 6 characters long");
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -49,7 +54,14 @@ const Register = () => {
         }
       });
 
-      if (authError) throw authError;
+      if (authError) {
+        if (authError.message.includes('password')) {
+          toast.error('Password is too weak. Please use at least 6 characters');
+        } else {
+          toast.error(authError.message);
+        }
+        throw authError;
+      }
 
       if (authData.user) {
         toast.success(`${formData.firstName}, welcome to the Know Israel Program!`);
@@ -57,7 +69,6 @@ const Register = () => {
       }
     } catch (error) {
       console.error('Error during registration:', error);
-      toast.error('Registration failed. Please try again.');
     } finally {
       setIsLoading(false);
     }

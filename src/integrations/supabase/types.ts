@@ -9,6 +9,41 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      lesson_media: {
+        Row: {
+          created_at: string
+          id: string
+          lesson_id: string
+          type: Database["public"]["Enums"]["media_type"]
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          lesson_id: string
+          type: Database["public"]["Enums"]["media_type"]
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          lesson_id?: string
+          type?: Database["public"]["Enums"]["media_type"]
+          updated_at?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lesson_media_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lessons: {
         Row: {
           created_at: string
@@ -38,21 +73,42 @@ export type Database = {
       }
       profiles: {
         Row: {
+          campus: string | null
           created_at: string
           email: string | null
+          first_name: string | null
+          gender: string | null
           id: string
+          last_name: string | null
+          organization: string | null
+          phone: string | null
+          reward_tier: string | null
           updated_at: string
         }
         Insert: {
+          campus?: string | null
           created_at?: string
           email?: string | null
+          first_name?: string | null
+          gender?: string | null
           id: string
+          last_name?: string | null
+          organization?: string | null
+          phone?: string | null
+          reward_tier?: string | null
           updated_at?: string
         }
         Update: {
+          campus?: string | null
           created_at?: string
           email?: string | null
+          first_name?: string | null
+          gender?: string | null
           id?: string
+          last_name?: string | null
+          organization?: string | null
+          phone?: string | null
+          reward_tier?: string | null
           updated_at?: string
         }
         Relationships: []
@@ -120,6 +176,7 @@ export type Database = {
     }
     Enums: {
       lesson_status: "not_started" | "in_progress" | "completed"
+      media_type: "image" | "video"
     }
     CompositeTypes: {
       [_ in never]: never

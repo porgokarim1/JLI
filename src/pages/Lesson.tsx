@@ -26,6 +26,7 @@ const Lesson = () => {
             *,
             lesson_media (
               id,
+              lesson_id,
               url,
               type,
               created_at,
@@ -43,15 +44,16 @@ const Lesson = () => {
           .select('*')
           .eq('lesson_id', id)
           .eq('user_id', user.id)
-          .maybeSingle();  // Changed from .single() to .maybeSingle()
+          .maybeSingle();
 
         if (progressError && progressError.code !== 'PGRST116') {
           throw progressError;
         }
 
         // Combine lesson with its progress
-        const lessonWithProgress = {
+        const lessonWithProgress: LessonWithProgress = {
           ...lessonData,
+          lesson_media: lessonData.lesson_media,
           media: lessonData.lesson_media,
           progress: progressData ? {
             status: progressData.status,

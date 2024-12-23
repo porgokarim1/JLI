@@ -27,3 +27,17 @@ export type LessonWithProgress = Lesson & {
   progress: LessonProgress;
   media: LessonMedia[];
 };
+
+export type Profile = {
+  id: string;
+  email: string | null;
+  first_name: string | null;
+  last_name: string | null;
+  gender: string | null;
+  phone: string | null;
+  campus: string | null;
+  organization: string | null;
+  reward_tier: string | null;
+  created_at: string;
+  updated_at: string;
+};

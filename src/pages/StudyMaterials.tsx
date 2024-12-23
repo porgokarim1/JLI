@@ -11,25 +11,25 @@ const StudyMaterials = () => {
       items: [
         { name: "Understanding Israel's History", size: "2.3 MB" },
         { name: "Modern Israeli Society", size: "1.8 MB" },
-        { name: "Torah Perspectives on Israel", size: "3.1 MB" },
+        { name: "Israel's Global Impact", size: "3.1 MB" },
       ]
     },
     {
       title: "Video Resources",
       icon: Video,
       items: [
-        { name: "Introduction to Jewish Thought", duration: "45 mins" },
-        { name: "Understanding Jewish Traditions", duration: "30 mins" },
-        { name: "Israel's Role in Jewish Life", duration: "60 mins" },
+        { name: "Introduction to Israeli Culture", duration: "45 mins" },
+        { name: "Understanding Middle East Relations", duration: "30 mins" },
+        { name: "Israel's Role in Global Innovation", duration: "60 mins" },
       ]
     },
     {
       title: "Reading Materials",
       icon: Book,
       items: [
-        { name: "Jewish Philosophy Basics", pages: "25 pages" },
-        { name: "Torah and Modern Israel", pages: "40 pages" },
-        { name: "Jewish Ethics Guide", pages: "15 pages" },
+        { name: "Israeli Innovation & Technology", pages: "25 pages" },
+        { name: "Understanding Modern Israel", pages: "40 pages" },
+        { name: "Israel's Cultural Diversity", pages: "15 pages" },
       ]
     }
   ];

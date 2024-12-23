@@ -13,13 +13,30 @@ export interface LessonProgress {
   last_position: number;
 }
 
-export interface LessonWithProgress {
+export interface Lesson {
   id: string;
   title: string;
   description: string;
   duration: number;
   image_url: string;
   created_at: string;
-  media: LessonMedia[];
+  media?: LessonMedia[];
+}
+
+export interface LessonWithProgress extends Lesson {
   progress?: LessonProgress;
+}
+
+export interface Profile {
+  id: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  gender: string;
+  phone: string;
+  campus: string;
+  organization: string;
+  reward_tier: string;
+  created_at: string;
+  updated_at: string;
 }

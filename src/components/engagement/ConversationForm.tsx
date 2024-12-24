@@ -56,7 +56,11 @@ const ConversationForm = ({ onSuccess }: { onSuccess: () => void }) => {
       }
 
       const { error } = await supabase.from("conversations").insert({
-        ...values,
+        first_name: values.first_name,
+        last_name: values.last_name,
+        conversation_date: values.conversation_date,
+        notes: values.notes,
+        comfort_level: values.comfort_level,
         user_id: user.id,
       });
 

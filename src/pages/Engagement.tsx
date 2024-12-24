@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import NavigationBar from "@/components/navigation/NavigationBar";
-import ConversationForm from "@/components/engagement/ConversationForm";
+import { ConversationForm } from "@/components/engagement/ConversationForm";
 import ConversationsList from "@/components/engagement/ConversationsList";
 import EngagementMetrics from "@/components/engagement/EngagementMetrics";
 import { Button } from "@/components/ui/button";

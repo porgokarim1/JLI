@@ -60,7 +60,7 @@ const ConversationsList = () => {
               <TableHead>Name</TableHead>
               <TableHead>Date</TableHead>
               <TableHead>Notes</TableHead>
-              <TableHead>Status</TableHead>
+              <TableHead>Comfort Level</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -75,7 +75,9 @@ const ConversationsList = () => {
                 <TableCell className="max-w-xs truncate">
                   {conversation.notes}
                 </TableCell>
-                <TableCell className="capitalize">{conversation.status}</TableCell>
+                <TableCell className="capitalize">
+                  {conversation.comfort_level?.replace("_", " ")}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

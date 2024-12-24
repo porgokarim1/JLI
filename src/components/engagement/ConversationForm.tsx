@@ -31,7 +31,7 @@ const formSchema = z.object({
   comfort_level: z.string(),
 });
 
-export const ConversationForm = ({ onSuccess }: { onSuccess: () => void }) => {
+const ConversationForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -164,3 +164,5 @@ export const ConversationForm = ({ onSuccess }: { onSuccess: () => void }) => {
     </Form>
   );
 };
+
+export default ConversationForm;

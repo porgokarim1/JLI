@@ -11,7 +11,6 @@ import Login from "./pages/Login";
 import Lesson from "./pages/Lesson";
 import Lessons from "./pages/Lessons";
 import Engagement from "./pages/Engagement";
-import Resources from "./pages/Resources";
 import Profile from "./pages/Profile";
 import StudyMaterials from "./pages/StudyMaterials";
 
@@ -67,10 +66,6 @@ const App = () => {
     {
       path: "/engagement",
       element: isAuthenticated ? <Engagement /> : <Navigate to="/login" />,
-    },
-    {
-      path: "/resources",
-      element: isAuthenticated ? <Resources /> : <Navigate to="/login" />,
     },
     {
       path: "/profile",

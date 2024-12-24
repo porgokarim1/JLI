@@ -54,7 +54,7 @@ const MobileMenu = ({ isAuthenticated, setIsOpen }: MobileMenuProps) => {
           variant="ghost"
           className="w-full text-left text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
           onClick={() => {
-            navigate("/resources");
+            navigate("/study-materials");
             setIsOpen(false);
           }}
         >

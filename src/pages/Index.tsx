@@ -6,7 +6,6 @@ import CallToAction from "@/components/landing/CallToAction";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import ProgressOverview from "@/components/dashboard/ProgressOverview";
 import LessonsList from "@/components/dashboard/LessonsList";
-import ResourcesSection from "@/components/dashboard/ResourcesSection";
 import NavigationBar from "@/components/navigation/NavigationBar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
@@ -103,7 +102,6 @@ const Index = () => {
             <DashboardHeader />
             <ProgressOverview />
             <LessonsList />
-            <ResourcesSection />
           </>
         )}
       </div>

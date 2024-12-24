@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Profile } from "@/components/dashboard/types";
 import PhoneInput from 'react-phone-number-input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import 'react-phone-number-input/style.css';
 
 const ProfilePage = () => {
@@ -118,12 +119,35 @@ const ProfilePage = () => {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="campus">Campus</Label>
-                    <Input
-                      id="campus"
-                      name="campus"
+                    <Select 
                       value={formData.campus || ''}
-                      onChange={(e) => handleChange('campus', e.target.value)}
-                    />
+                      onValueChange={(value) => handleChange("campus", value)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select your campus" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="nyu">New York University</SelectItem>
+                        <SelectItem value="columbia">Columbia University</SelectItem>
+                        <SelectItem value="harvard">Harvard University</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="organization">Organization</Label>
+                    <Select 
+                      value={formData.organization || ''}
+                      onValueChange={(value) => handleChange("organization", value)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select your organization" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="student-center">Student Center</SelectItem>
+                        <SelectItem value="mosad">Mosad</SelectItem>
+                        <SelectItem value="other">Other</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
                 <Button className="w-full" onClick={handleUpdate}>

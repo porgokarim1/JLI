@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { CampusSection } from "./CampusSection";
 import { PersonalInfoSection } from "./PersonalInfoSection";
@@ -21,49 +20,53 @@ interface RegistrationFormProps {
   isLoading: boolean;
 }
 
-export const RegistrationForm = ({ formData, setFormData, onSubmit, isLoading }: RegistrationFormProps) => {
+export const RegistrationForm = ({
+  formData,
+  setFormData,
+  onSubmit,
+  isLoading
+}: RegistrationFormProps) => {
   const navigate = useNavigate();
-  
+
   const handleFieldChange = (field: string, value: any) => {
-    setFormData({ ...formData, [field]: value });
+    setFormData((prev: any) => ({
+      ...prev,
+      [field]: value
+    }));
   };
 
   return (
     <form onSubmit={onSubmit} className="space-y-6">
-      <div className="text-center mb-6">
-        <p className="text-lg text-gray-600">
-          Welcome! Join us to learn about Israel through an authentic Torah perspective and gain the tools to engage in meaningful conversations.
-        </p>
-      </div>
+      <PersonalInfoSection
+        formData={formData}
+        onChange={handleFieldChange}
+      />
 
-      <div className="space-y-6">
-        <CampusSection 
-          formData={formData} 
-          onChange={handleFieldChange}
-        />
+      <CampusSection
+        formData={formData}
+        onChange={handleFieldChange}
+      />
 
-        <PersonalInfoSection 
-          formData={formData}
-          onChange={handleFieldChange}
-        />
+      <TermsSection 
+        formData={formData}
+        onChange={handleFieldChange}
+      />
 
-        <TermsSection 
-          formData={formData}
-          onChange={handleFieldChange}
-        />
-
-        <div className="flex justify-end space-x-4">
-          <Button 
-            variant="outline" 
-            type="button" 
-            onClick={() => navigate("/")}
-          >
-            Cancel
-          </Button>
-          <Button type="submit" disabled={isLoading}>
-            {isLoading ? "Registering..." : "Submit"}
-          </Button>
-        </div>
+      <div className="flex flex-col space-y-4">
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="w-full py-2 px-4 bg-primary text-primary-foreground rounded hover:bg-primary/90 disabled:opacity-50"
+        >
+          {isLoading ? "Registering..." : "Register"}
+        </button>
+        <button
+          type="button"
+          onClick={() => navigate("/login")}
+          className="w-full py-2 px-4 bg-secondary text-secondary-foreground rounded hover:bg-secondary/90"
+        >
+          Already have an account? Login
+        </button>
       </div>
     </form>
   );

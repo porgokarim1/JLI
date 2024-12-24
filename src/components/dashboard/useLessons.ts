@@ -4,10 +4,10 @@ import { toast } from "sonner";
 import { Lesson, LessonWithProgress } from "./types";
 
 const LESSON_IMAGES = [
-  "/lovable-uploads/31da8262-900c-415a-b330-5dd286fa847f.png", // Will Israel Ever Be Accepted?
-  "/lovable-uploads/be355ed4-0f5f-4a0e-888a-7a820c1705ff.png", // What is the Price of Peace?
-  "/lovable-uploads/1fb8f934-710b-4b52-9e38-8a1b69221c4f.png", // Can a War Be Moral?
-  "/lovable-uploads/ef581ca4-33a3-4209-94d4-814e198d10f6.png", // Whose Land is it Anyway?
+  "/lovable-uploads/ef581ca4-33a3-4209-94d4-814e198d10f6.png", // Whose Land is it Anyway? (Lesson 1)
+  "/lovable-uploads/1fb8f934-710b-4b52-9e38-8a1b69221c4f.png", // Can a War Be Moral? (Lesson 2)
+  "/lovable-uploads/be355ed4-0f5f-4a0e-888a-7a820c1705ff.png", // What is the Price of Peace? (Lesson 3)
+  "/lovable-uploads/31da8262-900c-415a-b330-5dd286fa847f.png", // Will Israel Ever Be Accepted? (Lesson 4)
   "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
   "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
   "https://images.unsplash.com/photo-1485827404703-89b55fcc595e",

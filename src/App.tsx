@@ -10,7 +10,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Lesson from "./pages/Lesson";
 import Lessons from "./pages/Lessons";
-import Community from "./pages/Community";
+import Engagement from "./pages/Engagement";
 import Resources from "./pages/Resources";
 import Profile from "./pages/Profile";
 import StudyMaterials from "./pages/StudyMaterials";
@@ -65,8 +65,8 @@ const App = () => {
       element: isAuthenticated ? <Lessons /> : <Navigate to="/login" />,
     },
     {
-      path: "/community",
-      element: isAuthenticated ? <Community /> : <Navigate to="/login" />,
+      path: "/engagement",
+      element: isAuthenticated ? <Engagement /> : <Navigate to="/login" />,
     },
     {
       path: "/resources",

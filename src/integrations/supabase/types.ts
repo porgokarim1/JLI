@@ -9,6 +9,50 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      conversations: {
+        Row: {
+          conversation_date: string
+          created_at: string
+          first_name: string
+          id: string
+          last_name: string
+          notes: string | null
+          status: Database["public"]["Enums"]["conversation_status"] | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          conversation_date: string
+          created_at?: string
+          first_name: string
+          id?: string
+          last_name: string
+          notes?: string | null
+          status?: Database["public"]["Enums"]["conversation_status"] | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          conversation_date?: string
+          created_at?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          notes?: string | null
+          status?: Database["public"]["Enums"]["conversation_status"] | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversations_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lesson_media: {
         Row: {
           created_at: string
@@ -175,6 +219,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      conversation_status: "pending" | "completed" | "follow_up"
       lesson_status: "not_started" | "in_progress" | "completed"
       media_type: "image" | "video"
     }

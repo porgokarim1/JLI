@@ -22,6 +22,13 @@ const Register = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
 
+  const generatePassword = (firstName: string, lastName: string, phone: string) => {
+    const firstInitial = firstName.charAt(0).toUpperCase();
+    const lastInitial = lastName.charAt(0).toUpperCase();
+    const lastFourDigits = phone.slice(-4);
+    return `${firstInitial}${lastInitial}${lastFourDigits}`;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -30,17 +37,19 @@ const Register = () => {
       return;
     }
 
-    if (formData.password.length < 6) {
-      toast.error("Password must be at least 6 characters long");
+    if (!formData.phone || formData.phone.length < 4) {
+      toast.error("Please enter a valid phone number");
       return;
     }
 
     setIsLoading(true);
 
+    const generatedPassword = generatePassword(formData.firstName, formData.lastName, formData.phone);
+
     try {
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: formData.email,
-        password: formData.password,
+        password: generatedPassword,
         options: {
           data: {
             first_name: formData.firstName,
@@ -55,16 +64,12 @@ const Register = () => {
       });
 
       if (authError) {
-        if (authError.message.includes('password')) {
-          toast.error('Password is too weak. Please use at least 6 characters');
-        } else {
-          toast.error(authError.message);
-        }
+        toast.error(authError.message);
         throw authError;
       }
 
       if (authData.user) {
-        toast.success(`${formData.firstName}, welcome to the Know Israel Program!`);
+        toast.success(`Welcome ${formData.firstName}! Your password is: ${generatedPassword}`);
         navigate("/");
       }
     } catch (error) {

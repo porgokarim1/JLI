@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { CampusSection } from "./CampusSection";
 import { PersonalInfoSection } from "./PersonalInfoSection";
-import { ProgramGoalsSection } from "./ProgramGoalsSection";
 import { TermsSection } from "./TermsSection";
 
 interface RegistrationFormProps {
@@ -14,10 +13,8 @@ interface RegistrationFormProps {
     gender: string;
     email: string;
     phone: string;
-    password: string;
     agreeToTerms: boolean;
     agreeToDisclaimer: boolean;
-    rewardTier: string;
   };
   setFormData: (data: any) => void;
   onSubmit: (e: React.FormEvent) => void;
@@ -48,11 +45,6 @@ export const RegistrationForm = ({ formData, setFormData, onSubmit, isLoading }:
         <PersonalInfoSection 
           formData={formData}
           onChange={handleFieldChange}
-        />
-
-        <ProgramGoalsSection 
-          value={formData.rewardTier}
-          onChange={(value) => handleFieldChange("rewardTier", value)}
         />
 
         <TermsSection 

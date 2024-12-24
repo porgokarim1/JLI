@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Profile } from "@/components/dashboard/types";
+import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
 
 const ProfilePage = () => {
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -55,17 +57,17 @@ const ProfilePage = () => {
     fetchProfile();
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (field: string, value: any) => {
     setFormData(prev => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [field]: value
     }));
   };
 
   if (!profile) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 pt-16">
+    <div className="min-h-screen bg-[#FEF7CD] pt-16">
       <NavigationBar />
       <div className="container mx-auto px-4 py-8">
         <Card className="max-w-2xl mx-auto">
@@ -83,14 +85,14 @@ const ProfilePage = () => {
           <CardContent className="space-y-4">
             {isEditing ? (
               <>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="first_name">First Name</Label>
                     <Input
                       id="first_name"
                       name="first_name"
                       value={formData.first_name || ''}
-                      onChange={handleChange}
+                      onChange={(e) => handleChange('first_name', e.target.value)}
                     />
                   </div>
                   <div className="space-y-2">
@@ -99,17 +101,20 @@ const ProfilePage = () => {
                       id="last_name"
                       name="last_name"
                       value={formData.last_name || ''}
-                      onChange={handleChange}
+                      onChange={(e) => handleChange('last_name', e.target.value)}
                     />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="phone">Phone</Label>
-                    <Input
-                      id="phone"
-                      name="phone"
-                      value={formData.phone || ''}
-                      onChange={handleChange}
-                    />
+                    <div className="phone-input-container">
+                      <PhoneInput
+                        international
+                        countryCallingCodeEditable={false}
+                        defaultCountry="US"
+                        value={formData.phone || ''}
+                        onChange={(value) => handleChange('phone', value)}
+                      />
+                    </div>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="campus">Campus</Label>
@@ -117,7 +122,7 @@ const ProfilePage = () => {
                       id="campus"
                       name="campus"
                       value={formData.campus || ''}
-                      onChange={handleChange}
+                      onChange={(e) => handleChange('campus', e.target.value)}
                     />
                   </div>
                 </div>
@@ -126,7 +131,7 @@ const ProfilePage = () => {
                 </Button>
               </>
             ) : (
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label className="text-sm text-gray-500">First Name</Label>
                   <p className="text-lg">{profile.first_name}</p>

@@ -4,10 +4,10 @@ import { toast } from "sonner";
 import { Lesson, LessonWithProgress } from "./types";
 
 const LESSON_IMAGES = [
-  "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
-  "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
-  "https://images.unsplash.com/photo-1518770660439-4636190af475",
-  "https://images.unsplash.com/photo-1461749280684-dccba630e2f6",
+  "/lovable-uploads/31da8262-900c-415a-b330-5dd286fa847f.png", // Will Israel Ever Be Accepted?
+  "/lovable-uploads/be355ed4-0f5f-4a0e-888a-7a820c1705ff.png", // What is the Price of Peace?
+  "/lovable-uploads/1fb8f934-710b-4b52-9e38-8a1b69221c4f.png", // Can a War Be Moral?
+  "/lovable-uploads/ef581ca4-33a3-4209-94d4-814e198d10f6.png", // Whose Land is it Anyway?
   "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
   "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
   "https://images.unsplash.com/photo-1485827404703-89b55fcc595e",

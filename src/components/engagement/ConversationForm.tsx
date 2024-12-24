@@ -1,43 +1,70 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-const ConversationForm = ({ onSuccess }: { onSuccess?: () => void }) => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [date, setDate] = useState("");
-  const [notes, setNotes] = useState("");
+const formSchema = z.object({
+  first_name: z.string().min(2, "First name must be at least 2 characters"),
+  last_name: z.string().min(2, "Last name must be at least 2 characters"),
+  conversation_date: z.string(),
+  notes: z.string().optional(),
+  comfort_level: z.string(),
+});
+
+export const ConversationForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      first_name: "",
+      last_name: "",
+      conversation_date: new Date().toISOString().split("T")[0],
+      notes: "",
+      comfort_level: "",
+    },
+  });
 
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
+      setIsSubmitting(true);
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
+      
+      if (!user) {
+        toast.error("You must be logged in to record a conversation");
+        return;
+      }
 
-      const { error } = await supabase
-        .from("conversations")
-        .insert({
-          user_id: user.id,
-          first_name: firstName,
-          last_name: lastName,
-          conversation_date: date,
-          notes,
-        });
+      const { error } = await supabase.from("conversations").insert({
+        ...values,
+        user_id: user.id,
+      });
 
       if (error) throw error;
 
       toast.success("Conversation recorded successfully!");
-      setFirstName("");
-      setLastName("");
-      setDate("");
-      setNotes("");
-      onSuccess?.();
+      form.reset();
+      onSuccess();
     } catch (error) {
       console.error("Error recording conversation:", error);
       toast.error("Failed to record conversation");
@@ -47,54 +74,93 @@ const ConversationForm = ({ onSuccess }: { onSuccess?: () => void }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <Input
-          type="text"
-          placeholder="First Name"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-          required
-          className="mb-2"
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <FormField
+          control={form.control}
+          name="first_name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>First Name</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
-      <div>
-        <Input
-          type="text"
-          placeholder="Last Name"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-          required
-          className="mb-2"
+
+        <FormField
+          control={form.control}
+          name="last_name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Last Name</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
-      <div>
-        <Input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          required
-          className="mb-2"
+
+        <FormField
+          control={form.control}
+          name="conversation_date"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Date</FormLabel>
+              <FormControl>
+                <Input type="date" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
-      <div>
-        <Textarea
-          placeholder="Notes about the conversation..."
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-          className="mb-2"
-          rows={4}
+
+        <FormField
+          control={form.control}
+          name="comfort_level"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Comfort Level</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select comfort level" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="very_comfortable">Very Comfortable</SelectItem>
+                  <SelectItem value="comfortable">Comfortable</SelectItem>
+                  <SelectItem value="neutral">Neutral</SelectItem>
+                  <SelectItem value="uncomfortable">Uncomfortable</SelectItem>
+                  <SelectItem value="very_uncomfortable">Very Uncomfortable</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
-      <Button
-        type="submit"
-        disabled={isSubmitting}
-        className="w-full bg-yellow-400 hover:bg-yellow-500 text-black"
-      >
-        {isSubmitting ? "Recording..." : "Record Conversation"}
-      </Button>
-    </form>
+
+        <FormField
+          control={form.control}
+          name="notes"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Notes</FormLabel>
+              <FormControl>
+                <Textarea {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Recording..." : "Record Conversation"}
+        </Button>
+      </form>
+    </Form>
   );
 };
-
-export default ConversationForm;

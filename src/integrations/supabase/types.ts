@@ -11,35 +11,35 @@ export type Database = {
     Tables: {
       conversations: {
         Row: {
+          comfort_level: string | null
           conversation_date: string
           created_at: string
           first_name: string
           id: string
           last_name: string
           notes: string | null
-          status: Database["public"]["Enums"]["conversation_status"] | null
           updated_at: string
           user_id: string
         }
         Insert: {
+          comfort_level?: string | null
           conversation_date: string
           created_at?: string
           first_name: string
           id?: string
           last_name: string
           notes?: string | null
-          status?: Database["public"]["Enums"]["conversation_status"] | null
           updated_at?: string
           user_id: string
         }
         Update: {
+          comfort_level?: string | null
           conversation_date?: string
           created_at?: string
           first_name?: string
           id?: string
           last_name?: string
           notes?: string | null
-          status?: Database["public"]["Enums"]["conversation_status"] | null
           updated_at?: string
           user_id?: string
         }

@@ -1,6 +1,8 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
 
 interface PersonalInfoSectionProps {
   formData: {
@@ -9,7 +11,6 @@ interface PersonalInfoSectionProps {
     gender: string;
     email: string;
     phone: string;
-    password: string;
   };
   onChange: (field: string, value: string) => void;
 }
@@ -73,24 +74,16 @@ export const PersonalInfoSection = ({ formData, onChange }: PersonalInfoSectionP
 
       <div>
         <Label htmlFor="phone">Phone Number</Label>
-        <Input
-          id="phone"
-          type="tel"
-          required
-          value={formData.phone}
-          onChange={(e) => onChange("phone", e.target.value)}
-        />
-      </div>
-
-      <div>
-        <Label htmlFor="password">Password</Label>
-        <Input
-          id="password"
-          type="password"
-          required
-          value={formData.password}
-          onChange={(e) => onChange("password", e.target.value)}
-        />
+        <div className="phone-input-container">
+          <PhoneInput
+            international
+            countryCallingCodeEditable={false}
+            defaultCountry="US"
+            value={formData.phone}
+            onChange={(value) => onChange("phone", value || "")}
+            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+          />
+        </div>
       </div>
     </div>
   );

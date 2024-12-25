@@ -10,6 +10,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -25,6 +26,7 @@ import {
 
 const formSchema = z.object({
   first_name: z.string().min(2, "First name must be at least 2 characters"),
+  middle_name: z.string().optional(),
   last_name: z.string().min(2, "Last name must be at least 2 characters"),
   conversation_date: z.string(),
   notes: z.string().optional(),
@@ -38,6 +40,7 @@ const ConversationForm = ({ onSuccess }: { onSuccess: () => void }) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       first_name: "",
+      middle_name: "",
       last_name: "",
       conversation_date: new Date().toISOString().split("T")[0],
       notes: "",
@@ -57,6 +60,7 @@ const ConversationForm = ({ onSuccess }: { onSuccess: () => void }) => {
 
       const { error } = await supabase.from("conversations").insert({
         first_name: values.first_name,
+        middle_name: values.middle_name,
         last_name: values.last_name,
         conversation_date: values.conversation_date,
         notes: values.notes,
@@ -86,6 +90,20 @@ const ConversationForm = ({ onSuccess }: { onSuccess: () => void }) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>First Name</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="middle_name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Middle Name (Optional)</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -128,6 +146,9 @@ const ConversationForm = ({ onSuccess }: { onSuccess: () => void }) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Comfort Level</FormLabel>
+              <FormDescription>
+                How comfortable did you feel while having this conversation with the person?
+              </FormDescription>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>

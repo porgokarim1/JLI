@@ -67,7 +67,7 @@ export const LessonCard = ({ lesson, index }: LessonCardProps) => {
             {lesson.progress?.status.replace('_', ' ')}
           </Badge>
         </div>
-        <CardDescription>{lesson.duration} minutes</CardDescription>
+        <CardDescription>{lesson.title}</CardDescription>
       </CardHeader>
       <CardContent>
         <p className="text-sm text-gray-600 mb-4">{lesson.description}</p>

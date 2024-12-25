@@ -13,7 +13,7 @@ const EngagementMetrics = () => {
 
       return {
         totalConversations: count || 0,
-        nextTierThreshold: 10, // This could be dynamic based on user's current tier
+        nextTierThreshold: 10,
         progressPercentage: Math.min(((count || 0) / 10) * 100, 100),
       };
     },
@@ -21,7 +21,7 @@ const EngagementMetrics = () => {
 
   return (
     <>
-      <Card className="bg-white/90 backdrop-blur-sm">
+      <Card className="bg-white/90 backdrop-blur-sm border-primary">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">
             Total Conversations
@@ -32,7 +32,7 @@ const EngagementMetrics = () => {
         </CardContent>
       </Card>
 
-      <Card className="bg-white/90 backdrop-blur-sm">
+      <Card className="bg-white/90 backdrop-blur-sm border-primary">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">
             Next Reward Tier Progress

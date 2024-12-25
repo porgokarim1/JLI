@@ -8,6 +8,7 @@ interface RegistrationFormProps {
     campus: string;
     organization: string;
     firstName: string;
+    middleName: string;
     lastName: string;
     gender: string;
     email: string;

@@ -56,18 +56,18 @@ const ConversationsList = () => {
       <CardContent>
         <Table>
           <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Date</TableHead>
-              <TableHead>Notes</TableHead>
-              <TableHead>Comfort Level</TableHead>
+            <TableRow className="hover:bg-transparent">
+              <TableHead className="hover:bg-transparent">Name</TableHead>
+              <TableHead className="hover:bg-transparent">Date</TableHead>
+              <TableHead className="hover:bg-transparent">Notes</TableHead>
+              <TableHead className="hover:bg-transparent">Comfort Level</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {conversations.map((conversation) => (
               <TableRow key={conversation.id}>
                 <TableCell>
-                  {conversation.first_name} {conversation.last_name}
+                  {conversation.first_name} {conversation.middle_name && `${conversation.middle_name} `}{conversation.last_name}
                 </TableCell>
                 <TableCell>
                   {format(new Date(conversation.conversation_date), "PPP")}

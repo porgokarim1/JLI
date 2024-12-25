@@ -11,6 +11,7 @@ const Register = () => {
     campus: "",
     organization: "",
     firstName: "",
+    middleName: "",
     lastName: "",
     gender: "",
     email: "",
@@ -18,7 +19,6 @@ const Register = () => {
     password: "",
     agreeToTerms: false,
     agreeToDisclaimer: false,
-    rewardTier: ""
   });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -53,12 +53,12 @@ const Register = () => {
         options: {
           data: {
             first_name: formData.firstName,
+            middle_name: formData.middleName,
             last_name: formData.lastName,
             campus: formData.campus,
             organization: formData.organization,
             gender: formData.gender,
             phone: formData.phone,
-            reward_tier: formData.rewardTier
           }
         }
       });

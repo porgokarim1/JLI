@@ -11,7 +11,7 @@ interface LessonCardProps {
   index: number;
 }
 
-export const LessonCard = ({ lesson, index }: LessonCardProps) => {
+export const LessonCard = ({ lesson }: LessonCardProps) => {
   const navigate = useNavigate();
 
   const getStatusIcon = (status: string) => {
@@ -59,7 +59,7 @@ export const LessonCard = ({ lesson, index }: LessonCardProps) => {
           />
         </div>
         <div className="flex items-center justify-between mb-2">
-          <CardTitle className="text-lg">Lesson {index + 1}</CardTitle>
+          <CardTitle className="text-lg">{lesson.title}</CardTitle>
           <Badge 
             variant="secondary"
             className={`${getStatusColor(lesson.progress?.status || 'not_started')} text-white`}
@@ -67,7 +67,7 @@ export const LessonCard = ({ lesson, index }: LessonCardProps) => {
             {lesson.progress?.status.replace('_', ' ')}
           </Badge>
         </div>
-        <CardDescription>{lesson.title}</CardDescription>
+        <CardDescription>{lesson.description}</CardDescription>
       </CardHeader>
       <CardContent>
         <p className="text-sm text-gray-600 mb-4">{lesson.description}</p>

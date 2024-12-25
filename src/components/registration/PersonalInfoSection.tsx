@@ -7,6 +7,7 @@ import 'react-phone-number-input/style.css';
 interface PersonalInfoSectionProps {
   formData: {
     firstName: string;
+    middleName: string;
     lastName: string;
     gender: string;
     email: string;
@@ -18,7 +19,7 @@ interface PersonalInfoSectionProps {
 export const PersonalInfoSection = ({ formData, onChange }: PersonalInfoSectionProps) => {
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
           <Label htmlFor="firstName">First Name</Label>
           <Input
@@ -26,6 +27,14 @@ export const PersonalInfoSection = ({ formData, onChange }: PersonalInfoSectionP
             required
             value={formData.firstName}
             onChange={(e) => onChange("firstName", e.target.value)}
+          />
+        </div>
+        <div>
+          <Label htmlFor="middleName">Middle Name (Optional)</Label>
+          <Input
+            id="middleName"
+            value={formData.middleName || ''}
+            onChange={(e) => onChange("middleName", e.target.value)}
           />
         </div>
         <div>

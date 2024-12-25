@@ -70,7 +70,6 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
         <CardDescription>{lesson.description}</CardDescription>
       </CardHeader>
       <CardContent>
-        <p className="text-sm text-gray-600 mb-4">{lesson.description}</p>
         <Progress 
           value={getProgressPercentage(lesson.progress)} 
           className="mb-4"

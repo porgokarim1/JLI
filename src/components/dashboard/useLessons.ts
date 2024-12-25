@@ -30,15 +30,33 @@ export const useLessons = () => {
 
         // Get public URLs for lesson images
         const lessonsWithImageUrls = await Promise.all(lessonsData.map(async (lesson: any) => {
-          const { data: imageData } = await supabase
-            .storage
-            .from('lesson_images')
-            .createSignedUrl(lesson.image_url, 60 * 60); // 1 hour expiry
+          // Check if the image_url is an external URL
+          const isExternalUrl = lesson.image_url.startsWith('http');
+          
+          if (isExternalUrl) {
+            return {
+              ...lesson,
+              image_url: lesson.image_url // Keep external URLs as is
+            };
+          }
 
-          return {
-            ...lesson,
-            image_url: imageData?.signedUrl || ''
-          };
+          try {
+            const { data: imageData } = await supabase
+              .storage
+              .from('lesson_images')
+              .createSignedUrl(lesson.image_url, 60 * 60); // 1 hour expiry
+
+            return {
+              ...lesson,
+              image_url: imageData?.signedUrl || ''
+            };
+          } catch (error) {
+            console.error('Error getting signed URL:', error);
+            return {
+              ...lesson,
+              image_url: '' // Return empty string if there's an error
+            };
+          }
         }));
 
         // Fetch progress for all lessons

@@ -29,17 +29,17 @@ export const useLessons = () => {
         if (lessonsError) throw lessonsError;
 
         // Get public URLs for lesson images
-        const lessonsWithImageUrls = lessonsData.map((lesson: any) => {
-          const { data: { publicUrl } } = supabase
+        const lessonsWithImageUrls = await Promise.all(lessonsData.map(async (lesson: any) => {
+          const { data: imageData } = await supabase
             .storage
             .from('lesson_images')
-            .getPublicUrl(lesson.image_url);
+            .createSignedUrl(lesson.image_url, 60 * 60); // 1 hour expiry
 
           return {
             ...lesson,
-            image_url: publicUrl
+            image_url: imageData?.signedUrl || ''
           };
-        });
+        }));
 
         // Fetch progress for all lessons
         const { data: progressData, error: progressError } = await supabase
@@ -51,7 +51,7 @@ export const useLessons = () => {
 
         // Combine lessons with their progress
         const lessonsWithProgress = lessonsWithImageUrls.map((lesson: any) => {
-          const progress = progressData.find((p: any) => p.lesson_id === lesson.id);
+          const progress = progressData?.find((p: any) => p.lesson_id === lesson.id);
           return {
             ...lesson,
             media: lesson.lesson_media,

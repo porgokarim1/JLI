@@ -51,12 +51,19 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
   return (
     <Card className="hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-indigo-100">
       <CardHeader>
-        <div className="w-full h-48 mb-4 rounded-t-lg overflow-hidden">
-          <img 
-            src={lesson.image_url} 
-            alt={lesson.title}
-            className="w-full h-full object-cover"
-          />
+        <div className="w-full h-48 mb-4 rounded-t-lg overflow-hidden relative bg-gray-100">
+          {lesson.image_url ? (
+            <img 
+              src={lesson.image_url} 
+              alt={lesson.title}
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-gray-400">Loading image...</span>
+            </div>
+          )}
         </div>
         <div className="flex items-center justify-between mb-2">
           <CardTitle className="text-lg">{lesson.title}</CardTitle>

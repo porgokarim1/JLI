@@ -3,19 +3,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Lesson, LessonWithProgress } from "./types";
 
-const LESSON_IMAGES = [
-  "/lovable-uploads/ef581ca4-33a3-4209-94d4-814e198d10f6.png", // Whose Land is it Anyway? (Lesson 1)
-  "/lovable-uploads/1fb8f934-710b-4b52-9e38-8a1b69221c4f.png", // Can a War Be Moral? (Lesson 2)
-  "/lovable-uploads/be355ed4-0f5f-4a0e-888a-7a820c1705ff.png", // What is the Price of Peace? (Lesson 3)
-  "/lovable-uploads/31da8262-900c-415a-b330-5dd286fa847f.png", // Will Israel Ever Be Accepted? (Lesson 4)
-  "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
-  "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
-  "https://images.unsplash.com/photo-1485827404703-89b55fcc595e",
-  "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
-  "https://images.unsplash.com/photo-1504893524553-b855bce32c67",
-  "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86"
-];
-
 export const useLessons = () => {
   return useQuery({
     queryKey: ['lessons'],
@@ -49,12 +36,11 @@ export const useLessons = () => {
 
         if (progressError) throw progressError;
 
-        // Combine lessons with their progress and assign images
-        const lessonsWithProgress = lessonsData.map((lesson: any, index: number) => {
+        // Combine lessons with their progress
+        const lessonsWithProgress = lessonsData.map((lesson: any) => {
           const progress = progressData.find((p: any) => p.lesson_id === lesson.id);
           return {
             ...lesson,
-            image_url: LESSON_IMAGES[index % LESSON_IMAGES.length], // Cycle through images
             media: lesson.lesson_media,
             progress: progress ? {
               status: progress.status,

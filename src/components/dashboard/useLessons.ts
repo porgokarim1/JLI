@@ -28,33 +28,6 @@ export const useLessons = () => {
 
         if (lessonsError) throw lessonsError;
 
-        // Get public URLs for lesson images
-        const lessonsWithImageUrls = await Promise.all(lessonsData.map(async (lesson: any) => {
-          try {
-            // Get the public URL directly from the bucket
-            const { data: publicUrl } = supabase
-              .storage
-              .from('lesson_images')
-              .getPublicUrl(lesson.image_url);
-
-            if (!publicUrl?.publicUrl) {
-              console.error('No public URL generated for:', lesson.image_url);
-              throw new Error('Failed to generate public URL');
-            }
-
-            return {
-              ...lesson,
-              image_url: publicUrl.publicUrl
-            };
-          } catch (error) {
-            console.error('Error getting public URL for:', lesson.image_url, error);
-            return {
-              ...lesson,
-              image_url: '' // Return empty string if there's an error
-            };
-          }
-        }));
-
         // Fetch progress for all lessons
         const { data: progressData, error: progressError } = await supabase
           .from('user_lesson_progress')
@@ -64,7 +37,7 @@ export const useLessons = () => {
         if (progressError) throw progressError;
 
         // Combine lessons with their progress
-        const lessonsWithProgress = lessonsWithImageUrls.map((lesson: any) => {
+        const lessonsWithProgress = lessonsData.map((lesson: any) => {
           const progress = progressData?.find((p: any) => p.lesson_id === lesson.id);
           return {
             ...lesson,

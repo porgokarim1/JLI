@@ -31,22 +31,23 @@ export const useLessons = () => {
         // Get public URLs for lesson images
         const lessonsWithImageUrls = await Promise.all(lessonsData.map(async (lesson: any) => {
           try {
-            const { data: imageData } = await supabase
+            // Get the public URL directly from the bucket
+            const { data: publicUrl } = supabase
               .storage
               .from('lesson_images')
-              .createSignedUrl(lesson.image_url, 60 * 60); // 1 hour expiry
+              .getPublicUrl(lesson.image_url);
 
-            if (!imageData?.signedUrl) {
-              console.error('No signed URL generated for:', lesson.image_url);
-              throw new Error('Failed to generate signed URL');
+            if (!publicUrl?.publicUrl) {
+              console.error('No public URL generated for:', lesson.image_url);
+              throw new Error('Failed to generate public URL');
             }
 
             return {
               ...lesson,
-              image_url: imageData.signedUrl
+              image_url: publicUrl.publicUrl
             };
           } catch (error) {
-            console.error('Error getting signed URL for:', lesson.image_url, error);
+            console.error('Error getting public URL for:', lesson.image_url, error);
             return {
               ...lesson,
               image_url: '' // Return empty string if there's an error

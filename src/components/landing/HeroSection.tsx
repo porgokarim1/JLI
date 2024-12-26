@@ -11,13 +11,17 @@ const HeroSection = () => {
           <div className="space-y-8">
             <div className="space-y-2">
               <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-none">
-                <span className="text-primary">KNOW</span>
+                <span className="text-primary">K</span>
+                <span className="text-black">NO</span>
+                <span className="text-primary">W</span>
                 <br />
-                <span className="text-black">GENOCIDE</span>
+                <span className="text-primary">GENOCIDE</span>
                 <br />
-                <span className="text-primary">KNOW</span>
+                <span className="text-primary">K</span>
+                <span className="text-black">NO</span>
+                <span className="text-primary">W</span>
                 <br />
-                <span className="text-black">WAR</span>
+                <span className="text-primary">WAR</span>
               </h1>
               
               <div className="pt-6 space-x-4">
@@ -40,7 +44,7 @@ const HeroSection = () => {
             </div>
 
             <p className="text-2xl md:text-3xl font-bold leading-tight">
-              <span className="bg-primary px-2">AMIDST THE CHAOS</span>,
+              <span className="bg-primary px-2">AMIDST</span> <span className="bg-primary px-2">THE</span> <span className="bg-primary px-2">CHAOS</span>,
               <br />
               NOTHING <span className="bg-primary px-2">REALLY</span> IS
               <br />
@@ -48,7 +52,7 @@ const HeroSection = () => {
               <br />
               <span className="bg-primary px-2">SEEM</span> <span className="bg-primary px-2">ELUSIVE</span>, <span className="bg-primary px-2">AND</span>
               <br />
-              IT <span className="bg-primary px-2">ALL APPEARS</span> AS
+              IT <span className="bg-primary px-2">ALL</span> <span className="bg-primary px-2">APPEARS</span> AS
               <br />
               IT SEEMS.
             </p>

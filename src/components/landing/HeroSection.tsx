@@ -11,11 +11,11 @@ const HeroSection = () => {
           <div className="space-y-8">
             <div className="space-y-2">
               <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-none">
-                <span className="text-primary">KNO</span>W
+                <span className="text-primary">KNOW</span>
                 <br />
                 <span className="text-black">ISRAEL</span>
                 <br />
-                <span className="text-primary">KNO</span>W
+                <span className="text-primary">KNOW</span>
                 <br />
                 <span className="text-black">TRUTH</span>
               </h1>
@@ -42,11 +42,11 @@ const HeroSection = () => {
             <p className="text-2xl md:text-3xl font-bold leading-tight">
               <span className="bg-primary px-2">AMIDST THE CHAOS</span>,
               <br />
-              NOTHING <span className="bg-primary px-2">REALLY</span> IS
+              <span className="bg-primary px-2">NOTHING REALLY IS</span>
               <br />
               <span className="bg-primary px-2">CLEAR</span>, AS <span className="bg-primary px-2">ANSWERS</span>
               <br />
-              <span className="bg-primary px-2">SEEM</span> <span className="bg-primary px-2">ELUSIVE</span>, AND
+              <span className="bg-primary px-2">SEEM ELUSIVE</span>, <span className="bg-primary px-2">AND</span>
               <br />
               <span className="bg-primary px-2">IT ALL APPEARS AS</span>
               <br />

@@ -11,7 +11,7 @@ export const useLessons = () => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) throw new Error('User not authenticated');
 
-        // Fetch lessons and their progress
+        // Fetch lessons and their progress, ordered by title
         const { data: lessonsData, error: lessonsError } = await supabase
           .from('lessons')
           .select(`
@@ -24,7 +24,7 @@ export const useLessons = () => {
               updated_at
             )
           `)
-          .order('created_at');
+          .order('title', { ascending: true });
 
         if (lessonsError) throw lessonsError;
 

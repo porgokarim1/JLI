@@ -15,13 +15,13 @@ const HeroSection = () => {
                 <span className="text-black">NO</span>
                 <span className="text-primary">W</span>
                 <br />
-                <span className="text-primary">GENOCIDE</span>
+                <span className="text-black">GENOCIDE</span>
                 <br />
                 <span className="text-primary">K</span>
                 <span className="text-black">NO</span>
                 <span className="text-primary">W</span>
                 <br />
-                <span className="text-primary">WAR</span>
+                <span className="text-black">WAR</span>
               </h1>
               
               <div className="pt-6 space-x-4">
@@ -48,13 +48,13 @@ const HeroSection = () => {
               <br />
               NOTHING <span className="bg-primary px-2">REALLY</span> IS
               <br />
-              <span className="bg-primary px-2">CLEAR</span>, AS <span className="bg-primary px-2">ANSWERS</span>
+              <span className="bg-primary px-2">CLEAR</span>, <span className="bg-primary px-2">AS</span> <span className="bg-primary px-2">ANSWERS</span>
               <br />
               <span className="bg-primary px-2">SEEM</span> <span className="bg-primary px-2">ELUSIVE</span>, <span className="bg-primary px-2">AND</span>
               <br />
               IT <span className="bg-primary px-2">ALL</span> <span className="bg-primary px-2">APPEARS</span> AS
               <br />
-              IT SEEMS.
+              SEEMS.
             </p>
           </div>
         </div>

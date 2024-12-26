@@ -35,7 +35,9 @@ const NavigationBar = () => {
             className="flex-shrink-0 flex items-center hover:opacity-80 transition-opacity"
           >
             <GraduationCap className="h-8 w-8 text-primary" />
-            <span className="ml-2 text-xl font-bold text-gray-900">Know Israel</span>
+            <span className="ml-2 text-xl font-bold text-gray-900">
+              K<span className="text-xs align-top">'</span>NOW ISRAEL
+            </span>
           </button>
 
           {/* Desktop navigation */}

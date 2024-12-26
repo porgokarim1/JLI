@@ -54,7 +54,7 @@ const HeroSection = () => {
               <br />
               IT <span className="bg-primary px-2">ALL</span> <span className="bg-primary px-2">APPEARS</span> AS
               <br />
-              SEEMS.
+              IT SEEMS.
             </p>
           </div>
         </div>

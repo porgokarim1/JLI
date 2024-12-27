@@ -48,11 +48,11 @@ const HeroSection = () => {
               <br />
               NOTHING <span className="bg-primary px-2">REALLY</span> IS
               <br />
-              <span className="bg-primary px-2">CLEAR</span>, <span className="bg-primary px-2">AS</span> <span className="bg-primary px-2">ANSWERS</span>
+              <span className="bg-primary px-2">CLEAR</span>, AS <span className="bg-primary px-2">ANSWERS</span>
               <br />
               <span className="bg-primary px-2">SEEM</span> <span className="bg-primary px-2">ELUSIVE</span>, <span className="bg-primary px-2">AND</span>
               <br />
-              IT <span className="bg-primary px-2">ALL</span> <span className="bg-primary px-2">APPEARS</span> AS
+              <span className="bg-primary px-2">IT</span> <span className="bg-primary px-2">ALL</span> <span className="bg-primary px-2">APPEARS</span> <span className="bg-primary px-2">AS</span>
               <br />
               IT SEEMS.
             </p>

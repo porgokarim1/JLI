@@ -3,7 +3,7 @@ import ConversationForm from "@/components/engagement/ConversationForm";
 import ConversationsList from "@/components/engagement/ConversationsList";
 import EngagementMetrics from "@/components/engagement/EngagementMetrics";
 import { Button } from "@/components/ui/button";
-import { Plus, X } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useState } from "react";
 import {
   Dialog,
@@ -11,7 +11,6 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogClose,
 } from "@/components/ui/dialog";
 
 const Engagement = () => {
@@ -21,21 +20,18 @@ const Engagement = () => {
     <div className="min-h-screen bg-[#FEF7CD]">
       <NavigationBar />
       <div className="container mx-auto px-4 pt-24 pb-8">
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <h1 className="text-3xl font-bold">Engagement Dashboard</h1>
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-yellow-400 hover:bg-yellow-500 text-black">
+              <Button className="bg-yellow-400 hover:bg-yellow-500 text-black whitespace-nowrap">
                 <Plus className="h-5 w-5 mr-2" />
                 New Conversation
               </Button>
             </DialogTrigger>
             <DialogContent className="w-[90vw] max-w-[600px] max-h-[90vh] overflow-y-auto">
-              <DialogHeader className="relative">
+              <DialogHeader>
                 <DialogTitle>New Conversation</DialogTitle>
-                <DialogClose className="absolute right-0 top-0">
-                  <X className="h-4 w-4" />
-                </DialogClose>
               </DialogHeader>
               <ConversationForm onSuccess={() => setOpen(false)} />
             </DialogContent>

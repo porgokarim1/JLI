@@ -87,101 +87,102 @@ const ProfilePage = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               {isEditing ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="first_name">First Name</Label>
-                    <Input
-                      id="first_name"
-                      name="first_name"
-                      value={formData.first_name || ''}
-                      onChange={(e) => handleChange('first_name', e.target.value)}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="last_name">Last Name</Label>
-                    <Input
-                      id="last_name"
-                      name="last_name"
-                      value={formData.last_name || ''}
-                      onChange={(e) => handleChange('last_name', e.target.value)}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="phone">Phone</Label>
-                    <div className="phone-input-container">
-                      <PhoneInput
-                        international
-                        countryCallingCodeEditable={false}
-                        defaultCountry="US"
-                        value={formData.phone || ''}
-                        onChange={(value) => handleChange('phone', value)}
+                <div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="first_name">First Name</Label>
+                      <Input
+                        id="first_name"
+                        name="first_name"
+                        value={formData.first_name || ''}
+                        onChange={(e) => handleChange('first_name', e.target.value)}
                       />
                     </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="last_name">Last Name</Label>
+                      <Input
+                        id="last_name"
+                        name="last_name"
+                        value={formData.last_name || ''}
+                        onChange={(e) => handleChange('last_name', e.target.value)}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="phone">Phone</Label>
+                      <div className="phone-input-container">
+                        <PhoneInput
+                          international
+                          countryCallingCodeEditable={false}
+                          defaultCountry="US"
+                          value={formData.phone || ''}
+                          onChange={(value) => handleChange('phone', value)}
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="campus">Campus</Label>
+                      <Select 
+                        value={formData.campus || ''}
+                        onValueChange={(value) => handleChange("campus", value)}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select your campus" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="nyu">New York University</SelectItem>
+                          <SelectItem value="columbia">Columbia University</SelectItem>
+                          <SelectItem value="harvard">Harvard University</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="organization">Organization</Label>
+                      <Select 
+                        value={formData.organization || ''}
+                        onValueChange={(value) => handleChange("organization", value)}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select your organization" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="student-center">Student Center</SelectItem>
+                          <SelectItem value="mosad">Mosad</SelectItem>
+                          <SelectItem value="other">Other</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="campus">Campus</Label>
-                    <Select 
-                      value={formData.campus || ''}
-                      onValueChange={(value) => handleChange("campus", value)}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select your campus" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="nyu">New York University</SelectItem>
-                        <SelectItem value="columbia">Columbia University</SelectItem>
-                        <SelectItem value="harvard">Harvard University</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="organization">Organization</Label>
-                    <Select 
-                      value={formData.organization || ''}
-                      onValueChange={(value) => handleChange("organization", value)}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select your organization" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="student-center">Student Center</SelectItem>
-                        <SelectItem value="mosad">Mosad</SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+                  <Button className="w-full mt-4" onClick={handleUpdate}>
+                    Save Changes
+                  </Button>
                 </div>
-                <Button className="w-full" onClick={handleUpdate}>
-                  Save Changes
-                </Button>
-              </>
               ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <Label className="text-sm text-gray-500">First Name</Label>
-                  <p className="text-lg">{profile.first_name}</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label className="text-sm text-gray-500">First Name</Label>
+                    <p className="text-lg">{profile.first_name}</p>
+                  </div>
+                  <div>
+                    <Label className="text-sm text-gray-500">Last Name</Label>
+                    <p className="text-lg">{profile.last_name}</p>
+                  </div>
+                  <div>
+                    <Label className="text-sm text-gray-500">Email</Label>
+                    <p className="text-lg">{profile.email}</p>
+                  </div>
+                  <div>
+                    <Label className="text-sm text-gray-500">Phone</Label>
+                    <p className="text-lg">{profile.phone}</p>
+                  </div>
+                  <div>
+                    <Label className="text-sm text-gray-500">Campus</Label>
+                    <p className="text-lg">{profile.campus}</p>
+                  </div>
+                  <div>
+                    <Label className="text-sm text-gray-500">Organization</Label>
+                    <p className="text-lg">{profile.organization}</p>
+                  </div>
                 </div>
-                <div>
-                  <Label className="text-sm text-gray-500">Last Name</Label>
-                  <p className="text-lg">{profile.last_name}</p>
-                </div>
-                <div>
-                  <Label className="text-sm text-gray-500">Email</Label>
-                  <p className="text-lg">{profile.email}</p>
-                </div>
-                <div>
-                  <Label className="text-sm text-gray-500">Phone</Label>
-                  <p className="text-lg">{profile.phone}</p>
-                </div>
-                <div>
-                  <Label className="text-sm text-gray-500">Campus</Label>
-                  <p className="text-lg">{profile.campus}</p>
-                </div>
-                <div>
-                  <Label className="text-sm text-gray-500">Organization</Label>
-                  <p className="text-lg">{profile.organization}</p>
-                </div>
-              </div>
               )}
             </CardContent>
           </Card>

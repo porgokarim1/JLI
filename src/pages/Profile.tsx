@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { Profile } from "@/components/dashboard/types";
 import PhoneInput from 'react-phone-number-input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import 'react-phone-number-input/style.css';
 
 const ProfilePage = () => {
@@ -68,24 +69,24 @@ const ProfilePage = () => {
   if (!profile) return null;
 
   return (
-    <div className="min-h-screen bg-[#FEF7CD] pt-16">
+    <div className="min-h-screen bg-white">
       <NavigationBar />
-      <div className="container mx-auto px-4 py-8">
-        <Card className="max-w-2xl mx-auto">
-          <CardHeader>
-            <CardTitle className="flex justify-between items-center">
-              <span>Profile Information</span>
-              <Button 
-                variant={isEditing ? "destructive" : "outline"}
-                onClick={() => setIsEditing(!isEditing)}
-              >
-                {isEditing ? 'Cancel' : 'Edit Profile'}
-              </Button>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {isEditing ? (
-              <>
+      <div className="container mx-auto px-4 pt-24 pb-8">
+        <div className="max-w-4xl mx-auto space-y-8">
+          <Card className="max-w-2xl mx-auto">
+            <CardHeader>
+              <CardTitle className="flex justify-between items-center">
+                <span>Profile Information</span>
+                <Button 
+                  variant={isEditing ? "destructive" : "outline"}
+                  onClick={() => setIsEditing(!isEditing)}
+                >
+                  {isEditing ? 'Cancel' : 'Edit Profile'}
+                </Button>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {isEditing ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="first_name">First Name</Label>
@@ -154,7 +155,7 @@ const ProfilePage = () => {
                   Save Changes
                 </Button>
               </>
-            ) : (
+              ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label className="text-sm text-gray-500">First Name</Label>
@@ -181,9 +182,68 @@ const ProfilePage = () => {
                   <p className="text-lg">{profile.organization}</p>
                 </div>
               </div>
-            )}
-          </CardContent>
-        </Card>
+              )}
+            </CardContent>
+          </Card>
+
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="about">
+              <AccordionTrigger className="text-xl font-semibold">About</AccordionTrigger>
+              <AccordionContent className="prose max-w-none">
+                <p>Welcome to our learning platform! We are dedicated to providing high-quality educational content and fostering meaningful engagement within our community. Our mission is to make learning accessible, engaging, and effective for all students.</p>
+                <p className="mt-4">Our platform offers:</p>
+                <ul className="list-disc pl-6 mt-2">
+                  <li>Comprehensive lesson materials</li>
+                  <li>Interactive learning experiences</li>
+                  <li>Community engagement opportunities</li>
+                  <li>Progress tracking and analytics</li>
+                </ul>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="privacy">
+              <AccordionTrigger className="text-xl font-semibold">Privacy Policy</AccordionTrigger>
+              <AccordionContent className="prose max-w-none">
+                <p>Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your personal information.</p>
+                <h4 className="font-bold mt-4">Information We Collect</h4>
+                <ul className="list-disc pl-6 mt-2">
+                  <li>Personal information (name, email, phone number)</li>
+                  <li>Educational progress and engagement data</li>
+                  <li>Usage information and analytics</li>
+                </ul>
+                <h4 className="font-bold mt-4">How We Use Your Information</h4>
+                <ul className="list-disc pl-6 mt-2">
+                  <li>To provide and improve our educational services</li>
+                  <li>To personalize your learning experience</li>
+                  <li>To communicate important updates and information</li>
+                </ul>
+                <h4 className="font-bold mt-4">Data Protection</h4>
+                <p>We implement various security measures to protect your personal information and ensure it is not accessed, disclosed, altered, or destroyed without authorization.</p>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="terms">
+              <AccordionTrigger className="text-xl font-semibold">Terms and Conditions</AccordionTrigger>
+              <AccordionContent className="prose max-w-none">
+                <p>By using our platform, you agree to these Terms and Conditions. Please read them carefully.</p>
+                <h4 className="font-bold mt-4">User Responsibilities</h4>
+                <ul className="list-disc pl-6 mt-2">
+                  <li>Maintain accurate and up-to-date profile information</li>
+                  <li>Respect intellectual property rights</li>
+                  <li>Follow community guidelines and engagement policies</li>
+                </ul>
+                <h4 className="font-bold mt-4">Platform Usage</h4>
+                <ul className="list-disc pl-6 mt-2">
+                  <li>Access to content is for personal, non-commercial use</li>
+                  <li>Sharing account credentials is prohibited</li>
+                  <li>Users must not engage in disruptive behavior</li>
+                </ul>
+                <h4 className="font-bold mt-4">Content Guidelines</h4>
+                <p>All content must be appropriate for an educational environment and respect intellectual property rights. Users are responsible for any content they share or create on the platform.</p>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
       </div>
     </div>
   );

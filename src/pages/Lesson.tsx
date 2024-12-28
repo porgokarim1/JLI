@@ -19,7 +19,6 @@ const Lesson = () => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) throw new Error('User not authenticated');
 
-        // Fetch the specific lesson with its media
         const { data: lessonData, error: lessonError } = await supabase
           .from('lessons')
           .select(`
@@ -38,7 +37,6 @@ const Lesson = () => {
 
         if (lessonError) throw lessonError;
 
-        // Fetch progress for this lesson
         const { data: progressData, error: progressError } = await supabase
           .from('user_lesson_progress')
           .select('*')
@@ -50,7 +48,6 @@ const Lesson = () => {
           throw progressError;
         }
 
-        // Combine lesson with its progress
         const lessonWithProgress: LessonWithProgress = {
           ...lessonData,
           lesson_media: lessonData.lesson_media,
@@ -82,7 +79,7 @@ const Lesson = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
         <NavigationBar />
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-8 pt-24">
           <div className="animate-pulse space-y-4">
             <div className="h-8 bg-gray-200 rounded w-1/4"></div>
             <div className="h-64 bg-gray-200 rounded"></div>
@@ -96,7 +93,7 @@ const Lesson = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
         <NavigationBar />
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-8 pt-24">
           <div className="text-center">
             <h1 className="text-2xl font-bold mb-4">Lesson not found</h1>
             <Button onClick={() => navigate('/lessons')}>
@@ -111,11 +108,11 @@ const Lesson = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
       <NavigationBar />
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 pt-24">
         <Button 
           variant="outline" 
           onClick={() => navigate('/lessons')}
-          className="mb-6"
+          className="mb-6 z-10 relative"
         >
           <ArrowLeft className="mr-2" /> Back to Lessons
         </Button>

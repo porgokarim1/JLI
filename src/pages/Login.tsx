@@ -75,7 +75,7 @@ const Login = () => {
                 </div>
               </div>
 
-              <div className="flex justify-end space-x-4">
+              <div className="flex justify-center space-x-4">
                 <Button 
                   variant="outline" 
                   type="button" 

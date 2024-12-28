@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { ArrowLeft } from "lucide-react";
 import { LessonWithProgress } from "@/components/dashboard/types";
+import LessonContent from "@/components/lesson/LessonContent";
+import LessonSkeleton from "@/components/lesson/LessonSkeleton";
 
 const Lesson = () => {
   const { id } = useParams();
@@ -80,10 +82,7 @@ const Lesson = () => {
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
         <NavigationBar />
         <div className="container mx-auto px-4 py-8 pt-24">
-          <div className="animate-pulse space-y-4">
-            <div className="h-8 bg-gray-200 rounded w-1/4"></div>
-            <div className="h-64 bg-gray-200 rounded"></div>
-          </div>
+          <LessonSkeleton />
         </div>
       </div>
     );
@@ -117,43 +116,7 @@ const Lesson = () => {
           <ArrowLeft className="mr-2" /> Back to Lessons
         </Button>
 
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <div className="mb-6">
-            <h1 className="text-3xl font-bold mb-2">{lesson.title}</h1>
-            <p className="text-gray-600">{lesson.description}</p>
-          </div>
-
-          <div className="space-y-4">
-            {lesson.media?.map((media, index) => (
-              <div key={media.id} className="rounded-lg overflow-hidden">
-                {media.type === 'video' ? (
-                  <video 
-                    controls 
-                    className="w-full aspect-video"
-                    src={media.url}
-                  />
-                ) : (
-                  <img 
-                    src={media.url} 
-                    alt={`${lesson.title} - Media ${index + 1}`}
-                    className="w-full h-auto"
-                  />
-                )}
-              </div>
-            ))}
-          </div>
-
-          <div className="flex justify-between items-center mt-6">
-            <div>
-              <span className="text-sm text-gray-500">Duration: {lesson.duration} minutes</span>
-            </div>
-            <div>
-              <span className="text-sm text-gray-500">
-                Status: {lesson.progress?.status.replace('_', ' ')}
-              </span>
-            </div>
-          </div>
-        </div>
+        <LessonContent lesson={lesson} />
       </div>
     </div>
   );

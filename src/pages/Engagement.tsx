@@ -3,7 +3,7 @@ import ConversationForm from "@/components/engagement/ConversationForm";
 import ConversationsList from "@/components/engagement/ConversationsList";
 import EngagementMetrics from "@/components/engagement/EngagementMetrics";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import { useState } from "react";
 import {
   Dialog,
@@ -11,6 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "@/components/ui/dialog";
 
 const Engagement = () => {
@@ -29,9 +30,12 @@ const Engagement = () => {
                 New Conversation
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[600px]">
-              <DialogHeader>
+            <DialogContent className="w-[90vw] max-w-[600px] max-h-[90vh] overflow-y-auto">
+              <DialogHeader className="relative">
                 <DialogTitle>New Conversation</DialogTitle>
+                <DialogClose className="absolute right-0 top-0">
+                  <X className="h-4 w-4" />
+                </DialogClose>
               </DialogHeader>
               <ConversationForm onSuccess={() => setOpen(false)} />
             </DialogContent>

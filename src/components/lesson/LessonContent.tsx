@@ -1,6 +1,12 @@
 import { LessonWithProgress } from "../dashboard/types";
+import { CompletionCodeDialog } from "./CompletionCodeDialog";
 
 const LessonContent = ({ lesson }: { lesson: LessonWithProgress }) => {
+  const handleCompletionSuccess = () => {
+    // Refresh the page to show updated status
+    window.location.reload();
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <div className="mb-6">
@@ -38,6 +44,13 @@ const LessonContent = ({ lesson }: { lesson: LessonWithProgress }) => {
           </span>
         </div>
       </div>
+
+      {lesson.progress?.status !== 'completed' && (
+        <CompletionCodeDialog 
+          lessonId={lesson.id} 
+          onSuccess={handleCompletionSuccess}
+        />
+      )}
     </div>
   );
 };

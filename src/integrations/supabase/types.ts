@@ -93,6 +93,7 @@ export type Database = {
       }
       lessons: {
         Row: {
+          completion_code: string | null
           created_at: string
           description: string
           duration: number
@@ -101,6 +102,7 @@ export type Database = {
           title: string
         }
         Insert: {
+          completion_code?: string | null
           created_at?: string
           description: string
           duration: number
@@ -109,6 +111,7 @@ export type Database = {
           title: string
         }
         Update: {
+          completion_code?: string | null
           created_at?: string
           description?: string
           duration?: number

@@ -1,6 +1,7 @@
-import { useState } from "react";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,74 +11,54 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 const formSchema = z.object({
-  first_name: z.string().min(2, "First name must be at least 2 characters"),
+  first_name: z.string().min(1, "First name is required"),
   middle_name: z.string().optional(),
-  last_name: z.string().min(2, "Last name must be at least 2 characters"),
-  conversation_date: z.string(),
+  last_name: z.string().min(1, "Last name is required"),
+  conversation_date: z.string().min(1, "Date is required"),
+  comfort_level: z.string().optional(),
   notes: z.string().optional(),
-  comfort_level: z.string(),
 });
 
-const ConversationForm = ({ onSuccess }: { onSuccess: () => void }) => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
+const ConversationForm = () => {
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       first_name: "",
       middle_name: "",
       last_name: "",
-      conversation_date: new Date().toISOString().split("T")[0],
-      notes: "",
+      conversation_date: new Date().toISOString().split('T')[0],
       comfort_level: "",
+      notes: "",
     },
   });
 
+  const { isSubmitting } = form.formState;
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      setIsSubmitting(true);
       const { data: { user } } = await supabase.auth.getUser();
-      
-      if (!user) {
-        toast.error("You must be logged in to record a conversation");
-        return;
-      }
+      if (!user) throw new Error('Not authenticated');
 
-      const { error } = await supabase.from("conversations").insert({
-        first_name: values.first_name,
-        middle_name: values.middle_name,
-        last_name: values.last_name,
-        conversation_date: values.conversation_date,
-        notes: values.notes,
-        comfort_level: values.comfort_level,
-        user_id: user.id,
-      });
+      const { error } = await supabase
+        .from('conversations')
+        .insert({
+          ...values,
+          user_id: user.id,
+        });
 
       if (error) throw error;
 
-      toast.success("Conversation recorded successfully!");
-      form.reset();
-      onSuccess();
+      toast.success('Conversation recorded successfully');
+      navigate('/conversations');
     } catch (error) {
-      console.error("Error recording conversation:", error);
-      toast.error("Failed to record conversation");
-    } finally {
-      setIsSubmitting(false);
+      console.error('Error saving conversation:', error);
+      toast.error('Failed to save conversation');
     }
   };
 
@@ -91,7 +72,7 @@ const ConversationForm = ({ onSuccess }: { onSuccess: () => void }) => {
             <FormItem>
               <FormLabel>First Name</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input placeholder="First name" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -105,7 +86,7 @@ const ConversationForm = ({ onSuccess }: { onSuccess: () => void }) => {
             <FormItem>
               <FormLabel>Middle Name (Optional)</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input placeholder="Middle name" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -119,7 +100,7 @@ const ConversationForm = ({ onSuccess }: { onSuccess: () => void }) => {
             <FormItem>
               <FormLabel>Last Name</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input placeholder="Last name" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -131,7 +112,7 @@ const ConversationForm = ({ onSuccess }: { onSuccess: () => void }) => {
           name="conversation_date"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Date</FormLabel>
+              <FormLabel>Date of Conversation</FormLabel>
               <FormControl>
                 <Input type="date" {...field} />
               </FormControl>
@@ -145,24 +126,10 @@ const ConversationForm = ({ onSuccess }: { onSuccess: () => void }) => {
           name="comfort_level"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Comfort Level</FormLabel>
-              <FormDescription>
-                How comfortable did you feel while having this conversation with the person?
-              </FormDescription>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select comfort level" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="very_comfortable">Very Comfortable</SelectItem>
-                  <SelectItem value="comfortable">Comfortable</SelectItem>
-                  <SelectItem value="neutral">Neutral</SelectItem>
-                  <SelectItem value="uncomfortable">Uncomfortable</SelectItem>
-                  <SelectItem value="very_uncomfortable">Very Uncomfortable</SelectItem>
-                </SelectContent>
-              </Select>
+              <FormLabel>Comfort Level (Optional)</FormLabel>
+              <FormControl>
+                <Input placeholder="Comfort level" {...field} />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
@@ -173,17 +140,17 @@ const ConversationForm = ({ onSuccess }: { onSuccess: () => void }) => {
           name="notes"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Notes</FormLabel>
+              <FormLabel>Notes (Optional)</FormLabel>
               <FormControl>
-                <Textarea {...field} />
+                <Input placeholder="Add any notes here" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Recording..." : "Record Conversation"}
+        <Button type="submit" className="w-full" disabled={isSubmitting}>
+          {isSubmitting ? "Saving..." : "Save Conversation"}
         </Button>
       </form>
     </Form>

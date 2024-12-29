@@ -24,7 +24,11 @@ const formSchema = z.object({
   notes: z.string().optional(),
 });
 
-const ConversationForm = () => {
+interface ConversationFormProps {
+  onSuccess?: () => void;
+}
+
+const ConversationForm = ({ onSuccess }: ConversationFormProps) => {
   const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -50,11 +54,13 @@ const ConversationForm = () => {
         .insert({
           ...values,
           user_id: user.id,
+          conversation_date: values.conversation_date, // Explicitly include this
         });
 
       if (error) throw error;
 
       toast.success('Conversation recorded successfully');
+      onSuccess?.();
       navigate('/conversations');
     } catch (error) {
       console.error('Error saving conversation:', error);

@@ -13,6 +13,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 
 const formSchema = z.object({
@@ -20,7 +27,7 @@ const formSchema = z.object({
   middle_name: z.string().optional(),
   last_name: z.string().min(1, "Last name is required"),
   conversation_date: z.string().min(1, "Date is required"),
-  comfort_level: z.string().optional(),
+  comfort_level: z.string().min(1, "Comfort level is required"),
   notes: z.string().optional(),
 });
 
@@ -54,12 +61,11 @@ const ConversationForm = ({ onSuccess }: ConversationFormProps) => {
         .insert({
           ...values,
           user_id: user.id,
-          conversation_date: values.conversation_date, // Explicitly include this
         });
 
       if (error) throw error;
 
-      toast.success('Conversation recorded successfully');
+      toast.success('Conversation saved successfully');
       onSuccess?.();
       navigate('/conversations');
     } catch (error) {
@@ -132,10 +138,21 @@ const ConversationForm = ({ onSuccess }: ConversationFormProps) => {
           name="comfort_level"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Comfort Level (Optional)</FormLabel>
-              <FormControl>
-                <Input placeholder="Comfort level" {...field} />
-              </FormControl>
+              <FormLabel>Comfort Level</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select comfort level" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="very_comfortable">Very Comfortable</SelectItem>
+                  <SelectItem value="comfortable">Comfortable</SelectItem>
+                  <SelectItem value="neutral">Neutral</SelectItem>
+                  <SelectItem value="uncomfortable">Uncomfortable</SelectItem>
+                  <SelectItem value="very_uncomfortable">Very Uncomfortable</SelectItem>
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}

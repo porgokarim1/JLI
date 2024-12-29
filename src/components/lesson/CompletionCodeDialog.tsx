@@ -2,6 +2,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import confetti from 'canvas-confetti';
 import {
   Dialog,
   DialogContent,
@@ -21,13 +22,22 @@ export const CompletionCodeDialog = ({ lessonId, onSuccess }: CompletionCodeDial
   const [code, setCode] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const triggerConfetti = () => {
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 }
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setError(null);
 
     try {
-      // Verify the completion code
       const { data: lesson, error: lessonError } = await supabase
         .from('lessons')
         .select('completion_code')
@@ -37,11 +47,10 @@ export const CompletionCodeDialog = ({ lessonId, onSuccess }: CompletionCodeDial
       if (lessonError) throw lessonError;
 
       if (lesson.completion_code !== code.toUpperCase()) {
-        toast.error("Invalid completion code. Please try again.");
+        setError("Invalid completion code. Please try again.");
         return;
       }
 
-      // Update lesson progress
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("User not authenticated");
 
@@ -57,6 +66,7 @@ export const CompletionCodeDialog = ({ lessonId, onSuccess }: CompletionCodeDial
       if (progressError) throw progressError;
 
       toast.success("Course completion verified successfully!");
+      triggerConfetti();
       setIsOpen(false);
       onSuccess();
     } catch (error) {
@@ -82,13 +92,18 @@ export const CompletionCodeDialog = ({ lessonId, onSuccess }: CompletionCodeDial
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <Input
-            placeholder="Enter completion code"
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            className="w-full"
-            required
-          />
+          <div className="space-y-2">
+            <Input
+              placeholder="Enter completion code"
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              className="w-full"
+              required
+            />
+            {error && (
+              <p className="text-sm text-red-500">{error}</p>
+            )}
+          </div>
           <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading ? "Verifying..." : "Submit"}
           </Button>

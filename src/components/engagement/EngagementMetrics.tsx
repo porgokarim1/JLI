@@ -3,48 +3,75 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 
-const EngagementMetrics = () => {
-  const { data: metrics } = useQuery({
-    queryKey: ["engagement-metrics"],
-    queryFn: async () => {
-      const { count } = await supabase
-        .from("conversations")
-        .select("*", { count: "exact", head: true });
+interface EngagementMetricsProps {
+  type: 'learning' | 'conversation';
+}
 
-      return {
-        totalConversations: count || 0,
-        nextTierThreshold: 10,
-        progressPercentage: Math.min(((count || 0) / 10) * 100, 100),
-      };
+const EngagementMetrics = ({ type }: EngagementMetricsProps) => {
+  const { data: metrics } = useQuery({
+    queryKey: [type === 'learning' ? "learning-metrics" : "engagement-metrics"],
+    queryFn: async () => {
+      if (type === 'learning') {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) throw new Error('Not authenticated');
+
+        const { count: totalLessons } = await supabase
+          .from("lessons")
+          .select("*", { count: "exact", head: true });
+
+        const { count: completedLessons } = await supabase
+          .from("user_lesson_progress")
+          .select("*", { count: "exact", head: true })
+          .eq('user_id', user.id)
+          .eq('status', 'completed');
+
+        return {
+          total: totalLessons || 0,
+          completed: completedLessons || 0,
+          progressPercentage: totalLessons ? ((completedLessons || 0) / totalLessons) * 100 : 0,
+        };
+      } else {
+        const { count } = await supabase
+          .from("conversations")
+          .select("*", { count: "exact", head: true });
+
+        return {
+          total: 10, // Next tier threshold
+          completed: count || 0,
+          progressPercentage: Math.min(((count || 0) / 10) * 100, 100),
+        };
+      }
     },
   });
 
   return (
     <>
-      <Card className="bg-white/90 backdrop-blur-sm border-primary">
+      <Card className={`${type === 'learning' ? 'border-primary' : 'border-secondary'} bg-white/90 backdrop-blur-sm`}>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">
-            Total Conversations
+            {type === 'learning' ? 'Completed Lessons' : 'Total Conversations'}
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{metrics?.totalConversations}</div>
+          <div className="text-2xl font-bold">
+            {metrics?.completed} / {metrics?.total}
+          </div>
         </CardContent>
       </Card>
 
-      <Card className="bg-white/90 backdrop-blur-sm border-primary">
+      <Card className={`${type === 'learning' ? 'border-primary' : 'border-secondary'} bg-white/90 backdrop-blur-sm`}>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">
-            Next Reward Tier Progress
+            {type === 'learning' ? 'Learning Progress' : 'Next Reward Tier Progress'}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <Progress
             value={metrics?.progressPercentage}
-            className="h-2 mb-2"
+            className={`h-2 mb-2 ${type === 'learning' ? 'bg-primary/20' : 'bg-secondary/20'}`}
           />
           <p className="text-xs text-gray-600">
-            {metrics?.totalConversations} / {metrics?.nextTierThreshold} conversations
+            {metrics?.completed} / {metrics?.total} {type === 'learning' ? 'lessons' : 'conversations'}
           </p>
         </CardContent>
       </Card>

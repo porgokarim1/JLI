@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { PlayCircle, CheckCircle, Clock, UserCheck } from "lucide-react";
+import { UserCheck, MapPin, Calendar, Clock } from "lucide-react";
 import { LessonWithProgress } from "./types";
 import { CompletionCodeDialog } from "../lesson/CompletionCodeDialog";
 import { useState } from "react";
@@ -15,17 +15,6 @@ interface LessonCardProps {
 
 export const LessonCard = ({ lesson }: LessonCardProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'completed':
-        return <CheckCircle className="h-5 w-5 text-green-500" />;
-      case 'in_progress':
-        return <Clock className="h-5 w-5 text-blue-500" />;
-      default:
-        return <PlayCircle className="h-5 w-5 text-gray-500" />;
-    }
-  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -78,23 +67,22 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
         </div>
         <CardDescription>{lesson.description}</CardDescription>
         
-        {/* New lesson details */}
         <div className="mt-4 space-y-2 text-sm text-gray-600">
           {lesson.location && (
             <div className="flex items-center gap-2">
-              <span className="font-medium">Location:</span>
+              <MapPin className="h-4 w-4 text-primary" />
               <span>{lesson.location}</span>
             </div>
           )}
           {lesson.lesson_date && (
             <div className="flex items-center gap-2">
-              <span className="font-medium">Date:</span>
+              <Calendar className="h-4 w-4 text-primary" />
               <span>{format(new Date(lesson.lesson_date), 'PPP')}</span>
             </div>
           )}
           {lesson.lesson_time && (
             <div className="flex items-center gap-2">
-              <span className="font-medium">Time:</span>
+              <Clock className="h-4 w-4 text-primary" />
               <span>{format(new Date(`2000-01-01T${lesson.lesson_time}`), 'p')}</span>
             </div>
           )}
@@ -106,11 +94,12 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
           className="mb-4"
         />
         <Button 
-          className="w-full flex items-center justify-center gap-2"
+          className="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-primary-foreground"
           onClick={() => setIsDialogOpen(true)}
+          disabled={lesson.progress?.status === 'completed'}
         >
           <UserCheck className="h-5 w-5" />
-          {lesson.progress?.status === 'completed' ? 'Already Confirmed' : 'Confirm Attendance'}
+          {lesson.progress?.status === 'completed' ? 'Attendance Confirmed' : 'Confirm Attendance'}
         </Button>
         <CompletionCodeDialog 
           lessonId={lesson.id}

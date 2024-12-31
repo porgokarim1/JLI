@@ -8,7 +8,7 @@ import NavigationBar from "@/components/navigation/NavigationBar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { MessageSquarePlus, Minimize2 } from "lucide-react";
+import { MessageSquare, MessageSquarePlus, BookOpen } from "lucide-react";
 import {
   Dialog,
   DialogContent,

@@ -9,18 +9,18 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
 
 interface CompletionCodeDialogProps {
   lessonId: string;
   onSuccess: () => void;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
-export const CompletionCodeDialog = ({ lessonId, onSuccess }: CompletionCodeDialogProps) => {
+export const CompletionCodeDialog = ({ lessonId, onSuccess, open, onOpenChange }: CompletionCodeDialogProps) => {
   const [code, setCode] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -67,7 +67,7 @@ export const CompletionCodeDialog = ({ lessonId, onSuccess }: CompletionCodeDial
 
       toast.success("Course completion verified successfully!");
       triggerConfetti();
-      setIsOpen(false);
+      onOpenChange(false);
       onSuccess();
     } catch (error) {
       console.error('Error verifying completion code:', error);
@@ -78,12 +78,7 @@ export const CompletionCodeDialog = ({ lessonId, onSuccess }: CompletionCodeDial
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button variant="default" className="w-full mt-4">
-          Mark Course as Completed
-        </Button>
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Enter Completion Code</DialogTitle>

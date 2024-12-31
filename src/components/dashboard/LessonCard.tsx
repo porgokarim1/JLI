@@ -1,10 +1,11 @@
-import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { PlayCircle, CheckCircle, Clock } from "lucide-react";
+import { PlayCircle, CheckCircle, Clock, UserCheck } from "lucide-react";
 import { LessonWithProgress } from "./types";
+import { CompletionCodeDialog } from "../lesson/CompletionCodeDialog";
+import { useState } from "react";
 
 interface LessonCardProps {
   lesson: LessonWithProgress;
@@ -12,7 +13,7 @@ interface LessonCardProps {
 }
 
 export const LessonCard = ({ lesson }: LessonCardProps) => {
-  const navigate = useNavigate();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -83,11 +84,17 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
         />
         <Button 
           className="w-full flex items-center justify-center gap-2"
-          onClick={() => navigate(`/lesson/${lesson.id}`)}
+          onClick={() => setIsDialogOpen(true)}
         >
-          {getStatusIcon(lesson.progress?.status || 'not_started')}
-          {lesson.progress?.status === 'completed' ? 'Review Lesson' : 'Start Lesson'}
+          <UserCheck className="h-5 w-5" />
+          {lesson.progress?.status === 'completed' ? 'Already Confirmed' : 'Confirm Attendance'}
         </Button>
+        <CompletionCodeDialog 
+          lessonId={lesson.id}
+          onSuccess={() => setIsDialogOpen(false)}
+          open={isDialogOpen}
+          onOpenChange={setIsDialogOpen}
+        />
       </CardContent>
     </Card>
   );

@@ -1,14 +1,24 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import HeroSection from "@/components/landing/HeroSection";
 import CallToAction from "@/components/landing/CallToAction";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
-import ProgressOverview from "@/components/dashboard/ProgressOverview";
 import LessonsList from "@/components/dashboard/LessonsList";
 import NavigationBar from "@/components/navigation/NavigationBar";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { MessageSquarePlus, Minimize2 } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import ConversationForm from "@/components/engagement/ConversationForm";
+import ConversationsList from "@/components/engagement/ConversationsList";
+import EngagementMetrics from "@/components/engagement/EngagementMetrics";
 
 const ProgramGoals = () => {
   const goals = [
@@ -52,7 +62,8 @@ const ProgramGoals = () => {
 const Index = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
+  const [isProgressMinimized, setIsProgressMinimized] = useState(false);
+  const [isConversationDialogOpen, setIsConversationDialogOpen] = useState(false);
 
   useEffect(() => {
     const checkUser = async () => {
@@ -98,11 +109,55 @@ const Index = () => {
             <CallToAction />
           </>
         ) : (
-          <>
+          <div className="container mx-auto px-4 py-8">
             <DashboardHeader />
-            <ProgressOverview />
+            
+            <div className="mb-8">
+              <Card className="bg-white/90 backdrop-blur-sm">
+                <CardContent className="p-6">
+                  <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-2xl font-bold">Progress Dashboard</h2>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => setIsProgressMinimized(!isProgressMinimized)}
+                    >
+                      <Minimize2 className="h-5 w-5" />
+                    </Button>
+                  </div>
+                  {!isProgressMinimized && (
+                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                      <EngagementMetrics />
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold">Your Learning Journey</h2>
+              <Dialog open={isConversationDialogOpen} onOpenChange={setIsConversationDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button className="bg-yellow-400 hover:bg-yellow-500 text-black">
+                    <MessageSquarePlus className="h-5 w-5 mr-2" />
+                    New Conversation
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="w-[90vw] max-w-[600px] max-h-[90vh] overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle>New Conversation</DialogTitle>
+                  </DialogHeader>
+                  <ConversationForm onSuccess={() => setIsConversationDialogOpen(false)} />
+                </DialogContent>
+              </Dialog>
+            </div>
+
             <LessonsList />
-          </>
+
+            <div className="mt-8">
+              <ConversationsList />
+            </div>
+          </div>
         )}
       </div>
     </div>

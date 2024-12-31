@@ -20,6 +20,9 @@ export type Lesson = {
   duration: number;
   image_url: string;
   created_at: string;
+  location?: string;
+  lesson_date?: string;
+  lesson_time?: string;
   lesson_media: LessonMedia[];
 };
 

@@ -24,7 +24,7 @@ const AuthenticatedButtons = () => {
       <Button
         variant="ghost"
         className="text-gray-700 hover:text-primary hover:bg-gray-50 inline-flex items-center"
-        onClick={() => navigate("/study-materials")}
+        onClick={() => navigate("/about")}
       >
         <Library className="h-5 w-5 mr-2" />
         About

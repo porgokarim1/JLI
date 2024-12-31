@@ -6,6 +6,7 @@ import { PlayCircle, CheckCircle, Clock, UserCheck } from "lucide-react";
 import { LessonWithProgress } from "./types";
 import { CompletionCodeDialog } from "../lesson/CompletionCodeDialog";
 import { useState } from "react";
+import { format } from "date-fns";
 
 interface LessonCardProps {
   lesson: LessonWithProgress;
@@ -76,6 +77,28 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
           </Badge>
         </div>
         <CardDescription>{lesson.description}</CardDescription>
+        
+        {/* New lesson details */}
+        <div className="mt-4 space-y-2 text-sm text-gray-600">
+          {lesson.location && (
+            <div className="flex items-center gap-2">
+              <span className="font-medium">Location:</span>
+              <span>{lesson.location}</span>
+            </div>
+          )}
+          {lesson.lesson_date && (
+            <div className="flex items-center gap-2">
+              <span className="font-medium">Date:</span>
+              <span>{format(new Date(lesson.lesson_date), 'PPP')}</span>
+            </div>
+          )}
+          {lesson.lesson_time && (
+            <div className="flex items-center gap-2">
+              <span className="font-medium">Time:</span>
+              <span>{format(new Date(`2000-01-01T${lesson.lesson_time}`), 'p')}</span>
+            </div>
+          )}
+        </div>
       </CardHeader>
       <CardContent>
         <Progress 

@@ -5,7 +5,7 @@ import CallToAction from "@/components/landing/CallToAction";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import LessonsList from "@/components/dashboard/LessonsList";
 import NavigationBar from "@/components/navigation/NavigationBar";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { MessageSquarePlus, Minimize2 } from "lucide-react";
@@ -62,7 +62,6 @@ const ProgramGoals = () => {
 const Index = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [isProgressMinimized, setIsProgressMinimized] = useState(false);
   const [isConversationDialogOpen, setIsConversationDialogOpen] = useState(false);
 
   useEffect(() => {
@@ -112,24 +111,28 @@ const Index = () => {
           <div className="container mx-auto px-4 py-8">
             <DashboardHeader />
             
-            <div className="mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              {/* Progress Dashboard - Minimized */}
               <Card className="bg-white/90 backdrop-blur-sm">
-                <CardContent className="p-6">
-                  <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-2xl font-bold">Progress Dashboard</h2>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => setIsProgressMinimized(!isProgressMinimized)}
-                    >
-                      <Minimize2 className="h-5 w-5" />
-                    </Button>
+                <CardHeader>
+                  <CardTitle>Learning Progress</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid gap-4">
+                    <EngagementMetrics />
                   </div>
-                  {!isProgressMinimized && (
-                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                      <EngagementMetrics />
-                    </div>
-                  )}
+                </CardContent>
+              </Card>
+
+              {/* Conversation Progress */}
+              <Card className="bg-white/90 backdrop-blur-sm">
+                <CardHeader>
+                  <CardTitle>Conversation Progress</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid gap-4">
+                    <EngagementMetrics />
+                  </div>
                 </CardContent>
               </Card>
             </div>

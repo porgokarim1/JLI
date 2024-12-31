@@ -72,7 +72,7 @@ const ConversationForm = ({ onSuccess }: ConversationFormProps) => {
 
       toast.success('Conversation saved successfully');
       onSuccess?.();
-      navigate('/conversations');
+      // Remove the navigate call since we want to stay on the same page
     } catch (error) {
       console.error('Error saving conversation:', error);
       toast.error('Failed to save conversation');

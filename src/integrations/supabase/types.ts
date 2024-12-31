@@ -99,6 +99,9 @@ export type Database = {
           duration: number
           id: string
           image_url: string
+          lesson_date: string | null
+          lesson_time: string | null
+          location: string | null
           title: string
         }
         Insert: {
@@ -108,6 +111,9 @@ export type Database = {
           duration: number
           id?: string
           image_url: string
+          lesson_date?: string | null
+          lesson_time?: string | null
+          location?: string | null
           title: string
         }
         Update: {
@@ -117,6 +123,9 @@ export type Database = {
           duration?: number
           id?: string
           image_url?: string
+          lesson_date?: string | null
+          lesson_time?: string | null
+          location?: string | null
           title?: string
         }
         Relationships: []

@@ -2,14 +2,14 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { createBrowserRouter, RouterProvider, Navigate, ScrollRestoration } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import Index from "./pages/Index";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
-import StudyMaterials from "./pages/StudyMaterials";
+import About from "./pages/About";
 
 const queryClient = new QueryClient();
 
@@ -57,8 +57,8 @@ const App = () => {
       element: isAuthenticated ? <Profile /> : <Navigate to="/login" />,
     },
     {
-      path: "/study-materials",
-      element: isAuthenticated ? <StudyMaterials /> : <Navigate to="/login" />,
+      path: "/about",
+      element: isAuthenticated ? <About /> : <Navigate to="/login" />,
     }
   ]);
 

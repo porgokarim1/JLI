@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { LessonWithProgress } from "../dashboard/types";
 import { CompletionCodeDialog } from "./CompletionCodeDialog";
 
 const LessonContent = ({ lesson }: { lesson: LessonWithProgress }) => {
+  const [isCompletionDialogOpen, setIsCompletionDialogOpen] = useState(false);
+  
   const handleCompletionSuccess = () => {
     // Refresh the page to show updated status
     window.location.reload();
@@ -49,6 +52,8 @@ const LessonContent = ({ lesson }: { lesson: LessonWithProgress }) => {
         <CompletionCodeDialog 
           lessonId={lesson.id} 
           onSuccess={handleCompletionSuccess}
+          open={isCompletionDialogOpen}
+          onOpenChange={setIsCompletionDialogOpen}
         />
       )}
     </div>

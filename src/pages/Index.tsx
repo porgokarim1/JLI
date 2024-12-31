@@ -119,7 +119,7 @@ const Index = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="grid gap-4">
-                    <EngagementMetrics />
+                    <EngagementMetrics type="learning" />
                   </div>
                 </CardContent>
               </Card>
@@ -131,7 +131,7 @@ const Index = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="grid gap-4">
-                    <EngagementMetrics />
+                    <EngagementMetrics type="conversation" />
                   </div>
                 </CardContent>
               </Card>

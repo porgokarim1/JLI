@@ -28,6 +28,12 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
     }
   };
 
+  const shouldShowStatus = () => {
+    if (!lesson.progress) return true;
+    if (lesson.progress.status === 'completed') return true;
+    return !lesson.progress.completed_at;
+  };
+
   return (
     <Card className="hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-indigo-100">
       <CardHeader>
@@ -47,12 +53,14 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
         </div>
         <div className="flex items-center justify-between mb-2">
           <CardTitle className="text-lg">{lesson.title}</CardTitle>
-          <Badge 
-            variant="secondary"
-            className={`${getStatusColor(lesson.progress?.status || 'not_started')} text-white`}
-          >
-            {lesson.progress?.status.replace('_', ' ')}
-          </Badge>
+          {shouldShowStatus() && (
+            <Badge 
+              variant="secondary"
+              className={`${getStatusColor(lesson.progress?.status || 'not_started')} text-white`}
+            >
+              {lesson.progress?.status.replace('_', ' ') || 'not started'}
+            </Badge>
+          )}
         </div>
         <CardDescription>{lesson.description}</CardDescription>
         

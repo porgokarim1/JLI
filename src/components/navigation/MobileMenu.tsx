@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { BookOpen, Users, Library, LogOut, User, LogIn, UserPlus } from "lucide-react";
+import { LogOut, User, LogIn, UserPlus, Library } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -32,34 +32,12 @@ const MobileMenu = ({ isAuthenticated, setIsOpen }: MobileMenuProps) => {
           variant="ghost"
           className="w-full text-left text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
           onClick={() => {
-            navigate("/lessons");
-            setIsOpen(false);
-          }}
-        >
-          <BookOpen className="h-5 w-5 mr-2" />
-          Lessons
-        </Button>
-        <Button
-          variant="ghost"
-          className="w-full text-left text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
-          onClick={() => {
-            navigate("/engagement");
-            setIsOpen(false);
-          }}
-        >
-          <Users className="h-5 w-5 mr-2" />
-          Engagement
-        </Button>
-        <Button
-          variant="ghost"
-          className="w-full text-left text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
-          onClick={() => {
-            navigate("/study-materials");
+            navigate("/about");
             setIsOpen(false);
           }}
         >
           <Library className="h-5 w-5 mr-2" />
-          Resources
+          About
         </Button>
         <Button
           variant="ghost"

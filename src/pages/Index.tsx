@@ -130,9 +130,9 @@ const Index = () => {
                   <CardTitle>Conversation Progress</CardTitle>
                   <Dialog open={isConversationDialogOpen} onOpenChange={setIsConversationDialogOpen}>
                     <DialogTrigger asChild>
-                      <Button className="bg-yellow-400 hover:bg-yellow-500 text-black">
+                      <Button className="bg-yellow-400 hover:bg-yellow-500 text-black whitespace-nowrap">
                         <MessageSquarePlus className="h-5 w-5 mr-2" />
-                        New Conversation
+                        New
                       </Button>
                     </DialogTrigger>
                     <DialogContent className="w-[90vw] max-w-[600px] max-h-[90vh] overflow-y-auto">

@@ -11,6 +11,7 @@ export type LessonProgress = {
   status: "not_started" | "in_progress" | "completed";
   time_spent: number;
   last_position: number;
+  completed_at?: string;
 };
 
 export type Lesson = {

@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { UserCheck, MapPin, Calendar, Clock } from "lucide-react";
+import { MapPin, Calendar, Clock, UserPlus } from "lucide-react";
 import { LessonWithProgress } from "./types";
 import { CompletionCodeDialog } from "../lesson/CompletionCodeDialog";
 import { useState } from "react";
@@ -98,7 +98,7 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
           onClick={() => setIsDialogOpen(true)}
           disabled={lesson.progress?.status === 'completed'}
         >
-          <UserCheck className="h-5 w-5" />
+          <UserPlus className="h-5 w-5" />
           {lesson.progress?.status === 'completed' ? 'Attendance Confirmed' : 'Confirm Attendance'}
         </Button>
         <CompletionCodeDialog 

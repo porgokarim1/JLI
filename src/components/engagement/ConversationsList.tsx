@@ -10,9 +10,20 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { format } from "date-fns";
+import { Button } from "@/components/ui/button";
+import { Edit } from "lucide-react";
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import ConversationForm from "./ConversationForm";
 
 const ConversationsList = () => {
-  const { data: conversations, isLoading } = useQuery({
+  const [editingConversation, setEditingConversation] = useState<any>(null);
+  const { data: conversations, isLoading, refetch } = useQuery({
     queryKey: ["conversations"],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -61,6 +72,7 @@ const ConversationsList = () => {
               <TableHead className="hover:bg-transparent">Date</TableHead>
               <TableHead className="hover:bg-transparent">Notes</TableHead>
               <TableHead className="hover:bg-transparent">Comfort Level</TableHead>
+              <TableHead className="hover:bg-transparent">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -78,10 +90,37 @@ const ConversationsList = () => {
                 <TableCell className="capitalize">
                   {conversation.comfort_level?.replace("_", " ")}
                 </TableCell>
+                <TableCell>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setEditingConversation(conversation)}
+                  >
+                    <Edit className="h-4 w-4" />
+                  </Button>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
+
+        <Dialog 
+          open={!!editingConversation} 
+          onOpenChange={(open) => !open && setEditingConversation(null)}
+        >
+          <DialogContent className="w-[90vw] max-w-[600px] max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Edit Conversation</DialogTitle>
+            </DialogHeader>
+            <ConversationForm 
+              initialData={editingConversation}
+              onSuccess={() => {
+                setEditingConversation(null);
+                refetch();
+              }} 
+            />
+          </DialogContent>
+        </Dialog>
       </CardContent>
     </Card>
   );

@@ -33,19 +33,20 @@ const formSchema = z.object({
 
 interface ConversationFormProps {
   onSuccess?: () => void;
+  initialData?: any;
 }
 
-const ConversationForm = ({ onSuccess }: ConversationFormProps) => {
+const ConversationForm = ({ onSuccess, initialData }: ConversationFormProps) => {
   const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      first_name: "",
-      middle_name: "",
-      last_name: "",
-      conversation_date: new Date().toISOString().split('T')[0],
-      comfort_level: "",
-      notes: "",
+      first_name: initialData?.first_name || "",
+      middle_name: initialData?.middle_name || "",
+      last_name: initialData?.last_name || "",
+      conversation_date: initialData?.conversation_date || new Date().toISOString().split('T')[0],
+      comfort_level: initialData?.comfort_level || "",
+      notes: initialData?.notes || "",
     },
   });
 
@@ -56,23 +57,41 @@ const ConversationForm = ({ onSuccess }: ConversationFormProps) => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Not authenticated');
 
-      const { error } = await supabase
-        .from('conversations')
-        .insert({
-          first_name: values.first_name,
-          middle_name: values.middle_name,
-          last_name: values.last_name,
-          conversation_date: values.conversation_date,
-          comfort_level: values.comfort_level,
-          notes: values.notes,
-          user_id: user.id,
-        });
+      if (initialData) {
+        // Update existing conversation
+        const { error } = await supabase
+          .from('conversations')
+          .update({
+            first_name: values.first_name,
+            middle_name: values.middle_name,
+            last_name: values.last_name,
+            conversation_date: values.conversation_date,
+            comfort_level: values.comfort_level,
+            notes: values.notes,
+          })
+          .eq('id', initialData.id);
 
-      if (error) throw error;
+        if (error) throw error;
+        toast.success('Conversation updated successfully');
+      } else {
+        // Create new conversation
+        const { error } = await supabase
+          .from('conversations')
+          .insert({
+            first_name: values.first_name,
+            middle_name: values.middle_name,
+            last_name: values.last_name,
+            conversation_date: values.conversation_date,
+            comfort_level: values.comfort_level,
+            notes: values.notes,
+            user_id: user.id,
+          });
 
-      toast.success('Conversation saved successfully');
+        if (error) throw error;
+        toast.success('Conversation saved successfully');
+      }
+      
       onSuccess?.();
-      // Remove the navigate call since we want to stay on the same page
     } catch (error) {
       console.error('Error saving conversation:', error);
       toast.error('Failed to save conversation');

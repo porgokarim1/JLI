@@ -8,7 +8,7 @@ import NavigationBar from "@/components/navigation/NavigationBar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { MessageSquare, MessageSquarePlus, BookOpen } from "lucide-react";
+import { MessageSquarePlus } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -126,8 +126,22 @@ const Index = () => {
 
               {/* Conversation Progress */}
               <Card className="bg-white/90 backdrop-blur-sm">
-                <CardHeader>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle>Conversation Progress</CardTitle>
+                  <Dialog open={isConversationDialogOpen} onOpenChange={setIsConversationDialogOpen}>
+                    <DialogTrigger asChild>
+                      <Button className="bg-yellow-400 hover:bg-yellow-500 text-black">
+                        <MessageSquarePlus className="h-5 w-5 mr-2" />
+                        New Conversation
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="w-[90vw] max-w-[600px] max-h-[90vh] overflow-y-auto">
+                      <DialogHeader>
+                        <DialogTitle>New Conversation</DialogTitle>
+                      </DialogHeader>
+                      <ConversationForm onSuccess={() => setIsConversationDialogOpen(false)} />
+                    </DialogContent>
+                  </Dialog>
                 </CardHeader>
                 <CardContent>
                   <div className="grid gap-4">
@@ -137,25 +151,10 @@ const Index = () => {
               </Card>
             </div>
 
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold">Your Learning Journey</h2>
-              <Dialog open={isConversationDialogOpen} onOpenChange={setIsConversationDialogOpen}>
-                <DialogTrigger asChild>
-                  <Button className="bg-yellow-400 hover:bg-yellow-500 text-black">
-                    <MessageSquarePlus className="h-5 w-5 mr-2" />
-                    New Conversation
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="w-[90vw] max-w-[600px] max-h-[90vh] overflow-y-auto">
-                  <DialogHeader>
-                    <DialogTitle>New Conversation</DialogTitle>
-                  </DialogHeader>
-                  <ConversationForm onSuccess={() => setIsConversationDialogOpen(false)} />
-                </DialogContent>
-              </Dialog>
+            <div className="mb-8">
+              <h2 className="text-2xl font-bold mb-6">Your Learning Journey</h2>
+              <LessonsList />
             </div>
-
-            <LessonsList />
 
             <div className="mt-8">
               <ConversationsList />

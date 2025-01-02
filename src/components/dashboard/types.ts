@@ -24,6 +24,7 @@ export type Lesson = {
   location?: string;
   lesson_date?: string;
   lesson_time?: string;
+  instructor_name?: string;
   lesson_media: LessonMedia[];
 };
 
@@ -42,6 +43,8 @@ export type Profile = {
   campus: string | null;
   organization: string | null;
   reward_tier: string | null;
+  reward_claimed?: boolean;
+  reward_tier_form_submitted?: boolean;
   created_at: string;
   updated_at: string;
 };

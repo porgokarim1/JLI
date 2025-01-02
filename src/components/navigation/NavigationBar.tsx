@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Menu, X, GraduationCap } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import AuthenticatedButtons from "./AuthenticatedButtons";
@@ -34,10 +34,11 @@ const NavigationBar = () => {
             onClick={() => navigate("/")}
             className="flex-shrink-0 flex items-center hover:opacity-80 transition-opacity"
           >
-            <GraduationCap className="h-8 w-8 text-primary" />
-            <span className="ml-2 text-xl font-bold text-gray-900">
-              K<span className="text-xs align-top">'</span>NOW ISRAEL
-            </span>
+            <img 
+              src="https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/lesson_images/logo.png?t=2025-01-02T06%3A41%3A20.422Z"
+              alt="Logo"
+              className="h-8"
+            />
           </button>
 
           {/* Desktop navigation */}

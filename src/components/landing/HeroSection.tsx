@@ -6,7 +6,7 @@ const HeroSection = () => {
   
   return (
     <div className="container mx-auto px-4 py-12 md:py-24">
-      <div className="grid md:grid-cols-2 gap-8 items-start">
+      <div className="grid md:grid-cols-2 gap-8 items-start relative">
         <div className="text-left space-y-12">
           <div className="space-y-8">
             <div className="space-y-2">
@@ -58,11 +58,11 @@ const HeroSection = () => {
             </p>
           </div>
         </div>
-        <div className="relative h-[600px] rounded-lg overflow-hidden shadow-xl">
+        <div className="absolute right-0 top-0 h-[600px] w-full md:w-1/2">
           <img 
-            src="https://media.istockphoto.com/id/1161968873/photo/tel-aviv-israel-under-an-epic-sky.jpg?s=612x612&w=0&k=20&c=01lh9quVxC64mE44YzowS-xR8RWJcqX9UBxoU0aUoXk="
-            alt="Tel Aviv Skyline" 
-            className="object-cover w-full h-full"
+            src="https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/General%20images/soldier_image-PNG.png?t=2025-01-02T07%3A04%3A11.499Z"
+            alt="Soldier" 
+            className="object-cover h-full w-full object-right"
           />
         </div>
       </div>

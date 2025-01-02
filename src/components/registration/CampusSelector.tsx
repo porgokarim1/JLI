@@ -1,5 +1,5 @@
 import { Check, ChevronsUpDown } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -14,7 +14,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { campuses } from "./campusList";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 interface CampusSelectorProps {
   value: string;
@@ -23,6 +24,29 @@ interface CampusSelectorProps {
 
 export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
   const [open, setOpen] = useState(false);
+  const [campuses, setCampuses] = useState<{ name: string }[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCampuses = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('campuses')
+          .select('name')
+          .order('name');
+        
+        if (error) throw error;
+        setCampuses(data || []);
+      } catch (error) {
+        console.error('Error fetching campuses:', error);
+        toast.error('Failed to load campuses');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCampuses();
+  }, []);
 
   const handleSelect = (currentValue: string) => {
     onChange(currentValue);
@@ -37,8 +61,9 @@ export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
           role="combobox"
           aria-expanded={open}
           className="w-full justify-between bg-white"
+          disabled={loading}
         >
-          {value || "Select your campus..."}
+          {loading ? "Loading campuses..." : (value || "Select your campus...")}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -49,17 +74,17 @@ export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
           <CommandGroup className="max-h-[300px] overflow-y-auto">
             {campuses.map((campus) => (
               <CommandItem
-                key={campus}
-                value={campus}
+                key={campus.name}
+                value={campus.name}
                 onSelect={handleSelect}
               >
                 <Check
                   className={cn(
                     "mr-2 h-4 w-4",
-                    value === campus ? "opacity-100" : "opacity-0"
+                    value === campus.name ? "opacity-100" : "opacity-0"
                   )}
                 />
-                {campus}
+                {campus.name}
               </CommandItem>
             ))}
           </CommandGroup>

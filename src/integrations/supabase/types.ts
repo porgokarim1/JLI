@@ -9,6 +9,30 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      campuses: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          region: Database["public"]["Enums"]["campus_region"] | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          region?: Database["public"]["Enums"]["campus_region"] | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          region?: Database["public"]["Enums"]["campus_region"] | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       conversations: {
         Row: {
           comfort_level: string | null
@@ -243,6 +267,13 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      campus_region:
+        | "North America"
+        | "South America"
+        | "Europe"
+        | "Asia"
+        | "Africa"
+        | "Oceania"
       conversation_status: "pending" | "completed" | "follow_up"
       lesson_status: "not_started" | "in_progress" | "completed"
       media_type: "image" | "video"

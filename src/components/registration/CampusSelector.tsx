@@ -30,17 +30,23 @@ export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
   useEffect(() => {
     const fetchCampuses = async () => {
       try {
+        setLoading(true);
         const { data, error } = await supabase
           .from('campuses')
           .select('name')
           .order('name');
         
-        if (error) throw error;
-        setCampuses(data || []);
+        if (error) {
+          throw error;
+        }
+
+        // Ensure we're setting a valid array
+        setCampuses(Array.isArray(data) ? data : []);
+        
       } catch (error) {
         console.error('Error fetching campuses:', error);
         toast.error('Failed to load campuses');
-        setCampuses([]);
+        setCampuses([]); // Ensure we set an empty array on error
       } finally {
         setLoading(false);
       }
@@ -48,6 +54,21 @@ export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
 
     fetchCampuses();
   }, []);
+
+  // Early return for loading state
+  if (loading) {
+    return (
+      <Button
+        variant="outline"
+        role="combobox"
+        disabled
+        className="w-full justify-between bg-white"
+      >
+        <span className="text-muted-foreground">Loading campuses...</span>
+        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+      </Button>
+    );
+  }
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -57,11 +78,8 @@ export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
           role="combobox"
           aria-expanded={open}
           className="w-full justify-between bg-white"
-          disabled={loading}
         >
-          {loading ? (
-            <span className="text-muted-foreground">Loading campuses...</span>
-          ) : value ? (
+          {value ? (
             value
           ) : (
             <span className="text-muted-foreground">Select your campus...</span>

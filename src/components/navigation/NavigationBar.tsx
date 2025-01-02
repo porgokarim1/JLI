@@ -41,7 +41,7 @@ const NavigationBar = () => {
             />
             <span className="font-bold text-xl text-black relative">
               K
-              <span className="absolute -top-1 left-[0.65em]">'</span>
+              <span className="absolute -top-1 left-[0.45em]">'</span>
               NOW ISRAEL
             </span>
           </button>

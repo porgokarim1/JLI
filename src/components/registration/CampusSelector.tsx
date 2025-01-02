@@ -34,7 +34,7 @@ export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
           className="w-full justify-between bg-white"
         >
           {value ? (
-            value
+            campusList.find((campus) => campus === value) || value
           ) : (
             <span className="text-muted-foreground">Select your campus...</span>
           )}
@@ -51,7 +51,7 @@ export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
                 key={campus}
                 value={campus}
                 onSelect={(currentValue) => {
-                  onChange(currentValue);
+                  onChange(currentValue === value ? "" : currentValue);
                   setOpen(false);
                 }}
               >

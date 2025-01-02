@@ -15,12 +15,12 @@ const HeroSection = () => {
                 <span className="text-black">'NOW</span>
                 <span className="text-[#7E69AB]"> ISRAEL</span>
                 <br />
-                <span className="text-black">GENOCIDE</span>
+                <span className="text-black">KNOW</span>
+                <span className="text-primary"> GENOCIDE</span>
                 <br />
-                <span className="text-[#7E69AB]">K</span>
-                <span className="text-black">'NOW</span>
+                <span className="text-black">KNOW</span>
                 <br />
-                <span className="text-black">WAR</span>
+                <span className="text-primary">WAR</span>
               </h1>
               
               <div className="pt-6 space-x-4">

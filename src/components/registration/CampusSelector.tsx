@@ -1,5 +1,5 @@
 import { Check, ChevronsUpDown } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -14,8 +14,22 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { supabase } from "@/integrations/supabase/client";
-import { toast } from "sonner";
+
+const universities = [
+  "Adelphi University",
+  "American University",
+  "Arizona State University",
+  "Auraria Campus",
+  "Binghamton University",
+  "Birmingham Chabad Student Centre",
+  "Bradley University",
+  "Brooklyn College",
+  "Brown University",
+  "Colombia University",
+  "Harvard University",
+  "New York University",
+  "Massachusetts Institute of Technology"
+];
 
 interface CampusSelectorProps {
   value: string;
@@ -24,26 +38,6 @@ interface CampusSelectorProps {
 
 export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
   const [open, setOpen] = useState(false);
-  const [universities, setUniversities] = useState<string[]>([]);
-
-  useEffect(() => {
-    const fetchUniversities = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('universities')
-          .select('name')
-          .order('name');
-
-        if (error) throw error;
-        setUniversities(data.map(uni => uni.name));
-      } catch (error) {
-        console.error('Error fetching universities:', error);
-        toast.error('Failed to load universities');
-      }
-    };
-
-    fetchUniversities();
-  }, []);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

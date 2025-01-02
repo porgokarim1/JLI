@@ -14,7 +14,8 @@ const Register = () => {
     gender: "",
     email: "",
     phone: "",
-    password: "",
+    campus: "",
+    organization: "",
     agreeToTerms: false,
     agreeToDisclaimer: false,
   });
@@ -40,6 +41,16 @@ const Register = () => {
       return;
     }
 
+    if (!formData.campus) {
+      toast.error("Please select your campus");
+      return;
+    }
+
+    if (!formData.organization) {
+      toast.error("Please select your organization");
+      return;
+    }
+
     setIsLoading(true);
 
     const generatedPassword = generatePassword(formData.firstName, formData.lastName, formData.phone);
@@ -55,6 +66,8 @@ const Register = () => {
             last_name: formData.lastName,
             gender: formData.gender,
             phone: formData.phone,
+            campus: formData.campus,
+            organization: formData.organization,
           }
         }
       });

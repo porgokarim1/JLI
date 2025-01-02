@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { PersonalInfoSection } from "./PersonalInfoSection";
 import { TermsSection } from "./TermsSection";
+import { CampusSection } from "./CampusSection";
 
 interface RegistrationFormProps {
   formData: {
@@ -10,6 +11,8 @@ interface RegistrationFormProps {
     gender: string;
     email: string;
     phone: string;
+    campus: string;
+    organization: string;
     agreeToTerms: boolean;
     agreeToDisclaimer: boolean;
   };
@@ -36,6 +39,11 @@ export const RegistrationForm = ({
   return (
     <form onSubmit={onSubmit} className="space-y-6">
       <PersonalInfoSection
+        formData={formData}
+        onChange={handleFieldChange}
+      />
+
+      <CampusSection 
         formData={formData}
         onChange={handleFieldChange}
       />

@@ -39,8 +39,8 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 via-white to-blue-50 py-12 px-4">
-      <div className="container max-w-md mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-purple-100 via-white to-blue-50 flex items-center justify-center">
+      <div className="container max-w-md mx-auto px-4">
         <Card className="bg-white/70 backdrop-blur-sm border-purple-100">
           <CardHeader>
             <CardTitle className="text-2xl text-center text-purple-900">Login</CardTitle>

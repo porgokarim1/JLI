@@ -21,8 +21,6 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
     switch (status) {
       case 'completed':
         return 'bg-green-500';
-      case 'in_progress':
-        return 'bg-blue-500';
       default:
         return 'bg-slate-500';
     }
@@ -30,8 +28,7 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
 
   const shouldShowStatus = () => {
     if (!lesson.progress) return false;
-    if (lesson.progress.status === 'completed') return true;
-    return lesson.progress.completed_at !== null;
+    return lesson.progress.status === 'completed';
   };
 
   return (

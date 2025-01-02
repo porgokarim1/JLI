@@ -1,5 +1,5 @@
 import { Check, ChevronsUpDown } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -14,7 +14,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { campusList } from "@/data/campusList";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 interface CampusSelectorProps {
   value: string;
@@ -23,6 +24,54 @@ interface CampusSelectorProps {
 
 export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
   const [open, setOpen] = useState(false);
+  const [campuses, setCampuses] = useState<{ name: string }[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCampuses = async () => {
+      try {
+        setLoading(true);
+        const { data, error } = await supabase
+          .from('campuses')
+          .select('name')
+          .order('name');
+        
+        if (error) {
+          console.error('Error fetching campuses:', error);
+          toast.error('Failed to load campuses');
+          setCampuses([]);
+          return;
+        }
+
+        // Ensure we're setting a valid array
+        setCampuses(Array.isArray(data) ? data : []);
+        
+      } catch (error) {
+        console.error('Error fetching campuses:', error);
+        toast.error('Failed to load campuses');
+        setCampuses([]); // Ensure we set an empty array on error
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCampuses();
+  }, []);
+
+  // Early return for loading state
+  if (loading) {
+    return (
+      <Button
+        variant="outline"
+        role="combobox"
+        disabled
+        className="w-full justify-between bg-white"
+      >
+        <span className="text-muted-foreground">Loading campuses...</span>
+        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+      </Button>
+    );
+  }
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -41,15 +90,15 @@ export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[400px] p-0">
+      <PopoverContent className="w-full p-0">
         <Command>
           <CommandInput placeholder="Search campus..." />
           <CommandEmpty>No campus found.</CommandEmpty>
           <CommandGroup className="max-h-[300px] overflow-y-auto">
-            {campusList.map((campus) => (
+            {campuses.map((campus) => (
               <CommandItem
-                key={campus}
-                value={campus}
+                key={campus.name}
+                value={campus.name}
                 onSelect={(currentValue) => {
                   onChange(currentValue);
                   setOpen(false);
@@ -58,10 +107,10 @@ export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
                 <Check
                   className={cn(
                     "mr-2 h-4 w-4",
-                    value === campus ? "opacity-100" : "opacity-0"
+                    value === campus.name ? "opacity-100" : "opacity-0"
                   )}
                 />
-                {campus}
+                {campus.name}
               </CommandItem>
             ))}
           </CommandGroup>

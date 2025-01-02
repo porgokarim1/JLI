@@ -1,61 +1,69 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
 
 const HeroSection = () => {
   const navigate = useNavigate();
-
-  const handleGetStarted = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
-      navigate("/lessons");
-    } else {
-      navigate("/register");
-    }
-  };
-
+  
   return (
-    <div className="relative overflow-hidden bg-white">
-      <div className="mx-auto max-w-7xl">
-        <div className="relative z-10 bg-white pb-8 sm:pb-16 md:pb-20 lg:w-full lg:max-w-2xl lg:pb-28 xl:pb-32">
-          <main className="mx-auto mt-10 max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
-            <div className="sm:text-center lg:text-left">
-              <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-                <span className="block xl:inline">Welcome to</span>{' '}
-                <span className="block text-primary xl:inline">K'NOW Israel</span>
+    <div className="container mx-auto px-4 py-12 md:py-24">
+      <div className="grid md:grid-cols-2 gap-8 items-start relative">
+        <div className="text-left space-y-12">
+          <div className="space-y-8">
+            <div className="space-y-2">
+              <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-none">
+                <span className="text-primary">K</span>
+                <span className="text-black">NO</span>
+                <span className="text-primary">W</span>
+                <span className="text-black"> GENOCIDE</span>
+                <br />
+                <span className="text-primary">K</span>
+                <span className="text-black">NO</span>
+                <span className="text-primary">W</span>
+                <br />
+                <span className="text-black">WAR</span>
               </h1>
-              <p className="mt-3 text-base text-gray-500 sm:mx-auto sm:mt-5 sm:max-w-xl sm:text-lg md:mt-5 md:text-xl lg:mx-0">
-                Embark on a journey of discovery and connection with Israel. Our platform offers engaging lessons and meaningful conversations to deepen your understanding and strengthen your relationship with Israel.
-              </p>
-              <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                <div className="rounded-md shadow">
-                  <Button
-                    onClick={handleGetStarted}
-                    className="flex w-full items-center justify-center rounded-md border border-transparent bg-primary px-8 py-3 text-base font-medium text-white hover:bg-primary/90 md:py-4 md:px-10 md:text-lg"
-                  >
-                    Get Started
-                  </Button>
-                </div>
-                <div className="mt-3 sm:mt-0 sm:ml-3">
-                  <Button
-                    onClick={() => navigate("/about")}
-                    variant="outline"
-                    className="flex w-full items-center justify-center rounded-md border border-transparent px-8 py-3 text-base font-medium md:py-4 md:px-10 md:text-lg"
-                  >
-                    Learn More
-                  </Button>
-                </div>
+              
+              <div className="pt-6 space-x-4">
+                <Button 
+                  size="lg"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transition-all"
+                  onClick={() => navigate("/register")}
+                >
+                  Join the Program
+                </Button>
+                <Button 
+                  size="lg"
+                  variant="outline"
+                  className="border-primary text-primary hover:bg-primary/10"
+                  onClick={() => navigate("/login")}
+                >
+                  Login
+                </Button>
               </div>
             </div>
-          </main>
+
+            <p className="text-2xl md:text-3xl font-bold leading-tight">
+              <span className="bg-primary px-2">AMIDST</span> <span className="bg-primary px-2">THE</span> <span className="bg-primary px-2">CHAOS</span>,
+              <br />
+              NOTHING <span className="bg-primary px-2">REALLY</span> IS
+              <br />
+              <span className="bg-primary px-2">CLEAR</span>, AS <span className="bg-primary px-2">ANSWERS</span>
+              <br />
+              <span className="bg-primary px-2">SEEM</span> <span className="bg-primary px-2">ELUSIVE</span>, <span className="bg-primary px-2">AND</span>
+              <br />
+              <span className="bg-primary px-2">IT</span> <span className="bg-primary px-2">ALL</span> <span className="bg-primary px-2">APPEARS</span> <span className="bg-primary px-2">AS</span>
+              <br />
+              IT SEEMS.
+            </p>
+          </div>
         </div>
-      </div>
-      <div className="relative lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-        <img
-          className="h-56 w-full object-contain sm:h-72 md:h-96 lg:h-full lg:w-full"
-          src="https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/General%20images/soldier_image-PNG.png?t=2025-01-02T07%3A04%3A11.499Z"
-          alt="IDF Soldier"
-        />
+        <div className="absolute right-0 top-0 h-[800px] w-full md:w-1/2">
+          <img 
+            src="https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/General%20images/soldier_image-PNG.png?t=2025-01-02T07%3A04%3A11.499Z"
+            alt="Soldier" 
+            className="object-contain h-full w-full object-right"
+          />
+        </div>
       </div>
     </div>
   );

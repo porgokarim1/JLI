@@ -44,12 +44,12 @@ export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
           <CommandInput placeholder="Search campus..." />
           <CommandEmpty>No campus found.</CommandEmpty>
           <CommandGroup className="max-h-[300px] overflow-y-auto">
-            {campuses.map((campus) => (
+            {Array.isArray(campuses) && campuses.map((campus) => (
               <CommandItem
                 key={campus}
                 value={campus}
-                onSelect={() => {
-                  onChange(campus);
+                onSelect={(currentValue) => {
+                  onChange(currentValue === value ? "" : currentValue);
                   setOpen(false);
                 }}
               >

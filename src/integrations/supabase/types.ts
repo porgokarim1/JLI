@@ -9,30 +9,6 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      campuses: {
-        Row: {
-          created_at: string
-          id: string
-          name: string
-          region: Database["public"]["Enums"]["campus_region"] | null
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          name: string
-          region?: Database["public"]["Enums"]["campus_region"] | null
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          name?: string
-          region?: Database["public"]["Enums"]["campus_region"] | null
-          updated_at?: string
-        }
-        Relationships: []
-      }
       conversations: {
         Row: {
           comfort_level: string | null

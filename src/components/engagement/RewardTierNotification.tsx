@@ -83,7 +83,7 @@ const RewardTierNotification = ({ conversationCount }: RewardTierNotificationPro
 
   const handleClaimLater = async () => {
     setShowDialog(false);
-    toast.success("You can claim your reward later from the dashboard");
+    toast.success("You can claim your reward later from your dashboard");
   };
 
   if (!getTierLevel(conversationCount)) return null;

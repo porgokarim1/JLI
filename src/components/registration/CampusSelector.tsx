@@ -48,11 +48,6 @@ export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
     fetchCampuses();
   }, []);
 
-  const handleSelect = (currentValue: string) => {
-    onChange(currentValue);
-    setOpen(false);
-  };
-
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -71,12 +66,15 @@ export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
         <Command>
           <CommandInput placeholder="Search campus..." />
           <CommandEmpty>No campus found.</CommandEmpty>
-          <CommandGroup className="max-h-[300px] overflow-y-auto">
+          <CommandGroup>
             {campuses.map((campus) => (
               <CommandItem
                 key={campus.name}
                 value={campus.name}
-                onSelect={handleSelect}
+                onSelect={(currentValue) => {
+                  onChange(currentValue);
+                  setOpen(false);
+                }}
               >
                 <Check
                   className={cn(

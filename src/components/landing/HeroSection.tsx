@@ -11,10 +11,6 @@ const HeroSection = () => {
           <div className="space-y-8">
             <div className="space-y-2">
               <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-none">
-                <span className="text-[#7E69AB]">K</span>
-                <span className="text-black">'NOW</span>
-                <span className="text-[#7E69AB]"> ISRAEL</span>
-                <br />
                 <span className="text-primary">K</span>
                 <span className="text-black">NO</span>
                 <span className="text-primary">W</span>

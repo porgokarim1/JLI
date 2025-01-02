@@ -34,7 +34,7 @@ export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
           className="w-full justify-between bg-white"
         >
           {value
-            ? campuses.find((campus) => campus === value) || "Select your campus..."
+            ? campuses.find((campus) => campus === value)
             : "Select your campus..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -43,7 +43,7 @@ export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
         <Command>
           <CommandInput placeholder="Search campus..." />
           <CommandEmpty>No campus found.</CommandEmpty>
-          <CommandGroup>
+          <CommandGroup className="max-h-[300px] overflow-y-auto">
             {campuses.map((campus) => (
               <CommandItem
                 key={campus}

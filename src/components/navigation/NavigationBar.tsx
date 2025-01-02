@@ -32,13 +32,17 @@ const NavigationBar = () => {
         <div className="flex justify-between h-16">
           <button 
             onClick={() => navigate("/")}
-            className="flex-shrink-0 flex items-center hover:opacity-80 transition-opacity"
+            className="flex-shrink-0 flex items-center space-x-3 hover:opacity-80 transition-opacity"
           >
             <img 
               src="https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/lesson_images/logo.png?t=2025-01-02T06%3A41%3A20.422Z"
               alt="Logo"
               className="h-8"
             />
+            <div className="flex flex-col items-start">
+              <span className="font-bold text-xl text-primary">KNOW</span>
+              <span className="font-bold text-xl text-black">ISRAEL</span>
+            </div>
           </button>
 
           {/* Desktop navigation */}

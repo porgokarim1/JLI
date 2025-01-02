@@ -40,7 +40,11 @@ const NavigationBar = () => {
               className="h-8"
             />
             <div className="flex flex-col items-start">
-              <span className="font-bold text-xl text-primary">KNOW</span>
+              <div className="flex items-center">
+                <span className="font-bold text-xl text-primary">K</span>
+                <span className="text-primary text-sm" style={{ marginTop: '-12px' }}>'</span>
+                <span className="font-bold text-xl text-primary">NOW</span>
+              </div>
               <span className="font-bold text-xl text-black">ISRAEL</span>
             </div>
           </button>

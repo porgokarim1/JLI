@@ -24,6 +24,11 @@ interface CampusSelectorProps {
 export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
   const [open, setOpen] = useState(false);
 
+  const handleSelect = (currentValue: string) => {
+    onChange(currentValue);
+    setOpen(false);
+  };
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -33,9 +38,7 @@ export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
           aria-expanded={open}
           className="w-full justify-between bg-white"
         >
-          {value
-            ? campuses.find((campus) => campus === value)
-            : "Select your campus..."}
+          {value || "Select your campus..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -48,10 +51,7 @@ export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
               <CommandItem
                 key={campus}
                 value={campus}
-                onSelect={(currentValue) => {
-                  onChange(currentValue);
-                  setOpen(false);
-                }}
+                onSelect={handleSelect}
               >
                 <Check
                   className={cn(

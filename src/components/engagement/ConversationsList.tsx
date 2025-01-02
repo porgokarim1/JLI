@@ -1,14 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Edit } from "lucide-react";
@@ -20,6 +12,12 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import ConversationForm from "./ConversationForm";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const ConversationsList = () => {
   const [editingConversation, setEditingConversation] = useState<any>(null);
@@ -65,44 +63,94 @@ const ConversationsList = () => {
         <CardTitle>Recent Conversations</CardTitle>
       </CardHeader>
       <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow className="hover:bg-transparent">
-              <TableHead className="hover:bg-transparent">Name</TableHead>
-              <TableHead className="hover:bg-transparent">Date</TableHead>
-              <TableHead className="hover:bg-transparent">Notes</TableHead>
-              <TableHead className="hover:bg-transparent">Comfort Level</TableHead>
-              <TableHead className="hover:bg-transparent">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
+        <div className="hidden md:block">
+          <table className="w-full">
+            <thead>
+              <tr className="text-left">
+                <th className="pb-4">Name</th>
+                <th className="pb-4">Date</th>
+                <th className="pb-4">Notes</th>
+                <th className="pb-4">Comfort Level</th>
+                <th className="pb-4">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {conversations.map((conversation) => (
+                <tr key={conversation.id} className="border-t">
+                  <td className="py-4">
+                    {conversation.first_name} {conversation.middle_name && `${conversation.middle_name} `}{conversation.last_name}
+                  </td>
+                  <td className="py-4">
+                    {format(new Date(conversation.conversation_date), "PPP")}
+                  </td>
+                  <td className="py-4 max-w-xs truncate">
+                    {conversation.notes}
+                  </td>
+                  <td className="py-4 capitalize">
+                    {conversation.comfort_level?.replace("_", " ")}
+                  </td>
+                  <td className="py-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setEditingConversation(conversation)}
+                    >
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="md:hidden">
+          <Accordion type="single" collapsible className="w-full">
             {conversations.map((conversation) => (
-              <TableRow key={conversation.id}>
-                <TableCell>
-                  {conversation.first_name} {conversation.middle_name && `${conversation.middle_name} `}{conversation.last_name}
-                </TableCell>
-                <TableCell>
-                  {format(new Date(conversation.conversation_date), "PPP")}
-                </TableCell>
-                <TableCell className="max-w-xs truncate">
-                  {conversation.notes}
-                </TableCell>
-                <TableCell className="capitalize">
-                  {conversation.comfort_level?.replace("_", " ")}
-                </TableCell>
-                <TableCell>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setEditingConversation(conversation)}
-                  >
-                    <Edit className="h-4 w-4" />
-                  </Button>
-                </TableCell>
-              </TableRow>
+              <AccordionItem key={conversation.id} value={conversation.id}>
+                <AccordionTrigger className="hover:no-underline">
+                  <div className="flex flex-col items-start">
+                    <span className="font-medium">
+                      {conversation.first_name} {conversation.last_name}
+                    </span>
+                    <span className="text-sm text-gray-500">
+                      {format(new Date(conversation.conversation_date), "PPP")}
+                    </span>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="space-y-2 pt-2">
+                    {conversation.middle_name && (
+                      <div>
+                        <span className="font-medium">Middle Name:</span>{" "}
+                        {conversation.middle_name}
+                      </div>
+                    )}
+                    <div>
+                      <span className="font-medium">Notes:</span>{" "}
+                      {conversation.notes}
+                    </div>
+                    <div>
+                      <span className="font-medium">Comfort Level:</span>{" "}
+                      <span className="capitalize">
+                        {conversation.comfort_level?.replace("_", " ")}
+                      </span>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setEditingConversation(conversation)}
+                      className="w-full mt-2"
+                    >
+                      <Edit className="h-4 w-4 mr-2" />
+                      Edit Conversation
+                    </Button>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
             ))}
-          </TableBody>
-        </Table>
+          </Accordion>
+        </div>
 
         <Dialog 
           open={!!editingConversation} 

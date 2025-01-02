@@ -19,6 +19,8 @@ import {
 import ConversationForm from "@/components/engagement/ConversationForm";
 import ConversationsList from "@/components/engagement/ConversationsList";
 import EngagementMetrics from "@/components/engagement/EngagementMetrics";
+import RewardTierNotification from "@/components/engagement/RewardTierNotification";
+import { useQuery } from "@tanstack/react-query";
 
 const ProgramGoals = () => {
   const goals = [
@@ -89,6 +91,21 @@ const Index = () => {
     };
   }, []);
 
+  const { data: conversationCount } = useQuery({
+    queryKey: ['conversation-count'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return 0;
+
+      const { count } = await supabase
+        .from('conversations')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', user.id);
+
+      return count || 0;
+    },
+  });
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -130,7 +147,7 @@ const Index = () => {
                   <CardTitle>Conversation Progress</CardTitle>
                   <Dialog open={isConversationDialogOpen} onOpenChange={setIsConversationDialogOpen}>
                     <DialogTrigger asChild>
-                      <Button className="bg-yellow-400 hover:bg-yellow-500 text-black whitespace-nowrap">
+                      <Button className="bg-yellow-400 hover:bg-yellow-500 text-black">
                         <MessageSquarePlus className="h-5 w-5 mr-2" />
                         New
                       </Button>
@@ -146,6 +163,9 @@ const Index = () => {
                 <CardContent>
                   <div className="grid gap-4">
                     <EngagementMetrics type="conversation" />
+                    {conversationCount !== undefined && (
+                      <RewardTierNotification conversationCount={conversationCount} />
+                    )}
                   </div>
                 </CardContent>
               </Card>

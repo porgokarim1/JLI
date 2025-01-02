@@ -99,6 +99,7 @@ export type Database = {
           duration: number
           id: string
           image_url: string
+          instructor_name: string | null
           lesson_date: string | null
           lesson_time: string | null
           location: string | null
@@ -111,6 +112,7 @@ export type Database = {
           duration: number
           id?: string
           image_url: string
+          instructor_name?: string | null
           lesson_date?: string | null
           lesson_time?: string | null
           location?: string | null
@@ -123,6 +125,7 @@ export type Database = {
           duration?: number
           id?: string
           image_url?: string
+          instructor_name?: string | null
           lesson_date?: string | null
           lesson_time?: string | null
           location?: string | null
@@ -141,7 +144,9 @@ export type Database = {
           last_name: string | null
           organization: string | null
           phone: string | null
+          reward_claimed: boolean | null
           reward_tier: string | null
+          reward_tier_form_submitted: boolean | null
           updated_at: string
         }
         Insert: {
@@ -154,7 +159,9 @@ export type Database = {
           last_name?: string | null
           organization?: string | null
           phone?: string | null
+          reward_claimed?: boolean | null
           reward_tier?: string | null
+          reward_tier_form_submitted?: boolean | null
           updated_at?: string
         }
         Update: {
@@ -167,7 +174,9 @@ export type Database = {
           last_name?: string | null
           organization?: string | null
           phone?: string | null
+          reward_claimed?: boolean | null
           reward_tier?: string | null
+          reward_tier_form_submitted?: boolean | null
           updated_at?: string
         }
         Relationships: []

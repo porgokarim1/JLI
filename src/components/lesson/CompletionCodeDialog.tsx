@@ -47,7 +47,7 @@ export const CompletionCodeDialog = ({ lessonId, onSuccess, open, onOpenChange }
       if (lessonError) throw lessonError;
 
       if (lesson.completion_code !== code.toUpperCase()) {
-        setError("Invalid completion code. Please try again.");
+        setError("Invalid attendance code. Please try again.");
         return;
       }
 
@@ -65,13 +65,13 @@ export const CompletionCodeDialog = ({ lessonId, onSuccess, open, onOpenChange }
 
       if (progressError) throw progressError;
 
-      toast.success("Course completion verified successfully!");
+      toast.success("Attendance verified successfully!");
       triggerConfetti();
       onOpenChange(false);
       onSuccess();
     } catch (error) {
-      console.error('Error verifying completion code:', error);
-      toast.error("Failed to verify completion code");
+      console.error('Error verifying attendance code:', error);
+      toast.error("Failed to verify attendance code");
     } finally {
       setIsLoading(false);
     }
@@ -81,15 +81,15 @@ export const CompletionCodeDialog = ({ lessonId, onSuccess, open, onOpenChange }
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Enter Completion Code</DialogTitle>
+          <DialogTitle>Enter Attendance Code</DialogTitle>
           <DialogDescription>
-            Please enter the completion code provided by your instructor to mark this course as completed.
+            Please enter the attendance code provided by your instructor to confirm your presence in this lesson.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Input
-              placeholder="Enter completion code"
+              placeholder="Enter attendance code"
               value={code}
               onChange={(e) => setCode(e.target.value)}
               className="w-full"

@@ -21,12 +21,11 @@ export const CampusSection = ({ formData, onChange }: CampusSectionProps) => {
         />
       </div>
 
-      <div>
+      <div className="space-y-2">
         <Label htmlFor="organization">Organization</Label>
         <Select 
           value={formData.organization}
           onValueChange={(value) => onChange("organization", value)}
-          required
         >
           <SelectTrigger>
             <SelectValue placeholder="Select your organization" />

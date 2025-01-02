@@ -57,7 +57,7 @@ const HeroSection = () => {
             </p>
           </div>
         </div>
-        <div className="absolute md:relative md:absolute md:right-[-50%] top-0 h-[800px] w-full md:w-full opacity-25 md:opacity-100">
+        <div className="order-first md:order-last md:absolute md:right-[-50%] top-0 h-[400px] md:h-[800px] w-full md:w-full opacity-75 md:opacity-100 mb-8 md:mb-0">
           <img 
             src="https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/General%20images/soldier_image-PNG.png?t=2025-01-02T07%3A04%3A11.499Z"
             alt="Soldier" 

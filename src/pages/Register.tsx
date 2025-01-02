@@ -8,8 +8,6 @@ import { RegistrationForm } from "@/components/registration/RegistrationForm";
 const Register = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    campus: "",
-    organization: "",
     firstName: "",
     middleName: "",
     lastName: "",
@@ -55,8 +53,6 @@ const Register = () => {
             first_name: formData.firstName,
             middle_name: formData.middleName,
             last_name: formData.lastName,
-            campus: formData.campus,
-            organization: formData.organization,
             gender: formData.gender,
             phone: formData.phone,
           }

@@ -35,10 +35,21 @@ const EngagementMetrics = ({ type }: EngagementMetricsProps) => {
           .from("conversations")
           .select("*", { count: "exact", head: true });
 
+        const currentCount = count || 0;
+        let nextTier = 7;
+        
+        if (currentCount >= 25) {
+          nextTier = 25; // Already at max tier
+        } else if (currentCount >= 12) {
+          nextTier = 25; // Working towards gold tier
+        } else if (currentCount >= 7) {
+          nextTier = 12; // Working towards silver tier
+        }
+
         return {
-          total: 10, // Next tier threshold
-          completed: count || 0,
-          progressPercentage: Math.min(((count || 0) / 10) * 100, 100),
+          total: nextTier,
+          completed: currentCount,
+          progressPercentage: Math.min((currentCount / nextTier) * 100, 100),
         };
       }
     },

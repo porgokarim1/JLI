@@ -37,7 +37,10 @@ export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
           .order('name');
         
         if (error) {
-          throw error;
+          console.error('Error fetching campuses:', error);
+          toast.error('Failed to load campuses');
+          setCampuses([]);
+          return;
         }
 
         // Ensure we're setting a valid array

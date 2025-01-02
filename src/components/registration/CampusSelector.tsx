@@ -36,11 +36,11 @@ export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
           .order('name');
         
         if (error) throw error;
-        setCampuses(data || []); // Ensure we always set an array, even if empty
+        setCampuses(data || []);
       } catch (error) {
         console.error('Error fetching campuses:', error);
         toast.error('Failed to load campuses');
-        setCampuses([]); // Set empty array on error
+        setCampuses([]);
       } finally {
         setLoading(false);
       }

@@ -29,9 +29,9 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
   };
 
   const shouldShowStatus = () => {
-    if (!lesson.progress) return true;
+    if (!lesson.progress) return false;
     if (lesson.progress.status === 'completed') return true;
-    return !lesson.progress.completed_at;
+    return lesson.progress.completed_at !== null;
   };
 
   return (
@@ -56,9 +56,9 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
           {shouldShowStatus() && (
             <Badge 
               variant="secondary"
-              className={`${getStatusColor(lesson.progress?.status || 'not_started')} text-white`}
+              className={`${getStatusColor(lesson.progress?.status || '')} text-white`}
             >
-              {lesson.progress?.status.replace('_', ' ') || 'not started'}
+              {lesson.progress?.status === 'completed' ? 'completed' : 'in progress'}
             </Badge>
           )}
         </div>

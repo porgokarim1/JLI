@@ -39,7 +39,11 @@ const NavigationBar = () => {
               alt="Logo"
               className="h-8"
             />
-            <span className="font-bold text-xl text-black">K'NOW ISRAEL</span>
+            <span className="font-bold text-xl text-black relative">
+              K
+              <span className="absolute -top-1 left-[0.65em]">'</span>
+              NOW ISRAEL
+            </span>
           </button>
 
           {/* Desktop navigation */}

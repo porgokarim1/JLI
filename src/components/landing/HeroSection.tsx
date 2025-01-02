@@ -57,11 +57,11 @@ const HeroSection = () => {
             </p>
           </div>
         </div>
-        <div className="absolute md:relative right-0 top-0 h-[800px] w-full md:w-1/2 opacity-25 md:opacity-100">
+        <div className="absolute md:relative md:absolute md:right-[-50%] top-0 h-[800px] w-full md:w-full opacity-25 md:opacity-100">
           <img 
             src="https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/General%20images/soldier_image-PNG.png?t=2025-01-02T07%3A04%3A11.499Z"
             alt="Soldier" 
-            className="object-contain h-full w-full object-right"
+            className="object-contain h-full w-full"
           />
         </div>
       </div>

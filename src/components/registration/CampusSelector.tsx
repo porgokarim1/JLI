@@ -1,5 +1,5 @@
 import { Check, ChevronsUpDown } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -14,7 +14,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { campusList } from "@/data/campusList";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 interface CampusSelectorProps {
   value: string;
@@ -23,6 +24,26 @@ interface CampusSelectorProps {
 
 export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
   const [open, setOpen] = useState(false);
+  const [universities, setUniversities] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchUniversities = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('universities')
+          .select('name')
+          .order('name');
+
+        if (error) throw error;
+        setUniversities(data.map(uni => uni.name));
+      } catch (error) {
+        console.error('Error fetching universities:', error);
+        toast.error('Failed to load universities');
+      }
+    };
+
+    fetchUniversities();
+  }, []);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -34,7 +55,7 @@ export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
           className="w-full justify-between bg-white"
         >
           {value ? (
-            campusList.find((campus) => campus === value) || value
+            universities.find((uni) => uni === value) || value
           ) : (
             <span className="text-muted-foreground">Select your campus...</span>
           )}
@@ -46,10 +67,10 @@ export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
           <CommandInput placeholder="Search campus..." />
           <CommandEmpty>No campus found.</CommandEmpty>
           <CommandGroup className="max-h-[300px] overflow-y-auto">
-            {campusList.map((campus) => (
+            {universities.map((university) => (
               <CommandItem
-                key={campus}
-                value={campus}
+                key={university}
+                value={university}
                 onSelect={(currentValue) => {
                   onChange(currentValue === value ? "" : currentValue);
                   setOpen(false);
@@ -58,10 +79,10 @@ export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
                 <Check
                   className={cn(
                     "mr-2 h-4 w-4",
-                    value === campus ? "opacity-100" : "opacity-0"
+                    value === university ? "opacity-100" : "opacity-0"
                   )}
                 />
-                {campus}
+                {university}
               </CommandItem>
             ))}
           </CommandGroup>

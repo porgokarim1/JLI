@@ -61,17 +61,142 @@ const ProgramGoals = () => {
   );
 };
 
+const StudentDashboard = ({ conversationCount }: { conversationCount: number | undefined }) => {
+  const [isConversationDialogOpen, setIsConversationDialogOpen] = useState(false);
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <DashboardHeader />
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        {/* Progress Dashboard - Minimized */}
+        <Card className="bg-white/90 backdrop-blur-sm">
+          <CardHeader>
+            <CardTitle>Learning Progress</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-4">
+              <EngagementMetrics type="learning" />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Conversation Progress */}
+        <Card className="bg-white/90 backdrop-blur-sm">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle>Conversation Progress</CardTitle>
+            <Dialog open={isConversationDialogOpen} onOpenChange={setIsConversationDialogOpen}>
+              <DialogTrigger asChild>
+                <Button className="bg-yellow-400 hover:bg-yellow-500 text-black">
+                  <MessageSquarePlus className="h-5 w-5 mr-2" />
+                  New
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="w-[90vw] max-w-[600px] max-h-[90vh] overflow-y-auto">
+                <DialogHeader>
+                  <DialogTitle>New Conversation</DialogTitle>
+                </DialogHeader>
+                <ConversationForm onSuccess={() => setIsConversationDialogOpen(false)} />
+              </DialogContent>
+            </Dialog>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-4">
+              <EngagementMetrics type="conversation" />
+              {conversationCount !== undefined && (
+                <RewardTierNotification conversationCount={conversationCount} />
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold mb-6">Your Learning Journey</h2>
+        <LessonsList />
+      </div>
+
+      <div className="mt-8">
+        <ConversationsList />
+      </div>
+    </div>
+  );
+};
+
+const InstructorDashboard = () => {
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-6">Instructor Dashboard</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Course Schedule</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-600">Instructor dashboard coming soon...</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Student Progress</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-600">Student tracking features coming soon...</p>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
+const AdminDashboard = () => {
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-6">Administrator Dashboard</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Program Overview</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-600">Admin dashboard coming soon...</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>User Management</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-gray-600">User management features coming soon...</p>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
 const Index = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [isConversationDialogOpen, setIsConversationDialogOpen] = useState(false);
+  const [userRole, setUserRole] = useState<string | null>(null);
 
   useEffect(() => {
     const checkUser = async () => {
       try {
         const { data: { session }, error } = await supabase.auth.getSession();
         if (error) throw error;
+        
         setIsLoggedIn(!!session);
+        
+        if (session?.user) {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', session.user.id)
+            .single();
+            
+          setUserRole(profile?.role || null);
+        }
       } catch (error) {
         console.error('Error checking auth status:', error);
         toast.error('Error checking authentication status');
@@ -82,8 +207,20 @@ const Index = () => {
 
     checkUser();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setIsLoggedIn(!!session);
+      
+      if (session?.user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', session.user.id)
+          .single();
+          
+        setUserRole(profile?.role || null);
+      } else {
+        setUserRole(null);
+      }
     });
 
     return () => {
@@ -114,6 +251,17 @@ const Index = () => {
     );
   }
 
+  const renderDashboard = () => {
+    switch (userRole) {
+      case 'instructor':
+        return <InstructorDashboard />;
+      case 'administrator':
+        return <AdminDashboard />;
+      default:
+        return <StudentDashboard conversationCount={conversationCount} />;
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
       <NavigationBar />
@@ -125,61 +273,7 @@ const Index = () => {
             <CallToAction />
           </>
         ) : (
-          <div className="container mx-auto px-4 py-8">
-            <DashboardHeader />
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              {/* Progress Dashboard - Minimized */}
-              <Card className="bg-white/90 backdrop-blur-sm">
-                <CardHeader>
-                  <CardTitle>Learning Progress</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid gap-4">
-                    <EngagementMetrics type="learning" />
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Conversation Progress */}
-              <Card className="bg-white/90 backdrop-blur-sm">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle>Conversation Progress</CardTitle>
-                  <Dialog open={isConversationDialogOpen} onOpenChange={setIsConversationDialogOpen}>
-                    <DialogTrigger asChild>
-                      <Button className="bg-yellow-400 hover:bg-yellow-500 text-black">
-                        <MessageSquarePlus className="h-5 w-5 mr-2" />
-                        New
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="w-[90vw] max-w-[600px] max-h-[90vh] overflow-y-auto">
-                      <DialogHeader>
-                        <DialogTitle>New Conversation</DialogTitle>
-                      </DialogHeader>
-                      <ConversationForm onSuccess={() => setIsConversationDialogOpen(false)} />
-                    </DialogContent>
-                  </Dialog>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid gap-4">
-                    <EngagementMetrics type="conversation" />
-                    {conversationCount !== undefined && (
-                      <RewardTierNotification conversationCount={conversationCount} />
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold mb-6">Your Learning Journey</h2>
-              <LessonsList />
-            </div>
-
-            <div className="mt-8">
-              <ConversationsList />
-            </div>
-          </div>
+          renderDashboard()
         )}
       </div>
     </div>

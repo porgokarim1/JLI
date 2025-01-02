@@ -56,6 +56,45 @@ export type Database = {
           },
         ]
       }
+      lesson_attendance: {
+        Row: {
+          attendance_time: string | null
+          created_at: string
+          id: string
+          schedule_id: string | null
+          student_id: string | null
+        }
+        Insert: {
+          attendance_time?: string | null
+          created_at?: string
+          id?: string
+          schedule_id?: string | null
+          student_id?: string | null
+        }
+        Update: {
+          attendance_time?: string | null
+          created_at?: string
+          id?: string
+          schedule_id?: string | null
+          student_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lesson_attendance_schedule_id_fkey"
+            columns: ["schedule_id"]
+            isOneToOne: false
+            referencedRelation: "lessons_schedule"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lesson_attendance_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lesson_media: {
         Row: {
           created_at: string
@@ -133,6 +172,63 @@ export type Database = {
         }
         Relationships: []
       }
+      lessons_schedule: {
+        Row: {
+          attendance_code: string | null
+          campus: string | null
+          created_at: string
+          end_time: string
+          id: string
+          instructor_id: string | null
+          lesson_date: string
+          lesson_id: string | null
+          location: string | null
+          start_time: string
+          updated_at: string
+        }
+        Insert: {
+          attendance_code?: string | null
+          campus?: string | null
+          created_at?: string
+          end_time: string
+          id?: string
+          instructor_id?: string | null
+          lesson_date: string
+          lesson_id?: string | null
+          location?: string | null
+          start_time: string
+          updated_at?: string
+        }
+        Update: {
+          attendance_code?: string | null
+          campus?: string | null
+          created_at?: string
+          end_time?: string
+          id?: string
+          instructor_id?: string | null
+          lesson_date?: string
+          lesson_id?: string | null
+          location?: string | null
+          start_time?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lessons_schedule_instructor_id_fkey"
+            columns: ["instructor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lessons_schedule_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           campus: string | null
@@ -147,6 +243,7 @@ export type Database = {
           reward_claimed: boolean | null
           reward_tier: string | null
           reward_tier_form_submitted: boolean | null
+          role: Database["public"]["Enums"]["user_role"] | null
           updated_at: string
         }
         Insert: {
@@ -162,6 +259,7 @@ export type Database = {
           reward_claimed?: boolean | null
           reward_tier?: string | null
           reward_tier_form_submitted?: boolean | null
+          role?: Database["public"]["Enums"]["user_role"] | null
           updated_at?: string
         }
         Update: {
@@ -177,6 +275,7 @@ export type Database = {
           reward_claimed?: boolean | null
           reward_tier?: string | null
           reward_tier_form_submitted?: boolean | null
+          role?: Database["public"]["Enums"]["user_role"] | null
           updated_at?: string
         }
         Relationships: []
@@ -261,7 +360,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      generate_attendance_code: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
     }
     Enums: {
       campus_region:
@@ -274,6 +376,7 @@ export type Database = {
       conversation_status: "pending" | "completed" | "follow_up"
       lesson_status: "not_started" | "in_progress" | "completed"
       media_type: "image" | "video"
+      user_role: "student" | "instructor" | "administrator"
     }
     CompositeTypes: {
       [_ in never]: never

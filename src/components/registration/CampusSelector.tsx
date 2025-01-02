@@ -36,10 +36,11 @@ export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
           .order('name');
         
         if (error) throw error;
-        setCampuses(data || []);
+        setCampuses(data || []); // Ensure we always set an array, even if empty
       } catch (error) {
         console.error('Error fetching campuses:', error);
         toast.error('Failed to load campuses');
+        setCampuses([]); // Set empty array on error
       } finally {
         setLoading(false);
       }
@@ -58,7 +59,13 @@ export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
           className="w-full justify-between bg-white"
           disabled={loading}
         >
-          {loading ? "Loading campuses..." : (value || "Select your campus...")}
+          {loading ? (
+            <span className="text-muted-foreground">Loading campuses...</span>
+          ) : value ? (
+            value
+          ) : (
+            <span className="text-muted-foreground">Select your campus...</span>
+          )}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -66,7 +73,7 @@ export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
         <Command>
           <CommandInput placeholder="Search campus..." />
           <CommandEmpty>No campus found.</CommandEmpty>
-          <CommandGroup>
+          <CommandGroup className="max-h-[300px] overflow-y-auto">
             {campuses.map((campus) => (
               <CommandItem
                 key={campus.name}

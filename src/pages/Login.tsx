@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { LogIn } from "lucide-react";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -39,11 +40,23 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 via-white to-blue-50 flex items-center justify-center">
-      <div className="container max-w-md mx-auto px-4">
+    <div className="min-h-screen bg-gradient-to-br from-purple-100 via-white to-blue-50 flex items-center justify-center p-4">
+      <div className="container max-w-md mx-auto">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-black mb-2">
+            <span className="text-primary">K</span>
+            <span className="text-black">NO</span>
+            <span className="text-primary">W</span>
+          </h1>
+          <p className="text-muted-foreground">Welcome back! Let's continue learning together.</p>
+        </div>
+
         <Card className="bg-white/70 backdrop-blur-sm border-purple-100">
-          <CardHeader>
-            <CardTitle className="text-2xl text-center text-purple-900">Login</CardTitle>
+          <CardHeader className="space-y-1">
+            <div className="flex items-center justify-center space-x-2">
+              <LogIn className="h-5 w-5 text-primary" />
+              <h2 className="text-2xl font-semibold text-center">Login</h2>
+            </div>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -54,7 +67,7 @@ const Login = () => {
                     id="email"
                     type="email"
                     required
-                    className="border-purple-200 focus:border-primary"
+                    className="border-primary/20 focus:border-primary"
                     value={formData.email}
                     onChange={(e) => setFormData({...formData, email: e.target.value})}
                     disabled={isLoading}
@@ -67,7 +80,7 @@ const Login = () => {
                     id="password"
                     type="password"
                     required
-                    className="border-purple-200 focus:border-primary"
+                    className="border-primary/20 focus:border-primary"
                     value={formData.password}
                     onChange={(e) => setFormData({...formData, password: e.target.value})}
                     disabled={isLoading}
@@ -75,22 +88,22 @@ const Login = () => {
                 </div>
               </div>
 
-              <div className="flex justify-center space-x-4">
-                <Button 
-                  variant="outline" 
-                  type="button" 
-                  onClick={() => navigate("/")}
-                  className="border-primary text-primary hover:bg-primary/10"
-                  disabled={isLoading}
-                >
-                  Cancel
-                </Button>
+              <div className="flex flex-col space-y-4">
                 <Button 
                   type="submit"
-                  className="bg-primary hover:bg-primary/90 text-white"
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
                   disabled={isLoading}
                 >
                   {isLoading ? "Logging in..." : "Login"}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => navigate("/register")}
+                  className="w-full border-primary text-primary hover:bg-primary/10"
+                  disabled={isLoading}
+                >
+                  Join the Program
                 </Button>
               </div>
             </form>

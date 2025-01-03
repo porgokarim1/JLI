@@ -8,7 +8,6 @@ import { toast } from "sonner";
 import StudentDashboard from "@/components/dashboard/StudentDashboard";
 import InstructorDashboard from "@/components/dashboard/InstructorDashboard";
 import AdminDashboard from "@/components/dashboard/AdminDashboard";
-import ProgramGoals from "@/components/landing/ProgramGoals";
 
 const Index = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -105,7 +104,6 @@ const Index = () => {
         {!isLoggedIn ? (
           <>
             <HeroSection />
-            <ProgramGoals />
             <CallToAction />
           </>
         ) : (

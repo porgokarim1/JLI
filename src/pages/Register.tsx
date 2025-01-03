@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { RegistrationForm } from "@/components/registration/RegistrationForm";
 import confetti from 'canvas-confetti';
 import {
   Dialog,
@@ -12,9 +11,14 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { PersonalInfoStep } from "@/components/registration/steps/PersonalInfoStep";
+import { ContactInfoStep } from "@/components/registration/steps/ContactInfoStep";
+import { CampusInfoStep } from "@/components/registration/steps/CampusInfoStep";
+import { FinalStep } from "@/components/registration/steps/FinalStep";
 
 const Register = () => {
   const navigate = useNavigate();
+  const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({
     firstName: "",
     middleName: "",
@@ -31,6 +35,13 @@ const Register = () => {
   const [showWelcomeDialog, setShowWelcomeDialog] = useState(false);
   const [generatedPassword, setGeneratedPassword] = useState("");
 
+  const handleFieldChange = (field: string, value: any) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
   const generatePassword = (firstName: string, lastName: string, phone: string) => {
     const firstInitial = firstName.charAt(0).toUpperCase();
     const lastInitial = lastName.charAt(0).toUpperCase();
@@ -38,11 +49,9 @@ const Register = () => {
     return `${firstInitial}${lastInitial}${lastFourDigits}`;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
+  const handleSubmit = async () => {
     if (!formData.agreeToTerms || !formData.agreeToDisclaimer) {
-      toast.error("Sorry, you can't register without accepting the terms and disclaimer");
+      toast.error("Please accept the terms and disclaimer");
       return;
     }
 
@@ -103,23 +112,69 @@ const Register = () => {
     }
   };
 
+  const steps = [
+    {
+      component: PersonalInfoStep,
+      props: {
+        formData,
+        onChange: handleFieldChange,
+        onNext: () => setCurrentStep(1)
+      }
+    },
+    {
+      component: ContactInfoStep,
+      props: {
+        formData,
+        onChange: handleFieldChange,
+        onNext: () => setCurrentStep(2),
+        onBack: () => setCurrentStep(0)
+      }
+    },
+    {
+      component: CampusInfoStep,
+      props: {
+        formData,
+        onChange: handleFieldChange,
+        onNext: () => setCurrentStep(3),
+        onBack: () => setCurrentStep(1)
+      }
+    },
+    {
+      component: FinalStep,
+      props: {
+        formData,
+        onChange: handleFieldChange,
+        onSubmit: handleSubmit,
+        onBack: () => setCurrentStep(2),
+        isLoading
+      }
+    }
+  ];
+
+  const CurrentStepComponent = steps[currentStep].component;
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white py-12 px-4">
-      <div className="container max-w-2xl mx-auto">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-2xl text-center">Registration</CardTitle>
-            <p className="text-center text-gray-600 mt-2">
-              Hi There! Thank you for your interest in participating in the Know Israel program. Let's get to know you a bit.
-            </p>
-          </CardHeader>
-          <CardContent>
-            <RegistrationForm
-              formData={formData}
-              setFormData={setFormData}
-              onSubmit={handleSubmit}
-              isLoading={isLoading}
-            />
+      <div className="container max-w-md mx-auto">
+        <Card className="bg-white/70 backdrop-blur-sm border-purple-100">
+          <CardContent className="pt-6">
+            <div className="mb-8">
+              <div className="flex justify-between mb-2">
+                {steps.map((_, index) => (
+                  <div
+                    key={index}
+                    className={`h-2 flex-1 mx-1 rounded ${
+                      index <= currentStep ? 'bg-primary' : 'bg-gray-200'
+                    }`}
+                  />
+                ))}
+              </div>
+              <p className="text-center text-sm text-muted-foreground">
+                Step {currentStep + 1} of {steps.length}
+              </p>
+            </div>
+
+            <CurrentStepComponent {...steps[currentStep].props} />
           </CardContent>
         </Card>
       </div>

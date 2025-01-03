@@ -16,7 +16,7 @@ const CallToAction = () => {
           className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transition-all"
           onClick={() => navigate("/register")}
         >
-          Register Now
+          Join the Program
         </Button>
         <Button 
           size="lg"

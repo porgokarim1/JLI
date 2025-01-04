@@ -2,7 +2,6 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/comp
 import { Button } from "@/components/ui/button";
 import { UseFormReturn } from "react-hook-form";
 import { Minus, Plus, User } from "lucide-react";
-import { useState } from "react";
 
 interface ParticipantsStepProps {
   form: UseFormReturn<any>;
@@ -31,7 +30,7 @@ const ParticipantsStep = ({
   onParticipantCountChange 
 }: ParticipantsStepProps) => {
   const handleIncrement = () => {
-    onParticipantCountChange(participantCount + 1);
+    onParticipantCountChange(Math.min(participantCount + 1, 32));
   };
 
   const handleDecrement = () => {
@@ -40,12 +39,12 @@ const ParticipantsStep = ({
 
   const getParticipantIcons = () => {
     const icons = [];
-    const totalParticipants = Math.min(participantCount, 32); // Limit visual display to 32 icons
+    const totalParticipants = Math.min(participantCount, 32);
     const angleStep = (2 * Math.PI) / totalParticipants;
     
     for (let i = 0; i < totalParticipants; i++) {
       const angle = i * angleStep;
-      const radius = 40 + (Math.floor(i / 8) * 20); // Create concentric circles
+      const radius = 40 + (Math.floor(i / 8) * 20);
       const x = Math.cos(angle) * radius + 64;
       const y = Math.sin(angle) * radius + 64;
       const colorIndex = i % COLORS.length;

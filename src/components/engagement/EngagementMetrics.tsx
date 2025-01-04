@@ -1,12 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
+import { Progress } from "@/components/ui/progress";
 import { Info } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface EngagementMetricsProps {
   type: "conversation" | "learning";
@@ -68,24 +69,13 @@ const EngagementMetrics = ({ type }: EngagementMetricsProps) => {
 
     return (
       <Card className="bg-white/90 backdrop-blur-sm">
-        <CardContent className="p-4">
+        <CardContent className="p-3">
           <div className="flex items-center justify-between">
-            <div>
-              <div className="text-lg font-semibold">{completedLessons}</div>
-              <div className="text-xs text-muted-foreground">
-                Completed Lessons
-              </div>
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium">Completed</span>
+              <span className="text-lg font-bold">{completedLessons}</span>
             </div>
-            <div className="w-32">
-              <div className="h-2 rounded-full bg-gray-200">
-                <div
-                  className="h-2 rounded-full bg-primary transition-all"
-                  style={{
-                    width: `${Math.min((completedLessons / 10) * 100, 100)}%`,
-                  }}
-                />
-              </div>
-            </div>
+            <Progress value={Math.min((completedLessons / 10) * 100, 100)} className="w-20" />
           </div>
         </CardContent>
       </Card>
@@ -98,47 +88,37 @@ const EngagementMetrics = ({ type }: EngagementMetricsProps) => {
 
   return (
     <Card className="bg-white/90 backdrop-blur-sm">
-      <CardContent className="p-4">
+      <CardContent className="p-3">
         <div className="flex items-center justify-between">
-          <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium">Progress</span>
+            <Tooltip>
+              <TooltipTrigger>
+                <Info className="h-4 w-4 text-gray-500" />
+              </TooltipTrigger>
+              <TooltipContent>
+                <div className="space-y-1 text-xs">
+                  <p>🥉 Bronze: 7 conversations</p>
+                  <p>🥈 Silver: 16 conversations</p>
+                  <p>🥇 Gold: 25 conversations</p>
+                </div>
+              </TooltipContent>
+            </Tooltip>
+          </div>
+          <div className="flex flex-col items-end">
             <div className="flex items-center gap-2">
-              <span className="text-sm font-medium">Progress</span>
-              <HoverCard>
-                <HoverCardTrigger asChild>
-                  <Info className="h-4 w-4 cursor-help text-gray-500" />
-                </HoverCardTrigger>
-                <HoverCardContent className="w-80">
-                  <div className="space-y-2">
-                    <h4 className="text-sm font-semibold">Reward Tiers</h4>
-                    <div className="text-sm">
-                      <p>🥉 Bronze: 7 conversations</p>
-                      <p>🥈 Silver: 16 conversations</p>
-                      <p>🥇 Gold: 25 conversations</p>
-                    </div>
-                  </div>
-                </HoverCardContent>
-              </HoverCard>
+              <span className="text-lg font-bold">{conversationCount}</span>
+              <Progress value={Math.min((conversationCount / 25) * 100, 100)} className="w-20" />
             </div>
-            <div className="text-lg font-semibold">{conversationCount}</div>
-            <div className="text-xs text-muted-foreground">
+            <span className="text-xs text-muted-foreground">
               {currentTier ? (
-                <span>Current Tier: {currentTier} 🎉</span>
+                <span>{currentTier} 🎉</span>
               ) : nextThreshold ? (
-                <span>{nextThreshold - conversationCount} until {getRewardTier(nextThreshold)}!</span>
+                <span>{nextThreshold - conversationCount} until {getRewardTier(nextThreshold)}</span>
               ) : (
                 <span>Keep it up!</span>
               )}
-            </div>
-          </div>
-          <div className="w-32">
-            <div className="h-2 rounded-full bg-gray-200">
-              <div
-                className="h-2 rounded-full bg-primary transition-all"
-                style={{
-                  width: `${Math.min((conversationCount / 25) * 100, 100)}%`,
-                }}
-              />
-            </div>
+            </span>
           </div>
         </div>
       </CardContent>

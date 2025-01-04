@@ -90,7 +90,6 @@ const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => 
       setShowThankYou(true);
       startConfetti();
       form.reset();
-      onSuccess?.();
     } catch (error: any) {
       toast.error("Error recording conversation: " + error.message);
     } finally {

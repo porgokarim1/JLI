@@ -71,7 +71,7 @@ const ConversationsList = () => {
                 <th className="pb-4">Date</th>
                 <th className="pb-4">Comments</th>
                 <th className="pb-4">Comfort Level</th>
-                <th className="pb-4">Actions</th>
+                <th className="pb-4">Edit</th>
               </tr>
             </thead>
             <tbody>

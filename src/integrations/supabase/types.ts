@@ -11,38 +11,38 @@ export type Database = {
     Tables: {
       conversations: {
         Row: {
-          comfort_level: string | null
+          comfort_level:
+            | Database["public"]["Enums"]["comfort_level_type"]
+            | null
+          comments: string | null
           conversation_date: string
           created_at: string
-          first_name: string
           id: string
-          last_name: string
-          middle_name: string | null
-          notes: string | null
+          participant_count: number
           updated_at: string
           user_id: string
         }
         Insert: {
-          comfort_level?: string | null
+          comfort_level?:
+            | Database["public"]["Enums"]["comfort_level_type"]
+            | null
+          comments?: string | null
           conversation_date: string
           created_at?: string
-          first_name: string
           id?: string
-          last_name: string
-          middle_name?: string | null
-          notes?: string | null
+          participant_count?: number
           updated_at?: string
           user_id: string
         }
         Update: {
-          comfort_level?: string | null
+          comfort_level?:
+            | Database["public"]["Enums"]["comfort_level_type"]
+            | null
+          comments?: string | null
           conversation_date?: string
           created_at?: string
-          first_name?: string
           id?: string
-          last_name?: string
-          middle_name?: string | null
-          notes?: string | null
+          participant_count?: number
           updated_at?: string
           user_id?: string
         }
@@ -373,6 +373,11 @@ export type Database = {
         | "Asia"
         | "Africa"
         | "Oceania"
+      comfort_level_type:
+        | "very_comfortable"
+        | "comfortable"
+        | "uncomfortable"
+        | "very_uncomfortable"
       conversation_status: "pending" | "completed" | "follow_up"
       lesson_status: "not_started" | "in_progress" | "completed"
       media_type: "image" | "video"

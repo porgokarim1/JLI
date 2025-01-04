@@ -16,8 +16,17 @@ interface ContactInfoStepProps {
 }
 
 export const ContactInfoStep = ({ formData, onChange, onNext, onBack }: ContactInfoStepProps) => {
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePhone = (phone: string | undefined) => {
+    return phone && phone.length >= 10;
+  };
+
   const handleNext = () => {
-    if (!formData.email || !formData.phone) {
+    if (!validateEmail(formData.email) || !validatePhone(formData.phone)) {
       return;
     }
     onNext();
@@ -41,6 +50,9 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack }: ContactI
             onChange={(e) => onChange("email", e.target.value)}
             className="border-primary focus:ring-primary"
           />
+          {formData.email && !validateEmail(formData.email) && (
+            <p className="text-sm text-red-500 mt-1">Please enter a valid email address</p>
+          )}
         </div>
 
         <div>
@@ -54,6 +66,9 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack }: ContactI
               onChange={(value) => onChange("phone", value || "")}
             />
           </div>
+          {formData.phone && !validatePhone(formData.phone) && (
+            <p className="text-sm text-red-500 mt-1">Please enter a valid phone number</p>
+          )}
         </div>
       </div>
 
@@ -69,7 +84,7 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack }: ContactI
         <Button 
           onClick={handleNext}
           className="flex-1"
-          disabled={!formData.email || !formData.phone}
+          disabled={!validateEmail(formData.email) || !validatePhone(formData.phone)}
         >
           Next Step
           <ArrowRight className="ml-2 h-4 w-4" />

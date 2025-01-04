@@ -149,7 +149,7 @@ const Register = () => {
         isLoading
       }
     }
-  ];
+  ] as const;
 
   const CurrentStepComponent = steps[currentStep].component;
 

@@ -38,6 +38,7 @@ const RewardClaimForm = ({ open, onOpenChange, onSuccess }: RewardClaimFormProps
       const { error } = await supabase
         .from('profiles')
         .update({
+          id: user.id,
           reward_claimed: true,
           reward_tier_form_submitted: true,
         })

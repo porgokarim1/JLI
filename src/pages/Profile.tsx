@@ -46,7 +46,10 @@ const ProfilePage = () => {
 
     const { error } = await supabase
       .from('profiles')
-      .update(formData)
+      .update({
+        id: user.id,
+        ...formData
+      })
       .eq('id', user.id);
 
     if (error) {

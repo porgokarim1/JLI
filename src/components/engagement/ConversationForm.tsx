@@ -105,61 +105,59 @@ const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => 
     onSuccess?.();
   };
 
-  const steps = [
-    {
-      component: WelcomeStep,
-      props: {
-        form,
-        onNext: () => setCurrentStep(1),
-        onBack: () => setCurrentStep(0),
-      }
-    },
-    {
-      component: ParticipantsStep,
-      props: {
-        form,
-        participantCount,
-        onParticipantCountChange: setParticipantCount,
-        onNext: () => setCurrentStep(2),
-        onBack: () => setCurrentStep(0),
-      }
-    },
-    {
-      component: ComfortStep,
-      props: {
-        form,
-        onNext: () => {
-          const comfortLevel = form.getValues().comfort_level;
-          if (!comfortLevel) {
-            form.setError("comfort_level", {
-              type: "required",
-              message: "Please select your comfort level"
-            });
-            return;
-          }
-          setCurrentStep(3);
-        },
-        onBack: () => setCurrentStep(1),
-      }
-    },
-    {
-      component: FinalStep,
-      props: {
-        form,
-        onSubmit,
-        onBack: () => setCurrentStep(2),
-        isSubmitting,
-      }
+  const getCurrentStep = () => {
+    const commonProps = { form };
+    
+    switch (currentStep) {
+      case 0:
+        return <WelcomeStep {...commonProps} onNext={() => setCurrentStep(1)} />;
+      case 1:
+        return (
+          <ParticipantsStep
+            {...commonProps}
+            participantCount={participantCount}
+            onParticipantCountChange={setParticipantCount}
+            onNext={() => setCurrentStep(2)}
+            onBack={() => setCurrentStep(0)}
+          />
+        );
+      case 2:
+        return (
+          <ComfortStep
+            {...commonProps}
+            onNext={() => {
+              const comfortLevel = form.getValues().comfort_level;
+              if (!comfortLevel) {
+                form.setError("comfort_level", {
+                  type: "required",
+                  message: "Please select your comfort level"
+                });
+                return;
+              }
+              setCurrentStep(3);
+            }}
+            onBack={() => setCurrentStep(1)}
+          />
+        );
+      case 3:
+        return (
+          <FinalStep
+            {...commonProps}
+            onSubmit={onSubmit}
+            onBack={() => setCurrentStep(2)}
+            isSubmitting={isSubmitting}
+          />
+        );
+      default:
+        return null;
     }
-  ];
-
-  const CurrentStepComponent = steps[currentStep].component;
+  };
 
   return (
     <>
       <Form {...form}>
         <form className="space-y-6">
-          <CurrentStepComponent {...steps[currentStep].props} />
+          {getCurrentStep()}
         </form>
       </Form>
 

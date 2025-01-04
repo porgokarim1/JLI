@@ -36,11 +36,10 @@ const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => 
   
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData || {
-      comfort_level: undefined,
-      comments: "",
-      conversation_date: new Date().toISOString().split("T")[0],
-      participant_count: 1,
+    defaultValues: {
+      ...initialData,
+      conversation_date: initialData?.conversation_date || new Date().toISOString().split("T")[0],
+      participant_count: participantCount
     },
   });
 

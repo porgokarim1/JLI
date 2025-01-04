@@ -14,7 +14,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
 const formSchema = z.object({
-  comfort_level: z.enum(["very_comfortable", "comfortable", "uncomfortable", "very_uncomfortable"]).optional(),
+  comfort_level: z.enum(["very_comfortable", "comfortable", "uncomfortable", "very_uncomfortable"]),
   comments: z.string().optional(),
   conversation_date: z.string(),
   participant_count: z.number().min(1)
@@ -37,7 +37,8 @@ const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      ...initialData,
+      comfort_level: initialData?.comfort_level,
+      comments: initialData?.comments || "",
       conversation_date: initialData?.conversation_date || new Date().toISOString().split("T")[0],
       participant_count: participantCount
     },
@@ -78,7 +79,9 @@ const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => 
       }
 
       const { error } = await supabase.from("conversations").upsert({
-        ...formData,
+        comfort_level: formData.comfort_level,
+        comments: formData.comments,
+        conversation_date: formData.conversation_date,
         participant_count: participantCount,
         user_id: user.id,
         ...(initialData?.id ? { id: initialData.id } : {}),

@@ -14,6 +14,7 @@ const ComfortStep = ({ form, onNext, onBack }: ComfortStepProps) => {
     <div className="space-y-6">
       <div className="text-center">
         <h2 className="text-xl font-semibold">How comfortable were you? 😊</h2>
+        <p className="text-sm text-muted-foreground">This field is required</p>
       </div>
 
       <FormField

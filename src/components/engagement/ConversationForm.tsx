@@ -3,8 +3,9 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
+import { Form, FormField } from "@/components/ui/form";
 import { supabase } from "@/integrations/supabase/client";
+import type { ComfortLevel } from "@/integrations/supabase/types";
 import ConversationDateField from "./conversation/ConversationDateField";
 import ComfortLevelField from "./conversation/ComfortLevelField";
 import CommentsField from "./conversation/CommentsField";
@@ -12,7 +13,7 @@ import ParticipantCounter from "./conversation/ParticipantCounter";
 
 const formSchema = z.object({
   conversation_date: z.string().min(1, "Date is required"),
-  comfort_level: z.string().min(1, "Comfort level is required"),
+  comfort_level: z.enum(['very_comfortable', 'comfortable', 'uncomfortable', 'very_uncomfortable'] as const),
   comments: z.string().optional(),
   participant_count: z.number().min(1).max(10),
 });
@@ -27,7 +28,7 @@ const ConversationForm = ({ onSuccess, initialData }: ConversationFormProps) => 
     resolver: zodResolver(formSchema),
     defaultValues: {
       conversation_date: initialData?.conversation_date || new Date().toISOString().split('T')[0],
-      comfort_level: initialData?.comfort_level || "",
+      comfort_level: (initialData?.comfort_level as ComfortLevel) || "comfortable",
       comments: initialData?.comments || "",
       participant_count: initialData?.participant_count || 1,
     },

@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
-import { Edit } from "lucide-react";
+import { Edit, Users } from "lucide-react";
 import { useState } from "react";
 import {
   Dialog,
@@ -67,9 +67,9 @@ const ConversationsList = () => {
           <table className="w-full">
             <thead>
               <tr className="text-left">
-                <th className="pb-4">Name</th>
+                <th className="pb-4">Participants</th>
                 <th className="pb-4">Date</th>
-                <th className="pb-4">Notes</th>
+                <th className="pb-4">Comments</th>
                 <th className="pb-4">Comfort Level</th>
                 <th className="pb-4">Actions</th>
               </tr>
@@ -78,13 +78,16 @@ const ConversationsList = () => {
               {conversations.map((conversation) => (
                 <tr key={conversation.id} className="border-t">
                   <td className="py-4">
-                    {conversation.first_name} {conversation.middle_name && `${conversation.middle_name} `}{conversation.last_name}
+                    <div className="flex items-center">
+                      <Users className="h-4 w-4 mr-2" />
+                      {conversation.participant_count} {conversation.participant_count === 1 ? 'person' : 'people'}
+                    </div>
                   </td>
                   <td className="py-4">
                     {format(new Date(conversation.conversation_date), "PPP")}
                   </td>
                   <td className="py-4 max-w-xs truncate">
-                    {conversation.notes}
+                    {conversation.comments}
                   </td>
                   <td className="py-4 capitalize">
                     {conversation.comfort_level?.replace("_", " ")}
@@ -110,9 +113,10 @@ const ConversationsList = () => {
               <AccordionItem key={conversation.id} value={conversation.id}>
                 <AccordionTrigger className="hover:no-underline">
                   <div className="flex flex-col items-start">
-                    <span className="font-medium">
-                      {conversation.first_name} {conversation.last_name}
-                    </span>
+                    <div className="flex items-center">
+                      <Users className="h-4 w-4 mr-2" />
+                      {conversation.participant_count} {conversation.participant_count === 1 ? 'person' : 'people'}
+                    </div>
                     <span className="text-sm text-gray-500">
                       {format(new Date(conversation.conversation_date), "PPP")}
                     </span>
@@ -120,15 +124,9 @@ const ConversationsList = () => {
                 </AccordionTrigger>
                 <AccordionContent>
                   <div className="space-y-2 pt-2">
-                    {conversation.middle_name && (
-                      <div>
-                        <span className="font-medium">Middle Name:</span>{" "}
-                        {conversation.middle_name}
-                      </div>
-                    )}
                     <div>
-                      <span className="font-medium">Notes:</span>{" "}
-                      {conversation.notes}
+                      <span className="font-medium">Comments:</span>{" "}
+                      {conversation.comments}
                     </div>
                     <div>
                       <span className="font-medium">Comfort Level:</span>{" "}

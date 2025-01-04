@@ -9,11 +9,10 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 
 const images = [
-  "https://images.unsplash.com/photo-1649972904349-6e44c42644a7",
-  "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
-  "https://images.unsplash.com/photo-1518770660439-4636190af475",
-  "https://images.unsplash.com/photo-1461749280684-dccba630e2f6",
-  "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"
+  "https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/General%20images/soldier_image-PNG.png",
+  "https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/General%20images/soldierswalkingPNG.png",
+  "https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/General%20images/solderWithMachineGunPNG.png",
+  "https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/General%20images/airplanePNG.png"
 ];
 
 const AutoRotatingCarousel = () => {
@@ -29,7 +28,7 @@ const AutoRotatingCarousel = () => {
   );
 
   return (
-    <Carousel className="w-full h-full">
+    <Carousel className="w-full h-[400px] md:h-[600px] lg:h-[800px]">
       <CarouselContent ref={emblaRef}>
         {images.map((image, index) => (
           <CarouselItem key={index}>

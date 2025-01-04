@@ -118,7 +118,8 @@ const Register = () => {
       props: {
         formData,
         onChange: handleFieldChange,
-        onNext: () => setCurrentStep(1)
+        onNext: () => setCurrentStep(1),
+        onBack: () => navigate("/")
       }
     },
     {

@@ -36,7 +36,7 @@ const Register = () => {
       setIsLoading(true);
       const { error } = await supabase.auth.signUp({
         email: formData.email,
-        password: "temporary-password", // You should implement proper password handling
+        password: "temporary-password",
         options: {
           data: {
             first_name: formData.firstName,
@@ -68,6 +68,7 @@ const Register = () => {
         formData,
         onChange: handleFieldChange,
         onNext: () => setCurrentStep(1),
+        onBack: () => null, // Added for type consistency
       },
     },
     {

@@ -109,6 +109,7 @@ const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => 
       props: {
         form,
         onNext: () => setCurrentStep(1),
+        onBack: () => null, // Added for type consistency
       }
     },
     {

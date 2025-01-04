@@ -11,36 +11,59 @@ const ProgressOverview = () => {
   useEffect(() => {
     const fetchProgress = async () => {
       try {
-        // Get current user
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return;
+        const { data: { user }, error: userError } = await supabase.auth.getUser();
+        if (userError) {
+          console.error('Error getting user:', userError);
+          toast.error('Failed to authenticate user');
+          return;
+        }
+        
+        if (!user) {
+          toast.error('User not found');
+          return;
+        }
 
-        // Get total number of lessons
-        const { data: lessonsData } = await supabase
+        const { data: lessonsData, error: lessonsError } = await supabase
           .from('lessons')
           .select('count')
-          .single();
+          .maybeSingle();
         
+        if (lessonsError) {
+          console.error('Error fetching lessons:', lessonsError);
+          toast.error('Failed to load lessons data');
+          return;
+        }
+
         setTotalLessons(lessonsData?.count || 0);
 
-        // Get completed lessons count
-        const { data: completedData } = await supabase
+        const { data: completedData, error: completedError } = await supabase
           .from('user_lesson_progress')
           .select('count')
           .eq('user_id', user.id)
           .eq('status', 'completed')
-          .single();
+          .maybeSingle();
         
+        if (completedError) {
+          console.error('Error fetching completed lessons:', completedError);
+          toast.error('Failed to load progress data');
+          return;
+        }
+
         setCompletedLessons(completedData?.count || 0);
 
-        // Calculate total hours from time_spent (which is in seconds)
-        const { data: timeData } = await supabase
+        const { data: timeData, error: timeError } = await supabase
           .from('user_lesson_progress')
           .select('time_spent')
           .eq('user_id', user.id);
 
+        if (timeError) {
+          console.error('Error fetching time data:', timeError);
+          toast.error('Failed to load time data');
+          return;
+        }
+
         const totalSeconds = timeData?.reduce((acc, curr) => acc + (curr.time_spent || 0), 0) || 0;
-        const hours = Math.round(totalSeconds / 3600); // Convert seconds to hours and round
+        const hours = Math.round(totalSeconds / 3600);
         setTotalHours(hours);
 
       } catch (error) {

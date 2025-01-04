@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { BookOpen, Clock, Calendar } from "lucide-react";
 
 const ProgressOverview = () => {
   const [completedLessons, setCompletedLessons] = useState(0);
@@ -77,24 +78,33 @@ const ProgressOverview = () => {
 
   return (
     <div className="container mx-auto px-4">
-      <Card className="bg-white/90 backdrop-blur-sm border-indigo-100">
-        <CardHeader>
-          <CardTitle className="text-2xl text-slate-800">Your Progress</CardTitle>
-          <CardDescription>Track your journey through the Know Israel program</CardDescription>
+      <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-lg text-slate-800">Your Progress</CardTitle>
+          <CardDescription className="text-sm">Track your journey</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="p-4 bg-indigo-50 rounded-lg">
-              <h3 className="font-semibold text-indigo-900">Lessons Completed</h3>
-              <p className="text-2xl font-bold text-indigo-600">{completedLessons}/{totalLessons}</p>
+          <div className="grid grid-cols-3 gap-2">
+            <div className="flex items-center gap-2 p-2 bg-primary/10 rounded-lg">
+              <BookOpen className="h-4 w-4 text-primary" />
+              <div>
+                <div className="text-sm font-medium">{completedLessons}/{totalLessons}</div>
+                <div className="text-xs text-muted-foreground">Lessons</div>
+              </div>
             </div>
-            <div className="p-4 bg-indigo-50 rounded-lg">
-              <h3 className="font-semibold text-indigo-900">Hours Invested</h3>
-              <p className="text-2xl font-bold text-indigo-600">{totalHours}</p>
+            <div className="flex items-center gap-2 p-2 bg-primary/10 rounded-lg">
+              <Clock className="h-4 w-4 text-primary" />
+              <div>
+                <div className="text-sm font-medium">{totalHours}</div>
+                <div className="text-xs text-muted-foreground">Hours</div>
+              </div>
             </div>
-            <div className="p-4 bg-indigo-50 rounded-lg">
-              <h3 className="font-semibold text-indigo-900">Next Session</h3>
-              <p className="text-2xl font-bold text-indigo-600">Today</p>
+            <div className="flex items-center gap-2 p-2 bg-primary/10 rounded-lg">
+              <Calendar className="h-4 w-4 text-primary" />
+              <div>
+                <div className="text-sm font-medium">Today</div>
+                <div className="text-xs text-muted-foreground">Next</div>
+              </div>
             </div>
           </div>
         </CardContent>

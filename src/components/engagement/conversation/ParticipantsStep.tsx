@@ -12,13 +12,58 @@ interface ParticipantsStepProps {
   onParticipantCountChange: (count: number) => void;
 }
 
-const ParticipantsStep = ({ form, onNext, onBack, participantCount, onParticipantCountChange }: ParticipantsStepProps) => {
+const COLORS = [
+  'text-blue-500',
+  'text-green-500',
+  'text-red-500',
+  'text-yellow-500',
+  'text-purple-500',
+  'text-pink-500',
+  'text-indigo-500',
+  'text-orange-500'
+];
+
+const ParticipantsStep = ({ 
+  form, 
+  onNext, 
+  onBack, 
+  participantCount, 
+  onParticipantCountChange 
+}: ParticipantsStepProps) => {
   const handleIncrement = () => {
     onParticipantCountChange(participantCount + 1);
   };
 
   const handleDecrement = () => {
     onParticipantCountChange(Math.max(participantCount - 1, 1));
+  };
+
+  const getParticipantIcons = () => {
+    const icons = [];
+    const totalParticipants = Math.min(participantCount, 32); // Limit visual display to 32 icons
+    const angleStep = (2 * Math.PI) / totalParticipants;
+    
+    for (let i = 0; i < totalParticipants; i++) {
+      const angle = i * angleStep;
+      const radius = 40 + (Math.floor(i / 8) * 20); // Create concentric circles
+      const x = Math.cos(angle) * radius + 64;
+      const y = Math.sin(angle) * radius + 64;
+      const colorIndex = i % COLORS.length;
+      
+      icons.push(
+        <div
+          key={i}
+          className="absolute transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300"
+          style={{
+            left: `${x}px`,
+            top: `${y}px`,
+          }}
+        >
+          <User className={`h-6 w-6 ${COLORS[colorIndex]}`} />
+        </div>
+      );
+    }
+    return icons;
   };
 
   return (
@@ -52,26 +97,13 @@ const ParticipantsStep = ({ form, onNext, onBack, participantCount, onParticipan
         </div>
         
         <div className="flex items-center justify-center">
-          <div className="relative w-32 h-32">
-            {[...Array(Math.min(participantCount, 8))].map((_, index) => {
-              const angle = (index * (360 / Math.min(participantCount, 8))) * (Math.PI / 180);
-              const radius = 40;
-              const x = Math.cos(angle) * radius + 64;
-              const y = Math.sin(angle) * radius + 64;
-              
-              return (
-                <div
-                  key={index}
-                  className="absolute transform -translate-x-1/2 -translate-y-1/2"
-                  style={{
-                    left: `${x}px`,
-                    top: `${y}px`,
-                  }}
-                >
-                  <User className="h-6 w-6" />
-                </div>
-              );
-            })}
+          <div className="relative w-[200px] h-[200px]">
+            {getParticipantIcons()}
+            {participantCount > 32 && (
+              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 text-sm text-muted-foreground">
+                +{participantCount - 32} more
+              </div>
+            )}
           </div>
         </div>
       </div>

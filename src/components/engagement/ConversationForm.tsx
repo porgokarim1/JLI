@@ -9,6 +9,9 @@ import WelcomeStep from "./conversation/WelcomeStep";
 import ParticipantsStep from "./conversation/ParticipantsStep";
 import ComfortStep from "./conversation/ComfortStep";
 import FinalStep from "./conversation/FinalStep";
+import confetti from 'canvas-confetti';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 const formSchema = z.object({
   comfort_level: z.enum(["very_comfortable", "comfortable", "uncomfortable", "very_uncomfortable"]),
@@ -28,6 +31,8 @@ const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => 
   const [currentStep, setCurrentStep] = useState(0);
   const [participantCount, setParticipantCount] = useState(initialData?.participant_count || 1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showThankYou, setShowThankYou] = useState(false);
+  const [confettiInterval, setConfettiInterval] = useState<number | null>(null);
   
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -38,6 +43,24 @@ const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => 
       participant_count: 1,
     },
   });
+
+  const startConfetti = () => {
+    const interval = window.setInterval(() => {
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+    }, 1500);
+    setConfettiInterval(interval);
+  };
+
+  const stopConfetti = () => {
+    if (confettiInterval) {
+      clearInterval(confettiInterval);
+      setConfettiInterval(null);
+    }
+  };
 
   const onSubmit = async () => {
     try {
@@ -59,14 +82,20 @@ const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => 
 
       if (error) throw error;
 
-      toast.success(initialData ? "Conversation updated successfully!" : "Conversation recorded successfully!");
+      setShowThankYou(true);
+      startConfetti();
       form.reset();
-      onSuccess?.();
     } catch (error: any) {
       toast.error("Error recording conversation: " + error.message);
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleThankYouClose = () => {
+    setShowThankYou(false);
+    stopConfetti();
+    onSuccess?.();
   };
 
   const steps = [
@@ -109,11 +138,25 @@ const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => 
   const CurrentStepComponent = steps[currentStep].component;
 
   return (
-    <Form {...form}>
-      <form className="space-y-6">
-        <CurrentStepComponent {...steps[currentStep].props} />
-      </form>
-    </Form>
+    <>
+      <Form {...form}>
+        <form className="space-y-6">
+          <CurrentStepComponent {...steps[currentStep].props} />
+        </form>
+      </Form>
+
+      <Dialog open={showThankYou} onOpenChange={setShowThankYou}>
+        <DialogContent className="text-center">
+          <DialogHeader>
+            <DialogTitle className="text-2xl">Thank You! 🎉</DialogTitle>
+          </DialogHeader>
+          <p className="py-4">Your conversation has been recorded successfully!</p>
+          <Button onClick={handleThankYouClose} className="mt-4">
+            OK
+          </Button>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 

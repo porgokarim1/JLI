@@ -68,8 +68,10 @@ const Register = () => {
         formData,
         onChange: handleFieldChange,
         onNext: () => setCurrentStep(1),
-        onBack: () => null, // Added for type consistency
-      },
+        onBack: () => null,
+        onSubmit: handleSubmit,
+        isLoading,
+      }
     },
     {
       component: ContactInfoStep,
@@ -78,7 +80,9 @@ const Register = () => {
         onChange: handleFieldChange,
         onNext: () => setCurrentStep(2),
         onBack: () => setCurrentStep(0),
-      },
+        onSubmit: handleSubmit,
+        isLoading,
+      }
     },
     {
       component: CampusInfoStep,
@@ -87,18 +91,21 @@ const Register = () => {
         onChange: handleFieldChange,
         onNext: () => setCurrentStep(3),
         onBack: () => setCurrentStep(1),
-      },
+        onSubmit: handleSubmit,
+        isLoading,
+      }
     },
     {
       component: FinalStep,
       props: {
         formData,
         onChange: handleFieldChange,
-        onSubmit: handleSubmit,
+        onNext: () => null,
         onBack: () => setCurrentStep(2),
+        onSubmit: handleSubmit,
         isLoading,
-      },
-    },
+      }
+    }
   ];
 
   const CurrentStepComponent = steps[currentStep].component;

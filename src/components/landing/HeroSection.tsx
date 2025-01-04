@@ -6,10 +6,10 @@ const HeroSection = () => {
   const navigate = useNavigate();
   
   return (
-    <div className="container mx-auto px-4 py-12 md:py-24">
-      <div className="grid md:grid-cols-2 gap-8 items-center relative">
-        <div className="text-left space-y-12 relative z-10 bg-white/80 md:bg-transparent p-4 md:p-0 rounded-lg">
-          <div className="space-y-8">
+    <div className="container mx-auto px-4 py-8 md:py-12">
+      <div className="grid md:grid-cols-2 gap-8 items-start relative">
+        <div className="text-left space-y-8 relative z-10 bg-white/80 md:bg-transparent p-4 md:p-0 rounded-lg">
+          <div className="space-y-6">
             <div className="space-y-2">
               <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-none">
                 <span className="text-primary">K</span>
@@ -24,7 +24,7 @@ const HeroSection = () => {
                 <span className="text-black">WAR</span>
               </h1>
               
-              <div className="pt-6 space-x-4">
+              <div className="pt-4 space-x-4">
                 <Button 
                   size="lg"
                   className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transition-all"
@@ -58,7 +58,7 @@ const HeroSection = () => {
             </p>
           </div>
         </div>
-        <div className="w-full h-[400px] md:h-[800px]">
+        <div className="w-full h-[400px] md:h-[600px]">
           <AutoRotatingCarousel />
         </div>
       </div>

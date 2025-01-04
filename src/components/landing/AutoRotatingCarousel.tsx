@@ -17,9 +17,16 @@ const images = [
 ];
 
 const AutoRotatingCarousel = () => {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
-    Autoplay({ delay: 5000, stopOnInteraction: false })
-  ]);
+  const autoplayPlugin = Autoplay({
+    delay: 5000,
+    stopOnInteraction: false,
+    stopOnMouseEnter: true
+  });
+
+  const [emblaRef] = useEmblaCarousel(
+    { loop: true }, 
+    [autoplayPlugin]
+  );
 
   return (
     <Carousel className="w-full h-full">

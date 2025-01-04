@@ -10,6 +10,8 @@ interface ComfortStepProps {
 }
 
 const ComfortStep = ({ form, onNext, onBack }: ComfortStepProps) => {
+  const comfortLevel = form.watch("comfort_level");
+  
   return (
     <div className="space-y-6">
       <div className="text-center">
@@ -68,7 +70,12 @@ const ComfortStep = ({ form, onNext, onBack }: ComfortStepProps) => {
       />
 
       <div className="flex flex-col space-y-2">
-        <Button onClick={onNext}>Next Step</Button>
+        <Button 
+          onClick={onNext}
+          disabled={!comfortLevel}
+        >
+          Next Step
+        </Button>
         <Button variant="outline" onClick={onBack}>Go Back</Button>
       </div>
     </div>

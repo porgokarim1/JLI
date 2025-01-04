@@ -1,7 +1,8 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Home } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface PersonalInfoStepProps {
   formData: {
@@ -14,6 +15,8 @@ interface PersonalInfoStepProps {
 }
 
 export const PersonalInfoStep = ({ formData, onChange, onNext }: PersonalInfoStepProps) => {
+  const navigate = useNavigate();
+  
   const handleNext = () => {
     if (!formData.firstName || !formData.lastName) {
       return;
@@ -62,14 +65,25 @@ export const PersonalInfoStep = ({ formData, onChange, onNext }: PersonalInfoSte
         </div>
       </div>
 
-      <Button 
-        onClick={handleNext}
-        className="w-full"
-        disabled={!formData.firstName || !formData.lastName}
-      >
-        Next Step
-        <ArrowRight className="ml-2 h-4 w-4" />
-      </Button>
+      <div className="flex flex-col space-y-4">
+        <Button 
+          onClick={handleNext}
+          className="w-full"
+          disabled={!formData.firstName || !formData.lastName}
+        >
+          Next Step
+          <ArrowRight className="ml-2 h-4 w-4" />
+        </Button>
+        
+        <Button
+          variant="outline"
+          onClick={() => navigate("/")}
+          className="w-full border-primary text-primary hover:bg-primary/10"
+        >
+          <Home className="mr-2 h-4 w-4" />
+          Back to Main Page
+        </Button>
+      </div>
     </div>
   );
 };

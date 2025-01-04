@@ -43,10 +43,20 @@ const Login = () => {
     <div className="min-h-screen bg-gradient-to-br from-purple-100 via-white to-blue-50 flex items-center justify-center p-4">
       <div className="container max-w-md mx-auto">
         <div className="text-center mb-8">
+          <div className="flex justify-center mb-4">
+            <img 
+              src="https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/lesson_images/logo.png?t=2025-01-02T06%3A41%3A20.422Z"
+              alt="Logo"
+              className="h-12"
+            />
+          </div>
           <h1 className="text-4xl font-black mb-2">
-            <span className="text-primary">K</span>
-            <span className="text-black">NO</span>
-            <span className="text-primary">W</span>
+            <span className="text-primary relative">
+              K
+              <span className="absolute -top-1 left-[0.45em]">'</span>
+            </span>
+            <span className="text-black">NOW</span>
+            <span className="text-primary"> ISRAEL</span>
           </h1>
           <p className="text-muted-foreground">Welcome back! Let's continue learning together.</p>
         </div>

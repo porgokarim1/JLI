@@ -21,7 +21,7 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 interface ConversationFormProps {
-  initialData?: FormData;
+  initialData?: FormData & { id?: string };
   onSuccess?: () => void;
 }
 

@@ -238,6 +238,7 @@ export type Database = {
           gender: string | null
           id: string
           last_name: string | null
+          middle_name: string | null
           organization: string | null
           phone: string | null
           reward_claimed: boolean | null
@@ -254,6 +255,7 @@ export type Database = {
           gender?: string | null
           id: string
           last_name?: string | null
+          middle_name?: string | null
           organization?: string | null
           phone?: string | null
           reward_claimed?: boolean | null
@@ -270,6 +272,7 @@ export type Database = {
           gender?: string | null
           id?: string
           last_name?: string | null
+          middle_name?: string | null
           organization?: string | null
           phone?: string | null
           reward_claimed?: boolean | null

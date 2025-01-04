@@ -67,8 +67,13 @@ const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => 
       setIsSubmitting(true);
       const formData = form.getValues();
       
-      const user = await supabase.auth.getUser();
-      if (!user.data.user) {
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      if (userError) {
+        toast.error("Authentication error. Please try logging in again.");
+        return;
+      }
+      
+      if (!user) {
         toast.error("You must be logged in to record a conversation");
         return;
       }
@@ -76,7 +81,7 @@ const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => 
       const { error } = await supabase.from("conversations").upsert({
         ...formData,
         participant_count: participantCount,
-        user_id: user.data.user.id,
+        user_id: user.id,
         ...(initialData?.id ? { id: initialData.id } : {}),
       });
 

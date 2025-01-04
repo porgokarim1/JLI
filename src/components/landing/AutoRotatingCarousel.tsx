@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -23,11 +22,11 @@ const AutoRotatingCarousel = () => {
   ]);
 
   return (
-    <Carousel className="w-full max-w-4xl mx-auto">
+    <Carousel className="w-full h-full">
       <CarouselContent ref={emblaRef}>
         {images.map((image, index) => (
           <CarouselItem key={index}>
-            <div className="relative h-[300px] w-full overflow-hidden rounded-lg">
+            <div className="relative h-full w-full overflow-hidden rounded-lg">
               <img
                 src={image}
                 alt={`Slide ${index + 1}`}

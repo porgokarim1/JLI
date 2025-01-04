@@ -1,13 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import AutoRotatingCarousel from "./AutoRotatingCarousel";
 
 const HeroSection = () => {
   const navigate = useNavigate();
   
   return (
     <div className="container mx-auto px-4 py-12 md:py-24">
-      <div className="grid md:grid-cols-2 gap-8 items-start relative">
-        <div className="text-left space-y-12 relative z-10 bg-white/80 md:bg-transparent p-4 md:p-0 rounded-lg order-first">
+      <div className="grid md:grid-cols-2 gap-8 items-center relative">
+        <div className="text-left space-y-12 relative z-10 bg-white/80 md:bg-transparent p-4 md:p-0 rounded-lg">
           <div className="space-y-8">
             <div className="space-y-2">
               <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-none">
@@ -57,12 +58,8 @@ const HeroSection = () => {
             </p>
           </div>
         </div>
-        <div className="md:absolute md:right-[-50%] top-0 h-[400px] md:h-[800px] w-full md:w-full opacity-75 md:opacity-100 mb-8 md:mb-0 order-last md:order-last">
-          <img 
-            src="https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/General%20images/soldier_image-PNG.png?t=2025-01-02T07%3A04%3A11.499Z"
-            alt="Soldier" 
-            className="object-contain h-full w-full"
-          />
+        <div className="w-full h-[400px] md:h-[800px]">
+          <AutoRotatingCarousel />
         </div>
       </div>
     </div>

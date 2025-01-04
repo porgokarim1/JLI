@@ -8,9 +8,6 @@ import { toast } from "sonner";
 import StudentDashboard from "@/components/dashboard/StudentDashboard";
 import InstructorDashboard from "@/components/dashboard/InstructorDashboard";
 import AdminDashboard from "@/components/dashboard/AdminDashboard";
-import AutoRotatingCarousel from "@/components/landing/AutoRotatingCarousel";
-
-// ... keep existing code (imports and initial state)
 
 const Index = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -106,9 +103,6 @@ const Index = () => {
       <div className="pt-16">
         {!isLoggedIn ? (
           <>
-            <div className="container mx-auto px-4 py-8">
-              <AutoRotatingCarousel />
-            </div>
             <HeroSection />
             <CallToAction />
           </>

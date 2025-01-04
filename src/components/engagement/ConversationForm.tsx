@@ -14,10 +14,10 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
 const formSchema = z.object({
-  comfort_level: z.enum(["very_comfortable", "comfortable", "uncomfortable", "very_uncomfortable"]),
+  comfort_level: z.enum(["very_comfortable", "comfortable", "uncomfortable", "very_uncomfortable"]).optional(),
   comments: z.string().optional(),
   conversation_date: z.string(),
-  participant_count: z.number().min(1),
+  participant_count: z.number().min(1)
 });
 
 type FormData = z.infer<typeof formSchema>;

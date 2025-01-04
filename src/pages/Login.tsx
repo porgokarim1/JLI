@@ -47,7 +47,8 @@ const Login = () => {
             <img 
               src="https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/lesson_images/logo.png?t=2025-01-02T06%3A41%3A20.422Z"
               alt="Logo"
-              className="h-12"
+              className="h-12 cursor-pointer"
+              onClick={() => navigate("/")}
             />
           </div>
           <h1 className="text-4xl font-black mb-2">

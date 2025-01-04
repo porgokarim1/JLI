@@ -1,13 +1,11 @@
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CampusSelector } from "../CampusSelector";
 
 interface CampusInfoStepProps {
   formData: {
     campus: string;
-    organization: string;
   };
   onChange: (field: string, value: string) => void;
   onNext: () => void;
@@ -16,7 +14,7 @@ interface CampusInfoStepProps {
 
 export const CampusInfoStep = ({ formData, onChange, onNext, onBack }: CampusInfoStepProps) => {
   const handleNext = () => {
-    if (!formData.campus || !formData.organization) {
+    if (!formData.campus) {
       return;
     }
     onNext();
@@ -37,23 +35,6 @@ export const CampusInfoStep = ({ formData, onChange, onNext, onBack }: CampusInf
             onChange={(value) => onChange("campus", value)}
           />
         </div>
-
-        <div>
-          <Label htmlFor="organization">Organization</Label>
-          <Select
-            value={formData.organization}
-            onValueChange={(value) => onChange("organization", value)}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Select your organization" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="student-center">Student Center</SelectItem>
-              <SelectItem value="mosad">Mosad</SelectItem>
-              <SelectItem value="other">Other</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
       </div>
 
       <div className="flex gap-4">
@@ -68,7 +49,7 @@ export const CampusInfoStep = ({ formData, onChange, onNext, onBack }: CampusInf
         <Button 
           onClick={handleNext}
           className="flex-1"
-          disabled={!formData.campus || !formData.organization}
+          disabled={!formData.campus}
         >
           Next Step
           <ArrowRight className="ml-2 h-4 w-4" />

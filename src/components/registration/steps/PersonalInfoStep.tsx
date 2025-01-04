@@ -98,7 +98,7 @@ export const PersonalInfoStep = ({ formData, onChange, onNext, onBack }: Persona
         
         <Button
           variant="outline"
-          onClick={onBack}
+          onClick={() => navigate("/")}
           className="w-full border-primary text-primary hover:bg-primary/10"
         >
           <Home className="mr-2 h-4 w-4" />

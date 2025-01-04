@@ -12,7 +12,6 @@ interface RegistrationFormProps {
     email: string;
     phone: string;
     campus: string;
-    organization: string;
     agreeToTerms: boolean;
     agreeToDisclaimer: boolean;
   };

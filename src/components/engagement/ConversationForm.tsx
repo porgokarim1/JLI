@@ -2,72 +2,87 @@ import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Form } from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import ComfortLevelField from "./conversation/ComfortLevelField";
+import CommentsField from "./conversation/CommentsField";
+import ConversationDateField from "./conversation/ConversationDateField";
+import ParticipantCounter from "./conversation/ParticipantCounter";
 
-type ComfortLevel = "very_comfortable" | "comfortable" | "uncomfortable" | "very_uncomfortable";
+const formSchema = z.object({
+  comfort_level: z.enum(["very_comfortable", "comfortable", "uncomfortable", "very_uncomfortable"]),
+  comments: z.string().optional(),
+  conversation_date: z.string(),
+  participant_count: z.number().min(1).max(10),
+});
 
-const ConversationForm = () => {
-  const [comfortLevel, setComfortLevel] = useState<ComfortLevel | null>(null);
-  const [comments, setComments] = useState("");
+type FormData = z.infer<typeof formSchema>;
 
-  const handleSubmit = async () => {
-    if (!comfortLevel) {
-      toast.error("Please select your comfort level.");
-      return;
-    }
+interface ConversationFormProps {
+  initialData?: FormData;
+  onSuccess?: () => void;
+}
 
+const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => {
+  const [participantCount, setParticipantCount] = useState(initialData?.participant_count || 1);
+  
+  const form = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+    defaultValues: initialData || {
+      comfort_level: undefined,
+      comments: "",
+      conversation_date: new Date().toISOString().split("T")[0],
+      participant_count: 1,
+    },
+  });
+
+  const onSubmit = async (data: FormData) => {
     try {
-      const { error } = await supabase.from("conversations").insert([
-        {
-          comfort_level: comfortLevel,
-          comments,
-          conversation_date: new Date().toISOString(),
-          user_id: supabase.auth.user()?.id,
-        },
-      ]);
-
-      if (error) {
-        throw error;
+      const user = await supabase.auth.getUser();
+      if (!user.data.user) {
+        toast.error("You must be logged in to record a conversation");
+        return;
       }
 
-      toast.success("Conversation recorded successfully!");
-      setComfortLevel(null);
-      setComments("");
-    } catch (error) {
+      const { error } = await supabase.from("conversations").upsert({
+        ...data,
+        participant_count: participantCount,
+        user_id: user.data.user.id,
+        ...(initialData?.id ? { id: initialData.id } : {}),
+      });
+
+      if (error) throw error;
+
+      toast.success(initialData ? "Conversation updated successfully!" : "Conversation recorded successfully!");
+      form.reset();
+      onSuccess?.();
+    } catch (error: any) {
       toast.error("Error recording conversation: " + error.message);
     }
   };
 
   return (
-    <div className="space-y-4">
-      <div>
-        <Label>How comfortable do you feel discussing this topic?</Label>
-        <RadioGroup value={comfortLevel} onValueChange={setComfortLevel} className="flex flex-col space-y-2">
-          <RadioGroupItem value="very_comfortable" id="very_comfortable" />
-          <Label htmlFor="very_comfortable">Very Comfortable</Label>
-          <RadioGroupItem value="comfortable" id="comfortable" />
-          <Label htmlFor="comfortable">Comfortable</Label>
-          <RadioGroupItem value="uncomfortable" id="uncomfortable" />
-          <Label htmlFor="uncomfortable">Uncomfortable</Label>
-          <RadioGroupItem value="very_uncomfortable" id="very_uncomfortable" />
-          <Label htmlFor="very_uncomfortable">Very Uncomfortable</Label>
-        </RadioGroup>
-      </div>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <ComfortLevelField form={form} />
+        <CommentsField form={form} />
+        <ConversationDateField form={form} />
+        
+        <div className="space-y-2">
+          <label className="text-sm font-medium">Number of Participants</label>
+          <ParticipantCounter 
+            value={participantCount} 
+            onChange={setParticipantCount} 
+          />
+        </div>
 
-      <div>
-        <Label htmlFor="comments">Additional Comments</Label>
-        <Textarea
-          id="comments"
-          value={comments}
-          onChange={(e) => setComments(e.target.value)}
-          placeholder="Share your thoughts..."
-        />
-      </div>
-
-      <Button onClick={handleSubmit}>Submit</Button>
-    </div>
+        <Button type="submit" className="w-full">
+          {initialData ? "Update" : "Submit"}
+        </Button>
+      </form>
+    </Form>
   );
 };
 

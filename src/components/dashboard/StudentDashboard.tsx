@@ -31,7 +31,7 @@ const StudentDashboard = ({ conversationCount }: StudentDashboardProps) => {
         {/* Progress Dashboard - Minimized */}
         <Card className="bg-white/90 backdrop-blur-sm">
           <CardHeader>
-            <CardTitle>Learning Progress</CardTitle>
+            <CardTitle>Learning progress</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid gap-4">
@@ -43,7 +43,7 @@ const StudentDashboard = ({ conversationCount }: StudentDashboardProps) => {
         {/* Conversation Progress */}
         <Card className="bg-white/90 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle>Conversation Progress</CardTitle>
+            <CardTitle>Conversation count</CardTitle>
             <Dialog open={isConversationDialogOpen} onOpenChange={setIsConversationDialogOpen}>
               <DialogTrigger asChild>
                 <Button className="bg-yellow-400 hover:bg-yellow-500 text-black">
@@ -52,9 +52,9 @@ const StudentDashboard = ({ conversationCount }: StudentDashboardProps) => {
                 </Button>
               </DialogTrigger>
               <DialogContent className="w-[90vw] max-w-[600px] max-h-[90vh] overflow-y-auto">
-                <DialogHeader>
+{/*                 <DialogHeader>
                   <DialogTitle>New Conversation</DialogTitle>
-                </DialogHeader>
+                </DialogHeader> */}
                 <ConversationForm onSuccess={() => setIsConversationDialogOpen(false)} />
               </DialogContent>
             </Dialog>
@@ -71,7 +71,7 @@ const StudentDashboard = ({ conversationCount }: StudentDashboardProps) => {
       </div>
 
       <div className="mb-8">
-        <h2 className="text-2xl font-bold mb-6">Your Learning Journey</h2>
+        <h2 className="text-2xl font-bold mb-6">Your learning journey</h2>
         <LessonsList />
       </div>
 

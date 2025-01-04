@@ -14,9 +14,10 @@ interface PersonalInfoStepProps {
   };
   onChange: (field: string, value: string) => void;
   onNext: () => void;
+  onBack: () => void;
 }
 
-export const PersonalInfoStep = ({ formData, onChange, onNext }: PersonalInfoStepProps) => {
+export const PersonalInfoStep = ({ formData, onChange, onNext, onBack }: PersonalInfoStepProps) => {
   const navigate = useNavigate();
   
   const handleNext = () => {
@@ -81,10 +82,6 @@ export const PersonalInfoStep = ({ formData, onChange, onNext }: PersonalInfoSte
               <RadioGroupItem value="female" id="female" />
               <Label htmlFor="female">Female</Label>
             </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="undisclosed" id="undisclosed" />
-              <Label htmlFor="undisclosed">Prefer not to say</Label>
-            </div>
           </RadioGroup>
         </div>
       </div>
@@ -101,7 +98,7 @@ export const PersonalInfoStep = ({ formData, onChange, onNext }: PersonalInfoSte
         
         <Button
           variant="outline"
-          onClick={() => navigate("/")}
+          onClick={onBack}
           className="w-full border-primary text-primary hover:bg-primary/10"
         >
           <Home className="mr-2 h-4 w-4" />

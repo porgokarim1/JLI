@@ -128,7 +128,17 @@ const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => 
       component: ComfortStep,
       props: {
         form,
-        onNext: () => setCurrentStep(3),
+        onNext: () => {
+          const comfortLevel = form.getValues().comfort_level;
+          if (!comfortLevel) {
+            form.setError("comfort_level", {
+              type: "required",
+              message: "Please select your comfort level"
+            });
+            return;
+          }
+          setCurrentStep(3);
+        },
         onBack: () => setCurrentStep(1),
       }
     },

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   HoverCard,
   HoverCardContent,
@@ -67,22 +67,25 @@ const EngagementMetrics = ({ type }: EngagementMetricsProps) => {
     ).length || 0;
 
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-sm font-medium">Learning Progress</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-2xl font-bold">{completedLessons}</div>
-          <div className="text-xs text-muted-foreground">
-            Completed Lessons
-          </div>
-          <div className="mt-4 h-2 rounded-full bg-gray-200">
-            <div
-              className="h-2 rounded-full bg-primary transition-all"
-              style={{
-                width: `${Math.min((completedLessons / 10) * 100, 100)}%`,
-              }}
-            />
+      <Card className="bg-white/90 backdrop-blur-sm">
+        <CardContent className="p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-lg font-semibold">{completedLessons}</div>
+              <div className="text-xs text-muted-foreground">
+                Completed Lessons
+              </div>
+            </div>
+            <div className="w-32">
+              <div className="h-2 rounded-full bg-gray-200">
+                <div
+                  className="h-2 rounded-full bg-primary transition-all"
+                  style={{
+                    width: `${Math.min((completedLessons / 10) * 100, 100)}%`,
+                  }}
+                />
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -94,45 +97,49 @@ const EngagementMetrics = ({ type }: EngagementMetricsProps) => {
   const nextThreshold = getNextRewardThreshold(conversationCount);
 
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium">
-          Next Reward Tier Progress
-          <HoverCard>
-            <HoverCardTrigger asChild>
-              <Info className="h-4 w-4 ml-2 inline-block cursor-help text-gray-500" />
-            </HoverCardTrigger>
-            <HoverCardContent className="w-80">
-              <div className="space-y-2">
-                <h4 className="text-sm font-semibold">Reward Tiers</h4>
-                <div className="text-sm">
-                  <p>🥉 Bronze: 7 conversations</p>
-                  <p>🥈 Silver: 16 conversations</p>
-                  <p>🥇 Gold: 25 conversations</p>
-                </div>
-              </div>
-            </HoverCardContent>
-          </HoverCard>
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="text-2xl font-bold">{conversationCount}</div>
-        <div className="text-xs text-muted-foreground">
-          {currentTier ? (
-            <span>Current Tier: {currentTier} 🎉</span>
-          ) : nextThreshold ? (
-            <span>{nextThreshold - conversationCount} more conversations until {getRewardTier(nextThreshold)}!</span>
-          ) : (
-            <span>Keep up the great work!</span>
-          )}
-        </div>
-        <div className="mt-4 h-2 rounded-full bg-gray-200">
-          <div
-            className="h-2 rounded-full bg-primary transition-all"
-            style={{
-              width: `${Math.min((conversationCount / 25) * 100, 100)}%`,
-            }}
-          />
+    <Card className="bg-white/90 backdrop-blur-sm">
+      <CardContent className="p-4">
+        <div className="flex items-center justify-between">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium">Progress</span>
+              <HoverCard>
+                <HoverCardTrigger asChild>
+                  <Info className="h-4 w-4 cursor-help text-gray-500" />
+                </HoverCardTrigger>
+                <HoverCardContent className="w-80">
+                  <div className="space-y-2">
+                    <h4 className="text-sm font-semibold">Reward Tiers</h4>
+                    <div className="text-sm">
+                      <p>🥉 Bronze: 7 conversations</p>
+                      <p>🥈 Silver: 16 conversations</p>
+                      <p>🥇 Gold: 25 conversations</p>
+                    </div>
+                  </div>
+                </HoverCardContent>
+              </HoverCard>
+            </div>
+            <div className="text-lg font-semibold">{conversationCount}</div>
+            <div className="text-xs text-muted-foreground">
+              {currentTier ? (
+                <span>Current Tier: {currentTier} 🎉</span>
+              ) : nextThreshold ? (
+                <span>{nextThreshold - conversationCount} until {getRewardTier(nextThreshold)}!</span>
+              ) : (
+                <span>Keep it up!</span>
+              )}
+            </div>
+          </div>
+          <div className="w-32">
+            <div className="h-2 rounded-full bg-gray-200">
+              <div
+                className="h-2 rounded-full bg-primary transition-all"
+                style={{
+                  width: `${Math.min((conversationCount / 25) * 100, 100)}%`,
+                }}
+              />
+            </div>
+          </div>
         </div>
       </CardContent>
     </Card>

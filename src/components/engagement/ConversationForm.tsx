@@ -10,7 +10,7 @@ import ParticipantsStep from "./conversation/ParticipantsStep";
 import ComfortStep from "./conversation/ComfortStep";
 import FinalStep from "./conversation/FinalStep";
 import confetti from 'canvas-confetti';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
 const formSchema = z.object({
@@ -90,6 +90,7 @@ const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => 
       setShowThankYou(true);
       startConfetti();
       form.reset();
+      onSuccess?.();
     } catch (error: any) {
       toast.error("Error recording conversation: " + error.message);
     } finally {
@@ -153,9 +154,6 @@ const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => 
 
       <Dialog open={showThankYou} onOpenChange={setShowThankYou}>
         <DialogContent className="text-center">
-          <DialogHeader>
-            <DialogTitle className="text-2xl">Thank You! 🎉</DialogTitle>
-          </DialogHeader>
           <p className="py-4">Your conversation has been recorded successfully!</p>
           <Button onClick={handleThankYouClose} className="mt-4">
             OK

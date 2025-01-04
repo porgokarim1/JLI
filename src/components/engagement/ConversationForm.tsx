@@ -48,6 +48,7 @@ const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => 
 
       const { error } = await supabase.from("conversations").upsert({
         ...data,
+        conversation_date: data.conversation_date,
         participant_count: participantCount,
         user_id: user.data.user.id,
         ...(initialData?.id ? { id: initialData.id } : {}),

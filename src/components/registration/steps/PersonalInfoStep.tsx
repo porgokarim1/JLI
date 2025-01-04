@@ -9,6 +9,7 @@ interface PersonalInfoStepProps {
   formData: {
     firstName: string;
     lastName: string;
+    middleName: string;
     gender: string;
   };
   onChange: (field: string, value: string) => void;
@@ -19,7 +20,6 @@ export const PersonalInfoStep = ({ formData, onChange, onNext }: PersonalInfoSte
   const navigate = useNavigate();
   
   const handleNext = () => {
-    // Validate that names are not empty or just spaces
     if (!formData.firstName.trim() || !formData.lastName.trim() || !formData.gender) {
       return;
     }
@@ -41,6 +41,16 @@ export const PersonalInfoStep = ({ formData, onChange, onNext }: PersonalInfoSte
             required
             value={formData.firstName}
             onChange={(e) => onChange("firstName", e.target.value)}
+            className="border-primary focus:ring-primary"
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="middleName">Your Middle Name (Optional)</Label>
+          <Input
+            id="middleName"
+            value={formData.middleName}
+            onChange={(e) => onChange("middleName", e.target.value)}
             className="border-primary focus:ring-primary"
           />
         </div>
@@ -70,6 +80,10 @@ export const PersonalInfoStep = ({ formData, onChange, onNext }: PersonalInfoSte
             <div className="flex items-center space-x-2">
               <RadioGroupItem value="female" id="female" />
               <Label htmlFor="female">Female</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="undisclosed" id="undisclosed" />
+              <Label htmlFor="undisclosed">Prefer not to say</Label>
             </div>
           </RadioGroup>
         </div>

@@ -5,9 +5,9 @@ const CallToAction = () => {
   const navigate = useNavigate();
   
   return (
-    <div className="container mx-auto px-4 py-16 text-center">
-      <h2 className="text-3xl font-bold mb-6 text-slate-800">Ready to Get Started?</h2>
-      <p className="text-xl text-slate-700 mb-8 max-w-2xl mx-auto">
+    <div className="container mx-auto px-4 py-8 text-center">
+      <h2 className="text-3xl font-bold mb-4 text-slate-800">Ready to Get Started?</h2>
+      <p className="text-xl text-slate-700 mb-6 max-w-2xl mx-auto">
         Join our community and become part of the conversation about Israel through a Jewish lens.
       </p>
       <div className="space-x-4">

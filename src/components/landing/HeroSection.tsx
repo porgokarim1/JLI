@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import SimpleSlideshow from "./SimpleSlideshow";
-import { BookOpen, Star } from "lucide-react";
+import { BookMarked, Star } from "lucide-react";
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -45,7 +45,7 @@ const HeroSection = () => {
               A four-part course on confronting the pervasive lies and misinformation 
               about Israel that Jewish students frequently face on college campuses, 
               equipping you with practical skills and effective responses.
-              <BookOpen className="inline-block ml-2 text-primary animate-bounce" />
+              <BookMarked className="inline-block ml-2 text-vibrant-purple animate-bounce" />
             </p>
             
             <div className="pt-4 flex flex-col sm:flex-row gap-4">

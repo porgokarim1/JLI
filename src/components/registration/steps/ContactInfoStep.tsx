@@ -3,7 +3,9 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import PhoneInput from 'react-phone-number-input';
+import { isValidPhoneNumber } from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
+import { toast } from "sonner";
 
 interface ContactInfoStepProps {
   formData: {
@@ -13,20 +15,30 @@ interface ContactInfoStepProps {
   onChange: (field: string, value: string) => void;
   onNext: () => void;
   onBack: () => void;
+  onSubmit: () => void;
+  isLoading: boolean;
 }
 
-export const ContactInfoStep = ({ formData, onChange, onNext, onBack }: ContactInfoStepProps) => {
+export const ContactInfoStep = ({ formData, onChange, onNext, onBack, onSubmit, isLoading }: ContactInfoStepProps) => {
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
-  const validatePhone = (phone: string | undefined) => {
-    return phone && phone.length >= 10;
+  const handlePhoneChange = (value: string | undefined) => {
+    if (value && !isValidPhoneNumber(value)) {
+      toast.error("Please enter a valid phone number");
+      return;
+    }
+    onChange("phone", value || "");
   };
 
   const handleNext = () => {
-    if (!validateEmail(formData.email) || !validatePhone(formData.phone)) {
+    if (!validateEmail(formData.email)) {
+      return;
+    }
+    if (!formData.phone || !isValidPhoneNumber(formData.phone)) {
+      toast.error("Please enter a valid phone number");
       return;
     }
     onNext();
@@ -63,12 +75,9 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack }: ContactI
               countryCallingCodeEditable={false}
               defaultCountry="US"
               value={formData.phone}
-              onChange={(value) => onChange("phone", value || "")}
+              onChange={handlePhoneChange}
             />
           </div>
-          {formData.phone && !validatePhone(formData.phone) && (
-            <p className="text-sm text-red-500 mt-1">Please enter a valid phone number</p>
-          )}
         </div>
       </div>
 
@@ -84,7 +93,7 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack }: ContactI
         <Button 
           onClick={handleNext}
           className="flex-1"
-          disabled={!validateEmail(formData.email) || !validatePhone(formData.phone)}
+          disabled={!validateEmail(formData.email) || !isValidPhoneNumber(formData.phone || "")}
         >
           Next Step
           <ArrowRight className="ml-2 h-4 w-4" />

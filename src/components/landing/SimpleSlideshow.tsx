@@ -13,7 +13,7 @@ const SimpleSlideshow = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, currentIndex === images.length - 1 ? 10000 : 5000); // 10 seconds for last image, 5 seconds for others
+    }, currentIndex === images.length - 1 ? 7000 : 3000); // 7 seconds for last image, 3 seconds for others
 
     return () => clearInterval(interval);
   }, [currentIndex]); // Added currentIndex as dependency to update interval timing

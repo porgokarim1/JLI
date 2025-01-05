@@ -2,36 +2,32 @@
 @tailwind components;
 @tailwind utilities;
  
+@import './styles/modern.css';
+@import './styles/navigation.css';
+@import './styles/animations.css';
+@import './styles/typography.css';
+
 @layer base {
   :root {
     --background: 0 0% 100%;
     --foreground: 0 0% 0%;
-
     --card: 0 0% 100%;
     --card-foreground: 0 0% 0%;
- 
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 0%;
- 
     --primary: 51 100% 50%;
     --primary-foreground: 0 0% 0%;
- 
     --secondary: 0 0% 0%;
     --secondary-foreground: 0 0% 100%;
- 
     --muted: 0 0% 50%;
     --muted-foreground: 0 0% 83%;
- 
     --accent: 51 100% 50%;
     --accent-foreground: 0 0% 0%;
- 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-
     --border: 0 0% 83%;
     --input: 0 0% 83%;
     --ring: 51 100% 50%;
- 
     --radius: 0.5rem;
   }
 
@@ -46,28 +42,20 @@
   .dark {
     --background: 0 0% 0%;
     --foreground: 0 0% 100%;
- 
     --card: 0 0% 0%;
     --card-foreground: 0 0% 100%;
- 
     --popover: 0 0% 0%;
     --popover-foreground: 0 0% 100%;
- 
     --primary: 51 100% 50%;
     --primary-foreground: 0 0% 0%;
- 
     --secondary: 0 0% 100%;
     --secondary-foreground: 0 0% 0%;
- 
     --muted: 0 0% 50%;
     --muted-foreground: 0 0% 83%;
- 
     --accent: 51 100% 50%;
     --accent-foreground: 0 0% 0%;
- 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
- 
     --border: 0 0% 50%;
     --input: 0 0% 50%;
     --ring: 51 100% 50%;
@@ -79,16 +67,10 @@
     @apply border-border;
   }
   body {
-    @apply bg-gradient-to-br from-purple-50 via-white to-blue-50;
+    @apply bg-gradient-to-br from-soft-purple via-white to-soft-blue;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-black tracking-tighter bg-gradient-to-r from-primary via-primary-dark to-primary bg-clip-text text-transparent;
-  }
-  .btn-primary {
-    @apply bg-gradient-to-r from-primary via-primary-dark to-primary text-primary-foreground hover:opacity-90 font-bold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5;
-  }
-  .btn-secondary {
-    @apply bg-gradient-to-r from-secondary to-gray-800 text-secondary-foreground hover:opacity-90 font-bold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5;
+    @apply font-black tracking-tighter bg-gradient-to-r from-vibrant-purple via-vibrant-pink to-vibrant-blue bg-clip-text text-transparent;
   }
 }
 

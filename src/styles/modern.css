@@ -1,0 +1,22 @@
+/* Modern Card Styles */
+.modern-card {
+  @apply rounded-xl bg-gradient-to-br from-white/90 to-white/50 backdrop-blur-md shadow-xl border border-white/20 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl;
+}
+
+/* Glassmorphism */
+.glass {
+  @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-xl;
+}
+
+/* Emoji Styles */
+.emoji {
+  @apply inline-block animate-bounce;
+}
+
+/* 3D Text Effect */
+.text-3d {
+  text-shadow: 1px 1px 0 #FFD700,
+               2px 2px 0 #E6C200,
+               3px 3px 0 #CCA900,
+               4px 4px 0 #B39000;
+}

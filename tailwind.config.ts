@@ -54,7 +54,6 @@ export default {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))'
         },
-        // New vibrant colors
         vibrant: {
           purple: '#8B5CF6',
           pink: '#D946EF',

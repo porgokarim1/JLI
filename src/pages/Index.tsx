@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useNavigate } from "react-router-dom";
 import HeroSection from "@/components/landing/HeroSection";
 import CallToAction from "@/components/landing/CallToAction";
 import NavigationBar from "@/components/navigation/NavigationBar";
@@ -13,13 +14,59 @@ const Index = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [userRole, setUserRole] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const checkUser = async () => {
       try {
         const { data: { session }, error } = await supabase.auth.getSession();
-        if (error) throw error;
+        if (error) {
+          console.error('Session error:', error);
+          setIsLoggedIn(false);
+          setIsLoading(false);
+          return;
+        }
         
+        if (!session) {
+          setIsLoggedIn(false);
+          setIsLoading(false);
+          return;
+        }
+
+        setIsLoggedIn(true);
+        
+        const { data: profile, error: profileError } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', session.user.id)
+          .single();
+          
+        if (profileError) {
+          console.error('Profile error:', profileError);
+          toast.error('Error loading user profile');
+          return;
+        }
+
+        setUserRole(profile?.role || null);
+      } catch (error) {
+        console.error('Error checking auth status:', error);
+        toast.error('Error checking authentication status');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkUser();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_OUT') {
+        setIsLoggedIn(false);
+        setUserRole(null);
+        navigate('/login');
+        return;
+      }
+
+      if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
         setIsLoggedIn(!!session);
         
         if (session?.user) {
@@ -31,50 +78,28 @@ const Index = () => {
             
           setUserRole(profile?.role || null);
         }
-      } catch (error) {
-        console.error('Error checking auth status:', error);
-        toast.error('Error checking authentication status');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    checkUser();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      setIsLoggedIn(!!session);
-      
-      if (session?.user) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('role')
-          .eq('id', session.user.id)
-          .single();
-          
-        setUserRole(profile?.role || null);
-      } else {
-        setUserRole(null);
       }
     });
 
     return () => {
       subscription.unsubscribe();
     };
-  }, []);
+  }, [navigate]);
 
   const { data: conversationCount } = useQuery({
     queryKey: ['conversation-count'],
     queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return 0;
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) return 0;
 
       const { count } = await supabase
         .from('conversations')
         .select('*', { count: 'exact', head: true })
-        .eq('user_id', user.id);
+        .eq('user_id', session.user.id);
 
       return count || 0;
     },
+    enabled: isLoggedIn,
   });
 
   if (isLoading) {
@@ -86,7 +111,6 @@ const Index = () => {
   }
 
   const renderDashboard = () => {
-    console.log('Current user role:', userRole); // Debug log
     switch (userRole) {
       case 'instructor':
         return <InstructorDashboard />;

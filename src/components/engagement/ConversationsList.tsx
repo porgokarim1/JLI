@@ -59,9 +59,6 @@ const ConversationsList = () => {
 
   return (
     <Card className="bg-white/90 backdrop-blur-sm">
-      <CardHeader>
-        <CardTitle>Recent Conversations</CardTitle>
-      </CardHeader>
       <CardContent>
         <div className="hidden md:block">
           <table className="w-full">
@@ -79,7 +76,7 @@ const ConversationsList = () => {
                 <tr key={conversation.id} className="border-t">
                   <td className="py-4">
                     <div className="flex items-center">
-                      <Users className="h-4 w-4 mr-2" />
+                      <Users className="h-4 w-4 mr-2 text-primary" />
                       {conversation.participant_count} {conversation.participant_count === 1 ? 'person' : 'people'}
                     </div>
                   </td>
@@ -98,7 +95,7 @@ const ConversationsList = () => {
                       size="sm"
                       onClick={() => setEditingConversation(conversation)}
                     >
-                      <Edit className="h-4 w-4" />
+                      <Edit className="h-4 w-4 text-primary" />
                     </Button>
                   </td>
                 </tr>
@@ -113,7 +110,7 @@ const ConversationsList = () => {
               <AccordionItem key={conversation.id} value={conversation.id}>
                 <AccordionTrigger className="hover:no-underline">
                   <div className="flex flex-col items-start">
-                    <div className="flex items-center">
+                    <div className="flex items-center text-primary">
                       <Users className="h-4 w-4 mr-2" />
                       {conversation.participant_count} {conversation.participant_count === 1 ? 'person' : 'people'}
                     </div>
@@ -123,7 +120,7 @@ const ConversationsList = () => {
                   </div>
                 </AccordionTrigger>
                 <AccordionContent>
-                  <div className="space-y-2 pt-2">
+                  <div className="space-y-2 pt-2 bg-soft-purple/20 p-4 rounded-lg">
                     <div>
                       <span className="font-medium">Comments:</span>{" "}
                       {conversation.comments}

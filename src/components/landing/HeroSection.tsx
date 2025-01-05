@@ -48,10 +48,10 @@ const HeroSection = () => {
               <BookOpen className="inline-block ml-2 text-primary animate-bounce" />
             </p>
             
-            <div className="pt-4 space-x-4 flex flex-col sm:flex-row gap-4 sm:gap-0">
+            <div className="pt-4 flex flex-col sm:flex-row gap-4">
               <Button 
                 size="lg"
-                className="bg-primary text-primary-foreground hover:bg-primary-dark shadow-lg hover:shadow-xl transition-all group w-full sm:w-auto"
+                className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary-dark shadow-lg hover:shadow-xl transition-all group"
                 onClick={() => navigate("/register")}
               >
                 Join the Program
@@ -60,7 +60,7 @@ const HeroSection = () => {
               <Button 
                 size="lg"
                 variant="outline"
-                className="border-2 border-primary text-primary hover:bg-primary/10 group w-full sm:w-auto"
+                className="w-full sm:w-auto border-2 border-primary text-primary hover:bg-primary/10 group"
                 onClick={() => navigate("/login")}
               >
                 Login

@@ -24,14 +24,14 @@ const StudentDashboard = ({ conversationCount }: StudentDashboardProps) => {
   const [isConversationDialogOpen, setIsConversationDialogOpen] = useState(false);
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto p-4">
       <DashboardHeader />
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         {/* Progress Dashboard */}
         <Card className="bg-soft-blue border-2 border-primary/20 shadow-lg hover:shadow-xl transition-all duration-300">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="flex items-center gap-2">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="flex items-center gap-2 text-lg">
               <Target className="h-5 w-5 text-primary" />
               Learning progress
             </CardTitle>
@@ -45,8 +45,8 @@ const StudentDashboard = ({ conversationCount }: StudentDashboardProps) => {
 
         {/* Conversation Progress */}
         <Card className="bg-soft-yellow border-2 border-primary/20 shadow-lg hover:shadow-xl transition-all duration-300">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="flex items-center gap-2">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="flex items-center gap-2 text-lg">
               <Trophy className="h-5 w-5 text-primary" />
               Conversation count
             </CardTitle>
@@ -58,6 +58,9 @@ const StudentDashboard = ({ conversationCount }: StudentDashboardProps) => {
                 </Button>
               </DialogTrigger>
               <DialogContent className="w-[90vw] max-w-[600px] max-h-[90vh] overflow-y-auto">
+                <DialogHeader>
+                  <DialogTitle>New Conversation</DialogTitle>
+                </DialogHeader>
                 <ConversationForm onSuccess={() => setIsConversationDialogOpen(false)} />
               </DialogContent>
             </Dialog>
@@ -73,8 +76,8 @@ const StudentDashboard = ({ conversationCount }: StudentDashboardProps) => {
         </Card>
       </div>
 
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
           <BookOpen className="h-6 w-6 text-primary" />
           Your learning journey
           <Sparkles className="h-5 w-5 text-primary animate-pulse" />
@@ -82,8 +85,18 @@ const StudentDashboard = ({ conversationCount }: StudentDashboardProps) => {
         <LessonsList />
       </div>
 
-      <div className="mt-8">
-        <ConversationsList />
+      <div className="mt-6">
+        <Card className="bg-soft-purple border-2 border-primary/20 shadow-lg">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <MessageSquarePlus className="h-5 w-5 text-primary" />
+              Recent Conversations
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ConversationsList />
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

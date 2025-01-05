@@ -14,9 +14,7 @@ const HeroSection = () => {
               <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-none relative">
                 K
                 <span className="absolute -top-4 left-[0.45em]">'</span>
-                N
-                <span className="absolute -top-4 left-[1.45em]">'</span>
-                OW
+                NOW
                 <br />
                 ISRAEL
               </h1>

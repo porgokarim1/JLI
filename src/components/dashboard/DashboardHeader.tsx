@@ -46,7 +46,7 @@ const DashboardHeader = () => {
   };
 
   return (
-    <div className="container mx-auto px-0 mt-0">
+    <div className="container mx-auto px-4 mt-20 md:mt-24 lg:mt-16">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold text-slate-800">
           {getGreeting()}{firstName ? `, ${firstName}` : ''}!

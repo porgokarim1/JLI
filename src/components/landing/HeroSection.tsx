@@ -11,10 +11,12 @@ const HeroSection = () => {
         <div className="text-left space-y-8 relative z-10 bg-white/80 md:bg-transparent p-4 md:p-0 rounded-lg">
           <div className="space-y-6">
             <div className="space-y-4">
-              <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-none">
+              <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-none relative">
                 K
-                <span className="absolute -top-1 left-[0.45em]">'</span>
-                NOW
+                <span className="absolute -top-4 left-[0.45em]">'</span>
+                N
+                <span className="absolute -top-4 left-[1.45em]">'</span>
+                OW
                 <br />
                 ISRAEL
               </h1>

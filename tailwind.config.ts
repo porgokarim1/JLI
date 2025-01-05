@@ -53,6 +53,22 @@ export default {
         card: {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))'
+        },
+        // New vibrant colors
+        vibrant: {
+          purple: '#8B5CF6',
+          pink: '#D946EF',
+          orange: '#F97316',
+          blue: '#0EA5E9'
+        },
+        soft: {
+          green: '#F2FCE2',
+          yellow: '#FEF7CD',
+          orange: '#FEC6A1',
+          purple: '#E5DEFF',
+          pink: '#FFDEE2',
+          peach: '#FDE1D3',
+          blue: '#D3E4FD'
         }
       },
       borderRadius: {
@@ -68,11 +84,21 @@ export default {
         'accordion-up': {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' }
+        },
+        'float': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' }
+        },
+        'pulse-soft': {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.7' }
         }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out'
+        'accordion-up': 'accordion-up 0.2s ease-out',
+        'float': 'float 3s ease-in-out infinite',
+        'pulse-soft': 'pulse-soft 2s ease-in-out infinite'
       }
     }
   },

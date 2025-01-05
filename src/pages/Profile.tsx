@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { Profile } from "@/components/dashboard/types";
 import { ProfileForm } from "@/components/profile/ProfileForm";
 import { AboutSection } from "@/components/profile/AboutSection";
+import { Sparkles, User } from "lucide-react";
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -85,7 +86,7 @@ const ProfilePage = () => {
         return;
       }
 
-      toast.success('Profile updated successfully');
+      toast.success('Profile updated successfully 🎉');
       setIsEditing(false);
       fetchProfile();
     } catch (error) {
@@ -104,17 +105,31 @@ const ProfilePage = () => {
   if (!profile) return null;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
       <NavigationBar />
       <div className="container mx-auto px-4 pt-24 pb-8">
         <div className="max-w-4xl mx-auto space-y-8">
-          <Card className="max-w-2xl mx-auto">
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold mb-2 flex items-center justify-center gap-2">
+              <User className="h-8 w-8 text-primary" />
+              <span className="bg-gradient-to-r from-primary to-purple-600 text-transparent bg-clip-text">
+                Your Profile
+              </span>
+              <Sparkles className="h-8 w-8 text-yellow-400 animate-pulse" />
+            </h1>
+            <p className="text-gray-600">Manage your personal information and preferences ✨</p>
+          </div>
+
+          <Card className="border-primary/20 bg-white/80 backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="flex justify-between items-center">
-                <span>Profile Information</span>
+                <span className="flex items-center gap-2">
+                  Profile Information
+                </span>
                 <Button 
                   variant={isEditing ? "destructive" : "outline"}
                   onClick={() => setIsEditing(!isEditing)}
+                  className="transition-all hover:scale-105"
                 >
                   {isEditing ? 'Cancel' : 'Edit Profile'}
                 </Button>

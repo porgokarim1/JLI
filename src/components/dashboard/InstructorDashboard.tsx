@@ -40,7 +40,7 @@ const InstructorDashboard = () => {
   const regenerateAttendanceCode = async (scheduleId: string) => {
     try {
       const { data, error } = await supabase
-        .rpc('regenerate_attendance_code', { schedule_id: scheduleId });
+        .rpc('generate_attendance_code', { schedule_id: scheduleId });
       
       if (error) throw error;
       

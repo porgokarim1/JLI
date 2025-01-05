@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Search, UserCircle2 } from "lucide-react";
+import type { StudentProgressOverview } from "@/types/database";
 
 export const StudentList = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -15,8 +16,12 @@ export const StudentList = () => {
       const { data, error } = await supabase
         .from('student_progress_overview')
         .select('*');
-      if (error) throw error;
-      return data;
+      
+      if (error) {
+        console.error('Error fetching student progress:', error);
+        throw error;
+      }
+      return data as StudentProgressOverview[];
     }
   });
 
@@ -25,6 +30,10 @@ export const StudentList = () => {
     student.last_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     student.email?.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="space-y-4">

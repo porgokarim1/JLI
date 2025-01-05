@@ -25,9 +25,9 @@ export default {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         primary: {
-          DEFAULT: '#FFD700',
-          dark: '#E6C200',
-          light: '#FFE44D',
+          DEFAULT: '#33C3F0',
+          dark: '#0FA0CE',
+          light: '#66D4F4',
           foreground: '#000000'
         },
         secondary: {
@@ -39,11 +39,11 @@ export default {
           foreground: 'hsl(var(--destructive-foreground))'
         },
         muted: {
-          DEFAULT: '#808080',
+          DEFAULT: '#8E9196',
           foreground: '#D3D3D3'
         },
         accent: {
-          DEFAULT: '#FFD700',
+          DEFAULT: '#9b87f5',
           foreground: '#000000'
         },
         popover: {
@@ -55,10 +55,10 @@ export default {
           foreground: 'hsl(var(--card-foreground))'
         },
         vibrant: {
-          purple: '#8B5CF6',
+          purple: '#9b87f5',
           pink: '#D946EF',
           orange: '#F97316',
-          blue: '#0EA5E9'
+          blue: '#1EAEDB'
         },
         soft: {
           green: '#F2FCE2',

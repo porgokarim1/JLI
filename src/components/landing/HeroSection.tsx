@@ -17,7 +17,7 @@ const HeroSection = () => {
               NOW
               <br />
               ISRAEL
-              <span className="inline-block animate-bounce ml-2">✨</span>
+              <Star className="inline-block ml-2 text-vibrant-blue animate-float" fill="currentColor" />
             </h1>
             
             <h2 className="text-xl md:text-2xl lg:text-3xl font-bold leading-tight">
@@ -37,7 +37,7 @@ const HeroSection = () => {
                 <span className="nav-link text-vibrant-orange hover:text-vibrant-purple transition-colors">
                   WITH CONFIDENCE
                 </span>
-                <span className="inline-block animate-pulse ml-2">💪</span>
+                <Star className="inline-block ml-2 text-vibrant-blue animate-pulse" fill="currentColor" />
               </div>
             </h2>
 
@@ -45,13 +45,13 @@ const HeroSection = () => {
               A four-part course on confronting the pervasive lies and misinformation 
               about Israel that Jewish students frequently face on college campuses, 
               equipping you with practical skills and effective responses.
-              <span className="inline-block animate-bounce ml-2">📚</span>
+              <Star className="inline-block ml-2 text-vibrant-blue animate-bounce" fill="currentColor" />
             </p>
             
             <div className="pt-4 space-x-4">
               <Button 
                 size="lg"
-                className="modern-card bg-gradient-to-r from-vibrant-purple to-vibrant-pink text-white hover:opacity-90 shadow-lg hover:shadow-xl transition-all group"
+                className="modern-card bg-gradient-to-r from-soft-purple to-soft-blue text-vibrant-purple hover:opacity-90 shadow-lg hover:shadow-xl transition-all group"
                 onClick={() => navigate("/register")}
               >
                 Join the Program
@@ -64,7 +64,7 @@ const HeroSection = () => {
                 onClick={() => navigate("/login")}
               >
                 Login
-                <Star className="ml-2 w-4 h-4 group-hover:animate-pulse" />
+                <Star className="ml-2 w-4 h-4 group-hover:animate-pulse" fill="currentColor" />
               </Button>
             </div>
           </div>

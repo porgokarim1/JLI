@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import AutoRotatingCarousel from "./AutoRotatingCarousel";
+import SimpleSlideshow from "./SimpleSlideshow";
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -12,7 +12,9 @@ const HeroSection = () => {
           <div className="space-y-6">
             <div className="space-y-4">
               <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-none">
-                KNOW
+                K
+                <span className="absolute -top-1 left-[0.45em]">'</span>
+                NOW
                 <br />
                 ISRAEL
               </h1>
@@ -52,7 +54,7 @@ const HeroSection = () => {
           </div>
         </div>
         <div className="w-full h-[400px] md:h-[600px] lg:h-[800px]">
-          <AutoRotatingCarousel />
+          <SimpleSlideshow />
         </div>
       </div>
     </div>

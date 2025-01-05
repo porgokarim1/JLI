@@ -17,7 +17,7 @@ const images = [
 
 const AutoRotatingCarousel = () => {
   const autoplayPlugin = Autoplay({
-    delay: 5000,
+    delay: 2000,
     stopOnInteraction: false,
     stopOnMouseEnter: true
   });

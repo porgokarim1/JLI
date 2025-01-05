@@ -58,7 +58,7 @@ const HeroSection = () => {
             </p>
           </div>
         </div>
-        <div className="w-full h-[400px] md:h-[600px]">
+        <div className="w-full h-[400px] md:h-[600px] lg:h-[800px]">
           <AutoRotatingCarousel />
         </div>
       </div>

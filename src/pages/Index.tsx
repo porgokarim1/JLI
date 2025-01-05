@@ -100,7 +100,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
       <NavigationBar />
-      <div className="pt-16">
+      <div className="pt-12">
         {!isLoggedIn ? (
           <>
             <HeroSection />

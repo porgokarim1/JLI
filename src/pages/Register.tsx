@@ -4,6 +4,7 @@ import { PersonalInfoStep } from "@/components/registration/steps/PersonalInfoSt
 import { ContactInfoStep } from "@/components/registration/steps/ContactInfoStep";
 import { CampusInfoStep } from "@/components/registration/steps/CampusInfoStep";
 import { FinalStep } from "@/components/registration/steps/FinalStep";
+import { GenderStep } from "@/components/registration/steps/GenderStep";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 

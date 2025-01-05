@@ -1,12 +1,18 @@
-/* Typography Styles */
 .heading-primary {
-  @apply text-6xl md:text-8xl font-black tracking-tighter leading-none bg-gradient-to-r from-primary via-primary-dark to-primary bg-clip-text text-transparent animate-fade-in;
+  @apply text-6xl md:text-8xl font-black tracking-tighter leading-none text-secondary;
 }
 
 .heading-secondary {
-  @apply text-4xl md:text-6xl font-black tracking-tighter leading-none bg-gradient-to-r from-primary via-primary-dark to-primary bg-clip-text text-transparent;
+  @apply text-4xl md:text-6xl font-black tracking-tighter leading-none text-primary;
 }
 
 .text-highlight {
-  @apply bg-gradient-to-r from-primary to-primary-light px-2 text-secondary inline-block rounded;
+  @apply border-b-2 border-primary text-secondary inline-block;
+}
+
+/* 3D Text Effect */
+.text-3d {
+  text-shadow: 1px 1px 0 #33C3F0,
+               2px 2px 0 #1EAEDB,
+               3px 3px 0 #403E43;
 }

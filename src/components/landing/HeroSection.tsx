@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import SimpleSlideshow from "./SimpleSlideshow";
-import { Sparkles, Star } from "lucide-react";
+import { Star } from "lucide-react";
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -17,50 +17,50 @@ const HeroSection = () => {
               NOW
               <br />
               ISRAEL
-              <Star className="inline-block ml-2 text-vibrant-blue animate-float" fill="currentColor" />
+              <Star className="inline-block ml-2 text-primary animate-float" fill="currentColor" />
             </h1>
             
             <h2 className="text-xl md:text-2xl lg:text-3xl font-bold leading-tight">
               <div className="relative inline-block">
-                <span className="nav-link text-vibrant-purple hover:text-vibrant-pink transition-colors">
+                <span className="nav-link text-secondary">
                   YOUR GUIDE TO ADDRESSING
                 </span>
               </div>
               <br />
               <div className="relative inline-block">
-                <span className="nav-link text-vibrant-blue hover:text-vibrant-orange transition-colors">
+                <span className="nav-link text-primary">
                   THE CURRENT CONFLICT
                 </span>
               </div>
               <br />
               <div className="relative inline-block">
-                <span className="nav-link text-vibrant-orange hover:text-vibrant-purple transition-colors">
+                <span className="nav-link text-secondary">
                   WITH CONFIDENCE
                 </span>
-                <Star className="inline-block ml-2 text-vibrant-blue animate-pulse" fill="currentColor" />
+                <Star className="inline-block ml-2 text-primary animate-pulse" fill="currentColor" />
               </div>
             </h2>
 
-            <p className="text-lg md:text-xl lg:text-2xl leading-relaxed max-w-2xl glass p-4 rounded-xl">
+            <p className="text-lg md:text-xl lg:text-2xl leading-relaxed max-w-2xl bg-soft-blue p-4 rounded-xl text-secondary">
               A four-part course on confronting the pervasive lies and misinformation 
               about Israel that Jewish students frequently face on college campuses, 
               equipping you with practical skills and effective responses.
-              <Star className="inline-block ml-2 text-vibrant-blue animate-bounce" fill="currentColor" />
+              <Star className="inline-block ml-2 text-primary animate-bounce" fill="currentColor" />
             </p>
             
             <div className="pt-4 space-x-4">
               <Button 
                 size="lg"
-                className="modern-card bg-gradient-to-r from-soft-purple to-soft-blue text-vibrant-purple hover:opacity-90 shadow-lg hover:shadow-xl transition-all group"
+                className="bg-primary text-primary-foreground hover:bg-primary-dark shadow-lg hover:shadow-xl transition-all group"
                 onClick={() => navigate("/register")}
               >
                 Join the Program
-                <Sparkles className="ml-2 w-4 h-4 group-hover:animate-spin" />
+                <Star className="ml-2 w-4 h-4 group-hover:animate-spin" fill="currentColor" />
               </Button>
               <Button 
                 size="lg"
                 variant="outline"
-                className="modern-card border-2 border-vibrant-purple text-vibrant-purple hover:bg-vibrant-purple/10 group"
+                className="border-2 border-primary text-primary hover:bg-primary/10 group"
                 onClick={() => navigate("/login")}
               >
                 Login

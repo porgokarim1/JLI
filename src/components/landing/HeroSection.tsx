@@ -10,19 +10,26 @@ const HeroSection = () => {
       <div className="grid md:grid-cols-2 gap-8 items-start relative">
         <div className="text-left space-y-8 relative z-10 bg-white/80 md:bg-transparent p-4 md:p-0 rounded-lg">
           <div className="space-y-6">
-            <div className="space-y-2">
+            <div className="space-y-4">
               <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-none">
-                <span className="text-primary">K</span>
-                <span className="text-black">NO</span>
-                <span className="text-primary">W</span>
-                <span className="text-black"> GENOCIDE</span>
+                KNOW
                 <br />
-                <span className="text-primary">K</span>
-                <span className="text-black">NO</span>
-                <span className="text-primary">W</span>
-                <br />
-                <span className="text-black">WAR</span>
+                ISRAEL
               </h1>
+              
+              <h2 className="text-2xl md:text-3xl font-bold leading-tight">
+                <span className="bg-primary px-2">YOUR GUIDE TO ADDRESSING</span>
+                <br />
+                <span className="bg-primary px-2">THE CURRENT CONFLICT</span>
+                <br />
+                <span className="bg-primary px-2">WITH CONFIDENCE</span>
+              </h2>
+
+              <p className="text-xl md:text-2xl leading-relaxed max-w-2xl">
+                A four-part course on confronting the pervasive lies and misinformation 
+                about Israel that Jewish students frequently face on college campuses, 
+                equipping you with practical skills and effective responses.
+              </p>
               
               <div className="pt-4 space-x-4">
                 <Button 
@@ -42,20 +49,6 @@ const HeroSection = () => {
                 </Button>
               </div>
             </div>
-
-            <p className="text-2xl md:text-3xl font-bold leading-tight">
-              <span className="bg-primary px-2">AMIDST</span> <span className="bg-primary px-2">THE</span> <span className="bg-primary px-2">CHAOS</span>,
-              <br />
-              NOTHING <span className="bg-primary px-2">REALLY</span> IS
-              <br />
-              <span className="bg-primary px-2">CLEAR</span>, AS <span className="bg-primary px-2">ANSWERS</span>
-              <br />
-              <span className="bg-primary px-2">SEEM</span> <span className="bg-primary px-2">ELUSIVE</span>, <span className="bg-primary px-2">AND</span>
-              <br />
-              <span className="bg-primary px-2">IT</span> <span className="bg-primary px-2">ALL</span> <span className="bg-primary px-2">APPEARS</span> <span className="bg-primary px-2">AS</span>
-              <br />
-              IT SEEMS.
-            </p>
           </div>
         </div>
         <div className="w-full h-[400px] md:h-[600px] lg:h-[800px]">

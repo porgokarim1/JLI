@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import SimpleSlideshow from "./SimpleSlideshow";
-import { Star } from "lucide-react";
+import { BookOpen, Star } from "lucide-react";
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -45,13 +45,13 @@ const HeroSection = () => {
               A four-part course on confronting the pervasive lies and misinformation 
               about Israel that Jewish students frequently face on college campuses, 
               equipping you with practical skills and effective responses.
-              <Star className="inline-block ml-2 text-primary animate-bounce" fill="currentColor" />
+              <BookOpen className="inline-block ml-2 text-primary animate-bounce" />
             </p>
             
-            <div className="pt-4 space-x-4">
+            <div className="pt-4 space-x-4 flex flex-col sm:flex-row gap-4 sm:gap-0">
               <Button 
                 size="lg"
-                className="bg-primary text-primary-foreground hover:bg-primary-dark shadow-lg hover:shadow-xl transition-all group"
+                className="bg-primary text-primary-foreground hover:bg-primary-dark shadow-lg hover:shadow-xl transition-all group w-full sm:w-auto"
                 onClick={() => navigate("/register")}
               >
                 Join the Program
@@ -60,7 +60,7 @@ const HeroSection = () => {
               <Button 
                 size="lg"
                 variant="outline"
-                className="border-2 border-primary text-primary hover:bg-primary/10 group"
+                className="border-2 border-primary text-primary hover:bg-primary/10 group w-full sm:w-auto"
                 onClick={() => navigate("/login")}
               >
                 Login

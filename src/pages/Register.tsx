@@ -74,7 +74,7 @@ const Register = () => {
       }
     },
     {
-      component: ContactInfoStep,
+      component: GenderStep,
       props: {
         formData,
         onChange: handleFieldChange,
@@ -85,7 +85,7 @@ const Register = () => {
       }
     },
     {
-      component: CampusInfoStep,
+      component: ContactInfoStep,
       props: {
         formData,
         onChange: handleFieldChange,
@@ -96,12 +96,23 @@ const Register = () => {
       }
     },
     {
+      component: CampusInfoStep,
+      props: {
+        formData,
+        onChange: handleFieldChange,
+        onNext: () => setCurrentStep(4),
+        onBack: () => setCurrentStep(2),
+        onSubmit: handleSubmit,
+        isLoading,
+      }
+    },
+    {
       component: FinalStep,
       props: {
         formData,
         onChange: handleFieldChange,
         onNext: () => null,
-        onBack: () => setCurrentStep(2),
+        onBack: () => setCurrentStep(3),
         onSubmit: handleSubmit,
         isLoading,
       }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { MessageSquarePlus } from "lucide-react";
+import { MessageSquarePlus, BookOpen, Target, Trophy, Sparkles } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -28,10 +28,13 @@ const StudentDashboard = ({ conversationCount }: StudentDashboardProps) => {
       <DashboardHeader />
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        {/* Progress Dashboard - Minimized */}
-        <Card className="bg-white/90 backdrop-blur-sm">
-          <CardHeader>
-            <CardTitle>Learning progress</CardTitle>
+        {/* Progress Dashboard */}
+        <Card className="bg-soft-blue border-2 border-primary/20 shadow-lg hover:shadow-xl transition-all duration-300">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="flex items-center gap-2">
+              <Target className="h-5 w-5 text-primary" />
+              Learning progress
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid gap-4">
@@ -41,20 +44,20 @@ const StudentDashboard = ({ conversationCount }: StudentDashboardProps) => {
         </Card>
 
         {/* Conversation Progress */}
-        <Card className="bg-white/90 backdrop-blur-sm">
+        <Card className="bg-soft-yellow border-2 border-primary/20 shadow-lg hover:shadow-xl transition-all duration-300">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle>Conversation count</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <Trophy className="h-5 w-5 text-primary" />
+              Conversation count
+            </CardTitle>
             <Dialog open={isConversationDialogOpen} onOpenChange={setIsConversationDialogOpen}>
               <DialogTrigger asChild>
-                <Button className="bg-yellow-400 hover:bg-yellow-500 text-black">
+                <Button className="bg-primary hover:bg-primary-dark text-primary-foreground">
                   <MessageSquarePlus className="h-5 w-5 mr-2" />
                   New
                 </Button>
               </DialogTrigger>
               <DialogContent className="w-[90vw] max-w-[600px] max-h-[90vh] overflow-y-auto">
-{/*                 <DialogHeader>
-                  <DialogTitle>New Conversation</DialogTitle>
-                </DialogHeader> */}
                 <ConversationForm onSuccess={() => setIsConversationDialogOpen(false)} />
               </DialogContent>
             </Dialog>
@@ -71,7 +74,11 @@ const StudentDashboard = ({ conversationCount }: StudentDashboardProps) => {
       </div>
 
       <div className="mb-8">
-        <h2 className="text-2xl font-bold mb-6">Your learning journey</h2>
+        <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+          <BookOpen className="h-6 w-6 text-primary" />
+          Your learning journey
+          <Sparkles className="h-5 w-5 text-primary animate-pulse" />
+        </h2>
         <LessonsList />
       </div>
 

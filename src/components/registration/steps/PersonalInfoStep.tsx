@@ -3,14 +3,12 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Home } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 interface PersonalInfoStepProps {
   formData: {
     firstName: string;
     lastName: string;
     middleName: string;
-    gender: string;
   };
   onChange: (field: string, value: string) => void;
   onNext: () => void;
@@ -21,7 +19,7 @@ export const PersonalInfoStep = ({ formData, onChange, onNext, onBack }: Persona
   const navigate = useNavigate();
   
   const handleNext = () => {
-    if (!formData.firstName.trim() || !formData.lastName.trim() || !formData.gender) {
+    if (!formData.firstName.trim() || !formData.lastName.trim()) {
       return;
     }
     onNext();
@@ -66,31 +64,13 @@ export const PersonalInfoStep = ({ formData, onChange, onNext, onBack }: Persona
             className="border-primary focus:ring-primary"
           />
         </div>
-
-        <div className="space-y-2">
-          <Label>Gender</Label>
-          <RadioGroup
-            value={formData.gender}
-            onValueChange={(value) => onChange("gender", value)}
-            className="flex flex-col space-y-2"
-          >
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="male" id="male" />
-              <Label htmlFor="male">Male</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="female" id="female" />
-              <Label htmlFor="female">Female</Label>
-            </div>
-          </RadioGroup>
-        </div>
       </div>
 
       <div className="flex flex-col space-y-4">
         <Button 
           onClick={handleNext}
-          className="w-full"
-          disabled={!formData.firstName.trim() || !formData.lastName.trim() || !formData.gender}
+          className="w-full bg-primary hover:bg-primary-dark text-primary-foreground"
+          disabled={!formData.firstName.trim() || !formData.lastName.trim()}
         >
           Next Step
           <ArrowRight className="ml-2 h-4 w-4" />

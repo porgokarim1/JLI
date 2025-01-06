@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import { PersonalInfoSection } from "./PersonalInfoSection";
-import { TermsSection } from "./TermsSection";
 import { CampusSection } from "./CampusSection";
 
 interface RegistrationFormProps {
@@ -12,8 +11,6 @@ interface RegistrationFormProps {
     email: string;
     phone: string;
     campus: string;
-    agreeToTerms: boolean;
-    agreeToDisclaimer: boolean;
   };
   setFormData: (data: any) => void;
   onSubmit: (e: React.FormEvent) => void;
@@ -47,18 +44,13 @@ export const RegistrationForm = ({
         onChange={handleFieldChange}
       />
 
-      <TermsSection 
-        formData={formData}
-        onChange={handleFieldChange}
-      />
-
       <div className="flex flex-col space-y-4">
         <button
           type="submit"
           disabled={isLoading}
           className="w-full py-2 px-4 bg-primary text-primary-foreground rounded hover:bg-primary/90 disabled:opacity-50"
         >
-          {isLoading ? "Registering..." : "Register"}
+          {isLoading ? "Registering..." : "Complete Registration"}
         </button>
         <button
           type="button"

@@ -3,8 +3,6 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
-import { isValidPhoneNumber } from 'react-phone-number-input';
-import { toast } from "sonner";
 
 interface PersonalInfoSectionProps {
   formData: {
@@ -20,10 +18,6 @@ interface PersonalInfoSectionProps {
 
 export const PersonalInfoSection = ({ formData, onChange }: PersonalInfoSectionProps) => {
   const handlePhoneChange = (value: string | undefined) => {
-    if (value && !isValidPhoneNumber(value)) {
-      toast.error("Please enter a valid phone number");
-      return;
-    }
     onChange("phone", value || "");
   };
 
@@ -98,9 +92,8 @@ export const PersonalInfoSection = ({ formData, onChange }: PersonalInfoSectionP
             international
             countryCallingCodeEditable={false}
             defaultCountry="US"
-            value={formData.phone}
+            value={formData.phone || ''}
             onChange={handlePhoneChange}
-            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
           />
         </div>
       </div>

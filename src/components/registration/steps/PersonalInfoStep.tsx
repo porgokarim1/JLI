@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Home } from "lucide-react";
+import { ArrowRight, Home, Circle, CheckCircle2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 interface PersonalInfoStepProps {
@@ -55,15 +55,15 @@ export const PersonalInfoStep = ({ formData, onChange, onNext, onBack }: Persona
 
       <div className="flex flex-col space-y-4">
         <div className="flex justify-center space-x-2 mb-4">
-          <div className="w-2 h-2 rounded-full bg-primary"></div>
-          <div className="w-2 h-2 rounded-full bg-primary opacity-50"></div>
-          <div className="w-2 h-2 rounded-full bg-primary opacity-50"></div>
-          <div className="w-2 h-2 rounded-full bg-primary opacity-50"></div>
+          <CheckCircle2 className="w-5 h-5 text-[#8B5CF6]" />
+          <Circle className="w-5 h-5 text-muted" />
+          <Circle className="w-5 h-5 text-muted" />
+          <Circle className="w-5 h-5 text-muted" />
         </div>
 
         <Button 
           onClick={handleNext}
-          className="w-full bg-primary hover:bg-primary-dark text-primary-foreground"
+          className="w-full"
           disabled={!formData.firstName.trim() || !formData.lastName.trim()}
         >
           Next
@@ -73,7 +73,7 @@ export const PersonalInfoStep = ({ formData, onChange, onNext, onBack }: Persona
         <Button
           variant="outline"
           onClick={() => navigate("/")}
-          className="w-full border-primary text-primary hover:bg-primary/10"
+          className="w-full"
         >
           <Home className="mr-2 h-4 w-4" />
           Back to Main Page

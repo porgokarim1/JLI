@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, User, Users } from "lucide-react";
+import { ArrowLeft, ArrowRight, User, Users, Circle, CheckCircle2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
 interface GenderStepProps {
@@ -51,10 +51,10 @@ export const GenderStep = ({ formData, onChange, onNext, onBack }: GenderStepPro
 
       <div className="flex flex-col space-y-4">
         <div className="flex justify-center space-x-2 mb-4">
-          <div className="w-2 h-2 rounded-full bg-primary"></div>
-          <div className="w-2 h-2 rounded-full bg-primary"></div>
-          <div className="w-2 h-2 rounded-full bg-primary opacity-50"></div>
-          <div className="w-2 h-2 rounded-full bg-primary opacity-50"></div>
+          <CheckCircle2 className="w-5 h-5 text-[#8B5CF6]" />
+          <CheckCircle2 className="w-5 h-5 text-[#8B5CF6]" />
+          <Circle className="w-5 h-5 text-muted" />
+          <Circle className="w-5 h-5 text-muted" />
         </div>
 
         <div className="flex gap-4">

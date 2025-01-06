@@ -34,6 +34,34 @@ interface ScheduledLessonsProps {
 }
 
 export const ScheduledLessons = ({ schedules, refetchSchedules }: ScheduledLessonsProps) => {
+
+const fetchScheduledLessons = async () => {
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('No user found');
+
+    const { data, error } = await supabase
+      .from('lessons_schedule')
+      .select(`
+        *,
+        lessons (
+          title,
+          description,
+          duration,
+          image_url
+        )
+      `)
+      .eq('instructor_id', user.id)
+      .order('lesson_date', { ascending: true });
+
+    if (error) throw error;
+    return data || [];
+  } catch (error: any) {
+    console.error('Error fetching scheduled lessons:', error.message);
+    return [];
+  }
+};
+
   const regenerateAttendanceCode = async (scheduleId: string) => {
     try {
       const { data: { session } } = await supabase.auth.getSession();

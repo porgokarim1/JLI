@@ -10,7 +10,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import About from "./pages/About";
-import WelcomePage from "./components/welcome/WelcomePage";
+import TermsAgreementPage from "./components/onboarding/TermsAgreementPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -91,28 +91,28 @@ const App = () => {
     {
       path: "/",
       element: isAuthenticated 
-        ? (hasAgreedToTerms ? <Index /> : <Navigate to="/welcome" />)
+        ? (hasAgreedToTerms ? <Index /> : <Navigate to="/terms-agreement" />)
         : <Navigate to="/login" />,
     },
     {
       path: "/register",
-      element: isAuthenticated ? <Navigate to="/welcome" /> : <Register />,
+      element: isAuthenticated ? <Navigate to="/terms-agreement" /> : <Register />,
     },
     {
       path: "/login",
       element: isAuthenticated ? <Navigate to="/" /> : <Login />,
     },
     {
-      path: "/welcome",
-      element: isAuthenticated ? (!hasAgreedToTerms ? <WelcomePage /> : <Navigate to="/" />) : <Navigate to="/login" />,
+      path: "/terms-agreement",
+      element: isAuthenticated ? (!hasAgreedToTerms ? <TermsAgreementPage /> : <Navigate to="/" />) : <Navigate to="/login" />,
     },
     {
       path: "/profile",
-      element: isAuthenticated ? (hasAgreedToTerms ? <Profile /> : <Navigate to="/welcome" />) : <Navigate to="/login" />,
+      element: isAuthenticated ? (hasAgreedToTerms ? <Profile /> : <Navigate to="/terms-agreement" />) : <Navigate to="/login" />,
     },
     {
       path: "/about",
-      element: isAuthenticated ? (hasAgreedToTerms ? <About /> : <Navigate to="/welcome" />) : <Navigate to="/login" />,
+      element: isAuthenticated ? (hasAgreedToTerms ? <About /> : <Navigate to="/terms-agreement" />) : <Navigate to="/login" />,
     }
   ]);
 

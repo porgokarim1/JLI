@@ -123,7 +123,7 @@ const EngagementMetrics = ({ type }: EngagementMetricsProps) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium">Progress</span>
-            <Dialog open={isOpen} onOpenChange={setIsOpen} modal={false}>
+            <Dialog open={isOpen} onOpenChange={setIsOpen}>
               <DialogTrigger asChild>
                 <Info 
                   className="h-4 w-4 text-gray-500 cursor-pointer hover:text-gray-700" 
@@ -131,7 +131,7 @@ const EngagementMetrics = ({ type }: EngagementMetricsProps) => {
                 />
               </DialogTrigger>
               <DialogContent 
-                className="rounded-lg w-[300px] absolute bg-white shadow-lg border"
+                className="rounded-lg w-[300px] absolute"
                 style={{
                   top: `${dialogPosition.top}px`,
                   left: `${dialogPosition.left}px`,

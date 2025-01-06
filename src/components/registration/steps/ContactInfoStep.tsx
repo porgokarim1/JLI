@@ -24,20 +24,9 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, onSubmit, 
     return emailRegex.test(email);
   };
 
-  const validatePhoneLength = (phone: string) => {
-    // Remove all non-digit characters and check if the remaining length is 10
-    const digits = phone.replace(/\D/g, '');
-    const isValidLength = digits.length === 10;
-    return isValidLength;
-  };
-
   const handleNext = () => {
     if (!validateEmail(formData.email)) {
       toast.error("Please enter a valid email address");
-      return;
-    }
-    if (formData.phone && !validatePhoneLength(formData.phone)) {
-      toast.error("Please enter a valid 10-digit phone number");
       return;
     }
     onSubmit(); // Submit registration directly after contact info

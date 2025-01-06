@@ -10,6 +10,10 @@ interface Student {
   last_name: string | null;
 }
 
+interface Attendance {
+  student: Student;
+}
+
 interface Schedule {
   id: string;
   instructor_id: string;
@@ -21,9 +25,7 @@ interface Schedule {
   lesson: {
     title: string;
   } | null;
-  attendance: Array<{
-    student: Student | null;
-  }>;
+  attendance: Attendance[];
 }
 
 interface ScheduledLessonsProps {

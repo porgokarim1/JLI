@@ -42,16 +42,17 @@ export const ScheduledLessons = ({ schedules, refetchSchedules }: ScheduledLesso
         return;
       }
 
-      const { data, error } = await supabase.rpc('generate_attendance_code', {
+      const { error } = await supabase.rpc('generate_attendance_code', {
         schedule_id: scheduleId
       });
       
-      if (error) throw error;
-      
-      if (data) {
-        toast.success("New attendance code generated!");
-        refetchSchedules();
+      if (error) {
+        toast.error("Failed to generate new code: " + error.message);
+        return;
       }
+      
+      toast.success("New attendance code generated!");
+      refetchSchedules();
     } catch (error) {
       console.error('Error generating attendance code:', error);
       toast.error("Failed to generate new code");

@@ -6,6 +6,8 @@ import { useState } from "react";
 import ConversationForm from "./ConversationForm";
 import ConversationTableRow from "./conversations/ConversationTableRow";
 import ConversationMobileCard from "./conversations/ConversationMobileCard";
+import { Button } from "@/components/ui/button";
+import { MessageSquarePlus } from "lucide-react";
 
 const ConversationsList = () => {
   const [editingConversation, setEditingConversation] = useState<any>(null);
@@ -36,18 +38,20 @@ const ConversationsList = () => {
     return (
       <Card className="bg-white/90 backdrop-blur-sm">
         <CardContent className="pt-6">
-          <div className="text-center py-12">
-            <h3 className="text-lg font-semibold mb-2">No conversations yet</h3>
-            <p className="text-gray-600 mb-4">
-              Start engaging with people and record your conversations{" "}
-              <button 
-                onClick={() => setIsConversationDialogOpen(true)}
-                className="text-primary hover:underline font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-              >
-                here
-              </button>
-              .
+          <div className="flex flex-col items-center justify-center py-12 px-4">
+            <div className="bg-primary/10 rounded-full p-4 mb-6">
+              <MessageSquarePlus className="h-8 w-8 text-primary" />
+            </div>
+            <h3 className="text-xl font-semibold mb-3 text-gray-800">No conversations yet</h3>
+            <p className="text-gray-600 mb-6 text-center max-w-md">
+              Start engaging with people and record your meaningful conversations
             </p>
+            <Button 
+              onClick={() => setIsConversationDialogOpen(true)}
+              className="bg-primary hover:bg-primary-dark text-primary-foreground font-medium px-6 py-2 rounded-full transition-all duration-300 hover:scale-105"
+            >
+              Record Your First Conversation
+            </Button>
           </div>
         </CardContent>
       </Card>

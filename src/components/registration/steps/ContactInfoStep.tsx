@@ -25,19 +25,12 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, onSubmit, 
     return emailRegex.test(email);
   };
 
-  const handlePhoneChange = (value: string | undefined) => {
-    if (value && !isValidPhoneNumber(value)) {
-      toast.error("Please enter a valid phone number");
-      return;
-    }
-    onChange("phone", value || "");
-  };
-
   const handleNext = () => {
     if (!validateEmail(formData.email)) {
+      toast.error("Please enter a valid email address");
       return;
     }
-    if (!formData.phone || !isValidPhoneNumber(formData.phone)) {
+    if (formData.phone && !isValidPhoneNumber(formData.phone)) {
       toast.error("Please enter a valid phone number");
       return;
     }
@@ -62,9 +55,6 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, onSubmit, 
             onChange={(e) => onChange("email", e.target.value)}
             className="border-primary focus:ring-primary"
           />
-          {formData.email && !validateEmail(formData.email) && (
-            <p className="text-sm text-red-500 mt-1">Please enter a valid email address</p>
-          )}
         </div>
 
         <div>
@@ -75,7 +65,7 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, onSubmit, 
               countryCallingCodeEditable={false}
               defaultCountry="US"
               value={formData.phone}
-              onChange={handlePhoneChange}
+              onChange={(value) => onChange("phone", value || "")}
             />
           </div>
         </div>
@@ -92,8 +82,8 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, onSubmit, 
         </Button>
         <Button 
           onClick={handleNext}
-          className="flex-1"
-          disabled={!validateEmail(formData.email) || !isValidPhoneNumber(formData.phone || "")}
+          className="flex-1 bg-[#FFD700] hover:bg-[#FFD700]/90 text-black"
+          disabled={!validateEmail(formData.email)}
         >
           Next Step
           <ArrowRight className="ml-2 h-4 w-4" />

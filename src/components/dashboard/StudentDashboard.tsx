@@ -7,7 +7,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import DashboardHeader from "./DashboardHeader";
 import LessonsList from "./LessonsList";
@@ -50,20 +49,13 @@ const StudentDashboard = ({ conversationCount }: StudentDashboardProps) => {
               <Trophy className="h-5 w-5 text-primary" />
               Conversation count
             </CardTitle>
-            <Dialog open={isConversationDialogOpen} onOpenChange={setIsConversationDialogOpen}>
-              <DialogTrigger asChild>
-                <Button className="bg-primary hover:bg-primary-dark text-primary-foreground">
-                  <MessageSquarePlus className="h-5 w-5 mr-2" />
-                  New
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="w-[90vw] max-w-[600px] max-h-[90vh] overflow-y-auto">
-                <DialogHeader>
-                  <DialogTitle>New Conversation</DialogTitle>
-                </DialogHeader>
-                <ConversationForm onSuccess={() => setIsConversationDialogOpen(false)} />
-              </DialogContent>
-            </Dialog>
+            <Button 
+              className="bg-[#FFD700] hover:bg-[#FFD700]/90 text-black"
+              onClick={() => setIsConversationDialogOpen(true)}
+            >
+              <MessageSquarePlus className="h-5 w-5 mr-2" />
+              New
+            </Button>
           </CardHeader>
           <CardContent>
             <div className="grid gap-4">
@@ -98,6 +90,15 @@ const StudentDashboard = ({ conversationCount }: StudentDashboardProps) => {
           </CardContent>
         </Card>
       </div>
+
+      <Dialog open={isConversationDialogOpen} onOpenChange={setIsConversationDialogOpen}>
+        <DialogContent className="w-[90vw] max-w-[600px] max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>New Conversation</DialogTitle>
+          </DialogHeader>
+          <ConversationForm onSuccess={() => setIsConversationDialogOpen(false)} />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

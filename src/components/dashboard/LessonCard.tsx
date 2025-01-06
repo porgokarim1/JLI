@@ -1,12 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Calendar, Clock, ChevronDown, ChevronUp, CheckCircle2, UserCheck, User } from "lucide-react";
+import { MapPin, Calendar, Clock, CheckCircle2, UserCheck, User } from "lucide-react";
 import { LessonWithProgress } from "./types";
 import { CompletionCodeDialog } from "../lesson/CompletionCodeDialog";
 import { useState } from "react";
 import { format } from "date-fns";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 interface LessonCardProps {
   lesson: LessonWithProgress;
@@ -15,7 +14,6 @@ interface LessonCardProps {
 
 export const LessonCard = ({ lesson }: LessonCardProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -88,50 +86,13 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
           </div>
         ) : (
           <Button 
-            className="w-full flex items-center justify-center gap-2 bg-[#8B4513] hover:bg-[#723A0F] text-white mb-2"
+            className="w-full flex items-center justify-center gap-2 bg-[#FFD700] hover:bg-[#FFD700]/90 text-black mb-2"
             onClick={() => setIsDialogOpen(true)}
           >
             <UserCheck className="h-5 w-5" />
             Confirm Attendance
           </Button>
         )}
-
-        <Collapsible open={isDetailsOpen} onOpenChange={setIsDetailsOpen}>
-          <CollapsibleTrigger asChild>
-            <Button 
-              variant="ghost" 
-              className="w-full text-sm text-gray-500 hover:bg-transparent flex items-center justify-center gap-2"
-            >
-              {isDetailsOpen ? (
-                <>
-                  Hide Attendance Details
-                  <ChevronUp className="h-4 w-4" />
-                </>
-              ) : (
-                <>
-                  Show Attendance Details
-                  <ChevronDown className="h-4 w-4" />
-                </>
-              )}
-            </Button>
-          </CollapsibleTrigger>
-          <CollapsibleContent className="space-y-2 pt-2">
-            {lesson.progress?.completed_at ? (
-              <div className="text-sm text-gray-600">
-                <div className="flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-primary" />
-                  <span>Attended on: {format(new Date(lesson.progress.completed_at), 'PPP')}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-primary" />
-                  <span>Time: {format(new Date(lesson.progress.completed_at), 'p')}</span>
-                </div>
-              </div>
-            ) : (
-              <p className="text-sm text-gray-500">No attendance record yet</p>
-            )}
-          </CollapsibleContent>
-        </Collapsible>
 
         <CompletionCodeDialog 
           lessonId={lesson.id}

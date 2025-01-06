@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Edit, Users } from "lucide-react";
@@ -12,12 +12,21 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import ConversationForm from "./ConversationForm";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+
+const getComfortEmoji = (comfort_level: string) => {
+  switch (comfort_level) {
+    case 'very_comfortable':
+      return '😄';
+    case 'comfortable':
+      return '🙂';
+    case 'uncomfortable':
+      return '😕';
+    case 'very_uncomfortable':
+      return '😣';
+    default:
+      return '😐';
+  }
+};
 
 const ConversationsList = () => {
   const [editingConversation, setEditingConversation] = useState<any>(null);
@@ -53,7 +62,7 @@ const ConversationsList = () => {
             </p>
             <Button
               onClick={() => setEditingConversation({})}
-              className="bg-[#8B4513] hover:bg-[#723A0F] text-white"
+              className="bg-[#FFD700] hover:bg-[#FFD700]/90 text-black"
             >
               Record New Conversation
             </Button>
@@ -110,47 +119,34 @@ const ConversationsList = () => {
           </table>
         </div>
 
-        <div className="md:hidden">
-          <Accordion type="single" collapsible className="w-full">
-            {conversations.map((conversation) => (
-              <AccordionItem key={conversation.id} value={conversation.id}>
-                <AccordionTrigger className="hover:no-underline">
-                  <div className="flex flex-col items-start">
-                    <div className="flex items-center text-primary">
-                      <Users className="h-4 w-4 mr-2" />
-                      {conversation.participant_count} {conversation.participant_count === 1 ? 'person' : 'people'}
-                    </div>
-                    <span className="text-sm text-gray-500">
-                      {format(new Date(conversation.conversation_date), "PPP")}
-                    </span>
+        <div className="md:hidden space-y-4">
+          {conversations.map((conversation) => (
+            <div key={conversation.id} className="p-4 bg-gray-50 rounded-lg">
+              <div className="flex justify-between items-start mb-2">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <Users className="h-4 w-4 text-primary" />
+                    <span>{conversation.participant_count} {conversation.participant_count === 1 ? 'person' : 'people'}</span>
                   </div>
-                </AccordionTrigger>
-                <AccordionContent>
-                  <div className="space-y-2 pt-2 bg-soft-purple/20 p-4 rounded-lg">
-                    <div>
-                      <span className="font-medium">Comments:</span>{" "}
-                      {conversation.comments}
-                    </div>
-                    <div>
-                      <span className="font-medium">Comfort Level:</span>{" "}
-                      <span className="capitalize">
-                        {conversation.comfort_level?.replace("_", " ")}
-                      </span>
-                    </div>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setEditingConversation(conversation)}
-                      className="w-full mt-2"
-                    >
-                      <Edit className="h-4 w-4 mr-2" />
-                      Edit Conversation
-                    </Button>
+                  <div>
+                    {getComfortEmoji(conversation.comfort_level || '')} {conversation.comfort_level?.replace("_", " ")}
                   </div>
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+                  <div>{format(new Date(conversation.conversation_date), "PPP")}</div>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setEditingConversation(conversation)}
+                  className="bg-[#FFD700] hover:bg-[#FFD700]/90 text-black"
+                >
+                  <Edit className="h-4 w-4" />
+                </Button>
+              </div>
+              {conversation.comments && (
+                <p className="text-sm text-gray-600 mt-2">{conversation.comments}</p>
+              )}
+            </div>
+          ))}
         </div>
 
         <Dialog 
@@ -159,7 +155,9 @@ const ConversationsList = () => {
         >
           <DialogContent className="w-[90vw] max-w-[600px] max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>Edit Conversation</DialogTitle>
+              <DialogTitle>
+                {editingConversation?.id ? 'Edit Conversation' : 'New Conversation'}
+              </DialogTitle>
             </DialogHeader>
             <ConversationForm 
               initialData={editingConversation}

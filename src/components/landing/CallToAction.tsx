@@ -13,15 +13,15 @@ const CallToAction = () => {
       <div className="space-x-4">
         <Button 
           size="lg"
-          className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transition-all"
+          className="bg-[#FFD700] hover:bg-[#FFD700]/90 text-black shadow-lg hover:shadow-xl transition-all"
           onClick={() => navigate("/register")}
         >
-          Join the Program
+          Join
         </Button>
         <Button 
           size="lg"
           variant="outline"
-          className="border-primary text-primary hover:bg-primary/10"
+          className="border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700]/10"
           onClick={() => navigate("/login")}
         >
           Login

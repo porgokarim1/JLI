@@ -54,6 +54,13 @@ export type Database = {
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "conversations_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "student_progress_overview"
+            referencedColumns: ["student_id"]
+          },
         ]
       }
       lesson_attendance: {
@@ -92,6 +99,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lesson_attendance_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "student_progress_overview"
+            referencedColumns: ["student_id"]
           },
         ]
       }
@@ -219,6 +233,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lessons_schedule_instructor_id_fkey"
+            columns: ["instructor_id"]
+            isOneToOne: false
+            referencedRelation: "student_progress_overview"
+            referencedColumns: ["student_id"]
           },
           {
             foreignKeyName: "lessons_schedule_lesson_id_fkey"
@@ -356,11 +377,31 @@ export type Database = {
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "user_lesson_progress_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "student_progress_overview"
+            referencedColumns: ["student_id"]
+          },
         ]
       }
     }
     Views: {
-      [_ in never]: never
+      student_progress_overview: {
+        Row: {
+          campus: string | null
+          completed_lessons: number | null
+          email: string | null
+          first_name: string | null
+          last_conversation_date: string | null
+          last_lesson_completed: string | null
+          last_name: string | null
+          student_id: string | null
+          total_conversations: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       generate_attendance_code: {

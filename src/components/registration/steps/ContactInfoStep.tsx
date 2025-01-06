@@ -48,7 +48,6 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, onSubmit, 
             required
             value={formData.email}
             onChange={(e) => onChange("email", e.target.value)}
-            className="border-primary focus:ring-primary"
           />
         </div>
 

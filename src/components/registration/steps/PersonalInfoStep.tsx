@@ -39,7 +39,6 @@ export const PersonalInfoStep = ({ formData, onChange, onNext, onBack }: Persona
             required
             value={formData.firstName}
             onChange={(e) => onChange("firstName", e.target.value)}
-            className="border-primary focus:ring-primary"
           />
         </div>
 
@@ -50,7 +49,6 @@ export const PersonalInfoStep = ({ formData, onChange, onNext, onBack }: Persona
             required
             value={formData.lastName}
             onChange={(e) => onChange("lastName", e.target.value)}
-            className="border-primary focus:ring-primary"
           />
         </div>
       </div>

@@ -8,12 +8,16 @@ import {
   DialogContent,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useState } from "react";
 
 interface EngagementMetricsProps {
   type: "conversation" | "learning";
 }
 
 const EngagementMetrics = ({ type }: EngagementMetricsProps) => {
+  const [dialogPosition, setDialogPosition] = useState({ top: 0, left: 0 });
+  const [isOpen, setIsOpen] = useState(false);
+
   const { data: conversations } = useQuery({
     queryKey: ["conversations"],
     queryFn: async () => {
@@ -62,6 +66,15 @@ const EngagementMetrics = ({ type }: EngagementMetricsProps) => {
     return null;
   };
 
+  const handleInfoClick = (event: React.MouseEvent) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    setDialogPosition({
+      top: rect.bottom + window.scrollY,
+      left: rect.left + window.scrollX,
+    });
+    setIsOpen(true);
+  };
+
   const MetricsContent = () => {
     if (type === "learning") {
       const completedLessons = lessonProgress?.filter(
@@ -90,9 +103,7 @@ const EngagementMetrics = ({ type }: EngagementMetricsProps) => {
           <p>
             Total Conversations: {conversationCount}
             {nextTier && remainingConversations > 0 && (
-              <span className="ml-2 text-gray-600">
-                ({remainingConversations} more until {nextTier})
-              </span>
+              <span> ({remainingConversations} more until {nextTier})</span>
             )}
           </p>
           <Progress value={Math.min((conversationCount / 25) * 100, 100)} className="w-full" />
@@ -112,13 +123,24 @@ const EngagementMetrics = ({ type }: EngagementMetricsProps) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium">Progress</span>
-            <Dialog>
-              <DialogTrigger>
-                <Info className="h-4 w-4 text-gray-500 cursor-pointer hover:text-gray-700" />
+            <Dialog open={isOpen} onOpenChange={setIsOpen}>
+              <DialogTrigger asChild>
+                <Info 
+                  className="h-4 w-4 text-gray-500 cursor-pointer hover:text-gray-700" 
+                  onClick={handleInfoClick}
+                />
               </DialogTrigger>
               <DialogContent 
-                className="rounded-lg w-[300px] absolute left-0 top-8"
-                onPointerDownOutside={(e) => e.preventDefault()}
+                className="rounded-lg w-[300px] absolute"
+                style={{
+                  top: `${dialogPosition.top}px`,
+                  left: `${dialogPosition.left}px`,
+                  transform: 'none'
+                }}
+                onPointerDownOutside={(e) => {
+                  e.preventDefault();
+                  setIsOpen(false);
+                }}
               >
                 <MetricsContent />
               </DialogContent>

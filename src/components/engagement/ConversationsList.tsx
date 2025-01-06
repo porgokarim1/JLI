@@ -48,9 +48,15 @@ const ConversationsList = () => {
         <CardContent className="pt-6">
           <div className="text-center py-12">
             <h3 className="text-lg font-semibold mb-2">No conversations yet</h3>
-            <p className="text-gray-600">
+            <p className="text-gray-600 mb-4">
               Start engaging with people and record your conversations here.
             </p>
+            <Button
+              onClick={() => setEditingConversation({})}
+              className="bg-[#8B4513] hover:bg-[#723A0F] text-white"
+            >
+              Record New Conversation
+            </Button>
           </div>
         </CardContent>
       </Card>

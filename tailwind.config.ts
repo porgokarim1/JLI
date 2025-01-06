@@ -22,13 +22,13 @@ export default {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
+        background: '#f3f3f3',
         foreground: 'hsl(var(--foreground))',
         primary: {
-          DEFAULT: '#fcd400',
-          dark: '#e6c000',
-          light: '#ffde33',
-          foreground: '#000000'
+          DEFAULT: '#8B4513',
+          dark: '#723A0F',
+          light: '#A0522D',
+          foreground: '#FFFFFF'
         },
         secondary: {
           DEFAULT: '#000000',
@@ -40,29 +40,15 @@ export default {
         },
         muted: {
           DEFAULT: '#8E9196',
-          foreground: '#D3D3D3'
+          foreground: '#4A4A4A'
         },
         accent: {
           DEFAULT: '#9b87f5',
           foreground: '#000000'
         },
-        popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))'
-        },
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))'
-        },
-        vibrant: {
-          purple: '#9b87f5',
-          pink: '#D946EF',
-          orange: '#F97316',
-          blue: '#1EAEDB'
-        },
         soft: {
           green: '#F2FCE2',
-          yellow: '#FEF7CD',
+          brown: '#D2B48C',
           orange: '#FEC6A1',
           purple: '#E5DEFF',
           pink: '#FFDEE2',

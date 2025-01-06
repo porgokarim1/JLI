@@ -88,7 +88,7 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
           </div>
         ) : (
           <Button 
-            className="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-primary-foreground mb-2"
+            className="w-full flex items-center justify-center gap-2 bg-[#8B4513] hover:bg-[#723A0F] text-white mb-2"
             onClick={() => setIsDialogOpen(true)}
           >
             <UserCheck className="h-5 w-5" />

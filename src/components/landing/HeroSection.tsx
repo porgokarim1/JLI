@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import SimpleSlideshow from "./SimpleSlideshow";
-import { BookMarked, Star } from "lucide-react";
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -17,7 +16,6 @@ const HeroSection = () => {
               NOW
               <br />
               ISRAEL
-              <Star className="inline-block ml-2 text-primary animate-float" fill="currentColor" />
             </h1>
             
             <h2 className="text-xl md:text-2xl lg:text-3xl font-bold leading-tight">
@@ -37,7 +35,6 @@ const HeroSection = () => {
                 <span className="nav-link text-secondary">
                   WITH CONFIDENCE
                 </span>
-                <Star className="inline-block ml-2 text-primary animate-pulse" fill="currentColor" />
               </div>
             </h2>
 
@@ -45,26 +42,23 @@ const HeroSection = () => {
               A four-part course on confronting the pervasive lies and misinformation 
               about Israel that Jewish students frequently face on college campuses, 
               equipping you with practical skills and effective responses.
-              <BookMarked className="inline-block ml-2 text-vibrant-purple animate-bounce" />
             </p>
             
             <div className="pt-4 flex flex-col sm:flex-row gap-4">
               <Button 
                 size="lg"
-                className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary-dark shadow-lg hover:shadow-xl transition-all group"
+                className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary-dark shadow-lg hover:shadow-xl transition-all"
                 onClick={() => navigate("/register")}
               >
-                Join the Program
-                <Star className="ml-2 w-4 h-4 group-hover:animate-spin" fill="currentColor" />
+                Join
               </Button>
               <Button 
                 size="lg"
                 variant="outline"
-                className="w-full sm:w-auto border-2 border-primary text-primary hover:bg-primary/10 group"
+                className="w-full sm:w-auto border-2 border-primary text-primary hover:bg-primary/10"
                 onClick={() => navigate("/login")}
               >
                 Login
-                <Star className="ml-2 w-4 h-4 group-hover:animate-pulse" fill="currentColor" />
               </Button>
             </div>
           </div>

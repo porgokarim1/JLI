@@ -40,7 +40,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 via-white to-blue-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-[#D2B48C] via-white to-[#8B4513]/10 flex items-center justify-center p-4">
       <div className="container max-w-md mx-auto">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
@@ -52,20 +52,20 @@ const Login = () => {
             />
           </div>
           <h1 className="text-4xl font-black mb-2">
-            <span className="text-primary relative">
+            <span className="text-[#8B4513] relative">
               K
               <span className="absolute -top-1 left-[0.45em]">'</span>
             </span>
             <span className="text-black">NOW</span>
-            <span className="text-primary"> ISRAEL</span>
+            <span className="text-[#8B4513]"> ISRAEL</span>
           </h1>
-          <p className="text-muted-foreground">Welcome back! Let's continue learning together.</p>
+          <p className="text-black font-medium">Welcome back! Let's continue learning together.</p>
         </div>
 
-        <Card className="bg-white/70 backdrop-blur-sm border-purple-100">
+        <Card className="bg-white/70 backdrop-blur-sm border-[#8B4513]">
           <CardHeader className="space-y-1">
             <div className="flex items-center justify-center space-x-2">
-              <LogIn className="h-5 w-5 text-primary" />
+              <LogIn className="h-5 w-5 text-[#8B4513]" />
               <h2 className="text-2xl font-semibold text-center">Login</h2>
             </div>
           </CardHeader>
@@ -73,12 +73,12 @@ const Login = () => {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-4">
                 <div>
-                  <Label htmlFor="email" className="text-purple-900">Email Address</Label>
+                  <Label htmlFor="email" className="text-black font-medium">Email Address</Label>
                   <Input
                     id="email"
                     type="email"
                     required
-                    className="border-primary/20 focus:border-primary"
+                    className="border-black focus:border-[#8B4513]"
                     value={formData.email}
                     onChange={(e) => setFormData({...formData, email: e.target.value})}
                     disabled={isLoading}
@@ -86,12 +86,12 @@ const Login = () => {
                 </div>
 
                 <div>
-                  <Label htmlFor="password" className="text-purple-900">Password</Label>
+                  <Label htmlFor="password" className="text-black font-medium">Password</Label>
                   <Input
                     id="password"
                     type="password"
                     required
-                    className="border-primary/20 focus:border-primary"
+                    className="border-black focus:border-[#8B4513]"
                     value={formData.password}
                     onChange={(e) => setFormData({...formData, password: e.target.value})}
                     disabled={isLoading}
@@ -102,7 +102,7 @@ const Login = () => {
               <div className="flex flex-col space-y-4">
                 <Button 
                   type="submit"
-                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+                  className="w-full bg-[#8B4513] hover:bg-[#723A0F] text-white"
                   disabled={isLoading}
                 >
                   {isLoading ? "Logging in..." : "Login"}
@@ -111,10 +111,10 @@ const Login = () => {
                   type="button"
                   variant="outline"
                   onClick={() => navigate("/register")}
-                  className="w-full border-primary text-primary hover:bg-primary/10"
+                  className="w-full border-[#8B4513] text-[#8B4513] hover:bg-[#8B4513]/10"
                   disabled={isLoading}
                 >
-                  Join the Program
+                  Join
                 </Button>
               </div>
             </form>

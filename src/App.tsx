@@ -90,8 +90,8 @@ const App = () => {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: isAuthenticated 
-        ? (hasAgreedToTerms ? <Index /> : <Navigate to="/terms-agreement" />)
+      element: isAuthenticated && !hasAgreedToTerms 
+        ? <Navigate to="/terms-agreement" /> 
         : <Index />,
     },
     {
@@ -104,15 +104,21 @@ const App = () => {
     },
     {
       path: "/terms-agreement",
-      element: isAuthenticated ? (!hasAgreedToTerms ? <TermsAgreementPage /> : <Navigate to="/" />) : <Navigate to="/login" />,
+      element: isAuthenticated 
+        ? (!hasAgreedToTerms ? <TermsAgreementPage /> : <Navigate to="/" />) 
+        : <Navigate to="/login" />,
     },
     {
       path: "/profile",
-      element: isAuthenticated ? (hasAgreedToTerms ? <Profile /> : <Navigate to="/terms-agreement" />) : <Navigate to="/login" />,
+      element: isAuthenticated 
+        ? (hasAgreedToTerms ? <Profile /> : <Navigate to="/terms-agreement" />) 
+        : <Navigate to="/login" />,
     },
     {
       path: "/about",
-      element: isAuthenticated ? (hasAgreedToTerms ? <About /> : <Navigate to="/terms-agreement" />) : <Navigate to="/login" />,
+      element: isAuthenticated 
+        ? (hasAgreedToTerms ? <About /> : <Navigate to="/terms-agreement" />) 
+        : <Navigate to="/login" />,
     }
   ]);
 

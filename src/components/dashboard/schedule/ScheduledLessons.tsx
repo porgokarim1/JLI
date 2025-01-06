@@ -1,20 +1,25 @@
-import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 interface ScheduledLessonsProps {
-  schedules?: any[];
+  schedules?: Array<{
+    id: string;
+    attendance_code: string;
+    lesson?: {
+      title: string;
+    };
+  }>;
   refetchSchedules?: () => void;
 }
 
 const ScheduledLessons = ({ schedules, refetchSchedules }: ScheduledLessonsProps) => {
-  const { data: lessons, refetch } = useQuery({
+  const { refetch } = useQuery({
     queryKey: ['scheduled-lessons'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('lessons')
-        .select('*');
+        .from('lessons_schedule')
+        .select('*, lesson:lessons(*)');
 
       if (error) throw error;
       return data;
@@ -24,7 +29,9 @@ const ScheduledLessons = ({ schedules, refetchSchedules }: ScheduledLessonsProps
   const handleRegenerateCode = async (scheduleId: string) => {
     try {
       const { data, error } = await supabase
-        .rpc('generate_attendance_code', { schedule_id: scheduleId });
+        .rpc('generate_attendance_code', { 
+          schedule_id: scheduleId 
+        });
 
       if (error) throw error;
       
@@ -36,11 +43,6 @@ const ScheduledLessons = ({ schedules, refetchSchedules }: ScheduledLessonsProps
       toast.error(error.message || 'Failed to regenerate attendance code');
     }
   };
-
-  useEffect(() => {
-    // Fetch lessons on mount
-    refetch();
-  }, [refetch]);
 
   return (
     <div className="col-span-2 space-y-4">

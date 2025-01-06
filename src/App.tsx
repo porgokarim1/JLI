@@ -10,7 +10,6 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import About from "./pages/About";
-import TermsAgreementPage from "./components/onboarding/TermsAgreementPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,7 +22,6 @@ const queryClient = new QueryClient({
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-  const [hasAgreedToTerms, setHasAgreedToTerms] = useState<boolean | null>(null);
 
   useEffect(() => {
     const checkSession = async () => {
@@ -35,16 +33,6 @@ const App = () => {
           return;
         }
         setIsAuthenticated(!!session);
-
-        if (session?.user) {
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('terms_agreed')
-            .eq('id', session.user.id)
-            .single();
-          
-          setHasAgreedToTerms(profile?.terms_agreed || false);
-        }
       } catch (error) {
         console.error("Error in session check:", error);
         setIsAuthenticated(false);
@@ -58,19 +46,9 @@ const App = () => {
       
       if (event === 'SIGNED_OUT') {
         setIsAuthenticated(false);
-        setHasAgreedToTerms(null);
         queryClient.clear();
       } else if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
         setIsAuthenticated(true);
-        if (session?.user) {
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('terms_agreed')
-            .eq('id', session.user.id)
-            .single();
-          
-          setHasAgreedToTerms(profile?.terms_agreed || false);
-        }
       }
     });
 
@@ -90,33 +68,23 @@ const App = () => {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: isAuthenticated && !hasAgreedToTerms ? <Navigate to="/terms-agreement" /> : <Index />,
+      element: <Index />,
     },
     {
       path: "/register",
-      element: isAuthenticated ? <Navigate to="/terms-agreement" /> : <Register />,
+      element: isAuthenticated ? <Navigate to="/" /> : <Register />,
     },
     {
       path: "/login",
       element: isAuthenticated ? <Navigate to="/" /> : <Login />,
     },
     {
-      path: "/terms-agreement",
-      element: !isAuthenticated ? <Navigate to="/login" /> : 
-               !hasAgreedToTerms ? <TermsAgreementPage /> : 
-               <Navigate to="/" />,
-    },
-    {
       path: "/profile",
-      element: !isAuthenticated ? <Navigate to="/login" /> :
-               !hasAgreedToTerms ? <Navigate to="/terms-agreement" /> :
-               <Profile />,
+      element: !isAuthenticated ? <Navigate to="/login" /> : <Profile />,
     },
     {
       path: "/about",
-      element: !isAuthenticated ? <Navigate to="/login" /> :
-               !hasAgreedToTerms ? <Navigate to="/terms-agreement" /> :
-               <About />,
+      element: !isAuthenticated ? <Navigate to="/login" /> : <About />,
     }
   ]);
 

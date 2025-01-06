@@ -43,7 +43,7 @@ export const ScheduledLessons = ({ schedules, refetchSchedules }: ScheduledLesso
         return;
       }
 
-      const { error } = await supabase.rpc('regenerate_attendance_code', {
+      const { error } = await supabase.rpc('generate_attendance_code', {
         schedule_id: scheduleId
       });
 

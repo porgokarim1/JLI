@@ -40,7 +40,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#D2B48C] via-white to-[#8B4513]/10 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 flex items-center justify-center p-4">
       <div className="container max-w-md mx-auto">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
@@ -52,20 +52,20 @@ const Login = () => {
             />
           </div>
           <h1 className="text-4xl font-black mb-2">
-            <span className="text-[#8B4513] relative">
+            <span className="text-black relative">
               K
               <span className="absolute -top-1 left-[0.45em]">'</span>
             </span>
             <span className="text-black">NOW</span>
-            <span className="text-[#8B4513]"> ISRAEL</span>
+            <span className="text-black"> ISRAEL</span>
           </h1>
           <p className="text-black font-medium">Welcome back! Let's continue learning together.</p>
         </div>
 
-        <Card className="bg-white/70 backdrop-blur-sm border-[#8B4513]">
+        <Card className="bg-white/70 backdrop-blur-sm border-primary">
           <CardHeader className="space-y-1">
             <div className="flex items-center justify-center space-x-2">
-              <LogIn className="h-5 w-5 text-[#8B4513]" />
+              <LogIn className="h-5 w-5 text-primary" />
               <h2 className="text-2xl font-semibold text-center">Login</h2>
             </div>
           </CardHeader>
@@ -78,7 +78,7 @@ const Login = () => {
                     id="email"
                     type="email"
                     required
-                    className="border-black focus:border-[#8B4513]"
+                    className="border-black focus:border-primary"
                     value={formData.email}
                     onChange={(e) => setFormData({...formData, email: e.target.value})}
                     disabled={isLoading}
@@ -91,7 +91,7 @@ const Login = () => {
                     id="password"
                     type="password"
                     required
-                    className="border-black focus:border-[#8B4513]"
+                    className="border-black focus:border-primary"
                     value={formData.password}
                     onChange={(e) => setFormData({...formData, password: e.target.value})}
                     disabled={isLoading}
@@ -102,7 +102,7 @@ const Login = () => {
               <div className="flex flex-col space-y-4">
                 <Button 
                   type="submit"
-                  className="w-full bg-[#8B4513] hover:bg-[#723A0F] text-white"
+                  className="w-full bg-[#FFD700] hover:bg-[#FFD700]/90 text-black"
                   disabled={isLoading}
                 >
                   {isLoading ? "Logging in..." : "Login"}
@@ -111,7 +111,7 @@ const Login = () => {
                   type="button"
                   variant="outline"
                   onClick={() => navigate("/register")}
-                  className="w-full border-[#8B4513] text-[#8B4513] hover:bg-[#8B4513]/10"
+                  className="w-full border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700]/10"
                   disabled={isLoading}
                 >
                   Join

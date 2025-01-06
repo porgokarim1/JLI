@@ -21,12 +21,12 @@ type Schedule = {
   lesson: {
     title: string;
   } | null;
-  attendance: {
+  attendance: Array<{
     student: {
       first_name: string | null;
       last_name: string | null;
     } | null;
-  }[] | null;
+  }>;
 }
 
 const InstructorDashboard = () => {

@@ -10,10 +10,29 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RefreshCw, Users, Calendar as CalendarIcon } from "lucide-react";
 import { toast } from "sonner";
 
+type Schedule = {
+  id: string;
+  instructor_id: string;
+  lesson_date: string;
+  start_time: string;
+  end_time: string;
+  location: string | null;
+  attendance_code: string | null;
+  lesson: {
+    title: string;
+  } | null;
+  attendance: {
+    student: {
+      first_name: string | null;
+      last_name: string | null;
+    } | null;
+  }[] | null;
+}
+
 const InstructorDashboard = () => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
 
-  const { data: schedules, refetch: refetchSchedules } = useQuery({
+  const { data: schedules, refetch: refetchSchedules } = useQuery<Schedule[]>({
     queryKey: ['lessons-schedule', selectedDate],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();

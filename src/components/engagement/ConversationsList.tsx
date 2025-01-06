@@ -31,6 +31,7 @@ const getComfortEmoji = (comfort_level: string) => {
 const ConversationsList = () => {
   const [editingConversation, setEditingConversation] = useState<any>(null);
   const [showNewConversationDialog, setShowNewConversationDialog] = useState(false);
+  
   const { data: conversations, isLoading, refetch } = useQuery({
     queryKey: ["conversations"],
     queryFn: async () => {
@@ -72,8 +73,6 @@ const ConversationsList = () => {
       </Card>
     );
   }
-
-  // ... keep existing code (table and mobile view rendering)
 
   return (
     <>
@@ -155,15 +154,14 @@ const ConversationsList = () => {
         </CardContent>
       </Card>
 
+      {/* Edit Conversation Dialog */}
       <Dialog 
         open={!!editingConversation} 
         onOpenChange={(open) => !open && setEditingConversation(null)}
       >
         <DialogContent className="w-[90vw] max-w-[600px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>
-              {editingConversation?.id ? 'Edit Conversation' : 'New Conversation'}
-            </DialogTitle>
+            <DialogTitle>Edit Conversation</DialogTitle>
           </DialogHeader>
           <ConversationForm 
             initialData={editingConversation}
@@ -175,6 +173,7 @@ const ConversationsList = () => {
         </DialogContent>
       </Dialog>
 
+      {/* New Conversation Dialog */}
       <Dialog 
         open={showNewConversationDialog} 
         onOpenChange={setShowNewConversationDialog}

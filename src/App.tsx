@@ -92,7 +92,7 @@ const App = () => {
       path: "/",
       element: isAuthenticated 
         ? (hasAgreedToTerms ? <Index /> : <Navigate to="/terms-agreement" />)
-        : <Navigate to="/login" />,
+        : <Index />,
     },
     {
       path: "/register",

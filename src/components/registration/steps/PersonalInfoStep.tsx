@@ -8,6 +8,7 @@ interface PersonalInfoStepProps {
   formData: {
     firstName: string;
     lastName: string;
+    middleName: string;
   };
   onChange: (field: string, value: string) => void;
   onNext: () => void;
@@ -39,6 +40,16 @@ export const PersonalInfoStep = ({ formData, onChange, onNext, onBack }: Persona
             required
             value={formData.firstName}
             onChange={(e) => onChange("firstName", e.target.value)}
+            className="border-primary focus:ring-primary"
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="middleName">Your Middle Name (Optional)</Label>
+          <Input
+            id="middleName"
+            value={formData.middleName}
+            onChange={(e) => onChange("middleName", e.target.value)}
             className="border-primary focus:ring-primary"
           />
         </div>

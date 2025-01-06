@@ -10,7 +10,6 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import About from "./pages/About";
-import TermsAgreementPage from "./components/onboarding/TermsAgreementPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,7 +22,6 @@ const queryClient = new QueryClient({
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-  const [hasAgreedToTerms, setHasAgreedToTerms] = useState<boolean | null>(null);
 
   useEffect(() => {
     const checkSession = async () => {
@@ -35,16 +33,6 @@ const App = () => {
           return;
         }
         setIsAuthenticated(!!session);
-
-        if (session?.user) {
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('terms_agreed')
-            .eq('id', session.user.id)
-            .single();
-          
-          setHasAgreedToTerms(profile?.terms_agreed || false);
-        }
       } catch (error) {
         console.error("Error in session check:", error);
         setIsAuthenticated(false);
@@ -56,21 +44,11 @@ const App = () => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log("Auth state changed:", event, !!session);
       
-      if (event === 'SIGNED_OUT') {
+      if (event === 'SIGNED_OUT' || event === 'USER_DELETED') {
         setIsAuthenticated(false);
-        setHasAgreedToTerms(null);
-        queryClient.clear();
+        queryClient.clear(); // Clear query cache on logout
       } else if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
         setIsAuthenticated(true);
-        if (session?.user) {
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('terms_agreed')
-            .eq('id', session.user.id)
-            .single();
-          
-          setHasAgreedToTerms(profile?.terms_agreed || false);
-        }
       }
     });
 
@@ -79,6 +57,7 @@ const App = () => {
     };
   }, []);
 
+  // Show loading state while checking auth
   if (isAuthenticated === null) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -90,29 +69,23 @@ const App = () => {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: isAuthenticated 
-        ? (hasAgreedToTerms ? <Index /> : <Navigate to="/terms-agreement" />)
-        : <Index />,
+      element: <Index />,
     },
     {
       path: "/register",
-      element: isAuthenticated ? <Navigate to="/terms-agreement" /> : <Register />,
+      element: isAuthenticated ? <Navigate to="/" /> : <Register />,
     },
     {
       path: "/login",
       element: isAuthenticated ? <Navigate to="/" /> : <Login />,
     },
     {
-      path: "/terms-agreement",
-      element: isAuthenticated ? (!hasAgreedToTerms ? <TermsAgreementPage /> : <Navigate to="/" />) : <Navigate to="/login" />,
-    },
-    {
       path: "/profile",
-      element: isAuthenticated ? (hasAgreedToTerms ? <Profile /> : <Navigate to="/terms-agreement" />) : <Navigate to="/login" />,
+      element: isAuthenticated ? <Profile /> : <Navigate to="/login" />,
     },
     {
       path: "/about",
-      element: isAuthenticated ? (hasAgreedToTerms ? <About /> : <Navigate to="/terms-agreement" />) : <Navigate to="/login" />,
+      element: isAuthenticated ? <About /> : <Navigate to="/login" />,
     }
   ]);
 

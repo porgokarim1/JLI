@@ -3,6 +3,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import PhoneInput from 'react-phone-number-input';
+import { isValidPhoneNumber } from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 import { toast } from "sonner";
 
@@ -24,23 +25,16 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, onSubmit, 
     return emailRegex.test(email);
   };
 
-  const validatePhoneLength = (phone: string) => {
-    // Remove all non-digit characters and check if the remaining length is 10
-    const digits = phone.replace(/\D/g, '');
-    const isValidLength = digits.length === 10;
-    return isValidLength;
-  };
-
   const handleNext = () => {
     if (!validateEmail(formData.email)) {
       toast.error("Please enter a valid email address");
       return;
     }
-    if (formData.phone && !validatePhoneLength(formData.phone)) {
-      toast.error("Please enter a valid 10-digit phone number");
+    if (formData.phone && !isValidPhoneNumber(formData.phone)) {
+      toast.error("Please enter a valid phone number");
       return;
     }
-    onSubmit(); // Submit registration directly after contact info
+    onNext();
   };
 
   return (
@@ -91,7 +85,7 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, onSubmit, 
           className="flex-1 bg-[#FFD700] hover:bg-[#FFD700]/90 text-black"
           disabled={!validateEmail(formData.email)}
         >
-          Complete Registration
+          Next Step
           <ArrowRight className="ml-2 h-4 w-4" />
         </Button>
       </div>

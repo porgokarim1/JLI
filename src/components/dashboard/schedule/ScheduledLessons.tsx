@@ -1,105 +1,102 @@
-import { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { RefreshCw } from "lucide-react";
+import { format } from "date-fns";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { RefreshCw } from "lucide-react";
 
-interface Lesson {
-  title: string;
-  description: string;
-  duration: number;
-  image_url: string;
+interface Student {
+  first_name: string | null;
+  last_name: string | null;
+}
+
+interface Attendance {
+  student: Student;
 }
 
 interface Schedule {
   id: string;
-  lesson_id: string;
   instructor_id: string;
-  campus: string;
   lesson_date: string;
   start_time: string;
   end_time: string;
-  location: string;
-  attendance_code: string;
-  lessons?: Lesson;
+  location: string | null;
+  attendance_code: string | null;
+  lesson: {
+    title: string;
+  } | null;
+  attendance: Attendance[];
 }
 
 interface ScheduledLessonsProps {
-  schedules: Schedule[];
+  schedules: Schedule[] | undefined;
   refetchSchedules: () => void;
 }
 
 export const ScheduledLessons = ({ schedules, refetchSchedules }: ScheduledLessonsProps) => {
-  const [isRegenerating, setIsRegenerating] = useState<string | null>(null);
-
   const regenerateAttendanceCode = async (scheduleId: string) => {
     try {
-      setIsRegenerating(scheduleId);
       const { data: { session } } = await supabase.auth.getSession();
-      
       if (!session) {
-        toast.error("You must be logged in to perform this action");
+        toast.error("Not authenticated");
         return;
       }
 
-      const { error } = await supabase.rpc('generate_attendance_code', {
+      const { data, error } = await supabase.rpc('generate_attendance_code', {
         schedule_id: scheduleId
       });
-
+      
       if (error) throw error;
-
-      toast.success("Attendance code regenerated successfully");
-      refetchSchedules();
-    } catch (error: any) {
-      console.error('Error regenerating attendance code:', error);
-      toast.error(error.message || "Failed to regenerate attendance code");
-    } finally {
-      setIsRegenerating(null);
+      
+      if (data) {
+        toast.success("New attendance code generated!");
+        refetchSchedules();
+      }
+    } catch (error) {
+      console.error('Error generating attendance code:', error);
+      toast.error("Failed to generate new code");
     }
   };
 
-  if (!schedules.length) {
-    return (
-      <Card>
-        <CardContent className="p-6">
-          <p className="text-center text-muted-foreground">No scheduled lessons found.</p>
-        </CardContent>
-      </Card>
-    );
-  }
-
   return (
-    <Card>
-      <CardContent className="p-6 space-y-4">
-        {schedules.map((schedule) => (
-          <div
-            key={schedule.id}
-            className="flex items-center justify-between p-4 rounded-lg border bg-card text-card-foreground shadow-sm"
-          >
-            <div>
-              <h3 className="font-semibold">{schedule.lessons?.title}</h3>
-              <p className="text-sm text-muted-foreground">
-                {new Date(schedule.lesson_date).toLocaleDateString()} at{" "}
-                {schedule.start_time}
-              </p>
-              <p className="text-sm text-muted-foreground">
-                Location: {schedule.location}
-              </p>
-              <p className="text-sm font-medium mt-2">
-                Attendance Code: {schedule.attendance_code}
-              </p>
+    <Card className="lg:col-span-2">
+      <CardHeader>
+        <CardTitle>Scheduled Lessons</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4">
+          {schedules?.map((schedule) => (
+            <div key={schedule.id} className="p-4 border rounded-lg bg-white/50 backdrop-blur-sm hover:shadow-md transition-all">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h3 className="font-semibold">{schedule.lesson?.title}</h3>
+                  <p className="text-sm text-gray-600">
+                    {format(new Date(`2000-01-01T${schedule.start_time}`), 'h:mm a')} - 
+                    {format(new Date(`2000-01-01T${schedule.end_time}`), 'h:mm a')}
+                  </p>
+                  <p className="text-sm text-gray-600">{schedule.location}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-sm font-semibold">Attendance Code:</p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-lg font-mono">{schedule.attendance_code}</p>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => regenerateAttendanceCode(schedule.id)}
+                      className="h-8 w-8"
+                    >
+                      <RefreshCw className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
             </div>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => regenerateAttendanceCode(schedule.id)}
-              disabled={isRegenerating === schedule.id}
-            >
-              <RefreshCw className={`h-4 w-4 ${isRegenerating === schedule.id ? 'animate-spin' : ''}`} />
-            </Button>
-          </div>
-        ))}
+          ))}
+          {!schedules?.length && (
+            <p className="text-center text-gray-600">No lessons scheduled for this date</p>
+          )}
+        </div>
       </CardContent>
     </Card>
   );

@@ -28,7 +28,7 @@ const ScheduledLessons = ({ schedules, refetchSchedules }: ScheduledLessonsProps
 
   const handleRegenerateCode = async (scheduleId: string) => {
     try {
-      const { data, error } = await supabase
+      const { error } = await supabase
         .rpc('generate_attendance_code', { 
           schedule_id: scheduleId 
         });

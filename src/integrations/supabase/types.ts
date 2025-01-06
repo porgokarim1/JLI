@@ -266,8 +266,6 @@ export type Database = {
           reward_tier: string | null
           reward_tier_form_submitted: boolean | null
           role: Database["public"]["Enums"]["user_role"] | null
-          terms_agreed: boolean | null
-          terms_agreed_at: string | null
           updated_at: string
         }
         Insert: {
@@ -285,8 +283,6 @@ export type Database = {
           reward_tier?: string | null
           reward_tier_form_submitted?: boolean | null
           role?: Database["public"]["Enums"]["user_role"] | null
-          terms_agreed?: boolean | null
-          terms_agreed_at?: string | null
           updated_at?: string
         }
         Update: {
@@ -304,8 +300,6 @@ export type Database = {
           reward_tier?: string | null
           reward_tier_form_submitted?: boolean | null
           role?: Database["public"]["Enums"]["user_role"] | null
-          terms_agreed?: boolean | null
-          terms_agreed_at?: string | null
           updated_at?: string
         }
         Relationships: []

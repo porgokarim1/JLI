@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import LoadingSkeleton from "../LoadingSkeleton";
+import { LoadingSkeleton } from "../LoadingSkeleton";
 
 interface ScheduledLesson {
   id: string;
@@ -16,7 +16,12 @@ interface ScheduledLesson {
   attendance_code: string;
 }
 
-const ScheduledLessons = () => {
+interface ScheduledLessonsProps {
+  schedules?: ScheduledLesson[];
+  refetchSchedules?: () => void;
+}
+
+const ScheduledLessons = ({ schedules, refetchSchedules }: ScheduledLessonsProps) => {
   const { data: scheduledLessons, isLoading } = useQuery({
     queryKey: ["scheduled-lessons"],
     queryFn: async () => {
@@ -47,13 +52,16 @@ const ScheduledLessons = () => {
 
       return data as ScheduledLesson[];
     },
+    enabled: !schedules, // Only run the query if schedules prop is not provided
   });
 
   if (isLoading) return <LoadingSkeleton />;
 
+  const displaySchedules = schedules || scheduledLessons;
+
   return (
     <div className="space-y-4">
-      {scheduledLessons?.map((schedule) => (
+      {displaySchedules?.map((schedule) => (
         <div
           key={schedule.id}
           className="p-4 bg-white rounded-lg shadow-sm border border-gray-200"

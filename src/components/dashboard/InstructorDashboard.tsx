@@ -21,7 +21,7 @@ const InstructorDashboard = () => {
         .from('lessons_schedule')
         .select(`
           *,
-          lesson:lessons(title),
+          lesson:lessons(title, description),
           attendance:lesson_attendance(
             student:profiles(first_name, last_name)
           )
@@ -59,10 +59,12 @@ const InstructorDashboard = () => {
               selectedDate={selectedDate}
               setSelectedDate={setSelectedDate}
             />
-            <ScheduledLessons 
-              schedules={schedules}
-              refetchSchedules={refetchSchedules}
-            />
+            <div className="lg:col-span-2">
+              <ScheduledLessons 
+                schedules={schedules}
+                refetchSchedules={refetchSchedules}
+              />
+            </div>
           </div>
         </TabsContent>
 

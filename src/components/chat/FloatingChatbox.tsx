@@ -53,7 +53,7 @@ const FloatingChatbox = () => {
       ) : (
         <Button
           onClick={() => setIsOpen(true)}
-          className="rounded-full w-14 h-14 shadow-lg bg-primary hover:bg-primary-dark transition-all duration-300 hover:scale-110 animate-float"
+          className="rounded-full w-14 h-14 shadow-lg bg-primary hover:bg-primary-dark transition-all duration-300 hover:scale-110 hover:animate-float"
         >
           <MessageCircle className="h-7 w-7" />
         </Button>

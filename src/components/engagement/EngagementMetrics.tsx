@@ -6,8 +6,6 @@ import { Info } from "lucide-react";
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 
@@ -72,40 +70,37 @@ const EngagementMetrics = ({ type }: EngagementMetricsProps) => {
 
       return (
         <div className="p-4 space-y-4">
-          <h3 className="font-semibold">Learning Progress Details</h3>
           <div className="space-y-2">
             <p>Completed Lessons: {completedLessons}</p>
-            <Progress value={Math.min((completedLessons / 10) * 100, 100)} className="w-full" />
-            <p className="text-sm text-gray-600">Target: 10 lessons</p>
+            <Progress value={Math.min((completedLessons / 4) * 100, 100)} className="w-full" />
+            <p className="text-sm text-gray-600">Target: 4 lessons</p>
           </div>
         </div>
       );
     }
 
     const conversationCount = conversations?.length || 0;
-    const currentTier = getRewardTier(conversationCount);
     const nextThreshold = getNextRewardThreshold(conversationCount);
+    const remainingConversations = nextThreshold ? nextThreshold - conversationCount : 0;
+    const nextTier = getRewardTier(nextThreshold || 0);
 
     return (
       <div className="p-4 space-y-4">
-        <h3 className="font-semibold">Conversation Progress Details</h3>
         <div className="space-y-2">
-          <p>Total Conversations: {conversationCount}</p>
+          <p>
+            Total Conversations: {conversationCount}
+            {nextTier && remainingConversations > 0 && (
+              <span className="ml-2 text-gray-600">
+                ({remainingConversations} more until {nextTier})
+              </span>
+            )}
+          </p>
           <Progress value={Math.min((conversationCount / 25) * 100, 100)} className="w-full" />
           <div className="space-y-1 text-sm">
             <p>🥉 Bronze: 7 conversations</p>
             <p>🥈 Silver: 16 conversations</p>
             <p>🥇 Gold: 25 conversations</p>
           </div>
-          <p className="text-sm font-medium">
-            {currentTier ? (
-              <span>Current Tier: {currentTier} 🎉</span>
-            ) : nextThreshold ? (
-              <span>{nextThreshold - conversationCount} more until {getRewardTier(nextThreshold)}</span>
-            ) : (
-              <span>Keep it up!</span>
-            )}
-          </p>
         </div>
       </div>
     );
@@ -121,10 +116,10 @@ const EngagementMetrics = ({ type }: EngagementMetricsProps) => {
               <DialogTrigger>
                 <Info className="h-4 w-4 text-gray-500 cursor-pointer hover:text-gray-700" />
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Progress Details</DialogTitle>
-                </DialogHeader>
+              <DialogContent 
+                className="rounded-lg w-[300px] absolute left-0 top-8"
+                onPointerDownOutside={(e) => e.preventDefault()}
+              >
                 <MetricsContent />
               </DialogContent>
             </Dialog>
@@ -140,7 +135,7 @@ const EngagementMetrics = ({ type }: EngagementMetricsProps) => {
                 value={
                   type === "learning"
                     ? Math.min(
-                        ((lessonProgress?.filter((p) => p.status === "completed").length || 0) / 10) *
+                        ((lessonProgress?.filter((p) => p.status === "completed").length || 0) / 4) *
                           100,
                         100
                       )

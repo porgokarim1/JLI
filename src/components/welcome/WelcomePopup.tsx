@@ -52,7 +52,7 @@ const WelcomePopup = ({ isOpen, onClose }: WelcomePopupProps) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={() => {}}>
-      <DialogContent className="max-w-[95vw] w-full sm:max-w-2xl mx-auto p-4 sm:p-6 shadow-[0_0_50px_rgba(0,0,0,0.3)] max-h-[90vh] overflow-y-auto" hideCloseButton>
+      <DialogContent className="max-w-[95vw] w-full sm:max-w-2xl mx-auto p-4 sm:p-6 shadow-[0_0_50px_rgba(0,0,0,0.3)] max-h-[90vh] overflow-y-auto">
         <div className="space-y-4 sm:space-y-6">
           <div className="text-center">
             <h1 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-4 flex items-center justify-center gap-2 text-secondary">

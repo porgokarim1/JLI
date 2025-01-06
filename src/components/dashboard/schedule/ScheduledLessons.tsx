@@ -36,6 +36,12 @@ interface ScheduledLessonsProps {
 export const ScheduledLessons = ({ schedules, refetchSchedules }: ScheduledLessonsProps) => {
   const regenerateAttendanceCode = async (scheduleId: string) => {
     try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        toast.error("Not authenticated");
+        return;
+      }
+
       const { data, error } = await supabase.rpc('generate_attendance_code', {
         schedule_id: scheduleId
       });
@@ -47,6 +53,7 @@ export const ScheduledLessons = ({ schedules, refetchSchedules }: ScheduledLesso
         refetchSchedules();
       }
     } catch (error) {
+      console.error('Error generating attendance code:', error);
       toast.error("Failed to generate new code");
     }
   };

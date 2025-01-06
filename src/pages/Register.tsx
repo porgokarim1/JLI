@@ -6,6 +6,7 @@ import { ContactInfoStep } from "@/components/registration/steps/ContactInfoStep
 import { CampusInfoStep } from "@/components/registration/steps/CampusInfoStep";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { AuthError } from "@supabase/supabase-js";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -58,12 +59,22 @@ const Register = () => {
         },
       });
 
-      if (error) throw error;
+      if (error) {
+        if (error.message.includes('User already registered')) {
+          toast.error("This email is already registered. Please try logging in instead.");
+          navigate("/login");
+          return;
+        }
+        throw error;
+      }
 
       toast.success("Registration successful! Your password is: " + password + ". Please save it for future login.");
       navigate("/login");
     } catch (error: any) {
-      toast.error("Error during registration: " + error.message);
+      const errorMessage = error instanceof AuthError 
+        ? error.message
+        : "An unexpected error occurred during registration";
+      toast.error("Error during registration: " + errorMessage);
     } finally {
       setIsLoading(false);
     }

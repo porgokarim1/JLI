@@ -1,32 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent } from "@/components/ui/card";
-import { format } from "date-fns";
-import { Button } from "@/components/ui/button";
-import { Edit, Users, MessageSquarePlus } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import ConversationForm from "./ConversationForm";
-
-const getComfortEmoji = (comfort_level: string) => {
-  switch (comfort_level) {
-    case 'very_comfortable':
-      return '😄';
-    case 'comfortable':
-      return '🙂';
-    case 'uncomfortable':
-      return '😕';
-    case 'very_uncomfortable':
-      return '😣';
-    default:
-      return '😐';
-  }
-};
+import ConversationTableRow from "./conversations/ConversationTableRow";
+import ConversationMobileCard from "./conversations/ConversationMobileCard";
+import { Link } from "react-router-dom";
 
 const ConversationsList = () => {
   const [editingConversation, setEditingConversation] = useState<any>(null);
@@ -60,15 +40,19 @@ const ConversationsList = () => {
           <div className="text-center py-12">
             <h3 className="text-lg font-semibold mb-2">No conversations yet</h3>
             <p className="text-gray-600 mb-4">
-              Start engaging with people and record your conversations here.
+              Start engaging with people and record your conversations{" "}
+              <Link 
+                to="#" 
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsNewConversationOpen(true);
+                }}
+                className="text-primary hover:underline font-medium"
+              >
+                here
+              </Link>
+              .
             </p>
-            <Button
-              onClick={() => setIsNewConversationOpen(true)}
-              className="bg-[#FFD700] hover:bg-[#FFD700]/90 text-black flex items-center gap-2"
-            >
-              <MessageSquarePlus className="h-5 w-5" />
-              Record New Conversation
-            </Button>
           </div>
         </CardContent>
       </Card>
@@ -92,32 +76,11 @@ const ConversationsList = () => {
               </thead>
               <tbody>
                 {conversations.map((conversation) => (
-                  <tr key={conversation.id} className="border-t">
-                    <td className="py-4">
-                      <div className="flex items-center">
-                        <Users className="h-4 w-4 mr-2 text-primary" />
-                        {conversation.participant_count} {conversation.participant_count === 1 ? 'person' : 'people'}
-                      </div>
-                    </td>
-                    <td className="py-4">
-                      {format(new Date(conversation.conversation_date), "PPP")}
-                    </td>
-                    <td className="py-4 max-w-xs truncate">
-                      {conversation.comments}
-                    </td>
-                    <td className="py-4 capitalize">
-                      {conversation.comfort_level?.replace("_", " ")}
-                    </td>
-                    <td className="py-4">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => setEditingConversation(conversation)}
-                      >
-                        <Edit className="h-4 w-4 text-primary" />
-                      </Button>
-                    </td>
-                  </tr>
+                  <ConversationTableRow
+                    key={conversation.id}
+                    conversation={conversation}
+                    onEdit={setEditingConversation}
+                  />
                 ))}
               </tbody>
             </table>
@@ -125,31 +88,11 @@ const ConversationsList = () => {
 
           <div className="md:hidden space-y-4">
             {conversations.map((conversation) => (
-              <div key={conversation.id} className="p-4 bg-gray-50 rounded-lg">
-                <div className="flex justify-between items-start mb-2">
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                      <Users className="h-4 w-4 text-primary" />
-                      <span>{conversation.participant_count} {conversation.participant_count === 1 ? 'person' : 'people'}</span>
-                    </div>
-                    <div>
-                      {getComfortEmoji(conversation.comfort_level || '')} {conversation.comfort_level?.replace("_", " ")}
-                    </div>
-                    <div>{format(new Date(conversation.conversation_date), "PPP")}</div>
-                  </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setEditingConversation(conversation)}
-                    className="bg-[#FFD700] hover:bg-[#FFD700]/90 text-black"
-                  >
-                    <Edit className="h-4 w-4" />
-                  </Button>
-                </div>
-                {conversation.comments && (
-                  <p className="text-sm text-gray-600 mt-2">{conversation.comments}</p>
-                )}
-              </div>
+              <ConversationMobileCard
+                key={conversation.id}
+                conversation={conversation}
+                onEdit={setEditingConversation}
+              />
             ))}
           </div>
         </CardContent>
@@ -191,18 +134,6 @@ const ConversationsList = () => {
           />
         </DialogContent>
       </Dialog>
-
-      {/* Floating Action Button for New Conversation */}
-      <div className="fixed bottom-6 right-6">
-        <Button
-          onClick={() => setIsNewConversationOpen(true)}
-          className="bg-[#FFD700] hover:bg-[#FFD700]/90 text-black rounded-full shadow-lg flex items-center gap-2"
-          size="lg"
-        >
-          <MessageSquarePlus className="h-5 w-5" />
-          New Conversation
-        </Button>
-      </div>
     </>
   );
 };

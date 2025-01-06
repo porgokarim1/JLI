@@ -6,7 +6,7 @@ import { StudentList } from "./StudentList";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Users, Calendar as CalendarIcon } from "lucide-react";
 import { ScheduleCalendar } from "./schedule/ScheduleCalendar";
-import { ScheduledLessons } from "./schedule/ScheduledLessons";
+import ScheduledLessons from "./schedule/ScheduledLessons";
 
 const InstructorDashboard = () => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());

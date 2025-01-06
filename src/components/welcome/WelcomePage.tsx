@@ -50,36 +50,43 @@ const WelcomePage = () => {
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto space-y-8">
         <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4 flex items-center justify-center gap-2">
-            Welcome! <Sparkles className="h-8 w-8 text-yellow-400 animate-pulse" />
+          <h1 className="text-4xl font-bold mb-4 flex items-center justify-center gap-2 text-secondary animate-float">
+            Welcome! <Sparkles className="h-8 w-8 text-primary animate-pulse" />
           </h1>
-          <p className="text-lg text-gray-600 mb-8">
+          <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
             Thank you for joining our program. We're excited to have you on board!
           </p>
         </div>
 
-        <Card className="border-primary/20">
-          <CardHeader>
-            <CardTitle>What to Expect</CardTitle>
+        <Card className="border-primary/20 shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <CardHeader className="bg-gradient-to-r from-soft-purple/30 to-soft-blue/30">
+            <CardTitle className="text-2xl text-secondary">What to Expect</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <p className="text-gray-600">
+          <CardContent className="space-y-4 p-6">
+            <p className="text-muted-foreground font-medium">
               During this program, you'll have the opportunity to:
             </p>
-            <ul className="list-disc list-inside space-y-2 text-gray-600 ml-4">
-              <li>Engage in meaningful conversations with peers</li>
-              <li>Participate in interactive learning sessions</li>
-              <li>Access valuable educational resources</li>
-              <li>Track your progress and earn rewards</li>
+            <ul className="list-none space-y-3 text-muted-foreground ml-4">
+              {[
+                "Engage in meaningful conversations with peers",
+                "Participate in interactive learning sessions",
+                "Access valuable educational resources",
+                "Track your progress and earn rewards"
+              ].map((item, index) => (
+                <li key={index} className="flex items-center gap-2 group">
+                  <span className="h-2 w-2 rounded-full bg-primary group-hover:scale-125 transition-transform" />
+                  <span className="group-hover:text-secondary transition-colors">{item}</span>
+                </li>
+              ))}
             </ul>
           </CardContent>
         </Card>
 
-        <Card className="border-primary/20">
-          <CardHeader>
-            <CardTitle>Terms & Agreement</CardTitle>
+        <Card className="border-primary/20 shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <CardHeader className="bg-gradient-to-r from-soft-pink/30 to-soft-peach/30">
+            <CardTitle className="text-2xl text-secondary">Terms & Agreement</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-6">
             <TermsSection
               formData={formData}
               onChange={handleFieldChange}
@@ -90,9 +97,9 @@ const WelcomePage = () => {
         <Button
           onClick={handleSubmit}
           disabled={!formData.agreeToTerms || !formData.agreeToDisclaimer}
-          className="w-full py-6 text-lg bg-primary hover:bg-primary/90"
+          className="w-full py-6 text-lg bg-primary hover:bg-primary/90 transition-all duration-300 transform hover:-translate-y-1"
         >
-          I Agree & Continue to Dashboard
+          Go to Dashboard
         </Button>
       </div>
     </div>

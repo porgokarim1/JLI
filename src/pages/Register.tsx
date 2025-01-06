@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { PersonalInfoStep } from "@/components/registration/steps/PersonalInfoStep";
 import { ContactInfoStep } from "@/components/registration/steps/ContactInfoStep";
 import { CampusInfoStep } from "@/components/registration/steps/CampusInfoStep";
-import { FinalStep } from "@/components/registration/steps/FinalStep";
 import { GenderStep } from "@/components/registration/steps/GenderStep";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -21,8 +20,6 @@ const Register = () => {
     phone: "",
     campus: "",
     organization: "",
-    agreeToTerms: false,
-    agreeToDisclaimer: false,
   });
 
   const handleFieldChange = (field: string, value: any) => {
@@ -33,14 +30,10 @@ const Register = () => {
   };
 
   const generatePassword = (firstName: string, lastName: string, phone: string) => {
-    // Get first initials in uppercase
     const firstInitial = firstName.charAt(0).toUpperCase();
     const lastInitial = lastName.charAt(0).toUpperCase();
-    
-    // Get last 4 digits of phone number, removing any non-numeric characters
     const cleanPhone = phone.replace(/\D/g, '');
     const last4Digits = cleanPhone.slice(-4);
-    
     return `${firstInitial}${lastInitial}${last4Digits}`;
   };
 
@@ -104,30 +97,8 @@ const Register = () => {
       props: {
         formData,
         onChange: handleFieldChange,
-        onNext: () => setCurrentStep(3),
+        onNext: handleSubmit,
         onBack: () => setCurrentStep(1),
-        onSubmit: handleSubmit,
-        isLoading,
-      }
-    },
-    {
-      component: CampusInfoStep,
-      props: {
-        formData,
-        onChange: handleFieldChange,
-        onNext: () => setCurrentStep(4),
-        onBack: () => setCurrentStep(2),
-        onSubmit: handleSubmit,
-        isLoading,
-      }
-    },
-    {
-      component: FinalStep,
-      props: {
-        formData,
-        onChange: handleFieldChange,
-        onNext: () => null,
-        onBack: () => setCurrentStep(3),
         onSubmit: handleSubmit,
         isLoading,
       }

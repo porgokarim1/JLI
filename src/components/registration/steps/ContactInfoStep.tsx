@@ -1,7 +1,9 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, Circle, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Check, CheckCircle2, Circle } from "lucide-react";
+import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
 
 interface ContactInfoStepProps {
   formData: {
@@ -11,9 +13,14 @@ interface ContactInfoStepProps {
   onChange: (field: string, value: string) => void;
   onNext: () => void;
   onBack: () => void;
+  isLoading: boolean;
 }
 
-export const ContactInfoStep = ({ formData, onChange, onNext, onBack }: ContactInfoStepProps) => {
+export const ContactInfoStep = ({ formData, onChange, onNext, onBack, isLoading }: ContactInfoStepProps) => {
+  const handlePhoneChange = (value: string | undefined) => {
+    onChange("phone", value || "");
+  };
+
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="text-center space-y-2">
@@ -35,13 +42,15 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack }: ContactI
 
         <div>
           <Label htmlFor="phone">Phone Number</Label>
-          <Input
-            id="phone"
-            type="tel"
-            required
-            value={formData.phone}
-            onChange={(e) => onChange("phone", e.target.value)}
-          />
+          <div className="phone-input-container">
+            <PhoneInput
+              international
+              countryCallingCodeEditable={false}
+              defaultCountry="US"
+              value={formData.phone || ''}
+              onChange={handlePhoneChange}
+            />
+          </div>
         </div>
       </div>
 
@@ -50,7 +59,6 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack }: ContactI
           <CheckCircle2 className="w-5 h-5 text-[#8B5CF6]" />
           <CheckCircle2 className="w-5 h-5 text-[#8B5CF6]" />
           <CheckCircle2 className="w-5 h-5 text-[#8B5CF6]" />
-          <Circle className="w-5 h-5 text-muted" />
         </div>
 
         <div className="flex gap-4">
@@ -58,6 +66,7 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack }: ContactI
             variant="outline"
             onClick={onBack}
             className="flex-1"
+            disabled={isLoading}
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back
@@ -65,10 +74,16 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack }: ContactI
           <Button
             onClick={onNext}
             className="flex-1"
-            disabled={!formData.email || !formData.phone}
+            disabled={isLoading || !formData.email || !formData.phone}
           >
-            Next
-            <ArrowRight className="ml-2 h-4 w-4" />
+            {isLoading ? (
+              "Registering..."
+            ) : (
+              <>
+                Complete Registration
+                <Check className="ml-2 h-4 w-4" />
+              </>
+            )}
           </Button>
         </div>
       </div>

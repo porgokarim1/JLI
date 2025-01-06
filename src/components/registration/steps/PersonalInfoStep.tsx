@@ -54,12 +54,19 @@ export const PersonalInfoStep = ({ formData, onChange, onNext, onBack }: Persona
       </div>
 
       <div className="flex flex-col space-y-4">
+        <div className="flex justify-center space-x-2 mb-4">
+          <div className="w-2 h-2 rounded-full bg-primary"></div>
+          <div className="w-2 h-2 rounded-full bg-primary opacity-50"></div>
+          <div className="w-2 h-2 rounded-full bg-primary opacity-50"></div>
+          <div className="w-2 h-2 rounded-full bg-primary opacity-50"></div>
+        </div>
+
         <Button 
           onClick={handleNext}
           className="w-full bg-primary hover:bg-primary-dark text-primary-foreground"
           disabled={!formData.firstName.trim() || !formData.lastName.trim()}
         >
-          Next Step
+          Next
           <ArrowRight className="ml-2 h-4 w-4" />
         </Button>
         

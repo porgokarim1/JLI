@@ -50,23 +50,31 @@ export const GenderStep = ({ formData, onChange, onNext, onBack }: GenderStepPro
       </div>
 
       <div className="flex flex-col space-y-4">
-        <Button
-          onClick={onNext}
-          className="w-full bg-primary hover:bg-primary-dark text-primary-foreground"
-          disabled={!formData.gender}
-        >
-          Next Step
-          <ArrowRight className="ml-2 h-4 w-4" />
-        </Button>
+        <div className="flex justify-center space-x-2 mb-4">
+          <div className="w-2 h-2 rounded-full bg-primary"></div>
+          <div className="w-2 h-2 rounded-full bg-primary"></div>
+          <div className="w-2 h-2 rounded-full bg-primary opacity-50"></div>
+          <div className="w-2 h-2 rounded-full bg-primary opacity-50"></div>
+        </div>
 
-        <Button
-          variant="outline"
-          onClick={onBack}
-          className="w-full border-primary text-primary hover:bg-primary/10"
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back
-        </Button>
+        <div className="flex gap-4">
+          <Button
+            variant="outline"
+            onClick={onBack}
+            className="flex-1"
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back
+          </Button>
+          <Button
+            onClick={onNext}
+            className="flex-1"
+            disabled={!formData.gender}
+          >
+            Next
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
       </div>
     </div>
   );

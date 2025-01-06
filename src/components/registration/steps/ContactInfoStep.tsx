@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, Check } from "lucide-react";
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 import { toast } from "sonner";
@@ -65,23 +65,32 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, onSubmit, 
         </div>
       </div>
 
-      <div className="flex gap-4">
-        <Button 
-          variant="outline"
-          onClick={onBack}
-          className="flex-1"
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back
-        </Button>
-        <Button 
-          onClick={handleNext}
-          className="flex-1 bg-[#FFD700] hover:bg-[#FFD700]/90 text-black"
-          disabled={!validateEmail(formData.email)}
-        >
-          Complete Registration
-          <ArrowRight className="ml-2 h-4 w-4" />
-        </Button>
+      <div className="flex flex-col space-y-4">
+        <div className="flex justify-center space-x-2 mb-4">
+          <div className="w-2 h-2 rounded-full bg-primary"></div>
+          <div className="w-2 h-2 rounded-full bg-primary"></div>
+          <div className="w-2 h-2 rounded-full bg-primary"></div>
+          <div className="w-2 h-2 rounded-full bg-primary opacity-50"></div>
+        </div>
+        
+        <div className="flex gap-4">
+          <Button 
+            variant="outline"
+            onClick={onBack}
+            className="flex-1"
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back
+          </Button>
+          <Button 
+            onClick={handleNext}
+            className="flex-1 bg-[#FFD700] hover:bg-[#FFD700]/90 text-black"
+            disabled={!validateEmail(formData.email)}
+          >
+            Complete Registration
+            <Check className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
       </div>
     </div>
   );

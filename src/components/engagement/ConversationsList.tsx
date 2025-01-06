@@ -9,7 +9,7 @@ import ConversationMobileCard from "./conversations/ConversationMobileCard";
 
 const ConversationsList = () => {
   const [editingConversation, setEditingConversation] = useState<any>(null);
-  const [isNewConversationOpen, setIsNewConversationOpen] = useState(false);
+  const [isConversationDialogOpen, setIsConversationDialogOpen] = useState(false);
   
   const { data: conversations, isLoading, refetch } = useQuery({
     queryKey: ["conversations"],
@@ -41,7 +41,7 @@ const ConversationsList = () => {
             <p className="text-gray-600 mb-4">
               Start engaging with people and record your conversations{" "}
               <button 
-                onClick={() => setIsNewConversationOpen(true)}
+                onClick={() => setIsConversationDialogOpen(true)}
                 className="text-primary hover:underline font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
               >
                 here
@@ -114,8 +114,8 @@ const ConversationsList = () => {
 
       {/* New Conversation Dialog */}
       <Dialog 
-        open={isNewConversationOpen} 
-        onOpenChange={setIsNewConversationOpen}
+        open={isConversationDialogOpen} 
+        onOpenChange={setIsConversationDialogOpen}
       >
         <DialogContent className="w-[90vw] max-w-[600px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
@@ -123,7 +123,7 @@ const ConversationsList = () => {
           </DialogHeader>
           <ConversationForm 
             onSuccess={() => {
-              setIsNewConversationOpen(false);
+              setIsConversationDialogOpen(false);
               refetch();
             }} 
           />

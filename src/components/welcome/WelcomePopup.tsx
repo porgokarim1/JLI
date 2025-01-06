@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Sparkles } from "lucide-react";
+import { TermsSection } from "@/components/registration/TermsSection";
 
 interface WelcomePopupProps {
   isOpen: boolean;
@@ -50,8 +51,8 @@ const WelcomePopup = ({ isOpen, onClose }: WelcomePopupProps) => {
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl">
+    <Dialog open={isOpen} onOpenChange={() => {}}>
+      <DialogContent className="max-w-2xl shadow-[0_0_50px_rgba(0,0,0,0.3)]">
         <div className="space-y-6">
           <div className="text-center">
             <h1 className="text-3xl font-bold mb-4 flex items-center justify-center gap-2 text-secondary">
@@ -88,35 +89,10 @@ const WelcomePopup = ({ isOpen, onClose }: WelcomePopupProps) => {
               <CardTitle className="text-xl text-secondary">Terms & Agreement</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="space-y-4">
-                <div className="flex items-start gap-2">
-                  <input
-                    type="checkbox"
-                    id="terms"
-                    checked={formData.agreeToTerms}
-                    onChange={(e) => handleFieldChange("agreeToTerms", e.target.checked)}
-                    className="mt-1"
-                  />
-                  <label htmlFor="terms" className="text-sm">
-                    I agree to participate in educational sessions, engage respectfully with others, 
-                    and maintain the confidentiality of sensitive discussions.
-                  </label>
-                </div>
-
-                <div className="flex items-start gap-2">
-                  <input
-                    type="checkbox"
-                    id="disclaimer"
-                    checked={formData.agreeToDisclaimer}
-                    onChange={(e) => handleFieldChange("agreeToDisclaimer", e.target.checked)}
-                    className="mt-1"
-                  />
-                  <label htmlFor="disclaimer" className="text-sm">
-                    I understand that the program content may include sensitive topics, 
-                    and I agree to approach these discussions with maturity and respect for diverse perspectives.
-                  </label>
-                </div>
-              </div>
+              <TermsSection
+                formData={formData}
+                onChange={handleFieldChange}
+              />
             </CardContent>
           </Card>
 

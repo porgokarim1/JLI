@@ -93,9 +93,6 @@ const StudentDashboard = ({ conversationCount }: StudentDashboardProps) => {
 
       <Dialog open={isConversationDialogOpen} onOpenChange={setIsConversationDialogOpen}>
         <DialogContent className="w-[90vw] max-w-[600px] max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>New Conversation</DialogTitle>
-          </DialogHeader>
           <ConversationForm onSuccess={() => setIsConversationDialogOpen(false)} />
         </DialogContent>
       </Dialog>

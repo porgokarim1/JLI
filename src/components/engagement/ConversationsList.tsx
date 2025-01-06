@@ -30,6 +30,7 @@ const getComfortEmoji = (comfort_level: string) => {
 
 const ConversationsList = () => {
   const [editingConversation, setEditingConversation] = useState<any>(null);
+  const [showNewConversationDialog, setShowNewConversationDialog] = useState(false);
   const { data: conversations, isLoading, refetch } = useQuery({
     queryKey: ["conversations"],
     queryFn: async () => {
@@ -61,7 +62,7 @@ const ConversationsList = () => {
               Start engaging with people and record your conversations here.
             </p>
             <Button
-              onClick={() => setEditingConversation({})}
+              onClick={() => setShowNewConversationDialog(true)}
               className="bg-[#FFD700] hover:bg-[#FFD700]/90 text-black"
             >
               Record New Conversation
@@ -75,103 +76,122 @@ const ConversationsList = () => {
   // ... keep existing code (table and mobile view rendering)
 
   return (
-    <Card className="bg-white/90 backdrop-blur-sm">
-      <CardContent>
-        <div className="hidden md:block">
-          <table className="w-full">
-            <thead>
-              <tr className="text-left">
-                <th className="pb-4">Participants</th>
-                <th className="pb-4">Date</th>
-                <th className="pb-4">Comments</th>
-                <th className="pb-4">Comfort Level</th>
-                <th className="pb-4">Edit</th>
-              </tr>
-            </thead>
-            <tbody>
-              {conversations.map((conversation) => (
-                <tr key={conversation.id} className="border-t">
-                  <td className="py-4">
-                    <div className="flex items-center">
-                      <Users className="h-4 w-4 mr-2 text-primary" />
-                      {conversation.participant_count} {conversation.participant_count === 1 ? 'person' : 'people'}
-                    </div>
-                  </td>
-                  <td className="py-4">
-                    {format(new Date(conversation.conversation_date), "PPP")}
-                  </td>
-                  <td className="py-4 max-w-xs truncate">
-                    {conversation.comments}
-                  </td>
-                  <td className="py-4 capitalize">
-                    {conversation.comfort_level?.replace("_", " ")}
-                  </td>
-                  <td className="py-4">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => setEditingConversation(conversation)}
-                    >
-                      <Edit className="h-4 w-4 text-primary" />
-                    </Button>
-                  </td>
+    <>
+      <Card className="bg-white/90 backdrop-blur-sm">
+        <CardContent>
+          <div className="hidden md:block">
+            <table className="w-full">
+              <thead>
+                <tr className="text-left">
+                  <th className="pb-4">Participants</th>
+                  <th className="pb-4">Date</th>
+                  <th className="pb-4">Comments</th>
+                  <th className="pb-4">Comfort Level</th>
+                  <th className="pb-4">Edit</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {conversations.map((conversation) => (
+                  <tr key={conversation.id} className="border-t">
+                    <td className="py-4">
+                      <div className="flex items-center">
+                        <Users className="h-4 w-4 mr-2 text-primary" />
+                        {conversation.participant_count} {conversation.participant_count === 1 ? 'person' : 'people'}
+                      </div>
+                    </td>
+                    <td className="py-4">
+                      {format(new Date(conversation.conversation_date), "PPP")}
+                    </td>
+                    <td className="py-4 max-w-xs truncate">
+                      {conversation.comments}
+                    </td>
+                    <td className="py-4 capitalize">
+                      {conversation.comfort_level?.replace("_", " ")}
+                    </td>
+                    <td className="py-4">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setEditingConversation(conversation)}
+                      >
+                        <Edit className="h-4 w-4 text-primary" />
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-        <div className="md:hidden space-y-4">
-          {conversations.map((conversation) => (
-            <div key={conversation.id} className="p-4 bg-gray-50 rounded-lg">
-              <div className="flex justify-between items-start mb-2">
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <Users className="h-4 w-4 text-primary" />
-                    <span>{conversation.participant_count} {conversation.participant_count === 1 ? 'person' : 'people'}</span>
+          <div className="md:hidden space-y-4">
+            {conversations.map((conversation) => (
+              <div key={conversation.id} className="p-4 bg-gray-50 rounded-lg">
+                <div className="flex justify-between items-start mb-2">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <Users className="h-4 w-4 text-primary" />
+                      <span>{conversation.participant_count} {conversation.participant_count === 1 ? 'person' : 'people'}</span>
+                    </div>
+                    <div>
+                      {getComfortEmoji(conversation.comfort_level || '')} {conversation.comfort_level?.replace("_", " ")}
+                    </div>
+                    <div>{format(new Date(conversation.conversation_date), "PPP")}</div>
                   </div>
-                  <div>
-                    {getComfortEmoji(conversation.comfort_level || '')} {conversation.comfort_level?.replace("_", " ")}
-                  </div>
-                  <div>{format(new Date(conversation.conversation_date), "PPP")}</div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setEditingConversation(conversation)}
+                    className="bg-[#FFD700] hover:bg-[#FFD700]/90 text-black"
+                  >
+                    <Edit className="h-4 w-4" />
+                  </Button>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setEditingConversation(conversation)}
-                  className="bg-[#FFD700] hover:bg-[#FFD700]/90 text-black"
-                >
-                  <Edit className="h-4 w-4" />
-                </Button>
+                {conversation.comments && (
+                  <p className="text-sm text-gray-600 mt-2">{conversation.comments}</p>
+                )}
               </div>
-              {conversation.comments && (
-                <p className="text-sm text-gray-600 mt-2">{conversation.comments}</p>
-              )}
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
 
-        <Dialog 
-          open={!!editingConversation} 
-          onOpenChange={(open) => !open && setEditingConversation(null)}
-        >
-          <DialogContent className="w-[90vw] max-w-[600px] max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle>
-                {editingConversation?.id ? 'Edit Conversation' : 'New Conversation'}
-              </DialogTitle>
-            </DialogHeader>
-            <ConversationForm 
-              initialData={editingConversation}
-              onSuccess={() => {
-                setEditingConversation(null);
-                refetch();
-              }} 
-            />
-          </DialogContent>
-        </Dialog>
-      </CardContent>
-    </Card>
+      <Dialog 
+        open={!!editingConversation} 
+        onOpenChange={(open) => !open && setEditingConversation(null)}
+      >
+        <DialogContent className="w-[90vw] max-w-[600px] max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>
+              {editingConversation?.id ? 'Edit Conversation' : 'New Conversation'}
+            </DialogTitle>
+          </DialogHeader>
+          <ConversationForm 
+            initialData={editingConversation}
+            onSuccess={() => {
+              setEditingConversation(null);
+              refetch();
+            }} 
+          />
+        </DialogContent>
+      </Dialog>
+
+      <Dialog 
+        open={showNewConversationDialog} 
+        onOpenChange={setShowNewConversationDialog}
+      >
+        <DialogContent className="w-[90vw] max-w-[600px] max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>New Conversation</DialogTitle>
+          </DialogHeader>
+          <ConversationForm 
+            onSuccess={() => {
+              setShowNewConversationDialog(false);
+              refetch();
+            }} 
+          />
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 

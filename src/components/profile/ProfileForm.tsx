@@ -100,12 +100,16 @@ export const ProfileForm = ({
             value={formData.campus || ''}
             onValueChange={(value) => onChange("campus", value)}
           >
-            <SelectTrigger>
+            <SelectTrigger className="bg-white">
               <SelectValue placeholder="Select your campus" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-white border shadow-lg">
               {universities.map((university) => (
-                <SelectItem key={university} value={university}>
+                <SelectItem 
+                  key={university} 
+                  value={university}
+                  className="hover:bg-gray-100 cursor-pointer"
+                >
                   {university}
                 </SelectItem>
               ))}

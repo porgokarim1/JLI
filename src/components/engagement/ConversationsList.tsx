@@ -6,7 +6,6 @@ import { useState } from "react";
 import ConversationForm from "./ConversationForm";
 import ConversationTableRow from "./conversations/ConversationTableRow";
 import ConversationMobileCard from "./conversations/ConversationMobileCard";
-import { Link } from "react-router-dom";
 
 const ConversationsList = () => {
   const [editingConversation, setEditingConversation] = useState<any>(null);
@@ -41,16 +40,12 @@ const ConversationsList = () => {
             <h3 className="text-lg font-semibold mb-2">No conversations yet</h3>
             <p className="text-gray-600 mb-4">
               Start engaging with people and record your conversations{" "}
-              <Link 
-                to="#" 
-                onClick={(e) => {
-                  e.preventDefault();
-                  setIsNewConversationOpen(true);
-                }}
-                className="text-primary hover:underline font-medium"
+              <button 
+                onClick={() => setIsNewConversationOpen(true)}
+                className="text-primary hover:underline font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
               >
                 here
-              </Link>
+              </button>
               .
             </p>
           </div>

@@ -1,68 +1,75 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import LoadingSkeleton from "../LoadingSkeleton";
 
-interface ScheduledLessonsProps {
-  schedules?: Array<{
-    id: string;
-    attendance_code: string;
-    lesson?: {
-      title: string;
-    };
-  }>;
-  refetchSchedules?: () => void;
+interface ScheduledLesson {
+  id: string;
+  lesson: {
+    title: string;
+    description: string;
+  };
+  lesson_date: string;
+  start_time: string;
+  end_time: string;
+  location: string;
+  attendance_code: string;
 }
 
-const ScheduledLessons = ({ schedules, refetchSchedules }: ScheduledLessonsProps) => {
-  const { refetch } = useQuery({
-    queryKey: ['scheduled-lessons'],
+const ScheduledLessons = () => {
+  const { data: scheduledLessons, isLoading } = useQuery({
+    queryKey: ["scheduled-lessons"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('lessons_schedule')
-        .select('*, lesson:lessons(*)');
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("No user found");
 
-      if (error) throw error;
-      return data;
+      const { data, error } = await supabase
+        .from("lessons_schedule")
+        .select(`
+          id,
+          lesson:lessons (
+            title,
+            description
+          ),
+          lesson_date,
+          start_time,
+          end_time,
+          location,
+          attendance_code
+        `)
+        .eq("instructor_id", user.id)
+        .order("lesson_date", { ascending: true });
+
+      if (error) {
+        toast.error("Error fetching scheduled lessons");
+        throw error;
+      }
+
+      return data as ScheduledLesson[];
     },
   });
 
-  const handleRegenerateCode = async (scheduleId: string) => {
-    try {
-      const { error } = await supabase
-        .rpc('generate_attendance_code', { 
-          schedule_id: scheduleId 
-        });
-
-      if (error) throw error;
-      
-      toast.success('Attendance code regenerated successfully');
-      refetch();
-      if (refetchSchedules) refetchSchedules();
-    } catch (error: any) {
-      console.error('Error regenerating attendance code:', error);
-      toast.error(error.message || 'Failed to regenerate attendance code');
-    }
-  };
+  if (isLoading) return <LoadingSkeleton />;
 
   return (
-    <div className="col-span-2 space-y-4">
-      <h2 className="text-xl font-semibold">Scheduled Lessons</h2>
-      <div className="space-y-4">
-        {schedules?.map((schedule) => (
-          <div key={schedule.id} className="p-4 border rounded-lg shadow-sm">
-            <h3 className="font-medium">{schedule.lesson?.title}</h3>
-            <div className="mt-2 text-sm text-gray-600">
-              <p>Attendance Code: {schedule.attendance_code}</p>
-              <button 
-                onClick={() => handleRegenerateCode(schedule.id)}
-                className="mt-2 text-primary hover:text-primary/80"
-              >
-                Regenerate Code
-              </button>
-            </div>
+    <div className="space-y-4">
+      {scheduledLessons?.map((schedule) => (
+        <div
+          key={schedule.id}
+          className="p-4 bg-white rounded-lg shadow-sm border border-gray-200"
+        >
+          <h3 className="text-lg font-semibold">{schedule.lesson.title}</h3>
+          <p className="text-gray-600">{schedule.lesson.description}</p>
+          <div className="mt-2 text-sm text-gray-500">
+            <p>Date: {new Date(schedule.lesson_date).toLocaleDateString()}</p>
+            <p>
+              Time: {schedule.start_time} - {schedule.end_time}
+            </p>
+            <p>Location: {schedule.location}</p>
+            <p>Attendance Code: {schedule.attendance_code}</p>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 };

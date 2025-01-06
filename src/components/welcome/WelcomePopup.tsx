@@ -60,13 +60,16 @@ const WelcomePopup = ({ isOpen, onClose }: WelcomePopupProps) => {
 
       if (error) throw error;
 
-      triggerConfetti(); // Trigger confetti before closing
+      // Close the dialog immediately
+      onClose();
       
-      // Add a small delay before closing to let users see the confetti
+      // Trigger confetti and show success message
+      triggerConfetti();
+      
+      // Show success message after a brief delay
       setTimeout(() => {
         toast.success("Welcome to the program! 🎉");
-        onClose();
-      }, 1000);
+      }, 500);
       
     } catch (error: any) {
       toast.error("Error updating profile: " + error.message);

@@ -11,7 +11,7 @@ const FloatingChatbox = () => {
       {isOpen ? (
         <Card className="w-[300px] h-[400px] p-4 shadow-lg bg-white relative">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="font-semibold">Chat Support</h3>
+            <h3 className="font-semibold">AI Chatbot</h3>
             <Button
               variant="ghost"
               size="icon"
@@ -22,9 +22,8 @@ const FloatingChatbox = () => {
             </Button>
           </div>
           <div className="h-[300px] overflow-y-auto border rounded-md p-2 mb-4">
-            {/* Chat messages will go here */}
             <p className="text-gray-500 text-center mt-4">
-              Chat support coming soon!
+              AI chat assist coming soon!
             </p>
           </div>
         </Card>

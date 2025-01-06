@@ -46,12 +46,25 @@ const ConversationsList = () => {
             <p className="text-gray-600 mb-6 text-center max-w-md">
               Start engaging with people and record your meaningful conversations
             </p>
-            <Button 
-              onClick={() => setIsConversationDialogOpen(true)}
-              className="bg-primary hover:bg-primary-dark text-primary-foreground font-medium px-6 py-2 rounded-full transition-all duration-300 hover:scale-105"
-            >
-              Record Your First Conversation
-            </Button>
+            <Dialog open={isConversationDialogOpen} onOpenChange={setIsConversationDialogOpen}>
+              <Button 
+                onClick={() => setIsConversationDialogOpen(true)}
+                className="bg-primary hover:bg-primary-dark text-primary-foreground font-medium px-6 py-2 rounded-full transition-all duration-300 hover:scale-105"
+              >
+                Record Your First Conversation
+              </Button>
+              <DialogContent className="w-[90vw] max-w-[600px] max-h-[90vh] overflow-y-auto">
+                <DialogHeader>
+                  <DialogTitle>Record Your First Conversation</DialogTitle>
+                </DialogHeader>
+                <ConversationForm 
+                  onSuccess={() => {
+                    setIsConversationDialogOpen(false);
+                    refetch();
+                  }} 
+                />
+              </DialogContent>
+            </Dialog>
           </div>
         </CardContent>
       </Card>

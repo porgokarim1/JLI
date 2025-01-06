@@ -41,8 +41,8 @@ const ComfortStep = ({ form, onNext, onBack }: ComfortStepProps) => {
                 {comfortOptions.map((option) => (
                   <motion.div
                     key={option.value}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    animate={field.value === option.value ? { scale: 1.02 } : { scale: 1 }}
+                    transition={{ duration: 0.2 }}
                   >
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>

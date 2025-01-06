@@ -72,6 +72,8 @@ const ConversationsList = () => {
     );
   }
 
+  // ... keep existing code (table and mobile view rendering)
+
   return (
     <Card className="bg-white/90 backdrop-blur-sm">
       <CardContent>

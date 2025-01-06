@@ -14,7 +14,6 @@ import ConversationForm from "@/components/engagement/ConversationForm";
 import ConversationsList from "@/components/engagement/ConversationsList";
 import EngagementMetrics from "@/components/engagement/EngagementMetrics";
 import RewardTierNotification from "@/components/engagement/RewardTierNotification";
-import { useNavigate } from "react-router-dom";
 
 interface StudentDashboardProps {
   conversationCount: number | undefined;
@@ -22,7 +21,6 @@ interface StudentDashboardProps {
 
 const StudentDashboard = ({ conversationCount }: StudentDashboardProps) => {
   const [isConversationDialogOpen, setIsConversationDialogOpen] = useState(false);
-  const navigate = useNavigate();
 
   return (
     <div className="container mx-auto p-4">
@@ -82,17 +80,9 @@ const StudentDashboard = ({ conversationCount }: StudentDashboardProps) => {
       <div className="mt-6">
         <Card className="bg-soft-purple border-2 border-primary/20 shadow-lg">
           <CardHeader>
-            <CardTitle className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <MessageSquarePlus className="h-5 w-5 text-primary" />
-                Recent Conversations
-              </div>
-              <Button 
-                onClick={() => navigate("/engagement")}
-                className="bg-[#FFD700] hover:bg-[#FFD700]/90 text-black"
-              >
-                Record New Conversation
-              </Button>
+            <CardTitle className="flex items-center gap-2">
+              <MessageSquarePlus className="h-5 w-5 text-primary" />
+              Recent Conversations
             </CardTitle>
           </CardHeader>
           <CardContent>

@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Sparkles } from "lucide-react";
 import { TermsSection } from "@/components/registration/TermsSection";
+import confetti from "canvas-confetti";
 
 interface WelcomePopupProps {
   isOpen: boolean;
@@ -23,6 +24,22 @@ const WelcomePopup = ({ isOpen, onClose }: WelcomePopupProps) => {
       ...prev,
       [field]: value,
     }));
+  };
+
+  const triggerConfetti = () => {
+    // Fire confetti from the left edge
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { x: 0.1, y: 0.5 }
+    });
+
+    // Fire confetti from the right edge
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { x: 0.9, y: 0.5 }
+    });
   };
 
   const handleSubmit = async () => {
@@ -43,8 +60,14 @@ const WelcomePopup = ({ isOpen, onClose }: WelcomePopupProps) => {
 
       if (error) throw error;
 
-      toast.success("Welcome to the program! 🎉");
-      onClose();
+      triggerConfetti(); // Trigger confetti before closing
+      
+      // Add a small delay before closing to let users see the confetti
+      setTimeout(() => {
+        toast.success("Welcome to the program! 🎉");
+        onClose();
+      }, 1000);
+      
     } catch (error: any) {
       toast.error("Error updating profile: " + error.message);
     }

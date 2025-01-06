@@ -39,7 +39,7 @@ const AuthenticatedButtons = () => {
       </Button>
       <Button
         variant="outline"
-        className="inline-flex items-center"
+        className="inline-flex items-center text-black"
         onClick={handleSignOut}
       >
         <LogOut className="h-5 w-5 mr-2" />

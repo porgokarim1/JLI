@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import StudentDashboard from "@/components/dashboard/StudentDashboard";
 import InstructorDashboard from "@/components/dashboard/InstructorDashboard";
 import AdminDashboard from "@/components/dashboard/AdminDashboard";
+import FloatingChatbox from "@/components/chat/FloatingChatbox";
 
 const Index = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -134,6 +135,7 @@ const Index = () => {
           renderDashboard()
         )}
       </div>
+      <FloatingChatbox />
     </div>
   );
 };

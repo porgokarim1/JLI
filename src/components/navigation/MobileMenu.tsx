@@ -52,7 +52,7 @@ const MobileMenu = ({ isAuthenticated, setIsOpen }: MobileMenuProps) => {
         </Button>
         <Button
           variant="outline"
-          className="w-full flex items-center"
+          className="w-full flex items-center text-black"
           onClick={handleSignOut}
         >
           <LogOut className="h-5 w-5 mr-2" />

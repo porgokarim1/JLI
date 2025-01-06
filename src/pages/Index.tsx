@@ -10,11 +10,13 @@ import StudentDashboard from "@/components/dashboard/StudentDashboard";
 import InstructorDashboard from "@/components/dashboard/InstructorDashboard";
 import AdminDashboard from "@/components/dashboard/AdminDashboard";
 import FloatingChatbox from "@/components/chat/FloatingChatbox";
+import WelcomePopup from "@/components/welcome/WelcomePopup";
 
 const Index = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [userRole, setUserRole] = useState<string | null>(null);
+  const [showWelcomePopup, setShowWelcomePopup] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,7 +40,7 @@ const Index = () => {
         
         const { data: profile, error: profileError } = await supabase
           .from('profiles')
-          .select('role')
+          .select('role, terms_agreed')
           .eq('id', session.user.id)
           .single();
           
@@ -49,6 +51,11 @@ const Index = () => {
         }
 
         setUserRole(profile?.role || null);
+        
+        // Show welcome popup if terms haven't been agreed to
+        if (profile && !profile.terms_agreed) {
+          setShowWelcomePopup(true);
+        }
       } catch (error) {
         console.error('Error checking auth status:', error);
         toast.error('Error checking authentication status');
@@ -73,11 +80,16 @@ const Index = () => {
         if (session?.user) {
           const { data: profile } = await supabase
             .from('profiles')
-            .select('role')
+            .select('role, terms_agreed')
             .eq('id', session.user.id)
             .single();
             
           setUserRole(profile?.role || null);
+          
+          // Show welcome popup if terms haven't been agreed to
+          if (profile && !profile.terms_agreed) {
+            setShowWelcomePopup(true);
+          }
         }
       }
     });
@@ -136,6 +148,10 @@ const Index = () => {
         )}
       </div>
       <FloatingChatbox />
+      <WelcomePopup 
+        isOpen={showWelcomePopup} 
+        onClose={() => setShowWelcomePopup(false)} 
+      />
     </div>
   );
 };

@@ -129,7 +129,7 @@ const ProfilePage = () => {
                 <Button 
                   variant={isEditing ? "destructive" : "outline"}
                   onClick={() => setIsEditing(!isEditing)}
-                  className="transition-all hover:scale-105"
+                  className="transition-all hover:scale-105 text-black"
                 >
                   {isEditing ? 'Cancel' : 'Edit Profile'}
                 </Button>

@@ -30,8 +30,8 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
   };
 
   return (
-    <Card className="hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-indigo-100">
-      <CardHeader>
+    <Card className="hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-indigo-100 flex flex-col h-full">
+      <CardHeader className="flex-grow">
         <div className="w-full h-48 mb-4 rounded-t-lg overflow-hidden relative bg-gray-100">
           {lesson.image_url ? (
             <img 
@@ -78,7 +78,7 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
           </div>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="mt-auto">
         {lesson.progress?.status === 'completed' ? (
           <div className="flex items-center justify-center gap-2 py-2 text-green-600">
             <CheckCircle2 className="h-5 w-5" />

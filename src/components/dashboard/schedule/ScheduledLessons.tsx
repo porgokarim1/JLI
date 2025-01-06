@@ -36,14 +36,16 @@ interface ScheduledLessonsProps {
 export const ScheduledLessons = ({ schedules, refetchSchedules }: ScheduledLessonsProps) => {
   const regenerateAttendanceCode = async (scheduleId: string) => {
     try {
-      const { data: newCode, error } = await supabase.rpc('generate_attendance_code', {
+      const { data, error } = await supabase.rpc('generate_attendance_code', {
         schedule_id: scheduleId
       });
       
       if (error) throw error;
       
-      toast.success("New attendance code generated!");
-      refetchSchedules();
+      if (data) {
+        toast.success("New attendance code generated!");
+        refetchSchedules();
+      }
     } catch (error) {
       toast.error("Failed to generate new code");
     }

@@ -12,9 +12,10 @@ interface PersonalInfoStepProps {
   onChange: (field: string, value: string) => void;
   onNext: () => void;
   onBack: () => void;
+  isLoading: boolean;
 }
 
-export const PersonalInfoStep = ({ formData, onChange, onNext }: PersonalInfoStepProps) => {
+export const PersonalInfoStep = ({ formData, onChange, onNext, isLoading }: PersonalInfoStepProps) => {
   const navigate = useNavigate();
   
   const handleNext = () => {
@@ -64,7 +65,7 @@ export const PersonalInfoStep = ({ formData, onChange, onNext }: PersonalInfoSte
         <Button 
           onClick={handleNext}
           className="w-full"
-          disabled={!formData.firstName.trim() || !formData.lastName.trim()}
+          disabled={!formData.firstName.trim() || !formData.lastName.trim() || isLoading}
         >
           Next
           <ArrowRight className="ml-2 h-4 w-4" />
@@ -74,6 +75,7 @@ export const PersonalInfoStep = ({ formData, onChange, onNext }: PersonalInfoSte
           variant="outline"
           onClick={() => navigate("/")}
           className="w-full"
+          disabled={isLoading}
         >
           <Home className="mr-2 h-4 w-4" />
           Back to Main Page

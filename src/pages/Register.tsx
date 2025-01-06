@@ -77,6 +77,7 @@ const Register = () => {
         onChange: handleFieldChange,
         onNext: () => setCurrentStep(1),
         onBack: () => null,
+        isLoading,
       }
     },
     {
@@ -86,6 +87,7 @@ const Register = () => {
         onChange: handleFieldChange,
         onNext: () => setCurrentStep(2),
         onBack: () => setCurrentStep(0),
+        isLoading,
       }
     },
     {

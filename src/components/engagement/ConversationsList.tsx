@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent } from "@/components/ui/card";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
-import { Edit, Users } from "lucide-react";
+import { Edit, Users, MessageSquarePlus } from "lucide-react";
 import { useState } from "react";
 import {
   Dialog,
@@ -30,7 +30,7 @@ const getComfortEmoji = (comfort_level: string) => {
 
 const ConversationsList = () => {
   const [editingConversation, setEditingConversation] = useState<any>(null);
-  const [showNewConversationDialog, setShowNewConversationDialog] = useState(false);
+  const [isNewConversationOpen, setIsNewConversationOpen] = useState(false);
   
   const { data: conversations, isLoading, refetch } = useQuery({
     queryKey: ["conversations"],
@@ -63,9 +63,10 @@ const ConversationsList = () => {
               Start engaging with people and record your conversations here.
             </p>
             <Button
-              onClick={() => setShowNewConversationDialog(true)}
-              className="bg-[#FFD700] hover:bg-[#FFD700]/90 text-black"
+              onClick={() => setIsNewConversationOpen(true)}
+              className="bg-[#FFD700] hover:bg-[#FFD700]/90 text-black flex items-center gap-2"
             >
+              <MessageSquarePlus className="h-5 w-5" />
               Record New Conversation
             </Button>
           </div>
@@ -175,8 +176,8 @@ const ConversationsList = () => {
 
       {/* New Conversation Dialog */}
       <Dialog 
-        open={showNewConversationDialog} 
-        onOpenChange={setShowNewConversationDialog}
+        open={isNewConversationOpen} 
+        onOpenChange={setIsNewConversationOpen}
       >
         <DialogContent className="w-[90vw] max-w-[600px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
@@ -184,12 +185,24 @@ const ConversationsList = () => {
           </DialogHeader>
           <ConversationForm 
             onSuccess={() => {
-              setShowNewConversationDialog(false);
+              setIsNewConversationOpen(false);
               refetch();
             }} 
           />
         </DialogContent>
       </Dialog>
+
+      {/* Floating Action Button for New Conversation */}
+      <div className="fixed bottom-6 right-6">
+        <Button
+          onClick={() => setIsNewConversationOpen(true)}
+          className="bg-[#FFD700] hover:bg-[#FFD700]/90 text-black rounded-full shadow-lg flex items-center gap-2"
+          size="lg"
+        >
+          <MessageSquarePlus className="h-5 w-5" />
+          New Conversation
+        </Button>
+      </div>
     </>
   );
 };

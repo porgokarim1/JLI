@@ -3,6 +3,8 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
+import { isValidPhoneNumber } from 'react-phone-number-input';
+import { toast } from "sonner";
 
 interface PersonalInfoSectionProps {
   formData: {
@@ -17,6 +19,14 @@ interface PersonalInfoSectionProps {
 }
 
 export const PersonalInfoSection = ({ formData, onChange }: PersonalInfoSectionProps) => {
+  const handlePhoneChange = (value: string | undefined) => {
+    if (value && !isValidPhoneNumber(value)) {
+      toast.error("Please enter a valid phone number");
+      return;
+    }
+    onChange("phone", value || "");
+  };
+
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -85,10 +95,11 @@ export const PersonalInfoSection = ({ formData, onChange }: PersonalInfoSectionP
         <Label htmlFor="phone">Phone Number</Label>
         <div className="phone-input-container">
           <PhoneInput
-            id="phone"
-            value={formData.phone}
-            onChange={(value) => onChange("phone", value || "")}
+            international
+            countryCallingCodeEditable={false}
             defaultCountry="US"
+            value={formData.phone}
+            onChange={handlePhoneChange}
           />
         </div>
       </div>

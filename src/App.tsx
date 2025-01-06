@@ -10,6 +10,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import About from "./pages/About";
+import WelcomePage from "./components/welcome/WelcomePage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,6 +23,7 @@ const queryClient = new QueryClient({
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [hasAgreedToTerms, setHasAgreedToTerms] = useState<boolean | null>(null);
 
   useEffect(() => {
     const checkSession = async () => {
@@ -33,6 +35,16 @@ const App = () => {
           return;
         }
         setIsAuthenticated(!!session);
+
+        if (session?.user) {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('terms_agreed')
+            .eq('id', session.user.id)
+            .single();
+          
+          setHasAgreedToTerms(profile?.terms_agreed || false);
+        }
       } catch (error) {
         console.error("Error in session check:", error);
         setIsAuthenticated(false);
@@ -46,9 +58,19 @@ const App = () => {
       
       if (event === 'SIGNED_OUT' || event === 'USER_DELETED') {
         setIsAuthenticated(false);
-        queryClient.clear(); // Clear query cache on logout
+        setHasAgreedToTerms(null);
+        queryClient.clear();
       } else if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
         setIsAuthenticated(true);
+        if (session?.user) {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('terms_agreed')
+            .eq('id', session.user.id)
+            .single();
+          
+          setHasAgreedToTerms(profile?.terms_agreed || false);
+        }
       }
     });
 
@@ -57,7 +79,6 @@ const App = () => {
     };
   }, []);
 
-  // Show loading state while checking auth
   if (isAuthenticated === null) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -69,23 +90,29 @@ const App = () => {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Index />,
+      element: isAuthenticated 
+        ? (hasAgreedToTerms ? <Index /> : <Navigate to="/welcome" />)
+        : <Navigate to="/login" />,
     },
     {
       path: "/register",
-      element: isAuthenticated ? <Navigate to="/" /> : <Register />,
+      element: isAuthenticated ? <Navigate to="/welcome" /> : <Register />,
     },
     {
       path: "/login",
       element: isAuthenticated ? <Navigate to="/" /> : <Login />,
     },
     {
+      path: "/welcome",
+      element: isAuthenticated ? (!hasAgreedToTerms ? <WelcomePage /> : <Navigate to="/" />) : <Navigate to="/login" />,
+    },
+    {
       path: "/profile",
-      element: isAuthenticated ? <Profile /> : <Navigate to="/login" />,
+      element: isAuthenticated ? (hasAgreedToTerms ? <Profile /> : <Navigate to="/welcome" />) : <Navigate to="/login" />,
     },
     {
       path: "/about",
-      element: isAuthenticated ? <About /> : <Navigate to="/login" />,
+      element: isAuthenticated ? (hasAgreedToTerms ? <About /> : <Navigate to="/welcome" />) : <Navigate to="/login" />,
     }
   ]);
 

@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Check, CheckCircle2, Circle } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, Circle } from "lucide-react";
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 
@@ -59,6 +59,7 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, isLoading 
           <CheckCircle2 className="w-5 h-5 text-[#8B5CF6]" />
           <CheckCircle2 className="w-5 h-5 text-[#8B5CF6]" />
           <CheckCircle2 className="w-5 h-5 text-[#8B5CF6]" />
+          <Circle className="w-5 h-5 text-muted" />
         </div>
 
         <div className="flex gap-4">
@@ -76,14 +77,8 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, isLoading 
             className="flex-1"
             disabled={isLoading || !formData.email || !formData.phone}
           >
-            {isLoading ? (
-              "Registering..."
-            ) : (
-              <>
-                Complete Registration
-                <Check className="ml-2 h-4 w-4" />
-              </>
-            )}
+            Next
+            <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
       </div>

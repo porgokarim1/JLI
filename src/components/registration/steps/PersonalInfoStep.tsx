@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Home, Circle, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Home, CheckCircle2, Circle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 interface PersonalInfoStepProps {
@@ -14,7 +14,7 @@ interface PersonalInfoStepProps {
   onBack: () => void;
 }
 
-export const PersonalInfoStep = ({ formData, onChange, onNext, onBack }: PersonalInfoStepProps) => {
+export const PersonalInfoStep = ({ formData, onChange, onNext }: PersonalInfoStepProps) => {
   const navigate = useNavigate();
   
   const handleNext = () => {

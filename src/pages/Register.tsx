@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PersonalInfoStep } from "@/components/registration/steps/PersonalInfoStep";
+import { GenderStep } from "@/components/registration/steps/GenderStep";
 import { ContactInfoStep } from "@/components/registration/steps/ContactInfoStep";
 import { CampusInfoStep } from "@/components/registration/steps/CampusInfoStep";
-import { GenderStep } from "@/components/registration/steps/GenderStep";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -77,8 +77,6 @@ const Register = () => {
         onChange: handleFieldChange,
         onNext: () => setCurrentStep(1),
         onBack: () => null,
-        onSubmit: handleSubmit,
-        isLoading,
       }
     },
     {
@@ -88,8 +86,6 @@ const Register = () => {
         onChange: handleFieldChange,
         onNext: () => setCurrentStep(2),
         onBack: () => setCurrentStep(0),
-        onSubmit: handleSubmit,
-        isLoading,
       }
     },
     {
@@ -97,9 +93,18 @@ const Register = () => {
       props: {
         formData,
         onChange: handleFieldChange,
-        onNext: handleSubmit,
+        onNext: () => setCurrentStep(3),
         onBack: () => setCurrentStep(1),
-        onSubmit: handleSubmit,
+        isLoading,
+      }
+    },
+    {
+      component: CampusInfoStep,
+      props: {
+        formData,
+        onChange: handleFieldChange,
+        onNext: handleSubmit,
+        onBack: () => setCurrentStep(2),
         isLoading,
       }
     }

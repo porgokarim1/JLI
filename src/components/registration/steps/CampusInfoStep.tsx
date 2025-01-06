@@ -1,6 +1,6 @@
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, CheckCircle2 } from "lucide-react";
 import { CampusSelector } from "../CampusSelector";
 
 interface CampusInfoStepProps {
@@ -10,16 +10,10 @@ interface CampusInfoStepProps {
   onChange: (field: string, value: string) => void;
   onNext: () => void;
   onBack: () => void;
+  isLoading: boolean;
 }
 
-export const CampusInfoStep = ({ formData, onChange, onNext, onBack }: CampusInfoStepProps) => {
-  const handleNext = () => {
-    if (!formData.campus) {
-      return;
-    }
-    onNext();
-  };
-
+export const CampusInfoStep = ({ formData, onChange, onNext, onBack, isLoading }: CampusInfoStepProps) => {
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="text-center space-y-2">
@@ -39,10 +33,10 @@ export const CampusInfoStep = ({ formData, onChange, onNext, onBack }: CampusInf
 
       <div className="flex flex-col space-y-4">
         <div className="flex justify-center space-x-2 mb-4">
-          <div className="w-2 h-2 rounded-full bg-primary"></div>
-          <div className="w-2 h-2 rounded-full bg-primary"></div>
-          <div className="w-2 h-2 rounded-full bg-primary"></div>
-          <div className="w-2 h-2 rounded-full bg-primary opacity-50"></div>
+          <CheckCircle2 className="w-5 h-5 text-[#8B5CF6]" />
+          <CheckCircle2 className="w-5 h-5 text-[#8B5CF6]" />
+          <CheckCircle2 className="w-5 h-5 text-[#8B5CF6]" />
+          <CheckCircle2 className="w-5 h-5 text-[#8B5CF6]" />
         </div>
 
         <div className="flex gap-4">
@@ -50,17 +44,17 @@ export const CampusInfoStep = ({ formData, onChange, onNext, onBack }: CampusInf
             variant="outline"
             onClick={onBack}
             className="flex-1"
+            disabled={isLoading}
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back
           </Button>
           <Button 
-            onClick={handleNext}
+            onClick={onNext}
             className="flex-1"
-            disabled={!formData.campus}
+            disabled={isLoading || !formData.campus}
           >
-            Next
-            <ArrowRight className="ml-2 h-4 w-4" />
+            {isLoading ? "Registering..." : "Complete Registration"}
           </Button>
         </div>
       </div>

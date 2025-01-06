@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, User, Users, Circle, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, User, Users, CheckCircle2, Circle } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
 interface GenderStepProps {

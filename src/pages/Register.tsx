@@ -25,6 +25,13 @@ const Register = () => {
     agreeToDisclaimer: false,
   });
 
+  const handleFieldChange = (field: string, value: any) => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
   const generatePassword = (firstName: string, lastName: string, phone: string) => {
     // Get first initials in uppercase
     const firstInitial = firstName.charAt(0).toUpperCase();

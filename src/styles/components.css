@@ -20,3 +20,8 @@
     after:transition-transform after:duration-300 hover:after:scale-x-100 
     hover:after:origin-bottom-left;
 }
+
+/* Input Styles */
+input:focus {
+  @apply border-input ring-input;
+}

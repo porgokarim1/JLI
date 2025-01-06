@@ -7,7 +7,7 @@
 
 /* Phone Input Styles */
 .phone-input-container .PhoneInput {
-  @apply flex items-center rounded-md bg-background border border-primary;
+  @apply flex items-center rounded-md bg-background border border-input;
 }
 
 .phone-input-container .PhoneInputCountry {
@@ -27,5 +27,5 @@
 }
 
 .phone-input-container .PhoneInputInput:focus {
-  @apply outline-none border-primary;
+  @apply outline-none border-input;
 }

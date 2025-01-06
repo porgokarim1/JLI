@@ -26,14 +26,12 @@ const Login = () => {
         password: formData.password,
       });
 
-      if (error) {
-        throw error;
-      }
+      if (error) throw error;
 
       toast.success("Successfully logged in!");
       navigate("/");
     } catch (error: any) {
-      toast.error(error.message || "Failed to login");
+      toast.error("Error during login: " + error.message);
     } finally {
       setIsLoading(false);
     }
@@ -68,6 +66,9 @@ const Login = () => {
               <LogIn className="h-5 w-5 text-primary" />
               <h2 className="text-2xl font-semibold text-center">Login</h2>
             </div>
+            <p className="text-sm text-center text-muted-foreground">
+              Your password is your first and last name initials (uppercase) followed by the last 4 digits of your phone number
+            </p>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">

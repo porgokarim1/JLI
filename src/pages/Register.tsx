@@ -25,19 +25,26 @@ const Register = () => {
     agreeToDisclaimer: false,
   });
 
-  const handleFieldChange = (field: string, value: any) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+  const generatePassword = (firstName: string, lastName: string, phone: string) => {
+    // Get first initials in uppercase
+    const firstInitial = firstName.charAt(0).toUpperCase();
+    const lastInitial = lastName.charAt(0).toUpperCase();
+    
+    // Get last 4 digits of phone number, removing any non-numeric characters
+    const cleanPhone = phone.replace(/\D/g, '');
+    const last4Digits = cleanPhone.slice(-4);
+    
+    return `${firstInitial}${lastInitial}${last4Digits}`;
   };
 
   const handleSubmit = async () => {
     try {
       setIsLoading(true);
+      const password = generatePassword(formData.firstName, formData.lastName, formData.phone);
+      
       const { error } = await supabase.auth.signUp({
         email: formData.email,
-        password: "temporary-password",
+        password: password,
         options: {
           data: {
             first_name: formData.firstName,
@@ -53,7 +60,7 @@ const Register = () => {
 
       if (error) throw error;
 
-      toast.success("Registration successful! Please check your email to verify your account.");
+      toast.success("Registration successful! Your password is: " + password + ". Please save it for future login.");
       navigate("/login");
     } catch (error: any) {
       toast.error("Error during registration: " + error.message);

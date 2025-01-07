@@ -48,7 +48,7 @@ const ConversationsList = () => {
       >
         <DialogContent className="w-[90vw] max-w-[600px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Edit Conversation</DialogTitle>
+            <DialogTitle>Editing Conversation</DialogTitle>
           </DialogHeader>
           <ConversationForm 
             initialData={editingConversation}

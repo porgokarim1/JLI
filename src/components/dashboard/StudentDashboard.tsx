@@ -1,10 +1,8 @@
-import { Card } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { BookOpen, Target, Sparkles } from "lucide-react";
 import DashboardHeader from "./DashboardHeader";
 import LessonsList from "./LessonsList";
-import ProgressOverview from "./ProgressOverview";
-import ResourcesSection from "./ResourcesSection";
-import ScheduledLessons from "./schedule/ScheduledLessons";
+import EngagementMetrics from "@/components/engagement/EngagementMetrics";
 
 interface StudentDashboardProps {
   conversationCount?: number;
@@ -12,38 +10,34 @@ interface StudentDashboardProps {
 
 const StudentDashboard = ({ conversationCount = 0 }: StudentDashboardProps) => {
   return (
-    <div className="container mx-auto p-4 space-y-4">
+    <div className="container mx-auto p-4">
       <DashboardHeader />
       
-      <Tabs defaultValue="overview" className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="lessons">Lessons</TabsTrigger>
-          <TabsTrigger value="schedule">Schedule</TabsTrigger>
-          <TabsTrigger value="resources">Resources</TabsTrigger>
-        </TabsList>
+      <div className="grid grid-cols-1 md:grid-cols-1 gap-4 mb-6">
+        {/* Progress Dashboard */}
+        <Card className="bg-soft-blue border-2 border-primary/20 shadow-lg hover:shadow-xl transition-all duration-300">
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Target className="h-5 w-5 text-primary" />
+              Learning progress
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-4">
+              <EngagementMetrics type="learning" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
-        <TabsContent value="overview" className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            <Card className="p-6">
-              <h3 className="text-xl font-semibold mb-2">Progress Overview</h3>
-              <ProgressOverview />
-            </Card>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="lessons">
-          <LessonsList />
-        </TabsContent>
-
-        <TabsContent value="schedule">
-          <ScheduledLessons />
-        </TabsContent>
-
-        <TabsContent value="resources">
-          <ResourcesSection />
-        </TabsContent>
-      </Tabs>
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+          <BookOpen className="h-6 w-6 text-primary" />
+          Your learning journey
+          <Sparkles className="h-5 w-5 text-primary animate-pulse" />
+        </h2>
+        <LessonsList />
+      </div>
     </div>
   );
 };

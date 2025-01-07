@@ -41,7 +41,7 @@ const WelcomeStep = ({ form, onNext }: WelcomeStepProps) => {
         onClick={onNext}
         className="w-full bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 rounded-md transition-colors"
       >
-        Next Step
+        Next
       </button>
     </div>
   );

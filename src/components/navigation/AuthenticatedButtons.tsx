@@ -18,9 +18,6 @@ const AuthenticatedButtons = () => {
 
   return (
     <div className="flex items-center space-x-4">
-      <Link to="/" className="nav-link">
-        Home
-      </Link>
       <Link to="/engagement" className="nav-link">
         Engagement
       </Link>

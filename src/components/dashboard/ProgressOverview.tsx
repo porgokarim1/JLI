@@ -76,6 +76,8 @@ const ProgressOverview = () => {
     fetchProgress();
   }, []);
 
+  const progressPercentage = (completedLessons / 4) * 100;
+
   return (
     <div className="container mx-auto px-4">
       <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
@@ -88,7 +90,12 @@ const ProgressOverview = () => {
             <div className="flex items-center gap-2 p-2 bg-primary/10 rounded-lg">
               <BookOpen className="h-4 w-4 text-primary" />
               <div>
-                <div className="text-sm font-medium">{completedLessons}/{totalLessons}</div>
+                <div className="text-sm font-medium">
+                  {completedLessons}/4
+                  <div className="text-xs text-muted-foreground">
+                    {progressPercentage}% complete
+                  </div>
+                </div>
                 <div className="text-xs text-muted-foreground">Lessons</div>
               </div>
             </div>

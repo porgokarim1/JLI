@@ -118,22 +118,24 @@ const EngagementMetrics = ({ type }: EngagementMetricsProps) => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col md:flex-row gap-6">
       {type === "conversation" && (
-        <div className="flex items-center justify-center p-8 bg-white rounded-lg shadow-lg mb-6">
-          <div className="flex items-center gap-4">
-            <Users className="h-12 w-12 text-primary animate-pulse" />
-            <div className="text-center">
-              <div className="text-4xl font-bold text-primary">
-                {conversations?.length || 0}
+        <div className="flex-1">
+          <div className="flex items-center justify-center p-8 bg-white rounded-lg shadow-lg">
+            <div className="flex items-center gap-4">
+              <Users className="h-12 w-12 text-primary animate-pulse" />
+              <div className="text-center">
+                <div className="text-4xl font-bold text-primary">
+                  {conversations?.length || 0}
+                </div>
+                <div className="text-sm text-gray-600">Peers engaged</div>
               </div>
-              <div className="text-sm text-gray-600">Peers engaged</div>
             </div>
           </div>
         </div>
       )}
       
-      <Card className="bg-white/90 backdrop-blur-sm">
+      <Card className="flex-1 bg-white/90 backdrop-blur-sm">
         <CardContent className="p-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">

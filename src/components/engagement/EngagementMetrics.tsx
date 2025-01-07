@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Info } from "lucide-react";
+import { Info, Users } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -53,15 +53,15 @@ const EngagementMetrics = ({ type }: EngagementMetricsProps) => {
   });
 
   const getRewardTier = (count: number) => {
-    if (count >= 25) return "Gold";
-    if (count >= 16) return "Silver";
-    if (count >= 7) return "Bronze";
+    if (count >= 25) return "Level 3";
+    if (count >= 15) return "Level 2";
+    if (count >= 7) return "Level 1";
     return null;
   };
 
   const getNextRewardThreshold = (count: number) => {
     if (count < 7) return 7;
-    if (count < 16) return 16;
+    if (count < 15) return 15;
     if (count < 25) return 25;
     return null;
   };
@@ -108,9 +108,9 @@ const EngagementMetrics = ({ type }: EngagementMetricsProps) => {
           </p>
           <Progress value={Math.min((conversationCount / 25) * 100, 100)} className="w-full" />
           <div className="space-y-1 text-sm">
-            <p>🥉 Bronze: 7 conversations</p>
-            <p>🥈 Silver: 16 conversations</p>
-            <p>🥇 Gold: 25 conversations</p>
+            <p>🎯 Level 1: 7 peers</p>
+            <p>🎯 Level 2: 15 peers</p>
+            <p>🎯 Level 3: 25 peers</p>
           </div>
         </div>
       </div>
@@ -118,58 +118,74 @@ const EngagementMetrics = ({ type }: EngagementMetricsProps) => {
   };
 
   return (
-    <Card className="bg-white/90 backdrop-blur-sm">
-      <CardContent className="p-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-medium">Progress</span>
-            <Dialog open={isOpen} onOpenChange={setIsOpen} modal={false}>
-              <DialogTrigger asChild>
-                <Info 
-                  className="h-4 w-4 text-gray-500 cursor-pointer hover:text-gray-700" 
-                  onClick={handleInfoClick}
-                />
-              </DialogTrigger>
-              <DialogContent 
-                className="rounded-lg w-[300px] absolute bg-white shadow-lg border"
-                style={{
-                  top: `${dialogPosition.top}px`,
-                  left: `${dialogPosition.left}px`,
-                  transform: 'none'
-                }}
-                onPointerDownOutside={(e) => {
-                  e.preventDefault();
-                  setIsOpen(false);
-                }}
-              >
-                <MetricsContent />
-              </DialogContent>
-            </Dialog>
-          </div>
-          <div className="flex flex-col items-end">
-            <div className="flex items-center gap-2">
-              <span className="text-lg font-bold">
-                {type === "learning"
-                  ? lessonProgress?.filter((p) => p.status === "completed").length || 0
-                  : conversations?.length || 0}
-              </span>
-              <Progress
-                value={
-                  type === "learning"
-                    ? Math.min(
-                        ((lessonProgress?.filter((p) => p.status === "completed").length || 0) / 4) *
-                          100,
-                        100
-                      )
-                    : Math.min(((conversations?.length || 0) / 25) * 100, 100)
-                }
-                className="w-20"
-              />
+    <div className="space-y-6">
+      {type === "conversation" && (
+        <div className="flex items-center justify-center p-8 bg-white rounded-lg shadow-lg mb-6">
+          <div className="flex items-center gap-4">
+            <Users className="h-12 w-12 text-primary animate-pulse" />
+            <div className="text-center">
+              <div className="text-4xl font-bold text-primary">
+                {conversations?.length || 0}
+              </div>
+              <div className="text-sm text-gray-600">Peers engaged</div>
             </div>
           </div>
         </div>
-      </CardContent>
-    </Card>
+      )}
+      
+      <Card className="bg-white/90 backdrop-blur-sm">
+        <CardContent className="p-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium">Progress</span>
+              <Dialog open={isOpen} onOpenChange={setIsOpen} modal={false}>
+                <DialogTrigger asChild>
+                  <Info 
+                    className="h-4 w-4 text-gray-500 cursor-pointer hover:text-gray-700" 
+                    onClick={handleInfoClick}
+                  />
+                </DialogTrigger>
+                <DialogContent 
+                  className="rounded-lg w-[300px] absolute bg-white shadow-lg border"
+                  style={{
+                    top: `${dialogPosition.top}px`,
+                    left: `${dialogPosition.left}px`,
+                    transform: 'none'
+                  }}
+                  onPointerDownOutside={(e) => {
+                    e.preventDefault();
+                    setIsOpen(false);
+                  }}
+                >
+                  <MetricsContent />
+                </DialogContent>
+              </Dialog>
+            </div>
+            <div className="flex flex-col items-end">
+              <div className="flex items-center gap-2">
+                <span className="text-lg font-bold">
+                  {type === "learning"
+                    ? lessonProgress?.filter((p) => p.status === "completed").length || 0
+                    : conversations?.length || 0}
+                </span>
+                <Progress
+                  value={
+                    type === "learning"
+                      ? Math.min(
+                          ((lessonProgress?.filter((p) => p.status === "completed").length || 0) / 4) *
+                            100,
+                          100
+                        )
+                      : Math.min(((conversations?.length || 0) / 25) * 100, 100)
+                  }
+                  className="w-20"
+                />
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 

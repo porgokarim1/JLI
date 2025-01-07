@@ -30,9 +30,6 @@ const Engagement = () => {
               </Button>
             </DialogTrigger>
             <DialogContent className="w-[90vw] max-w-[600px] max-h-[90vh] overflow-y-auto">
-              <DialogHeader>
-                <DialogTitle>New Conversation</DialogTitle>
-              </DialogHeader>
               <ConversationForm onSuccess={() => setOpen(false)} />
             </DialogContent>
           </Dialog>

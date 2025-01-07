@@ -37,7 +37,7 @@ const MobileMenu = ({ isAuthenticated, setIsOpen }: MobileMenuProps) => {
           }}
         >
           <MessageSquare className="h-5 w-5 mr-2" />
-          Engagement
+          Engage
         </Button>
         <Button
           variant="ghost"

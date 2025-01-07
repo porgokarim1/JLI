@@ -1,5 +1,5 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { X } from "lucide-react";
+import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
+import { MessageCircle, PartyPopper } from "lucide-react";
 import { UseFormReturn } from "react-hook-form";
 
 interface WelcomeStepProps {
@@ -11,18 +11,31 @@ const WelcomeStep = ({ form, onNext }: WelcomeStepProps) => {
   return (
     <div className="space-y-6">
       <div className="text-center space-y-4">
-        <DialogHeader>
-          <div className="flex justify-between items-center">
-            <DialogTitle className="text-xl">Yay! Tell us about your conversation! 🎉</DialogTitle>
-            <button className="text-gray-500 hover:text-gray-700">
-              <X className="h-5 w-5" />
-            </button>
-          </div>
-        </DialogHeader>
-        <p className="text-muted-foreground">
-          We're excited to hear about your meaningful conversations! Please share your experience with us.
-        </p>
+        <div className="flex justify-center items-center gap-2">
+          <PartyPopper className="h-8 w-8 text-primary animate-bounce" />
+          <MessageCircle className="h-8 w-8 text-primary animate-pulse" />
+        </div>
+        <h2 className="text-2xl font-bold">Yay! Tell us about your conversation! 🎉</h2>
+        <p className="text-muted-foreground">We're excited to hear about your experience</p>
       </div>
+      
+      <FormField
+        control={form.control}
+        name="conversation_date"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>When did this conversation happen?</FormLabel>
+            <FormControl>
+              <input 
+                type="date" 
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2" 
+                {...field} 
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
 
       <button 
         onClick={onNext}

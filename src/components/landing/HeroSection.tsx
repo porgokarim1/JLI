@@ -7,7 +7,7 @@ const HeroSection = () => {
   
   return (
     <div className="container mx-auto px-4">
-      <div className="grid md:grid-cols-2 gap-4 items-start relative min-h-[calc(100vh-200px)] pt-24">
+      <div className="grid md:grid-cols-2 gap-4 items-center relative min-h-[calc(100vh-200px)] pt-16">
         <div className="text-left space-y-4 relative z-10 bg-white/80 md:bg-transparent p-4 md:p-0 rounded-lg">
           <div className="space-y-4">
             <h1 className="text-5xl md:text-6xl lg:text-8xl font-black tracking-tighter leading-none relative text-3d">
@@ -21,8 +21,7 @@ const HeroSection = () => {
             <div className="pt-4 flex flex-col sm:flex-row gap-4">
               <Button 
                 size="lg"
-                variant="outline"
-                className="w-full sm:w-auto border-2 border-gray-500 text-gray-500 hover:bg-gray-500/10"
+                className="w-full sm:w-auto bg-primary text-black hover:bg-primary/90"
                 onClick={() => navigate("/register")}
               >
                 Join

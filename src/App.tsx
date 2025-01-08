@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -23,6 +23,16 @@ const queryClient = new QueryClient({
     },
   },
 });
+
+// Layout component that includes the BottomNav
+const AppLayout = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
+  return (
+    <div className="pb-16 md:pb-0"> {/* Add padding for bottom nav on mobile */}
+      <Outlet />
+      {isAuthenticated && <BottomNav />}
+    </div>
+  );
+};
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
@@ -97,44 +107,46 @@ const App = () => {
 
   const router = createBrowserRouter([
     {
-      path: "/",
-      element: <Index />,
-    },
-    {
-      path: "/register",
-      element: isAuthenticated ? <Navigate to="/" /> : <Register />,
-    },
-    {
-      path: "/login",
-      element: isAuthenticated ? <Navigate to="/" /> : <Login />,
-    },
-    {
-      path: "/profile",
-      element: !isAuthenticated ? <Navigate to="/login" /> : <Profile />,
-    },
-    {
-      path: "/about",
-      element: !isAuthenticated ? <Navigate to="/login" /> : <About />,
-    },
-    {
-      path: "/engagement",
-      element: !isAuthenticated ? <Navigate to="/login" /> : <Engagement />,
-    },
-    {
-      path: "/lessons",
-      element: !isAuthenticated ? <Navigate to="/login" /> : <Lessons />,
+      element: <AppLayout isAuthenticated={isAuthenticated || false} />,
+      children: [
+        {
+          path: "/",
+          element: <Index />,
+        },
+        {
+          path: "/register",
+          element: isAuthenticated ? <Navigate to="/" /> : <Register />,
+        },
+        {
+          path: "/login",
+          element: isAuthenticated ? <Navigate to="/" /> : <Login />,
+        },
+        {
+          path: "/profile",
+          element: !isAuthenticated ? <Navigate to="/login" /> : <Profile />,
+        },
+        {
+          path: "/about",
+          element: !isAuthenticated ? <Navigate to="/login" /> : <About />,
+        },
+        {
+          path: "/engagement",
+          element: !isAuthenticated ? <Navigate to="/login" /> : <Engagement />,
+        },
+        {
+          path: "/lessons",
+          element: !isAuthenticated ? <Navigate to="/login" /> : <Lessons />,
+        }
+      ]
     }
   ]);
 
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <div className="pb-16 md:pb-0"> {/* Add padding for bottom nav on mobile */}
-          <Toaster />
-          <Sonner />
-          <RouterProvider router={router} />
-          {isAuthenticated && <BottomNav />}
-        </div>
+        <Toaster />
+        <Sonner />
+        <RouterProvider router={router} />
       </TooltipProvider>
     </QueryClientProvider>
   );

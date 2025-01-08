@@ -12,6 +12,8 @@ import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import About from "./pages/About";
 import Engagement from "./pages/Engagement";
+import Lessons from "./pages/Lessons";
+import BottomNav from "./components/navigation/BottomNav";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -117,15 +119,22 @@ const App = () => {
     {
       path: "/engagement",
       element: !isAuthenticated ? <Navigate to="/login" /> : <Engagement />,
+    },
+    {
+      path: "/lessons",
+      element: !isAuthenticated ? <Navigate to="/login" /> : <Lessons />,
     }
   ]);
 
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <RouterProvider router={router} />
+        <div className="pb-16 md:pb-0"> {/* Add padding for bottom nav on mobile */}
+          <Toaster />
+          <Sonner />
+          <RouterProvider router={router} />
+          {isAuthenticated && <BottomNav />}
+        </div>
       </TooltipProvider>
     </QueryClientProvider>
   );

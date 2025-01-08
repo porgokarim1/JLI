@@ -6,11 +6,11 @@ const HeroSection = () => {
   const navigate = useNavigate();
   
   return (
-    <div className="container mx-auto px-4">
-      <div className="grid md:grid-cols-2 gap-4 items-center relative min-h-[calc(100vh-200px)] pt-16">
+    <div className="container mx-auto px-4 h-[calc(100vh-64px)] flex items-center">
+      <div className="grid md:grid-cols-2 gap-4 items-center w-full">
         <div className="text-left space-y-4 relative z-10 bg-white/80 md:bg-transparent p-4 md:p-0 rounded-lg">
           <div className="space-y-4">
-            <h1 className="text-5xl md:text-6xl lg:text-8xl font-black tracking-tighter leading-none relative text-3d">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-none relative text-3d">
               K
               <span className="absolute -top-4 left-[0.45em]">'</span>
               NOW
@@ -21,7 +21,7 @@ const HeroSection = () => {
             <div className="pt-4 flex flex-col sm:flex-row gap-4">
               <Button 
                 size="lg"
-                className="w-full sm:w-auto bg-primary text-black hover:bg-primary/90"
+                className="w-full sm:w-auto bg-[#FFD700] text-black hover:bg-[#FFD700]/90"
                 onClick={() => navigate("/register")}
               >
                 Join
@@ -37,7 +37,7 @@ const HeroSection = () => {
             </div>
           </div>
         </div>
-        <div className="w-full h-[400px] md:h-[600px] lg:h-[800px]">
+        <div className="w-full h-[300px] md:h-[500px]">
           <SimpleSlideshow />
         </div>
       </div>

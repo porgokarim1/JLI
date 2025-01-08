@@ -3,9 +3,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress";
 import { useLessons } from "@/components/dashboard/useLessons";
 import { LessonCard } from "@/components/dashboard/LessonCard";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const Lessons = () => {
   const { data: lessons, isLoading } = useLessons();
+  const navigate = useNavigate();
 
   if (isLoading) {
     return (

@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import SimpleSlideshow from "./SimpleSlideshow";
 
 const HeroSection = () => {
   const navigate = useNavigate();

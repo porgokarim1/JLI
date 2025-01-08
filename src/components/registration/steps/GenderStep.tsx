@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, Male, Female, CheckCircle2, Circle } from "lucide-react";
+import { ArrowLeft, ArrowRight, MaleIcon, FemaleIcon, CheckCircle2, Circle } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
 interface GenderStepProps {
@@ -29,7 +29,7 @@ export const GenderStep = ({ formData, onChange, onNext, onBack }: GenderStepPro
           onClick={() => onChange("gender", "male")}
         >
           <div className="flex flex-col items-center space-y-4">
-            <Male className="w-16 h-16 text-primary" />
+            <MaleIcon className="w-16 h-16 text-primary" />
             <span className="text-lg font-semibold">Male</span>
           </div>
         </Card>
@@ -43,7 +43,7 @@ export const GenderStep = ({ formData, onChange, onNext, onBack }: GenderStepPro
           onClick={() => onChange("gender", "female")}
         >
           <div className="flex flex-col items-center space-y-4">
-            <Female className="w-16 h-16 text-primary" />
+            <FemaleIcon className="w-16 h-16 text-primary" />
             <span className="text-lg font-semibold">Female</span>
           </div>
         </Card>

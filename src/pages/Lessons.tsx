@@ -15,9 +15,9 @@ const Lessons = () => {
           <div className="animate-pulse space-y-4">
             <div className="h-8 bg-gray-200 rounded w-1/4"></div>
             <div className="h-4 bg-gray-200 rounded w-1/2"></div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="space-y-4">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="h-64 bg-gray-200 rounded"></div>
+                <div key={i} className="h-24 bg-gray-200 rounded"></div>
               ))}
             </div>
           </div>
@@ -35,12 +35,12 @@ const Lessons = () => {
       <NavigationBar />
       <div className="pt-20 container mx-auto px-4 py-8">
         <Card className="mb-8 bg-white/90 backdrop-blur-sm border-indigo-100">
-          <CardHeader>
-            <CardTitle>Your Learning Journey</CardTitle>
-            <CardDescription>Track your progress through all lessons</CardDescription>
+          <CardHeader className="py-4">
+            <CardTitle className="text-lg">Your Learning Journey</CardTitle>
+            <CardDescription className="text-sm">Track your progress through all lessons</CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="mb-4">
+          <CardContent className="py-2">
+            <div>
               <div className="flex justify-between mb-2">
                 <span className="text-sm font-medium">Overall Progress</span>
                 <span className="text-sm font-medium">{Math.round(totalProgress)}%</span>
@@ -50,9 +50,40 @@ const Lessons = () => {
           </CardContent>
         </Card>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="space-y-4">
           {lessons?.map((lesson, index) => (
-            <LessonCard key={lesson.id} lesson={lesson} index={index} />
+            <Card key={lesson.id} className="hover:shadow-lg transition-shadow">
+              <CardContent className="p-4">
+                <div className="flex gap-4">
+                  <div className="w-24 h-24 flex-shrink-0">
+                    {lesson.image_url && (
+                      <img 
+                        src={lesson.image_url} 
+                        alt={lesson.title}
+                        className="w-full h-full object-cover rounded"
+                      />
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-medium text-sm mb-1 truncate">{lesson.title}</h3>
+                    <p className="text-xs text-gray-600 mb-2 line-clamp-2">{lesson.description}</p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-gray-500">
+                        {lesson.progress?.status === 'completed' ? 'Completed' : 'In Progress'}
+                      </span>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        className="text-xs h-7"
+                        onClick={() => navigate(`/lesson/${lesson.id}`)}
+                      >
+                        View Details
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>

@@ -46,9 +46,9 @@ const DashboardHeader = () => {
   };
 
   return (
-    <div className="flex items-start">
-      <h1 className="text-2xl font-bold text-slate-800">
-        {getGreeting()}{firstName ? `, ${firstName}` : ''}!
+    <div className="flex items-start px-2">
+      <h1 className="text-lg font-semibold text-slate-800">
+        {getGreeting()}{firstName ? `, ${firstName}` : ''}
       </h1>
     </div>
   );

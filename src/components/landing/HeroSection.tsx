@@ -18,36 +18,11 @@ const HeroSection = () => {
               ISRAEL
             </h1>
             
-            <h2 className="text-xl md:text-2xl lg:text-3xl font-bold leading-tight">
-              <div className="relative inline-block">
-                <span className="nav-link text-secondary">
-                  YOUR GUIDE TO ADDRESSING
-                </span>
-              </div>
-              <br />
-              <div className="relative inline-block">
-                <span className="nav-link text-primary">
-                  THE CURRENT CONFLICT
-                </span>
-              </div>
-              <br />
-              <div className="relative inline-block">
-                <span className="nav-link text-secondary">
-                  WITH CONFIDENCE
-                </span>
-              </div>
-            </h2>
-
-            <p className="text-lg md:text-xl lg:text-2xl leading-relaxed max-w-2xl bg-soft-blue p-4 rounded-xl text-secondary">
-              A four-part course on confronting the pervasive lies and misinformation 
-              about Israel that Jewish students frequently face on college campuses, 
-              equipping you with practical skills and effective responses.
-            </p>
-            
             <div className="pt-4 flex flex-col sm:flex-row gap-4">
               <Button 
                 size="lg"
-                className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary-dark shadow-lg hover:shadow-xl transition-all"
+                variant="outline"
+                className="w-full sm:w-auto border-2 border-gray-500 text-gray-500 hover:bg-gray-500/10"
                 onClick={() => navigate("/register")}
               >
                 Join

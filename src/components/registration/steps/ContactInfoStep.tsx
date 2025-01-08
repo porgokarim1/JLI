@@ -21,6 +21,13 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, isLoading 
     onChange("phone", value || "");
   };
 
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const isEmailValid = validateEmail(formData.email);
+
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="text-center space-y-2">
@@ -37,7 +44,11 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, isLoading 
             required
             value={formData.email}
             onChange={(e) => onChange("email", e.target.value)}
+            className={!isEmailValid && formData.email ? "border-red-500" : ""}
           />
+          {!isEmailValid && formData.email && (
+            <p className="text-red-500 text-sm mt-1">Please enter a valid email address</p>
+          )}
         </div>
 
         <div>
@@ -75,7 +86,7 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, isLoading 
           <Button
             onClick={onNext}
             className="flex-1"
-            disabled={isLoading || !formData.email || !formData.phone}
+            disabled={isLoading || !formData.email || !formData.phone || !isEmailValid}
           >
             Next
             <ArrowRight className="ml-2 h-4 w-4" />

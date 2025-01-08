@@ -3,11 +3,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { BookOpen, Clock, Calendar } from "lucide-react";
+import { format } from "date-fns";
 
 const ProgressOverview = () => {
   const [completedLessons, setCompletedLessons] = useState(0);
   const [totalLessons, setTotalLessons] = useState(0);
   const [totalHours, setTotalHours] = useState(0);
+  const [nextLesson, setNextLesson] = useState<any>(null);
 
   useEffect(() => {
     const fetchProgress = async () => {
@@ -67,6 +69,22 @@ const ProgressOverview = () => {
         const hours = Math.round(totalSeconds / 3600);
         setTotalHours(hours);
 
+        // Fetch next closest lesson
+        const today = new Date().toISOString().split('T')[0];
+        const { data: nextLessonData, error: nextLessonError } = await supabase
+          .from('lessons')
+          .select('*')
+          .gte('lesson_date', today)
+          .order('lesson_date', { ascending: true })
+          .limit(1)
+          .single();
+
+        if (nextLessonError) {
+          console.error('Error fetching next lesson:', nextLessonError);
+        } else {
+          setNextLesson(nextLessonData);
+        }
+
       } catch (error) {
         console.error('Error fetching progress:', error);
         toast.error('Failed to load progress data');
@@ -76,7 +94,7 @@ const ProgressOverview = () => {
     fetchProgress();
   }, []);
 
-  const progressPercentage = (completedLessons / 4) * 100;
+  const progressPercentage = (completedLessons / totalLessons) * 100;
 
   return (
     <div className="container mx-auto px-4">
@@ -91,7 +109,7 @@ const ProgressOverview = () => {
               <BookOpen className="h-4 w-4 text-primary" />
               <div>
                 <div className="text-sm font-medium">
-                  {completedLessons}/4
+                  {completedLessons}/{totalLessons}
                   <div className="text-xs text-muted-foreground">
                     {progressPercentage}% complete
                   </div>
@@ -109,8 +127,21 @@ const ProgressOverview = () => {
             <div className="flex items-center gap-2 p-2 bg-primary/10 rounded-lg">
               <Calendar className="h-4 w-4 text-primary" />
               <div>
-                <div className="text-sm font-medium">Today</div>
-                <div className="text-xs text-muted-foreground">Next</div>
+                {nextLesson ? (
+                  <>
+                    <div className="text-sm font-medium">
+                      {format(new Date(nextLesson.lesson_date), 'MMM d')}
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                      {nextLesson.location || 'TBD'}
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="text-sm font-medium">No upcoming</div>
+                    <div className="text-xs text-muted-foreground">lessons</div>
+                  </>
+                )}
               </div>
             </div>
           </div>

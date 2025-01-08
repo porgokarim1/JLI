@@ -2,7 +2,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { BookOpen, Plus, Mail, FileText } from "lucide-react";
 import DashboardHeader from "./DashboardHeader";
-import ProgressOverview from "./ProgressOverview";
 import { useNavigate } from "react-router-dom";
 
 interface StudentDashboardProps {
@@ -13,15 +12,31 @@ const StudentDashboard = ({ conversationCount = 0 }: StudentDashboardProps) => {
   const navigate = useNavigate();
 
   return (
-    <div className="container mx-auto p-4 space-y-4">
+    <div className="min-h-screen flex flex-col gap-4 p-4 max-w-lg mx-auto">
       <DashboardHeader />
       
-      {/* Progress Overview */}
-      <div className="mt-6">
-        <ProgressOverview />
-      </div>
+      {/* Next Lesson Card */}
+      <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
+        <CardContent className="p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <BookOpen className="h-8 w-8 text-primary" />
+              <div>
+                <h3 className="font-medium">Next Lesson</h3>
+                <p className="text-sm text-muted-foreground">02/15/2025 @4PM</p>
+              </div>
+            </div>
+            <Button 
+              variant="outline" 
+              className="border-primary text-primary hover:bg-primary hover:text-white"
+            >
+              Confirm Attendance
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
 
-      {/* Engagements Section */}
+      {/* Engagements Card */}
       <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
         <CardContent className="p-4">
           <div className="flex items-center justify-between">
@@ -44,7 +59,7 @@ const StudentDashboard = ({ conversationCount = 0 }: StudentDashboardProps) => {
         </CardContent>
       </Card>
 
-      {/* Resources Section */}
+      {/* Resources Card */}
       <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
         <CardContent className="p-4">
           <div className="flex items-center justify-between">

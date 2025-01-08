@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { LogOut, User, Library, MessageSquare } from "lucide-react";
+import { LogOut, User, BookOpen, MessageSquare } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -24,18 +24,26 @@ const AuthenticatedButtons = () => {
       <Button
         variant="ghost"
         className="text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
-        onClick={() => navigate("/engagement")}
+        onClick={() => navigate("/")}
       >
-        <MessageSquare className="h-5 w-5 mr-2" />
-        Engage
+        <BookOpen className="h-5 w-5 mr-2" />
+        Home
       </Button>
       <Button
         variant="ghost"
         className="text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
-        onClick={() => navigate("/about")}
+        onClick={() => navigate("/engagement")}
       >
-        <Library className="h-5 w-5 mr-2" />
-        About
+        <MessageSquare className="h-5 w-5 mr-2" />
+        Engagement
+      </Button>
+      <Button
+        variant="ghost"
+        className="text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
+        onClick={() => navigate("/lessons")}
+      >
+        <BookOpen className="h-5 w-5 mr-2" />
+        Lessons
       </Button>
       <Button
         variant="ghost"

@@ -1,13 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import SimpleSlideshow from "./SimpleSlideshow";
 
 const HeroSection = () => {
   const navigate = useNavigate();
   
   return (
     <div className="container mx-auto px-4">
-      <div className="grid md:grid-cols-2 gap-4 items-center relative min-h-[calc(100vh-80px)]">
+      <div className="grid md:grid-cols-2 gap-4 items-start relative min-h-[calc(100vh-200px)]">
         <div className="text-left space-y-4 relative z-10 bg-white/80 md:bg-transparent p-4 md:p-0 rounded-lg">
           <div className="space-y-4">
             <h1 className="text-5xl md:text-6xl lg:text-8xl font-black tracking-tighter leading-none relative text-3d">

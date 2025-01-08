@@ -31,8 +31,8 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
 
   return (
     <Card className="hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-indigo-100 flex flex-col h-full">
-      <CardHeader className="flex-grow">
-        <div className="w-full h-48 mb-4 rounded-t-lg overflow-hidden relative bg-gray-100">
+      <CardHeader className="flex-grow p-3 sm:p-6">
+        <div className="w-full h-32 sm:h-48 mb-2 sm:mb-4 rounded-t-lg overflow-hidden relative bg-gray-100">
           {lesson.image_url ? (
             <img 
               src={lesson.image_url} 
@@ -46,50 +46,50 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
             </div>
           )}
         </div>
-        <div className="flex items-center justify-between mb-2">
-          <CardTitle className="text-lg">{lesson.title}</CardTitle>
+        <div className="flex items-center justify-between mb-1 sm:mb-2">
+          <CardTitle className="text-base sm:text-lg line-clamp-1">{lesson.title}</CardTitle>
           {shouldShowStatus() && (
             <Badge 
               variant="secondary"
-              className={`${getStatusColor(lesson.progress?.status || '')} text-white`}
+              className={`${getStatusColor(lesson.progress?.status || '')} text-white text-xs`}
             >
               {lesson.progress?.status === 'completed' ? 'completed' : 'in progress'}
             </Badge>
           )}
         </div>
-        <CardDescription>{lesson.description}</CardDescription>
+        <CardDescription className="text-sm line-clamp-2">{lesson.description}</CardDescription>
         
-        <div className="mt-4 space-y-2 text-sm text-gray-600">
-          <div className="flex items-center gap-2">
-            <MapPin className="h-4 w-4 text-primary" />
-            <span>{lesson.location || 'TBD'}</span>
+        <div className="mt-2 sm:mt-4 space-y-1 sm:space-y-2 text-xs sm:text-sm text-gray-600">
+          <div className="flex items-center gap-1 sm:gap-2">
+            <MapPin className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
+            <span className="truncate">{lesson.location || 'TBD'}</span>
           </div>
-          <div className="flex items-center gap-2">
-            <Calendar className="h-4 w-4 text-primary" />
+          <div className="flex items-center gap-1 sm:gap-2">
+            <Calendar className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
             <span>{lesson.lesson_date ? format(new Date(lesson.lesson_date), 'PPP') : 'TBD'}</span>
           </div>
-          <div className="flex items-center gap-2">
-            <Clock className="h-4 w-4 text-primary" />
+          <div className="flex items-center gap-1 sm:gap-2">
+            <Clock className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
             <span>{lesson.lesson_time ? format(new Date(`2000-01-01T${lesson.lesson_time}`), 'p') : 'TBD'}</span>
           </div>
-          <div className="flex items-center gap-2">
-            <User className="h-4 w-4 text-primary" />
-            <span>Instructor: {lesson.instructor_name || 'TBD'}</span>
+          <div className="flex items-center gap-1 sm:gap-2">
+            <User className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
+            <span className="truncate">Instructor: {lesson.instructor_name || 'TBD'}</span>
           </div>
         </div>
       </CardHeader>
-      <CardContent className="mt-auto">
+      <CardContent className="mt-auto p-3 sm:p-6 pt-0 sm:pt-0">
         {lesson.progress?.status === 'completed' ? (
-          <div className="flex items-center justify-center gap-2 py-2 text-green-600">
-            <CheckCircle2 className="h-5 w-5" />
+          <div className="flex items-center justify-center gap-1 sm:gap-2 py-1 sm:py-2 text-green-600 text-sm">
+            <CheckCircle2 className="h-4 w-4 sm:h-5 sm:w-5" />
             <span className="font-medium">Lesson Completed</span>
           </div>
         ) : (
           <Button 
-            className="w-full flex items-center justify-center gap-2 bg-[#FFD700] hover:bg-[#FFD700]/90 text-black mb-2"
+            className="w-full flex items-center justify-center gap-1 sm:gap-2 bg-[#FFD700] hover:bg-[#FFD700]/90 text-black mb-1 sm:mb-2 text-sm h-8 sm:h-10"
             onClick={() => setIsDialogOpen(true)}
           >
-            <UserCheck className="h-5 w-5" />
+            <UserCheck className="h-3 w-3 sm:h-4 sm:w-4" />
             Confirm Attendance
           </Button>
         )}

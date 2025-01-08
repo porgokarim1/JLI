@@ -87,8 +87,8 @@ const MobileMenu = ({ isAuthenticated, setIsOpen }: MobileMenuProps) => {
         Login
       </Button>
       <Button
-        variant="default"
-        className="w-full flex items-center"
+        variant="outline"
+        className="w-full flex items-center border-2 border-gray-500 text-gray-500 hover:bg-gray-500/10"
         onClick={() => {
           navigate("/register");
           setIsOpen(false);

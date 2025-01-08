@@ -16,8 +16,8 @@ const UnauthenticatedButtons = () => {
         Login
       </Button>
       <Button
-        variant="default"
-        className="inline-flex items-center"
+        variant="outline"
+        className="inline-flex items-center border-2 border-gray-500 text-gray-500 hover:bg-gray-500/10"
         onClick={() => navigate("/register")}
       >
         <UserPlus className="h-5 w-5 mr-2" />

@@ -5,13 +5,13 @@ import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import WelcomeStep from "./conversation/WelcomeStep";
-import ParticipantsStep from "./conversation/ParticipantsStep";
-import ComfortStep from "./conversation/ComfortStep";
-import FinalStep from "./conversation/FinalStep";
-import confetti from 'canvas-confetti';
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import ParticipantCounter from "./conversation/ParticipantCounter";
+import confetti from 'canvas-confetti';
 
 const formSchema = z.object({
   comfort_level: z.enum(["very_comfortable", "comfortable", "uncomfortable", "very_uncomfortable"]),
@@ -28,7 +28,6 @@ interface ConversationFormProps {
 }
 
 const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => {
-  const [currentStep, setCurrentStep] = useState(0);
   const [participantCount, setParticipantCount] = useState(initialData?.participant_count || 1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showThankYou, setShowThankYou] = useState(false);
@@ -105,59 +104,82 @@ const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => 
     onSuccess?.();
   };
 
-  const getCurrentStep = () => {
-    const commonProps = { form };
-    
-    switch (currentStep) {
-      case 0:
-        return <WelcomeStep {...commonProps} onNext={() => setCurrentStep(1)} />;
-      case 1:
-        return (
-          <ParticipantsStep
-            {...commonProps}
-            participantCount={participantCount}
-            onParticipantCountChange={setParticipantCount}
-            onNext={() => setCurrentStep(2)}
-            onBack={() => setCurrentStep(0)}
-          />
-        );
-      case 2:
-        return (
-          <ComfortStep
-            {...commonProps}
-            onNext={() => {
-              const comfortLevel = form.getValues().comfort_level;
-              if (!comfortLevel) {
-                form.setError("comfort_level", {
-                  type: "required",
-                  message: "Please select your comfort level"
-                });
-                return;
-              }
-              setCurrentStep(3);
-            }}
-            onBack={() => setCurrentStep(1)}
-          />
-        );
-      case 3:
-        return (
-          <FinalStep
-            {...commonProps}
-            onSubmit={onSubmit}
-            onBack={() => setCurrentStep(2)}
-            isSubmitting={isSubmitting}
-          />
-        );
-      default:
-        return null;
-    }
-  };
-
   return (
     <>
       <Form {...form}>
-        <form className="space-y-6">
-          {getCurrentStep()}
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="space-y-6">
+            <FormField
+              control={form.control}
+              name="conversation_date"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>When was it?</FormLabel>
+                  <FormControl>
+                    <Input type="date" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <div>
+              <FormLabel>How many involved?</FormLabel>
+              <ParticipantCounter
+                value={participantCount}
+                onChange={(value) => {
+                  setParticipantCount(value);
+                  form.setValue("participant_count", value);
+                }}
+              />
+            </div>
+
+            <FormField
+              control={form.control}
+              name="comfort_level"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>How did it feel?</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select comfort level" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="very_comfortable">Very Comfortable 😊</SelectItem>
+                      <SelectItem value="comfortable">Comfortable 🙂</SelectItem>
+                      <SelectItem value="uncomfortable">Uncomfortable 😕</SelectItem>
+                      <SelectItem value="very_uncomfortable">Very Uncomfortable 😣</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="comments"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Any thoughts? (Optional)</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Share your experience..." {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <Button 
+              type="submit" 
+              className="w-full"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Recording..." : "Record Conversation"}
+            </Button>
+          </div>
         </form>
       </Form>
 

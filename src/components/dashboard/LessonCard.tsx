@@ -31,8 +31,8 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
 
   return (
     <Card className="hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-indigo-100 flex flex-col h-full">
-      <CardHeader className="flex-grow p-3 sm:p-6">
-        <div className="w-full h-32 sm:h-48 mb-2 sm:mb-4 rounded-t-lg overflow-hidden relative bg-gray-100">
+      <CardHeader className="flex-grow p-2 sm:p-6">
+        <div className="w-full h-24 sm:h-48 mb-2 sm:mb-4 rounded-t-lg overflow-hidden relative bg-gray-100">
           {lesson.image_url ? (
             <img 
               src={lesson.image_url} 
@@ -47,7 +47,7 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
           )}
         </div>
         <div className="flex items-center justify-between mb-1 sm:mb-2">
-          <CardTitle className="text-base sm:text-lg line-clamp-1">{lesson.title}</CardTitle>
+          <CardTitle className="text-sm sm:text-lg line-clamp-1">{lesson.title}</CardTitle>
           {shouldShowStatus() && (
             <Badge 
               variant="secondary"
@@ -57,7 +57,7 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
             </Badge>
           )}
         </div>
-        <CardDescription className="text-sm line-clamp-2">{lesson.description}</CardDescription>
+        <CardDescription className="text-xs sm:text-sm line-clamp-2">{lesson.description}</CardDescription>
         
         <div className="mt-2 sm:mt-4 space-y-1 sm:space-y-2 text-xs sm:text-sm text-gray-600">
           <div className="flex items-center gap-1 sm:gap-2">
@@ -78,15 +78,15 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
           </div>
         </div>
       </CardHeader>
-      <CardContent className="mt-auto p-3 sm:p-6 pt-0 sm:pt-0">
+      <CardContent className="mt-auto p-2 sm:p-6 pt-0 sm:pt-0">
         {lesson.progress?.status === 'completed' ? (
-          <div className="flex items-center justify-center gap-1 sm:gap-2 py-1 sm:py-2 text-green-600 text-sm">
-            <CheckCircle2 className="h-4 w-4 sm:h-5 sm:w-5" />
+          <div className="flex items-center justify-center gap-1 sm:gap-2 py-1 sm:py-2 text-green-600 text-xs sm:text-sm">
+            <CheckCircle2 className="h-3 w-3 sm:h-4 sm:w-4" />
             <span className="font-medium">Lesson Completed</span>
           </div>
         ) : (
           <Button 
-            className="w-full flex items-center justify-center gap-1 sm:gap-2 bg-[#FFD700] hover:bg-[#FFD700]/90 text-black mb-1 sm:mb-2 text-sm h-8 sm:h-10"
+            className="w-full flex items-center justify-center gap-1 sm:gap-2 bg-[#FFD700] hover:bg-[#FFD700]/90 text-black mb-1 sm:mb-2 text-xs sm:text-sm h-6 sm:h-10"
             onClick={() => setIsDialogOpen(true)}
           >
             <UserCheck className="h-3 w-3 sm:h-4 sm:w-4" />

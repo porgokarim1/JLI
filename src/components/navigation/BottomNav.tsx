@@ -26,15 +26,6 @@ const BottomNav = () => {
             <span className="text-xs">Home</span>
           </button>
           <button
-            onClick={() => navigate("/engagement")}
-            className={`flex flex-col items-center ${
-              isActive("/engagement") ? "text-primary" : "text-gray-500"
-            }`}
-          >
-            <Handshake className="h-5 w-5" />
-            <span className="text-xs">Engage</span>
-          </button>
-          <button
             onClick={() => navigate("/lessons")}
             className={`flex flex-col items-center ${
               isActive("/lessons") ? "text-primary" : "text-gray-500"

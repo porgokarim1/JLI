@@ -11,7 +11,6 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import About from "./pages/About";
-import Engagement from "./pages/Engagement";
 import Lessons from "./pages/Lessons";
 import BottomNav from "./components/navigation/BottomNav";
 
@@ -127,10 +126,6 @@ const App = () => {
         {
           path: "/about",
           element: !isAuthenticated ? <Navigate to="/login" /> : <About />,
-        },
-        {
-          path: "/engagement",
-          element: !isAuthenticated ? <Navigate to="/login" /> : <Engagement />,
         },
         {
           path: "/lessons",

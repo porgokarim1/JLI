@@ -30,8 +30,7 @@ const StudentDashboard = () => {
         .from('conversations')
         .select('*')
         .eq('user_id', user.id)
-        .order('conversation_date', { ascending: false })
-        .limit(3);
+        .order('conversation_date', { ascending: false });
 
       if (error) {
         console.error('Error fetching recent engagements:', error);

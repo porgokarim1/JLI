@@ -29,6 +29,36 @@ interface ConversationFormProps {
   onClose?: () => void;
 }
 
+const ComfortLevelSelector = ({ value, onChange }: { value: string, onChange: (value: string) => void }) => {
+  const options = [
+    { value: "very_comfortable", label: "Very Comfortable", emoji: "😄" },
+    { value: "comfortable", label: "Comfortable", emoji: "🙂" },
+    { value: "neutral", label: "Neutral", emoji: "😐" },
+    { value: "uncomfortable", label: "Uncomfortable", emoji: "😕" },
+    { value: "very_uncomfortable", label: "Very Uncomfortable", emoji: "😣" }
+  ];
+
+  return (
+    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+      {options.map((option) => (
+        <button
+          key={option.value}
+          type="button"
+          onClick={() => onChange(option.value)}
+          className={`flex flex-col items-center justify-center p-3 rounded-lg border-2 transition-all ${
+            value === option.value
+              ? "border-primary bg-primary/10"
+              : "border-gray-200 hover:border-primary/50"
+          }`}
+        >
+          <span className="text-3xl mb-2">{option.emoji}</span>
+          <span className="text-xs text-center">{option.label}</span>
+        </button>
+      ))}
+    </div>
+  );
+};
+
 const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormProps) => {
   const [participantCount, setParticipantCount] = useState(initialData?.participant_count || 1);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -110,16 +140,6 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 max-w-sm mx-auto">
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            className="absolute right-2 top-2 h-8 w-8 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
-            onClick={onClose}
-          >
-            <X className="h-4 w-4" />
-            <span className="sr-only">Close</span>
-          </Button>
           <div className="space-y-3">
             <FormField
               control={form.control}
@@ -152,20 +172,12 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-sm">How did it go?</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select comfort level" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent className="bg-white">
-                      <SelectItem value="very_comfortable">Very Comfortable 😊</SelectItem>
-                      <SelectItem value="comfortable">Comfortable 🙂</SelectItem>
-                      <SelectItem value="neutral">Neutral 😐</SelectItem>
-                      <SelectItem value="uncomfortable">Uncomfortable 😕</SelectItem>
-                      <SelectItem value="very_uncomfortable">Very Uncomfortable 😣</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <FormControl>
+                    <ComfortLevelSelector
+                      value={field.value || ""}
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}

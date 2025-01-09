@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Menu, X, Home, BookOpen, PieChart, User, MessageSquare, Users } from "lucide-react";
+import { Menu, X, Home, BookOpen, PieChart, User, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import AuthenticatedButtons from "./AuthenticatedButtons";
@@ -56,14 +56,6 @@ const NavigationBar = () => {
               >
                 <Home className="h-5 w-5 mb-1" />
                 <span className="text-xs">Home</span>
-              </Button>
-              <Button
-                variant="ghost"
-                className="flex flex-col items-center justify-center h-16 px-2"
-                onClick={() => navigate("/engagement")}
-              >
-                <Users className="h-5 w-5 mb-1" />
-                <span className="text-xs">Engage</span>
               </Button>
               <Button
                 variant="ghost"

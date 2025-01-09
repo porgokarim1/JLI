@@ -55,7 +55,7 @@ const NavigationBar = () => {
                 onClick={() => navigate("/")}
               >
                 <Home className="h-5 w-5 mb-1" />
-                <span className="text-xs">Home</span>
+                <span className="text-xs">Engagement</span>
               </Button>
               <Button
                 variant="ghost"

@@ -23,7 +23,7 @@ const BottomNav = () => {
             }`}
           >
             <Home className="h-5 w-5" />
-            <span className="text-xs">Home</span>
+            <span className="text-xs">Engagement</span>
           </button>
           <button
             onClick={() => navigate("/lessons")}

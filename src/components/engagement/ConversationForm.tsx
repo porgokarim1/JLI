@@ -5,19 +5,17 @@ import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
-import ParticipantCounter from "./conversation/ParticipantCounter";
+import { Calendar } from "lucide-react";
 import confetti from 'canvas-confetti';
-import { X } from "lucide-react";
 
 const formSchema = z.object({
   comfort_level: z.enum(["very_comfortable", "comfortable", "uncomfortable", "very_uncomfortable", "neutral"]),
   comments: z.string().optional(),
   conversation_date: z.string(),
-  participant_count: z.number().min(1)
+  participant_count: z.number().min(1).max(99)
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -38,20 +36,20 @@ const ComfortLevelSelector = ({ value, onChange }: { value: string, onChange: (v
   ];
 
   return (
-    <div className="flex flex-wrap gap-1.5 justify-center">
+    <div className="flex flex-wrap gap-2 justify-start">
       {options.map((option) => (
         <button
           key={option.value}
           type="button"
           onClick={() => onChange(option.value)}
-          className={`flex flex-col items-center justify-center p-1.5 rounded-lg border-2 min-w-[72px] transition-all ${
+          className={`flex items-center gap-1.5 p-1.5 rounded-lg border-2 transition-all ${
             value === option.value
               ? "border-primary bg-primary/10"
               : "border-gray-200 hover:border-primary/50"
           }`}
         >
-          <span className="text-lg mb-0.5">{option.emoji}</span>
-          <span className="text-[10px] leading-tight">{option.label}</span>
+          <span className="text-lg">{option.emoji}</span>
+          <span className="text-xs whitespace-nowrap">{option.label}</span>
         </button>
       ))}
     </div>
@@ -59,10 +57,7 @@ const ComfortLevelSelector = ({ value, onChange }: { value: string, onChange: (v
 };
 
 const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormProps) => {
-  const [participantCount, setParticipantCount] = useState(initialData?.participant_count || 1);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showThankYou, setShowThankYou] = useState(false);
-  const [confettiInterval, setConfettiInterval] = useState<number | null>(null);
   
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -70,26 +65,34 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
       comfort_level: initialData?.comfort_level,
       comments: initialData?.comments || "",
       conversation_date: initialData?.conversation_date || new Date().toISOString().split("T")[0],
-      participant_count: participantCount
+      participant_count: initialData?.participant_count || 1
     },
   });
 
-  const startConfetti = () => {
-    const interval = window.setInterval(() => {
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 }
-      });
-    }, 1500);
-    setConfettiInterval(interval);
-  };
+  const triggerConfetti = () => {
+    const duration = 3000;
+    const end = Date.now() + duration;
 
-  const stopConfetti = () => {
-    if (confettiInterval) {
-      clearInterval(confettiInterval);
-      setConfettiInterval(null);
-    }
+    const frame = () => {
+      confetti({
+        particleCount: 2,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0, y: 0.8 }
+      });
+      confetti({
+        particleCount: 2,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1, y: 0.8 }
+      });
+
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    };
+
+    frame();
   };
 
   const onSubmit = async () => {
@@ -112,16 +115,18 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
         comfort_level: formData.comfort_level,
         comments: formData.comments,
         conversation_date: formData.conversation_date,
-        participant_count: participantCount,
+        participant_count: formData.participant_count,
         user_id: user.id,
         ...(initialData?.id ? { id: initialData.id } : {}),
       });
 
       if (error) throw error;
 
-      setShowThankYou(true);
-      startConfetti();
-      form.reset();
+      triggerConfetti();
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+      
     } catch (error: any) {
       toast.error("Error recording conversation: " + error.message);
     } finally {
@@ -129,25 +134,19 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
     }
   };
 
-  const handleThankYouClose = () => {
-    setShowThankYou(false);
-    stopConfetti();
-    onSuccess?.();
-  };
-
   return (
-    <>
-      <Form {...form}>
-        <form 
-          onSubmit={form.handleSubmit(onSubmit)} 
-          className="space-y-3 w-full max-w-md mx-auto px-4"
-        >
+    <Form {...form}>
+      <form 
+        onSubmit={form.handleSubmit(onSubmit)} 
+        className="space-y-4 w-full max-w-md mx-auto px-4"
+      >
+        <div className="flex items-center justify-between gap-2">
+          <FormLabel className="text-sm whitespace-nowrap">When was it? 📆</FormLabel>
           <FormField
             control={form.control}
             name="conversation_date"
             render={({ field }) => (
-              <FormItem className="space-y-1">
-                <FormLabel className="text-sm">When was it?</FormLabel>
+              <FormItem className="flex-1">
                 <FormControl>
                   <Input type="date" {...field} className="h-8" />
                 </FormControl>
@@ -155,80 +154,73 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
               </FormItem>
             )}
           />
+        </div>
 
-          <div className="space-y-1">
-            <FormLabel className="text-sm">How many involved?</FormLabel>
-            <ParticipantCounter
-              value={participantCount}
-              onChange={(value) => {
-                setParticipantCount(value);
-                form.setValue("participant_count", value);
-              }}
-            />
-          </div>
-
+        <div className="flex items-center justify-between gap-2">
+          <FormLabel className="text-sm whitespace-nowrap">How many involved?</FormLabel>
           <FormField
             control={form.control}
-            name="comfort_level"
+            name="participant_count"
             render={({ field }) => (
-              <FormItem className="space-y-1">
-                <FormLabel className="text-sm">How did it go?</FormLabel>
+              <FormItem className="flex-1">
                 <FormControl>
-                  <ComfortLevelSelector
-                    value={field.value || ""}
-                    onChange={field.onChange}
+                  <Input 
+                    type="number" 
+                    min="1"
+                    max="99"
+                    {...field}
+                    onChange={e => field.onChange(parseInt(e.target.value))}
+                    className="h-8"
                   />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+        </div>
 
-          <FormField
-            control={form.control}
-            name="comments"
-            render={({ field }) => (
-              <FormItem className="space-y-1">
-                <FormLabel className="text-sm">Any thoughts? (Optional)</FormLabel>
-                <FormControl>
-                  <Input placeholder="Share your experience..." {...field} className="h-8" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        <FormField
+          control={form.control}
+          name="comfort_level"
+          render={({ field }) => (
+            <FormItem className="space-y-1">
+              <FormLabel className="text-sm">How did it go?</FormLabel>
+              <FormControl>
+                <ComfortLevelSelector
+                  value={field.value || ""}
+                  onChange={field.onChange}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          <div className="pt-2">
-            <Button 
-              type="submit" 
-              className="w-full h-9"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? "Recording..." : "Record Conversation"}
-            </Button>
-          </div>
-        </form>
-      </Form>
+        <FormField
+          control={form.control}
+          name="comments"
+          render={({ field }) => (
+            <FormItem className="space-y-1">
+              <FormLabel className="text-sm">Any thoughts? (Optional)</FormLabel>
+              <FormControl>
+                <Input placeholder="Share your experience..." {...field} className="h-8" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-      <Dialog open={showThankYou} onOpenChange={setShowThankYou}>
-        <DialogContent className="text-center sm:max-w-[425px]">
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            className="absolute right-2 top-2 h-8 w-8 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
-            onClick={handleThankYouClose}
+        <div className="pt-2">
+          <Button 
+            type="submit" 
+            className="w-full h-9"
+            disabled={isSubmitting}
           >
-            <X className="h-4 w-4" />
-            <span className="sr-only">Close</span>
+            {isSubmitting ? "Saving..." : "Save"}
           </Button>
-          <p className="py-4">Your conversation has been recorded successfully!</p>
-          <Button onClick={handleThankYouClose} className="mt-4">
-            OK
-          </Button>
-        </DialogContent>
-      </Dialog>
-    </>
+        </div>
+      </form>
+    </Form>
   );
 };
 

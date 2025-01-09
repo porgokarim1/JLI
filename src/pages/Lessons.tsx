@@ -35,7 +35,7 @@ const Lessons = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
       <NavigationBar />
-      <div className="pt-16 container mx-auto px-4 py-4 max-h-screen overflow-hidden">
+      <div className="pt-16 container mx-auto px-4 py-4 h-[calc(100vh-4rem)]">
         <Card className="mb-4 bg-white/90 backdrop-blur-sm border-indigo-100">
           <CardHeader className="py-2">
             <CardTitle className="text-lg">Your Learning Journey</CardTitle>
@@ -52,22 +52,27 @@ const Lessons = () => {
           </CardContent>
         </Card>
 
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 max-h-[calc(100vh-12rem)] overflow-y-auto">
-          {lessons?.map((lesson) => (
-            <Card key={lesson.id} className="flex flex-col md:flex-col hover:shadow-lg transition-shadow h-auto">
-              <div className="md:w-full w-1/3 md:h-40 h-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 h-[calc(100vh-16rem)] md:h-auto">
+          {lessons?.slice(0, 4).map((lesson) => (
+            <Card 
+              key={lesson.id} 
+              className="flex flex-row md:flex-col hover:shadow-lg transition-shadow h-32 md:h-auto overflow-hidden"
+            >
+              <div className="w-1/3 md:w-full h-full md:h-40">
                 {lesson.image_url && (
                   <img 
                     src={lesson.image_url} 
                     alt={lesson.title}
-                    className="w-full h-full object-cover rounded-t-lg md:rounded-t-lg md:rounded-b-none rounded-l-lg md:rounded-l-none"
+                    className="w-full h-full object-cover rounded-l-lg md:rounded-t-lg md:rounded-b-none md:rounded-l-none"
                   />
                 )}
               </div>
-              <div className="flex-1 p-4">
-                <h3 className="font-medium text-sm mb-1 truncate">{lesson.title}</h3>
-                <p className="text-xs text-gray-600 mb-2 line-clamp-2">{lesson.description}</p>
-                <div className="flex items-center justify-between mt-auto">
+              <div className="flex-1 p-3 flex flex-col justify-between">
+                <div>
+                  <h3 className="font-medium text-sm mb-1 truncate">{lesson.title}</h3>
+                  <p className="text-xs text-gray-600 line-clamp-2 mb-2">{lesson.description}</p>
+                </div>
+                <div className="flex items-center justify-between">
                   <span className="text-xs text-gray-500">
                     {lesson.progress?.status === 'completed' ? 'Completed' : 'In Progress'}
                   </span>

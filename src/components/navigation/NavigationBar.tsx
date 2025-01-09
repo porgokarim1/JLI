@@ -93,10 +93,7 @@ const NavigationBar = ({ isAuthenticated }: NavigationBarProps) => {
         </div>
       </div>
 
-      <MobileMenu 
-        isAuthenticated={isAuthenticated} 
-        setIsOpen={setIsMobileMenuOpen} 
-      />
+      <MobileMenu isOpen={isMobileMenuOpen} isAuthenticated={isAuthenticated} />
     </nav>
   );
 };

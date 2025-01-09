@@ -1,48 +1,47 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
-import { useEffect, useState } from "react";
 
 const HeroSection = () => {
   const navigate = useNavigate();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setIsAuthenticated(!!session);
-    };
-    checkAuth();
-  }, []);
-
-  if (isAuthenticated) {
-    return null;
-  }
-
+  
   return (
-    <div className="container mx-auto px-4 py-12">
-      <div className="max-w-3xl mx-auto text-center">
-        <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-          Welcome to Language Learning
-        </h1>
-        <p className="mt-6 text-lg leading-8 text-gray-600">
-          Join our community and start your language learning journey today.
-          Practice with native speakers and improve your skills.
-        </p>
-        <div className="mt-10 flex items-center justify-center gap-x-6">
-          <Button
-            onClick={() => navigate("/register")}
-            className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          >
-            Join Now
-          </Button>
-          <Button
-            variant="ghost"
-            onClick={() => navigate("/login")}
-            className="text-sm font-semibold leading-6 text-gray-900"
-          >
-            Log in <span aria-hidden="true">→</span>
-          </Button>
+    <div className="container mx-auto px-4 h-[calc(100vh-64px)] flex items-center">
+      <div className="grid md:grid-cols-2 gap-4 items-center w-full">
+        <div className="text-center md:text-left space-y-4 relative z-10 bg-white/80 md:bg-transparent p-4 md:p-0 rounded-lg">
+          <div className="space-y-4">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-none relative text-3d">
+              K
+              <span className="absolute -top-4 left-[0.45em]">'</span>
+              NOW
+              <br />
+              ISRAEL
+            </h1>
+            
+            <div className="pt-4 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+              <Button 
+                size="lg"
+                className="w-full sm:w-auto bg-[#FFD700] text-black hover:bg-[#FFD700]/90"
+                onClick={() => navigate("/register")}
+              >
+                Join
+              </Button>
+              <Button 
+                size="lg"
+                variant="outline"
+                className="w-full sm:w-auto border-2 border-primary text-primary hover:bg-primary/10"
+                onClick={() => navigate("/login")}
+              >
+                Login
+              </Button>
+            </div>
+          </div>
+        </div>
+        <div className="w-full h-[300px] md:h-[500px]">
+          <img
+            src="https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/General%20images/SM-5785-KI-GIF-1-Transparent-Story.gif"
+            alt="K'NOW Israel Animation"
+            className="w-full h-full object-contain"
+          />
         </div>
       </div>
     </div>

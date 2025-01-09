@@ -78,90 +78,88 @@ const StudentDashboard = () => {
     <div className="h-[calc(100vh-4rem)] p-4 max-w-7xl mx-auto">
       <DashboardHeader />
       
-      <div className="flex flex-col md:flex-row gap-4 mt-4">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mt-4">
         {/* Left side - Main content */}
-        <div className="flex-1 space-y-4">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <BookOpen className="h-6 w-6 text-primary" />
-                    <div>
-                      <h3 className="font-medium text-sm">Next Lesson</h3>
-                      <p className="text-xs text-muted-foreground">
-                        {nextLesson?.lesson_date ? new Date(nextLesson.lesson_date).toLocaleDateString() : 'TBD'} 
-                        {nextLesson?.lesson_time ? ` @${nextLesson.lesson_time}` : ''}
-                      </p>
-                    </div>
-                  </div>
-                  <Button 
-                    variant="default"
-                    className="text-black h-8 text-xs"
-                    onClick={() => setShowAttendanceForm(true)}
-                  >
-                    Confirm Attendance
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Handshake className="h-6 w-6 text-primary" />
-                    <div>
-                      <h3 className="font-medium text-sm">Engagements</h3>
-                      <p className="text-xs text-muted-foreground">{totalPeers}/7 peers</p>
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <Button 
-                      variant="default"
-                      className="text-black h-8 text-xs"
-                      onClick={() => setShowEngagementForm(true)}
-                    >
-                      <Plus className="h-4 w-4 mr-1" /> New
-                    </Button>
-                    <p className="text-xs text-muted-foreground text-center">
-                      {nextLesson?.location || 'TBD'}
+        <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <BookOpen className="h-6 w-6 text-primary" />
+                  <div>
+                    <h3 className="font-medium text-sm">Next Lesson</h3>
+                    <p className="text-xs text-muted-foreground">
+                      {nextLesson?.lesson_date ? new Date(nextLesson.lesson_date).toLocaleDateString() : 'TBD'} 
+                      {nextLesson?.lesson_time ? ` @${nextLesson.lesson_time}` : ''}
                     </p>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+                <Button 
+                  variant="default"
+                  className="text-black h-8 text-xs"
+                  onClick={() => setShowAttendanceForm(true)}
+                >
+                  Confirm Attendance
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
 
-            <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <Gift className="h-6 w-6 text-primary" />
-                    <div>
-                      <h3 className="font-medium text-sm">Referral Program</h3>
-                      <p className="text-xs text-muted-foreground">Invite friends & earn rewards</p>
-                    </div>
-                  </div>
-                  <div className="flex flex-col items-end gap-2">
-                    <Button 
-                      variant="secondary" 
-                      size="sm" 
-                      className="h-8 text-xs flex items-center gap-2"
-                      onClick={handleCopyReferralLink}
-                    >
-                      <Share2 className="h-4 w-4" />
-                      Share Link
-                    </Button>
-                    <p className="text-xs text-muted-foreground">0 referrals</p>
+          <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <Handshake className="h-6 w-6 text-primary" />
+                  <div>
+                    <h3 className="font-medium text-sm">Engagements</h3>
+                    <p className="text-xs text-muted-foreground">{totalPeers}/7 peers</p>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
+                <div className="flex flex-col gap-2">
+                  <Button 
+                    variant="default"
+                    className="text-black h-8 text-xs"
+                    onClick={() => setShowEngagementForm(true)}
+                  >
+                    <Plus className="h-4 w-4 mr-1" /> New
+                  </Button>
+                  <p className="text-xs text-muted-foreground text-center">
+                    {nextLesson?.location || 'TBD'}
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <Gift className="h-6 w-6 text-primary" />
+                  <div>
+                    <h3 className="font-medium text-sm">Referral Program</h3>
+                    <p className="text-xs text-muted-foreground">Invite friends & earn rewards</p>
+                  </div>
+                </div>
+                <div className="flex flex-col items-end gap-2">
+                  <Button 
+                    variant="secondary" 
+                    size="sm" 
+                    className="h-8 text-xs flex items-center gap-2"
+                    onClick={handleCopyReferralLink}
+                  >
+                    <Share2 className="h-4 w-4" />
+                    Share Link
+                  </Button>
+                  <p className="text-xs text-muted-foreground">0 referrals</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Right side - Recent Engagements */}
-        <div className="w-full md:w-64 space-y-2">
+        <div className="space-y-2">
           <h3 className="font-medium text-sm mb-2">Recent Engagements</h3>
           <div className="space-y-2">
             {recentEngagements.map((engagement) => (

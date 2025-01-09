@@ -21,7 +21,7 @@ const Engagement = () => {
       <NavigationBar />
       <div className="container mx-auto px-4 pt-24 pb-8">
         <div className="flex flex-col gap-6">
-          <h1 className="text-xl font-medium">Number of peers you talked to</h1>
+          <h1 className="text-base font-medium">Number of peers you talked to</h1>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <EngagementMetrics type="conversation" />

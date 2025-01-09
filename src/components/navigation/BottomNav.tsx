@@ -1,4 +1,4 @@
-import { Home, Users, BookOpen, User } from "lucide-react";
+import { BookOpen, Users, User, LayoutDashboard } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const BottomNav = () => {
@@ -16,7 +16,7 @@ const BottomNav = () => {
             isActive("/") ? "text-primary" : "text-gray-500"
           }`}
         >
-          <Home className="h-5 w-5" />
+          <LayoutDashboard className="h-5 w-5" />
           <span className="text-xs">Home</span>
         </button>
         <button

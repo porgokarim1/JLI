@@ -102,7 +102,7 @@ const StudentDashboard = () => {
               )}
             </div>
             <div className="space-y-2">
-              {recentEngagements.map((engagement) => (
+              {recentEngagements.slice(0, 3).map((engagement) => (
                 <div key={engagement.id} className="flex items-center justify-between text-sm">
                   <div className="flex items-center gap-2">
                     <span role="img" aria-label="mood">

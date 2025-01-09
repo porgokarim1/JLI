@@ -95,11 +95,11 @@ const Lessons = () => {
           </Card>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 pb-4 flex-1">
-          {lessons?.slice(0, 4).map((lesson) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 pb-4 flex-1 overflow-y-auto">
+          {lessons?.map((lesson) => (
             <Card 
               key={lesson.id} 
-              className="flex flex-row md:flex-col hover:shadow-lg transition-shadow h-[calc((100vh-16rem)/4)] md:h-auto overflow-hidden cursor-pointer"
+              className="flex flex-row md:flex-col hover:shadow-lg transition-shadow cursor-pointer"
               onClick={() => navigate(`/lesson/${lesson.id}`)}
             >
               <div className="w-1/3 md:w-full h-24 md:h-40">

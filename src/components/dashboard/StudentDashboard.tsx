@@ -11,6 +11,7 @@ import { NextLessonCard } from "./cards/NextLessonCard";
 import { EngagementCard } from "./cards/EngagementCard";
 import { ReferralCard } from "./cards/ReferralCard";
 import { Button } from "@/components/ui/button";
+import { Users, User, Plus, MessageCircle, PenLine } from "lucide-react";
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
@@ -61,39 +62,57 @@ const StudentDashboard = () => {
         <EngagementCard onNewEngagement={() => setShowEngagementForm(true)} />
       </div>
 
-      {/* Recent Engagements Section */}
-      <div className="w-full max-w-4xl mx-auto space-y-2 bg-white/50 backdrop-blur-sm rounded-lg p-4">
-        <h3 className="font-medium text-sm mb-2">Recent Engagements</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-          {recentEngagements.map((engagement) => (
-            <div 
-              key={engagement.id} 
-              className="bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg p-3 flex items-center justify-between"
-            >
-              <div className="flex items-center gap-2">
-                <span role="img" aria-label="mood">
-                  {engagement.comfort_level === 'very_comfortable' ? '😊' : 
-                   engagement.comfort_level === 'comfortable' ? '🙂' : 
-                   engagement.comfort_level === 'neutral' ? '😐' : 
-                   engagement.comfort_level === 'uncomfortable' ? '😕' : '😔'}
-                </span>
-                <span className="text-sm text-gray-600">
-                  {formatDistanceToNow(new Date(engagement.conversation_date), { addSuffix: true })}
-                </span>
-              </div>
-              <span className="text-sm text-gray-600">{engagement.participant_count} peers</span>
-            </div>
-          ))}
-        </div>
-        {recentEngagements.length >= 3 && (
+      {/* Recent Engagements Section - New Design */}
+      <div className="w-full max-w-md mx-auto bg-white rounded-lg shadow-sm p-4">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <Users className="h-5 w-5 text-primary" />
+            <h3 className="font-medium">Engagements</h3>
+            <span className="text-sm text-gray-500">0/7</span>
+          </div>
           <Button 
-            variant="default"
-            className="w-full mt-2 text-xs text-muted-foreground bg-gray-100 hover:bg-gray-200"
-            onClick={() => navigate('/engagement')}
+            size="sm"
+            variant="ghost"
+            className="h-8 px-2"
+            onClick={() => setShowEngagementForm(true)}
           >
-            View All Engagements
+            <Plus className="h-4 w-4" />
           </Button>
-        )}
+        </div>
+
+        <div className="space-y-3">
+          {recentEngagements.length > 0 ? (
+            recentEngagements.map((engagement) => (
+              <div 
+                key={engagement.id}
+                className="flex items-center justify-between py-2 border-t border-gray-100"
+              >
+                <div className="flex items-center gap-3">
+                  <User className="h-4 w-4 text-gray-400" />
+                  <span className="text-sm text-gray-600">
+                    {formatDistanceToNow(new Date(engagement.conversation_date), { addSuffix: true })}
+                  </span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <MessageCircle className="h-4 w-4 text-gray-400" />
+                  <span className="text-sm text-gray-600">{engagement.comments || '-'}</span>
+                  <Button 
+                    variant="ghost" 
+                    size="sm"
+                    className="h-6 w-6 p-0"
+                    onClick={() => navigate('/engagement')}
+                  >
+                    <PenLine className="h-4 w-4 text-gray-400" />
+                  </Button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="text-center py-4 text-gray-500 text-sm">
+              No engagements recorded yet
+            </div>
+          )}
+        </div>
       </div>
 
       <Dialog open={showEngagementForm} onOpenChange={setShowEngagementForm}>

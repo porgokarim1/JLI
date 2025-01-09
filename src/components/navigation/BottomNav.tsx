@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { BookOpen, Users, User, LayoutDashboard } from "lucide-react";
+import { Home, Users, BookOpen, MessageSquare, PieChart, User } from "lucide-react";
 
 const BottomNav = () => {
   const location = useLocation();
@@ -15,8 +15,17 @@ const BottomNav = () => {
             isActive("/") ? "text-primary" : "text-gray-500"
           }`}
         >
-          <LayoutDashboard className="h-5 w-5" />
+          <Home className="h-5 w-5" />
           <span className="text-xs">Home</span>
+        </button>
+        <button
+          onClick={() => navigate("/engagement")}
+          className={`flex flex-col items-center ${
+            isActive("/engagement") ? "text-primary" : "text-gray-500"
+          }`}
+        >
+          <Users className="h-5 w-5" />
+          <span className="text-xs">Engage</span>
         </button>
         <button
           onClick={() => navigate("/lessons")}
@@ -28,13 +37,22 @@ const BottomNav = () => {
           <span className="text-xs">Lessons</span>
         </button>
         <button
-          onClick={() => navigate("/engagement")}
+          onClick={() => navigate("/chat")}
           className={`flex flex-col items-center ${
-            isActive("/engagement") ? "text-primary" : "text-gray-500"
+            isActive("/chat") ? "text-primary" : "text-gray-500"
           }`}
         >
-          <Users className="h-5 w-5" />
-          <span className="text-xs">Engagement</span>
+          <MessageSquare className="h-5 w-5" />
+          <span className="text-xs">AI Chat</span>
+        </button>
+        <button
+          onClick={() => navigate("/overview")}
+          className={`flex flex-col items-center ${
+            isActive("/overview") ? "text-primary" : "text-gray-500"
+          }`}
+        >
+          <PieChart className="h-5 w-5" />
+          <span className="text-xs">Overview</span>
         </button>
         <button
           onClick={() => navigate("/profile")}

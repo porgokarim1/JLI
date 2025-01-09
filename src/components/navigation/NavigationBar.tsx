@@ -1,54 +1,50 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Menu, X, Home, Handshake, BookOpen, PieChart, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
-import AuthenticatedButtons from "./AuthenticatedButtons";
-import UnauthenticatedButtons from "./UnauthenticatedButtons";
+import {
+  BookOpen,
+  Handshake,
+  Home,
+  Menu,
+  PieChart,
+  User,
+  X,
+} from "lucide-react";
 import MobileMenu from "./MobileMenu";
-import { useIsMobile } from "@/hooks/use-mobile";
 
-const NavigationBar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+interface NavigationBarProps {
+  isAuthenticated?: boolean;
+}
+
+const NavigationBar = ({ isAuthenticated }: NavigationBarProps) => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const isMobile = useIsMobile();
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setIsAuthenticated(!!session);
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setIsAuthenticated(!!session);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  if (isMobile) {
-    return null;
-  }
 
   return (
-    <nav className="bg-white border-b border-gray-200 fixed w-full top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <button 
-            onClick={() => navigate("/")}
-            className="flex-shrink-0 flex items-center space-x-3 hover:opacity-80 transition-opacity"
-          >
-            <img 
+    <nav className="bg-white shadow-sm">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
+          <div className="flex items-center">
+            <img
               src="https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/lesson_images/logo.png?t=2025-01-02T06%3A41%3A20.422Z"
               alt="Logo"
-              className="h-8"
+              className="h-8 cursor-pointer"
+              onClick={() => navigate("/")}
             />
-            <span className="font-bold text-xl text-black relative">
-              K
-              <span className="absolute -top-1 left-[0.45em]">'</span>
-              NOW ISRAEL
-            </span>
-          </button>
+          </div>
+
+          <div className="md:hidden">
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="text-gray-500 hover:text-gray-600 focus:outline-none"
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </button>
+          </div>
 
           {isAuthenticated && (
             <div className="hidden md:flex md:items-center md:space-x-2 ml-auto">
@@ -58,7 +54,7 @@ const NavigationBar = () => {
                 onClick={() => navigate("/")}
               >
                 <Home className="h-5 w-5" />
-                <span>Home</span>
+                Home
               </Button>
               <Button
                 variant="ghost"
@@ -66,7 +62,7 @@ const NavigationBar = () => {
                 onClick={() => navigate("/engagement")}
               >
                 <Handshake className="h-5 w-5" />
-                <span>Engage</span>
+                Engagement
               </Button>
               <Button
                 variant="ghost"
@@ -74,7 +70,7 @@ const NavigationBar = () => {
                 onClick={() => navigate("/lessons")}
               >
                 <BookOpen className="h-5 w-5" />
-                <span>Lessons</span>
+                Lessons
               </Button>
               <Button
                 variant="ghost"
@@ -82,7 +78,7 @@ const NavigationBar = () => {
                 onClick={() => navigate("/about")}
               >
                 <PieChart className="h-5 w-5" />
-                <span>Overview</span>
+                About
               </Button>
               <Button
                 variant="ghost"
@@ -90,39 +86,14 @@ const NavigationBar = () => {
                 onClick={() => navigate("/profile")}
               >
                 <User className="h-5 w-5" />
-                <span>Profile</span>
+                Profile
               </Button>
-              <AuthenticatedButtons />
             </div>
           )}
-
-          {!isAuthenticated && (
-            <div className="hidden md:flex md:items-center ml-auto">
-              <UnauthenticatedButtons />
-            </div>
-          )}
-
-          <div className="md:hidden flex items-center">
-            <Button
-              variant="ghost"
-              className="inline-flex items-center justify-center p-2"
-              onClick={() => setIsOpen(!isOpen)}
-            >
-              {isOpen ? (
-                <X className="h-6 w-6" />
-              ) : (
-                <Menu className="h-6 w-6" />
-              )}
-            </Button>
-          </div>
         </div>
       </div>
 
-      <div className={`md:hidden ${isOpen ? "block" : "hidden"}`}>
-        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white shadow-lg">
-          <MobileMenu isAuthenticated={isAuthenticated} setIsOpen={setIsOpen} />
-        </div>
-      </div>
+      <MobileMenu isOpen={isMobileMenuOpen} isAuthenticated={isAuthenticated} />
     </nav>
   );
 };

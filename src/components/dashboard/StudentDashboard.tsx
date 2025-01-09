@@ -51,13 +51,19 @@ const StudentDashboard = () => {
     }
   };
 
+  const handleEmailShare = () => {
+    const subject = encodeURIComponent("Join K'NOW ISRAEL");
+    const body = encodeURIComponent(`Hey! I thought you might be interested in joining K'NOW ISRAEL. Check it out here: ${window.location.origin}/register`);
+    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+  };
+
   return (
     <div className="min-h-[calc(100vh-4rem)] p-4 max-w-7xl mx-auto space-y-4 pb-20">
       <DashboardHeader />
       
       <div className="space-y-4 max-w-md mx-auto w-full px-2">
         <NextLessonCard onAttendanceClick={() => setShowAttendanceForm(true)} />
-        <ReferralCard onShareLink={handleCopyReferralLink} />
+        <ReferralCard onShareLink={handleCopyReferralLink} onEmailShare={handleEmailShare} />
         <EngagementCard onNewEngagement={() => setShowEngagementForm(true)} />
       </div>
 

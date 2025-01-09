@@ -11,7 +11,7 @@ import { NextLessonCard } from "./cards/NextLessonCard";
 import { EngagementCard } from "./cards/EngagementCard";
 import { ReferralCard } from "./cards/ReferralCard";
 import { Button } from "@/components/ui/button";
-import { Users, User, Plus, MessageCircle, PenLine } from "lucide-react";
+import { Handshake, User, Plus, MessageCircle, PenLine } from "lucide-react";
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
@@ -52,7 +52,7 @@ const StudentDashboard = () => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] p-4 max-w-7xl mx-auto space-y-4">
+    <div className="min-h-[calc(100vh-4rem)] p-4 max-w-7xl mx-auto space-y-4 pb-20">
       <DashboardHeader />
       
       {/* Main Dashboard Cards - Centered with max-width */}
@@ -66,7 +66,7 @@ const StudentDashboard = () => {
       <div className="w-full max-w-md mx-auto bg-white rounded-lg shadow-sm p-4">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <Users className="h-5 w-5 text-primary" />
+            <Handshake className="h-5 w-5 text-primary" />
             <h3 className="font-medium">Engagements</h3>
             <span className="text-sm text-gray-500">0/7</span>
           </div>

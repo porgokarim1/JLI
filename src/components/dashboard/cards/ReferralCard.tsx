@@ -1,12 +1,20 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Gift, Share2 } from "lucide-react";
+import { Gift, Share2, Mail } from "lucide-react";
+import { toast } from "sonner";
 
 interface ReferralCardProps {
   onShareLink: () => void;
 }
 
 export const ReferralCard = ({ onShareLink }: ReferralCardProps) => {
+  const handleEmailShare = () => {
+    const subject = encodeURIComponent("Join our program!");
+    const body = encodeURIComponent("Hey! Check out this program: " + window.location.origin);
+    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    toast.success("Email client opened");
+  };
+
   return (
     <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
       <CardContent className="p-4">
@@ -19,15 +27,26 @@ export const ReferralCard = ({ onShareLink }: ReferralCardProps) => {
             </div>
           </div>
           <div className="flex flex-col space-y-2">
-            <Button 
-              variant="default" 
-              size="sm" 
-              className="w-full text-xs flex items-center justify-center gap-2 text-black bg-[#8E9196] hover:bg-[#8E9196]/90"
-              onClick={onShareLink}
-            >
-              <Share2 className="h-4 w-4" />
-              Share Link
-            </Button>
+            <div className="flex gap-2">
+              <Button 
+                variant="default" 
+                size="sm" 
+                className="flex-1 text-xs flex items-center justify-center gap-2 text-black bg-[#8E9196] hover:bg-[#8E9196]/90"
+                onClick={onShareLink}
+              >
+                <Share2 className="h-4 w-4" />
+                Share Link
+              </Button>
+              <Button
+                variant="default"
+                size="sm"
+                className="flex-1 text-xs flex items-center justify-center gap-2 text-black bg-[#8E9196] hover:bg-[#8E9196]/90"
+                onClick={handleEmailShare}
+              >
+                <Mail className="h-4 w-4" />
+                Email
+              </Button>
+            </div>
             <p className="text-xs text-muted-foreground text-center">0 referrals</p>
           </div>
         </div>

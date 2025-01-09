@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Plus, Gift, Share2, Handshake } from "lucide-react";
+import { BookOpen, Plus, Gift, Share2, Handshake, MapPin } from "lucide-react";
 import DashboardHeader from "./DashboardHeader";
 import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -17,26 +17,12 @@ const StudentDashboard = () => {
   const [showAttendanceForm, setShowAttendanceForm] = useState(false);
   const [recentEngagements, setRecentEngagements] = useState<any[]>([]);
   const [totalPeers, setTotalPeers] = useState(0);
-  const [nextLesson, setNextLesson] = useState<any>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchRecentEngagements = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
-      // Fetch next lesson
-      const today = new Date().toISOString();
-      const { data: lessonData } = await supabase
-        .from('lessons')
-        .select('*')
-        .gte('lesson_date', today)
-        .order('lesson_date', { ascending: true })
-        .limit(1)
-        .single();
-
-      setNextLesson(lessonData);
-
-      // Fetch engagement data
       const { data: totalData, error: totalError } = await supabase
         .from('conversations')
         .select('participant_count')
@@ -62,7 +48,7 @@ const StudentDashboard = () => {
       setRecentEngagements(data);
     };
 
-    fetchData();
+    fetchRecentEngagements();
   }, []);
 
   const handleCopyReferralLink = async () => {
@@ -78,9 +64,9 @@ const StudentDashboard = () => {
     <div className="h-[calc(100vh-4rem)] p-4 max-w-7xl mx-auto">
       <DashboardHeader />
       
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mt-4">
+      <div className="flex flex-col md:flex-row gap-4 mt-4">
         {/* Left side - Main content */}
-        <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="flex-1 space-y-4">
           <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
@@ -88,19 +74,22 @@ const StudentDashboard = () => {
                   <BookOpen className="h-6 w-6 text-primary" />
                   <div>
                     <h3 className="font-medium text-sm">Next Lesson</h3>
-                    <p className="text-xs text-muted-foreground">
-                      {nextLesson?.lesson_date ? new Date(nextLesson.lesson_date).toLocaleDateString() : 'TBD'} 
-                      {nextLesson?.lesson_time ? ` @${nextLesson.lesson_time}` : ''}
-                    </p>
+                    <p className="text-xs text-muted-foreground">02/15/2025 @4PM</p>
                   </div>
                 </div>
-                <Button 
-                  variant="default"
-                  className="text-black h-8 text-xs"
-                  onClick={() => setShowAttendanceForm(true)}
-                >
-                  Confirm Attendance
-                </Button>
+                <div className="flex flex-col gap-2">
+                  <Button 
+                    variant="default"
+                    className="text-black h-8 text-xs"
+                    onClick={() => setShowAttendanceForm(true)}
+                  >
+                    Confirm Attendance
+                  </Button>
+                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                    <MapPin className="h-4 w-4" />
+                    <span>Course Location</span>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -115,18 +104,13 @@ const StudentDashboard = () => {
                     <p className="text-xs text-muted-foreground">{totalPeers}/7 peers</p>
                   </div>
                 </div>
-                <div className="flex flex-col gap-2">
-                  <Button 
-                    variant="default"
-                    className="text-black h-8 text-xs"
-                    onClick={() => setShowEngagementForm(true)}
-                  >
-                    <Plus className="h-4 w-4 mr-1" /> New
-                  </Button>
-                  <p className="text-xs text-muted-foreground text-center">
-                    {nextLesson?.location || 'TBD'}
-                  </p>
-                </div>
+                <Button 
+                  variant="default"
+                  className="text-black h-8 text-xs"
+                  onClick={() => setShowEngagementForm(true)}
+                >
+                  <Plus className="h-4 w-4 mr-1" /> New
+                </Button>
               </div>
             </CardContent>
           </Card>
@@ -143,9 +127,9 @@ const StudentDashboard = () => {
                 </div>
                 <div className="flex flex-col items-end gap-2">
                   <Button 
-                    variant="secondary" 
+                    variant="default" 
                     size="sm" 
-                    className="h-8 text-xs flex items-center gap-2"
+                    className="h-8 text-xs flex items-center gap-2 text-black"
                     onClick={handleCopyReferralLink}
                   >
                     <Share2 className="h-4 w-4" />
@@ -159,7 +143,7 @@ const StudentDashboard = () => {
         </div>
 
         {/* Right side - Recent Engagements */}
-        <div className="space-y-2">
+        <div className="w-full md:w-64 space-y-2">
           <h3 className="font-medium text-sm mb-2">Recent Engagements</h3>
           <div className="space-y-2">
             {recentEngagements.map((engagement) => (
@@ -180,8 +164,8 @@ const StudentDashboard = () => {
             ))}
             {recentEngagements.length >= 3 && (
               <Button 
-                variant="secondary"
-                className="w-full text-xs"
+                variant="default"
+                className="w-full text-xs text-muted-foreground bg-gray-100 hover:bg-gray-200"
                 onClick={() => navigate('/engagement')}
               >
                 More

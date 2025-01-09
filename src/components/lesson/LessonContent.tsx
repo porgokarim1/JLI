@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { LessonWithProgress } from "../dashboard/types";
 import { CompletionCodeDialog } from "./CompletionCodeDialog";
+import { Button } from "../ui/button";
+import { UserCheck } from "lucide-react";
 
 const LessonContent = ({ lesson }: { lesson: LessonWithProgress }) => {
   const [isCompletionDialogOpen, setIsCompletionDialogOpen] = useState(false);
@@ -41,21 +43,28 @@ const LessonContent = ({ lesson }: { lesson: LessonWithProgress }) => {
         <div>
           <span className="text-sm text-gray-500">Duration: {lesson.duration} minutes</span>
         </div>
-        <div>
+        <div className="flex items-center gap-4">
           <span className="text-sm text-gray-500">
             Status: {lesson.progress?.status.replace('_', ' ')}
           </span>
+          {lesson.progress?.status !== 'completed' && (
+            <Button 
+              onClick={() => setIsCompletionDialogOpen(true)}
+              className="flex items-center gap-2"
+            >
+              <UserCheck className="h-4 w-4" />
+              Confirm Attendance
+            </Button>
+          )}
         </div>
       </div>
 
-      {lesson.progress?.status !== 'completed' && (
-        <CompletionCodeDialog 
-          lessonId={lesson.id} 
-          onSuccess={handleCompletionSuccess}
-          open={isCompletionDialogOpen}
-          onOpenChange={setIsCompletionDialogOpen}
-        />
-      )}
+      <CompletionCodeDialog 
+        lessonId={lesson.id} 
+        onSuccess={handleCompletionSuccess}
+        open={isCompletionDialogOpen}
+        onOpenChange={setIsCompletionDialogOpen}
+      />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Plus, Gift, Share2, Handshake, MapPin } from "lucide-react";
+import { BookOpen, Plus, Gift, Share2, Handshake, MapPin, Copy } from "lucide-react";
 import DashboardHeader from "./DashboardHeader";
 import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -87,7 +87,7 @@ const StudentDashboard = () => {
                   </Button>
                   <div className="flex items-center gap-1 text-xs text-muted-foreground">
                     <MapPin className="h-4 w-4" />
-                    <span>Course Location</span>
+                    <span>Location</span>
                   </div>
                 </div>
               </div>
@@ -126,15 +126,21 @@ const StudentDashboard = () => {
                   </div>
                 </div>
                 <div className="flex flex-col items-end gap-2">
-                  <Button 
-                    variant="default" 
-                    size="sm" 
-                    className="h-8 text-xs flex items-center gap-2 text-black"
-                    onClick={handleCopyReferralLink}
-                  >
-                    <Share2 className="h-4 w-4" />
-                    Share Link
-                  </Button>
+                  <div className="flex items-center gap-2">
+                    <div className="bg-gray-100 px-2 py-1 rounded text-xs flex items-center">
+                      <span className="mr-1">{window.location.origin}/register</span>
+                      <Copy className="h-3 w-3 text-gray-500" />
+                    </div>
+                    <Button 
+                      variant="default" 
+                      size="sm" 
+                      className="h-8 text-xs flex items-center gap-2 text-black bg-primary hover:bg-primary/90"
+                      onClick={handleCopyReferralLink}
+                    >
+                      <Share2 className="h-4 w-4" />
+                      Share Link
+                    </Button>
+                  </div>
                   <p className="text-xs text-muted-foreground">0 referrals</p>
                 </div>
               </div>

@@ -27,7 +27,7 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
         .order('lesson_date', { ascending: true })
         .order('start_time', { ascending: true })
         .limit(1)
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
       return data;

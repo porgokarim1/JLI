@@ -1,13 +1,30 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Handshake, Plus } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 interface EngagementCardProps {
-  totalPeers: number;
   onNewEngagement: () => void;
 }
 
-export const EngagementCard = ({ totalPeers, onNewEngagement }: EngagementCardProps) => {
+export const EngagementCard = ({ onNewEngagement }: EngagementCardProps) => {
+  const { data: totalPeers = 0 } = useQuery({
+    queryKey: ['total-peers'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return 0;
+
+      const { data, error } = await supabase
+        .from('conversations')
+        .select('participant_count')
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+      return data.reduce((sum, conv) => sum + (conv.participant_count || 0), 0);
+    }
+  });
+
   return (
     <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
       <CardContent className="p-4">

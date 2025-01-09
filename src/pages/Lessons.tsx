@@ -3,12 +3,17 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress";
 import { useLessons } from "@/components/dashboard/useLessons";
 import { useNavigate } from "react-router-dom";
-import { MapPin, Calendar, Clock, CheckCircle2 } from "lucide-react";
+import { MapPin, Calendar, Clock, CheckCircle2, UserCheck } from "lucide-react";
 import { format } from "date-fns";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { CompletionCodeDialog } from "@/components/lesson/CompletionCodeDialog";
 
 const Lessons = () => {
   const { data: lessons, isLoading } = useLessons();
   const navigate = useNavigate();
+  const [selectedLessonId, setSelectedLessonId] = useState<string | null>(null);
+  const [isCompletionDialogOpen, setIsCompletionDialogOpen] = useState(false);
 
   if (isLoading) {
     return (
@@ -43,6 +48,18 @@ const Lessons = () => {
   };
 
   const nextLesson = getNextLesson();
+
+  const handleConfirmAttendance = (lessonId: string, e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent card click navigation
+    setSelectedLessonId(lessonId);
+    setIsCompletionDialogOpen(true);
+  };
+
+  const handleCompletionSuccess = () => {
+    setIsCompletionDialogOpen(false);
+    setSelectedLessonId(null);
+    // The query will automatically refetch to show updated status
+  };
 
   return (
     <div className="h-screen overflow-hidden bg-gradient-to-br from-purple-50 via-white to-blue-50">
@@ -99,7 +116,7 @@ const Lessons = () => {
           {lessons?.map((lesson) => (
             <Card 
               key={lesson.id} 
-              className="flex flex-row md:flex-col hover:shadow-lg transition-shadow cursor-pointer"
+              className="flex flex-row md:flex-col hover:shadow-lg transition-shadow cursor-pointer relative"
               onClick={() => navigate(`/lesson/${lesson.id}`)}
             >
               <div className="w-1/3 md:w-full h-24 md:h-40">
@@ -116,16 +133,34 @@ const Lessons = () => {
                   <h3 className="font-medium text-xs sm:text-base md:text-lg mb-1 sm:mb-2 line-clamp-1">{lesson.title}</h3>
                   <p className="text-xs text-gray-600 line-clamp-2 mb-1 sm:mb-2">{lesson.description}</p>
                 </div>
-                {lesson.progress?.status === 'completed' && (
+                {lesson.progress?.status === 'completed' ? (
                   <div className="flex items-center gap-1 text-green-600">
                     <CheckCircle2 className="h-4 w-4" />
                     <span className="text-xs">Completed</span>
                   </div>
+                ) : (
+                  <Button
+                    onClick={(e) => handleConfirmAttendance(lesson.id, e)}
+                    className="w-full flex items-center justify-center gap-2 text-xs sm:text-sm"
+                    size="sm"
+                  >
+                    <UserCheck className="h-4 w-4" />
+                    Confirm Lesson
+                  </Button>
                 )}
               </div>
             </Card>
           ))}
         </div>
+
+        {selectedLessonId && (
+          <CompletionCodeDialog
+            lessonId={selectedLessonId}
+            onSuccess={handleCompletionSuccess}
+            open={isCompletionDialogOpen}
+            onOpenChange={setIsCompletionDialogOpen}
+          />
+        )}
       </div>
     </div>
   );

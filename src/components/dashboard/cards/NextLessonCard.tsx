@@ -13,24 +13,22 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <BookOpen className="h-6 w-6 text-primary" />
-            <div>
+            <div className="space-y-1">
               <h3 className="font-medium text-sm">Next Lesson</h3>
               <p className="text-xs text-muted-foreground">02/15/2025 @4PM</p>
+              <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                <MapPin className="h-4 w-4" />
+                <span>Location</span>
+              </div>
             </div>
           </div>
-          <div className="flex flex-col gap-2">
-            <Button 
-              variant="default"
-              className="text-black h-8 text-xs"
-              onClick={onAttendanceClick}
-            >
-              Confirm Attendance
-            </Button>
-            <div className="flex items-center gap-1 text-xs text-muted-foreground">
-              <MapPin className="h-4 w-4" />
-              <span>Location</span>
-            </div>
-          </div>
+          <Button 
+            variant="default"
+            className="text-black h-8 text-xs"
+            onClick={onAttendanceClick}
+          >
+            Confirm Attendance
+          </Button>
         </div>
       </CardContent>
     </Card>

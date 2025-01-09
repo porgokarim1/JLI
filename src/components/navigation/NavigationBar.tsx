@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Home, Handshake, BookOpen, PieChart, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import AuthenticatedButtons from "./AuthenticatedButtons";
@@ -49,6 +49,51 @@ const NavigationBar = () => {
               NOW ISRAEL
             </span>
           </button>
+
+          {isAuthenticated && (
+            <div className="hidden md:flex md:items-center md:space-x-4">
+              <Button
+                variant="ghost"
+                className="flex items-center gap-2"
+                onClick={() => navigate("/")}
+              >
+                <Home className="h-5 w-5" />
+                <span>Home</span>
+              </Button>
+              <Button
+                variant="ghost"
+                className="flex items-center gap-2"
+                onClick={() => navigate("/engagement")}
+              >
+                <Handshake className="h-5 w-5" />
+                <span>Engage</span>
+              </Button>
+              <Button
+                variant="ghost"
+                className="flex items-center gap-2"
+                onClick={() => navigate("/lessons")}
+              >
+                <BookOpen className="h-5 w-5" />
+                <span>Lessons</span>
+              </Button>
+              <Button
+                variant="ghost"
+                className="flex items-center gap-2"
+                onClick={() => navigate("/about")}
+              >
+                <PieChart className="h-5 w-5" />
+                <span>Overview</span>
+              </Button>
+              <Button
+                variant="ghost"
+                className="flex items-center gap-2"
+                onClick={() => navigate("/profile")}
+              >
+                <User className="h-5 w-5" />
+                <span>Profile</span>
+              </Button>
+            </div>
+          )}
 
           <div className="hidden md:flex md:items-center md:space-x-4">
             {isAuthenticated ? <AuthenticatedButtons /> : <UnauthenticatedButtons />}

@@ -13,7 +13,9 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
   const { data: nextLesson } = useQuery({
     queryKey: ['next-lesson'],
     queryFn: async () => {
-      const today = new Date().toISOString();
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      
       const { data, error } = await supabase
         .from('lessons_schedule')
         .select(`
@@ -23,7 +25,7 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
             description
           )
         `)
-        .gte('lesson_date', today)
+        .gte('lesson_date', today.toISOString())
         .order('lesson_date', { ascending: true })
         .order('start_time', { ascending: true })
         .limit(1)
@@ -43,8 +45,8 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
             <div className="space-y-1">
               <h3 className="font-medium text-sm">Next Lesson</h3>
               <p className="text-xs text-muted-foreground">
-                {nextLesson ? format(new Date(nextLesson.lesson_date), 'MM/dd/yyyy') : 'TBD'} 
-                {nextLesson?.start_time ? ` @${format(new Date(`2000-01-01T${nextLesson.start_time}`), 'h:mm a')}` : ''}
+                {nextLesson?.lesson_date && format(new Date(nextLesson.lesson_date), 'MM/dd/yyyy')}
+                {nextLesson?.start_time && ` @${format(new Date(`2000-01-01T${nextLesson.start_time}`), 'h:mm a')}`}
               </p>
               <div className="flex items-center gap-1 text-xs text-muted-foreground">
                 <MapPin className="h-4 w-4" />

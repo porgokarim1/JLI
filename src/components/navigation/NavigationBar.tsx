@@ -4,7 +4,6 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import AuthenticatedButtons from "./AuthenticatedButtons";
-import UnauthenticatedButtons from "./UnauthenticatedButtons";
 import MobileMenu from "./MobileMenu";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -51,7 +50,7 @@ const NavigationBar = () => {
           </button>
 
           <div className="hidden md:flex md:items-center md:space-x-4">
-            {isAuthenticated ? <AuthenticatedButtons /> : <UnauthenticatedButtons />}
+            {isAuthenticated && <AuthenticatedButtons />}
           </div>
 
           <div className="md:hidden flex items-center">

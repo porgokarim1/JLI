@@ -6,9 +6,9 @@ const HeroSection = () => {
   
   return (
     <div className="container mx-auto px-4 h-[calc(100vh-64px)] flex items-center justify-center">
-      <div className="grid md:grid-cols-2 gap-4 items-center w-full max-w-5xl mx-auto">
-        <div className="text-center md:text-left space-y-4 relative z-10 bg-white/80 md:bg-transparent p-4 md:p-0 rounded-lg">
-          <div className="space-y-4">
+      <div className="grid md:grid-cols-2 gap-8 items-center w-full max-w-5xl mx-auto">
+        <div className="text-center md:text-center space-y-6 relative z-10 bg-white/80 md:bg-transparent p-6 md:p-0 rounded-lg">
+          <div className="space-y-6">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-none relative text-3d">
               K
               <span className="absolute -top-4 left-[0.45em]">'</span>
@@ -17,7 +17,7 @@ const HeroSection = () => {
               ISRAEL
             </h1>
             
-            <div className="pt-4 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+            <div className="pt-6 flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 size="lg"
                 className="w-full sm:w-auto bg-[#FFD700] text-black hover:bg-[#FFD700]/90"

@@ -8,11 +8,11 @@ const BottomNav = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 md:hidden z-50">
-      <div className="flex justify-around items-center h-16">
+    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 px-6 md:hidden">
+      <div className="flex justify-around items-center">
         <button
           onClick={() => navigate("/")}
-          className={`flex flex-col items-center space-y-1 flex-1 py-2 ${
+          className={`flex flex-col items-center ${
             isActive("/") ? "text-primary" : "text-gray-500"
           }`}
         >
@@ -21,7 +21,7 @@ const BottomNav = () => {
         </button>
         <button
           onClick={() => navigate("/lessons")}
-          className={`flex flex-col items-center space-y-1 flex-1 py-2 ${
+          className={`flex flex-col items-center ${
             isActive("/lessons") ? "text-primary" : "text-gray-500"
           }`}
         >
@@ -30,16 +30,16 @@ const BottomNav = () => {
         </button>
         <button
           onClick={() => navigate("/engagement")}
-          className={`flex flex-col items-center space-y-1 flex-1 py-2 ${
+          className={`flex flex-col items-center ${
             isActive("/engagement") ? "text-primary" : "text-gray-500"
           }`}
         >
           <Users className="h-5 w-5" />
-          <span className="text-xs">Engage+</span>
+          <span className="text-xs">Engagement</span>
         </button>
         <button
           onClick={() => navigate("/profile")}
-          className={`flex flex-col items-center space-y-1 flex-1 py-2 ${
+          className={`flex flex-col items-center ${
             isActive("/profile") ? "text-primary" : "text-gray-500"
           }`}
         >

@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Plus, Gift, Share2, Home } from "lucide-react";
+import { BookOpen, Plus, Gift, Share2 } from "lucide-react";
 import DashboardHeader from "./DashboardHeader";
 import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -102,7 +102,7 @@ const StudentDashboard = () => {
               )}
             </div>
             <div className="space-y-2">
-              {recentEngagements.slice(0, 3).map((engagement) => (
+              {recentEngagements.map((engagement) => (
                 <div key={engagement.id} className="flex items-center justify-between text-sm">
                   <div className="flex items-center gap-2">
                     <span role="img" aria-label="mood">

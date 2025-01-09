@@ -8,13 +8,15 @@ import { toast } from "sonner";
 import { Profile } from "@/components/dashboard/types";
 import { ProfileForm } from "@/components/profile/ProfileForm";
 import { AboutSection } from "@/components/profile/AboutSection";
-import { Sparkles, User } from "lucide-react";
+import { LogOut, Sparkles, User } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const ProfilePage = () => {
   const navigate = useNavigate();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState<Partial<Profile>>({});
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const checkSession = async () => {
@@ -95,6 +97,18 @@ const ProfilePage = () => {
     }
   };
 
+  const handleSignOut = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      navigate("/");
+      toast.success("Signed out successfully");
+    } catch (error) {
+      console.error("Error signing out:", error);
+      toast.error("Error signing out");
+    }
+  };
+
   const handleChange = (field: string, value: any) => {
     setFormData(prev => ({
       ...prev,
@@ -118,6 +132,17 @@ const ProfilePage = () => {
               <Sparkles className="h-6 w-6 text-yellow-400 animate-pulse" />
             </h1>
           </div>
+
+          {isMobile && (
+            <Button
+              variant="destructive"
+              onClick={handleSignOut}
+              className="w-full mb-4 flex items-center justify-center gap-2"
+            >
+              <LogOut className="h-4 w-4" />
+              Sign Out
+            </Button>
+          )}
 
           <Card className="border-primary/20 bg-white/80 backdrop-blur-sm mb-4">
             <CardHeader className="py-2">

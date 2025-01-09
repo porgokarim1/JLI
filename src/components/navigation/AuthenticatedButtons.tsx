@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { LogOut, BookOpen, MessageSquare, User } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -20,40 +20,14 @@ const AuthenticatedButtons = () => {
   };
 
   return (
-    <div className="flex items-center space-x-4">
-      <Button
-        variant="ghost"
-        className="text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
-        onClick={() => navigate("/engagement")}
-      >
-        <MessageSquare className="h-5 w-5 mr-2" />
-        Engagement
-      </Button>
-      <Button
-        variant="ghost"
-        className="text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
-        onClick={() => navigate("/lessons")}
-      >
-        <BookOpen className="h-5 w-5 mr-2" />
-        Lessons
-      </Button>
-      <Button
-        variant="ghost"
-        className="text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
-        onClick={() => navigate("/profile")}
-      >
-        <User className="h-5 w-5 mr-2" />
-        Profile
-      </Button>
-      <Button
-        variant="outline"
-        className="flex items-center text-black"
-        onClick={handleSignOut}
-      >
-        <LogOut className="h-5 w-5 mr-2" />
-        Sign Out
-      </Button>
-    </div>
+    <Button
+      variant="outline"
+      className="flex flex-col items-center justify-center h-16 px-2"
+      onClick={handleSignOut}
+    >
+      <LogOut className="h-5 w-5 mb-1" />
+      <span className="text-xs">Sign Out</span>
+    </Button>
   );
 };
 

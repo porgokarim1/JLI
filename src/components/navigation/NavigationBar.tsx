@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Menu, X, Home, Handshake, BookOpen, PieChart, User } from "lucide-react";
+import { Menu, X, Home, BookOpen, PieChart, User, MessageSquare, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import AuthenticatedButtons from "./AuthenticatedButtons";
@@ -42,54 +42,50 @@ const NavigationBar = () => {
               alt="Logo"
               className="h-8"
             />
-            <span className="font-bold text-xl text-black relative">
-              K
-              <span className="absolute -top-1 left-[0.45em]">'</span>
-              NOW ISRAEL
-            </span>
+            <span className="font-bold text-xl text-black">KNOW ISRAEL</span>
           </button>
 
           {isAuthenticated && (
-            <div className="hidden md:flex md:items-center md:space-x-2 ml-auto">
+            <div className="hidden md:flex md:items-center space-x-2 ml-auto">
               <Button
                 variant="ghost"
-                className="flex items-center gap-1 px-3"
+                className="flex flex-col items-center justify-center h-16 px-2"
                 onClick={() => navigate("/")}
               >
-                <Home className="h-5 w-5" />
-                <span>Home</span>
+                <Home className="h-5 w-5 mb-1" />
+                <span className="text-xs">Home</span>
               </Button>
               <Button
                 variant="ghost"
-                className="flex items-center gap-1 px-3"
+                className="flex flex-col items-center justify-center h-16 px-2"
                 onClick={() => navigate("/engagement")}
               >
-                <Handshake className="h-5 w-5" />
-                <span>Engage</span>
+                <Users className="h-5 w-5 mb-1" />
+                <span className="text-xs">Engage</span>
               </Button>
               <Button
                 variant="ghost"
-                className="flex items-center gap-1 px-3"
+                className="flex flex-col items-center justify-center h-16 px-2"
                 onClick={() => navigate("/lessons")}
               >
-                <BookOpen className="h-5 w-5" />
-                <span>Lessons</span>
+                <BookOpen className="h-5 w-5 mb-1" />
+                <span className="text-xs">Lessons</span>
               </Button>
               <Button
                 variant="ghost"
-                className="flex items-center gap-1 px-3"
+                className="flex flex-col items-center justify-center h-16 px-2"
                 onClick={() => navigate("/about")}
               >
-                <PieChart className="h-5 w-5" />
-                <span>Overview</span>
+                <PieChart className="h-5 w-5 mb-1" />
+                <span className="text-xs">Overview</span>
               </Button>
               <Button
                 variant="ghost"
-                className="flex items-center gap-1 px-3"
+                className="flex flex-col items-center justify-center h-16 px-2"
                 onClick={() => navigate("/profile")}
               >
-                <User className="h-5 w-5" />
-                <span>Profile</span>
+                <User className="h-5 w-5 mb-1" />
+                <span className="text-xs">Profile</span>
               </Button>
               <AuthenticatedButtons />
             </div>

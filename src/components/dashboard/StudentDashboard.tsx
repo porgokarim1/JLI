@@ -4,24 +4,45 @@ import { BookOpen, Plus, Gift, Share2 } from "lucide-react";
 import DashboardHeader from "./DashboardHeader";
 import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ConversationForm from "../engagement/ConversationForm";
 import { CompletionCodeDialog } from "../lesson/CompletionCodeDialog";
+import { supabase } from "@/integrations/supabase/client";
+import { formatDistanceToNow } from "date-fns";
 
-interface StudentDashboardProps {
-  conversationCount?: number;
-}
-
-const StudentDashboard = ({ conversationCount = 0 }: StudentDashboardProps) => {
+const StudentDashboard = () => {
   const navigate = useNavigate();
   const [showEngagementForm, setShowEngagementForm] = useState(false);
   const [showAttendanceForm, setShowAttendanceForm] = useState(false);
+  const [recentEngagements, setRecentEngagements] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchRecentEngagements = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from('conversations')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('conversation_date', { ascending: false })
+        .limit(3);
+
+      if (error) {
+        console.error('Error fetching recent engagements:', error);
+        return;
+      }
+
+      setRecentEngagements(data);
+    };
+
+    fetchRecentEngagements();
+  }, []);
 
   return (
     <div className="h-[calc(100vh-4rem)] flex flex-col gap-3 p-4 max-w-lg mx-auto overflow-hidden">
       <DashboardHeader />
       
-      {/* Next Lesson Card */}
       <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
         <CardContent className="p-4">
           <div className="flex items-center justify-between">
@@ -43,7 +64,6 @@ const StudentDashboard = ({ conversationCount = 0 }: StudentDashboardProps) => {
         </CardContent>
       </Card>
 
-      {/* Engagements Card */}
       <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
         <CardContent className="p-4">
           <div className="flex items-center justify-between">
@@ -51,7 +71,7 @@ const StudentDashboard = ({ conversationCount = 0 }: StudentDashboardProps) => {
               <span className="text-xl">🤝</span>
               <div>
                 <h3 className="font-medium text-sm">Engagements</h3>
-                <p className="text-xs text-muted-foreground">{conversationCount}/7 peers</p>
+                <p className="text-xs text-muted-foreground">{recentEngagements.length}/7 peers</p>
               </div>
             </div>
             <Button 
@@ -66,7 +86,32 @@ const StudentDashboard = ({ conversationCount = 0 }: StudentDashboardProps) => {
         </CardContent>
       </Card>
 
-      {/* Referral Card */}
+      {recentEngagements.length > 0 && (
+        <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
+          <CardContent className="p-4">
+            <h3 className="font-medium text-sm mb-2">Recent Engagements</h3>
+            <div className="space-y-2">
+              {recentEngagements.map((engagement) => (
+                <div key={engagement.id} className="flex items-center justify-between text-sm">
+                  <div className="flex items-center gap-2">
+                    <span role="img" aria-label="mood">
+                      {engagement.comfort_level === 'very_comfortable' ? '😊' : 
+                       engagement.comfort_level === 'comfortable' ? '🙂' : 
+                       engagement.comfort_level === 'neutral' ? '😐' : 
+                       engagement.comfort_level === 'uncomfortable' ? '😕' : '😔'}
+                    </span>
+                    <span className="text-gray-500">
+                      {formatDistanceToNow(new Date(engagement.conversation_date), { addSuffix: true })}
+                    </span>
+                  </div>
+                  <span className="text-gray-500">{engagement.participant_count} peers</span>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
         <CardContent className="p-4">
           <div className="flex items-center justify-between">
@@ -88,7 +133,6 @@ const StudentDashboard = ({ conversationCount = 0 }: StudentDashboardProps) => {
         </CardContent>
       </Card>
 
-      {/* Engagement Form Dialog */}
       <Dialog open={showEngagementForm} onOpenChange={setShowEngagementForm}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
@@ -98,9 +142,8 @@ const StudentDashboard = ({ conversationCount = 0 }: StudentDashboardProps) => {
         </DialogContent>
       </Dialog>
 
-      {/* Attendance Form Dialog */}
       <CompletionCodeDialog
-        lessonId="placeholder-id" // This should be dynamically set based on the next lesson
+        lessonId="placeholder-id"
         onSuccess={() => setShowAttendanceForm(false)}
         open={showAttendanceForm}
         onOpenChange={setShowAttendanceForm}

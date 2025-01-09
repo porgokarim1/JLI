@@ -6,25 +6,29 @@ import { supabase } from "@/integrations/supabase/client";
 import AuthenticatedButtons from "./AuthenticatedButtons";
 import UnauthenticatedButtons from "./UnauthenticatedButtons";
 import MobileMenu from "./MobileMenu";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const NavigationBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
-    // Check current session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setIsAuthenticated(!!session);
     });
 
-    // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setIsAuthenticated(!!session);
     });
 
     return () => subscription.unsubscribe();
   }, []);
+
+  if (isMobile) {
+    return null;
+  }
 
   return (
     <nav className="bg-white border-b border-gray-200 fixed w-full top-0 z-50">
@@ -46,12 +50,10 @@ const NavigationBar = () => {
             </span>
           </button>
 
-          {/* Desktop navigation */}
           <div className="hidden md:flex md:items-center md:space-x-4">
             {isAuthenticated ? <AuthenticatedButtons /> : <UnauthenticatedButtons />}
           </div>
 
-          {/* Mobile menu button */}
           <div className="md:hidden flex items-center">
             <Button
               variant="ghost"
@@ -68,7 +70,6 @@ const NavigationBar = () => {
         </div>
       </div>
 
-      {/* Mobile menu */}
       <div className={`md:hidden ${isOpen ? "block" : "hidden"}`}>
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white shadow-lg">
           <MobileMenu isAuthenticated={isAuthenticated} setIsOpen={setIsOpen} />

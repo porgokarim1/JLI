@@ -11,7 +11,7 @@ import { NextLessonCard } from "./cards/NextLessonCard";
 import { EngagementCard } from "./cards/EngagementCard";
 import { ReferralCard } from "./cards/ReferralCard";
 import { Button } from "@/components/ui/button";
-import { Handshake, User, Plus, MessageCircle, PenLine } from "lucide-react";
+import { Handshake, User, Plus, MessageCircle } from "lucide-react";
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
@@ -55,14 +55,12 @@ const StudentDashboard = () => {
     <div className="min-h-[calc(100vh-4rem)] p-4 max-w-7xl mx-auto space-y-4 pb-20">
       <DashboardHeader />
       
-      {/* Main Dashboard Cards - Centered with max-width */}
       <div className="space-y-4 max-w-md mx-auto w-full px-2">
         <NextLessonCard onAttendanceClick={() => setShowAttendanceForm(true)} />
         <ReferralCard onShareLink={handleCopyReferralLink} />
         <EngagementCard onNewEngagement={() => setShowEngagementForm(true)} />
       </div>
 
-      {/* Recent Engagements Section - New Design */}
       <div className="w-full max-w-md mx-auto bg-white rounded-lg shadow-sm p-4">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
@@ -96,14 +94,6 @@ const StudentDashboard = () => {
                 <div className="flex items-center gap-3">
                   <MessageCircle className="h-4 w-4 text-gray-400" />
                   <span className="text-sm text-gray-600">{engagement.comments || '-'}</span>
-                  <Button 
-                    variant="ghost" 
-                    size="sm"
-                    className="h-6 w-6 p-0"
-                    onClick={() => navigate('/engagement')}
-                  >
-                    <PenLine className="h-4 w-4 text-gray-400" />
-                  </Button>
                 </div>
               </div>
             ))

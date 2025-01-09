@@ -24,10 +24,9 @@ const queryClient = new QueryClient({
   },
 });
 
-// Layout component that includes the BottomNav
 const AppLayout = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
   return (
-    <div className="pb-16 md:pb-0"> {/* Add padding for bottom nav on mobile */}
+    <div className="pb-16 md:pb-0">
       <Outlet />
       {isAuthenticated && <BottomNav />}
     </div>

@@ -5,16 +5,10 @@ import { toast } from "sonner";
 
 interface ReferralCardProps {
   onShareLink: () => void;
+  onEmailShare: () => void;
 }
 
-export const ReferralCard = ({ onShareLink }: ReferralCardProps) => {
-  const handleEmailShare = () => {
-    const subject = encodeURIComponent("Join our program!");
-    const body = encodeURIComponent("Hey! Check out this program: " + window.location.origin);
-    window.location.href = `mailto:?subject=${subject}&body=${body}`;
-    toast.success("Email client opened");
-  };
-
+export const ReferralCard = ({ onShareLink, onEmailShare }: ReferralCardProps) => {
   return (
     <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
       <CardContent className="p-4">
@@ -41,7 +35,7 @@ export const ReferralCard = ({ onShareLink }: ReferralCardProps) => {
                 variant="default"
                 size="sm"
                 className="flex-1 text-xs flex items-center justify-center gap-2 text-black bg-[#8E9196] hover:bg-[#8E9196]/90"
-                onClick={handleEmailShare}
+                onClick={onEmailShare}
               >
                 <Mail className="h-4 w-4" />
                 Email

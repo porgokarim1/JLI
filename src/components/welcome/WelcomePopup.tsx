@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Sparkles, X } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { TermsSection } from "@/components/registration/TermsSection";
 import confetti from "canvas-confetti";
 
@@ -79,15 +79,6 @@ const WelcomePopup = ({ isOpen, onClose }: WelcomePopupProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={() => {}}>
       <DialogContent className="max-w-[95vw] w-full sm:max-w-2xl mx-auto p-4 sm:p-6 shadow-[0_0_50px_rgba(0,0,0,0.3)] max-h-[90vh] overflow-y-auto">
-        <Button
-          variant="ghost"
-          size="icon"
-          className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
-          onClick={onClose}
-        >
-          <X className="h-4 w-4" />
-          <span className="sr-only">Close</span>
-        </Button>
         <div className="space-y-4 sm:space-y-6">
           <div className="text-center">
             <h1 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-4 flex items-center justify-center gap-2 text-secondary">

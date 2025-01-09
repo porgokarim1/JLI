@@ -19,7 +19,6 @@ export const ReferralCard = ({ onShareLink, onEmailShare }: ReferralCardProps) =
             <Gift className="h-6 w-6 text-primary flex-shrink-0" />
             <div>
               <h3 className="font-medium text-sm">Referral Program</h3>
-              <p className="text-xs text-muted-foreground">Invite friends & earn rewards</p>
             </div>
           </div>
           <div className="flex flex-col space-y-2">

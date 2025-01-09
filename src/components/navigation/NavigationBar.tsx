@@ -51,10 +51,10 @@ const NavigationBar = () => {
           </button>
 
           {isAuthenticated && (
-            <div className="hidden md:flex md:items-center md:justify-end md:flex-1 md:space-x-4">
+            <div className="hidden md:flex md:items-center md:space-x-2 ml-auto">
               <Button
                 variant="ghost"
-                className="flex items-center gap-2"
+                className="flex items-center gap-1 px-3"
                 onClick={() => navigate("/")}
               >
                 <Home className="h-5 w-5" />
@@ -62,7 +62,7 @@ const NavigationBar = () => {
               </Button>
               <Button
                 variant="ghost"
-                className="flex items-center gap-2"
+                className="flex items-center gap-1 px-3"
                 onClick={() => navigate("/engagement")}
               >
                 <Handshake className="h-5 w-5" />
@@ -70,7 +70,7 @@ const NavigationBar = () => {
               </Button>
               <Button
                 variant="ghost"
-                className="flex items-center gap-2"
+                className="flex items-center gap-1 px-3"
                 onClick={() => navigate("/lessons")}
               >
                 <BookOpen className="h-5 w-5" />
@@ -78,7 +78,7 @@ const NavigationBar = () => {
               </Button>
               <Button
                 variant="ghost"
-                className="flex items-center gap-2"
+                className="flex items-center gap-1 px-3"
                 onClick={() => navigate("/about")}
               >
                 <PieChart className="h-5 w-5" />
@@ -86,7 +86,7 @@ const NavigationBar = () => {
               </Button>
               <Button
                 variant="ghost"
-                className="flex items-center gap-2"
+                className="flex items-center gap-1 px-3"
                 onClick={() => navigate("/profile")}
               >
                 <User className="h-5 w-5" />
@@ -97,7 +97,7 @@ const NavigationBar = () => {
           )}
 
           {!isAuthenticated && (
-            <div className="hidden md:flex md:items-center md:justify-end md:flex-1">
+            <div className="hidden md:flex md:items-center ml-auto">
               <UnauthenticatedButtons />
             </div>
           )}

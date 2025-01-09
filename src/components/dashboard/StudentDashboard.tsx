@@ -11,7 +11,7 @@ import { NextLessonCard } from "./cards/NextLessonCard";
 import { EngagementCard } from "./cards/EngagementCard";
 import { ReferralCard } from "./cards/ReferralCard";
 import { Button } from "@/components/ui/button";
-import { User, Plus, MessageCircle } from "lucide-react";
+import { User, MessageCircle } from "lucide-react";
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
@@ -68,17 +68,6 @@ const StudentDashboard = () => {
       </div>
 
       <div className="w-full max-w-md mx-auto bg-white rounded-lg shadow-sm p-4">
-        <div className="flex items-center justify-end mb-4">
-          <Button 
-            size="sm"
-            variant="ghost"
-            className="h-8 px-2"
-            onClick={() => setShowEngagementForm(true)}
-          >
-            <Plus className="h-4 w-4" />
-          </Button>
-        </div>
-
         <div className="space-y-3">
           {recentEngagements.length > 0 ? (
             recentEngagements.map((engagement) => (

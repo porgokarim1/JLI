@@ -37,7 +37,8 @@ const EmptyConversationState = ({ onConversationAdded }: EmptyConversationStateP
                 onSuccess={() => {
                   setIsConversationDialogOpen(false);
                   onConversationAdded();
-                }} 
+                }}
+                onClose={() => setIsConversationDialogOpen(false)}
               />
             </DialogContent>
           </Dialog>

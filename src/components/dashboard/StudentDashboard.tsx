@@ -100,7 +100,10 @@ const StudentDashboard = () => {
           <DialogHeader>
             <DialogTitle>Record New Engagement</DialogTitle>
           </DialogHeader>
-          <ConversationForm onSuccess={() => setShowEngagementForm(false)} />
+          <ConversationForm 
+            onSuccess={() => setShowEngagementForm(false)} 
+            onClose={() => setShowEngagementForm(false)}
+          />
         </DialogContent>
       </Dialog>
 

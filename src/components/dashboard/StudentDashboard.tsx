@@ -17,22 +17,11 @@ const StudentDashboard = () => {
   const [showEngagementForm, setShowEngagementForm] = useState(false);
   const [showAttendanceForm, setShowAttendanceForm] = useState(false);
   const [recentEngagements, setRecentEngagements] = useState<any[]>([]);
-  const [totalPeers, setTotalPeers] = useState(0);
 
   useEffect(() => {
     const fetchRecentEngagements = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
-
-      const { data: totalData, error: totalError } = await supabase
-        .from('conversations')
-        .select('participant_count')
-        .eq('user_id', user.id);
-
-      if (!totalError && totalData) {
-        const total = totalData.reduce((sum, conv) => sum + (conv.participant_count || 0), 0);
-        setTotalPeers(total);
-      }
 
       const { data, error } = await supabase
         .from('conversations')
@@ -69,11 +58,8 @@ const StudentDashboard = () => {
         {/* Left side - Main content */}
         <div className="flex-1 space-y-4">
           <NextLessonCard onAttendanceClick={() => setShowAttendanceForm(true)} />
-          <EngagementCard 
-            totalPeers={totalPeers} 
-            onNewEngagement={() => setShowEngagementForm(true)} 
-          />
           <ReferralCard onShareLink={handleCopyReferralLink} />
+          <EngagementCard onNewEngagement={() => setShowEngagementForm(true)} />
         </div>
 
         {/* Right side - Recent Engagements */}

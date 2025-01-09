@@ -11,7 +11,7 @@ const ParticipantCounter = ({ value, onChange }: ParticipantCounterProps) => {
     { count: 1, label: "👤 (1)", icon: <User className="h-4 w-4" /> },
     { count: 2, label: "👥 (2)", icon: <Users className="h-4 w-4" /> },
     { count: 3, label: "👤👥 (3)", icon: <Users className="h-4 w-4" /> },
-    { count: 4, label: "👥👤+", icon: <Users className="h-4 w-4" /> }
+    { count: 4, label: "👥👤(3+)", icon: <Users className="h-4 w-4" /> }
   ];
 
   return (

@@ -15,13 +15,13 @@ const ParticipantCounter = ({ value, onChange }: ParticipantCounterProps) => {
   ];
 
   return (
-    <div className="flex flex-nowrap gap-1.5 overflow-x-auto">
+    <div className="flex flex-nowrap gap-1 overflow-x-auto">
       {options.map((option) => (
         <Button
           key={option.count}
           type="button"
           variant={value === option.count ? "default" : "outline"}
-          className="flex-shrink-0 text-xs py-0.5 px-2 h-6 whitespace-nowrap"
+          className="flex-shrink-0 text-[10px] py-0.5 px-2 h-6 whitespace-nowrap"
           onClick={() => onChange(option.count)}
         >
           {option.label}

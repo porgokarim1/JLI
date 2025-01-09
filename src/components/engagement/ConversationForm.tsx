@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import confetti from 'canvas-confetti';
 import ParticipantCounter from "./conversation/ParticipantCounter";
+import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
   comfort_level: z.enum(["very_comfortable", "comfortable", "uncomfortable", "very_uncomfortable", "neutral"]),
@@ -36,20 +37,20 @@ const ComfortLevelSelector = ({ value, onChange }: { value: string, onChange: (v
   ];
 
   return (
-    <div className="flex flex-nowrap gap-1.5 justify-start overflow-x-auto">
+    <div className="flex flex-nowrap gap-1 justify-start overflow-x-auto pb-1">
       {options.map((option) => (
         <button
           key={option.value}
           type="button"
           onClick={() => onChange(option.value)}
-          className={`flex-shrink-0 flex items-center gap-1 px-2 py-1 rounded-lg border transition-all whitespace-nowrap text-xs ${
+          className={`flex-shrink-0 flex flex-col items-center gap-0.5 px-1.5 py-1 rounded-lg border transition-all text-[10px] min-w-[60px] ${
             value === option.value
               ? "border-primary bg-primary/10"
               : "border-gray-200 hover:border-primary/50"
           }`}
         >
           <span className="text-base">{option.emoji}</span>
-          <span>{option.label}</span>
+          <span className="text-center leading-tight">{option.label}</span>
         </button>
       ))}
     </div>
@@ -143,27 +144,29 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
         className="space-y-3 w-full max-w-md mx-auto px-4"
       >
         <div className="flex items-center gap-2">
-          <FormLabel className="text-xs whitespace-nowrap">When was it? 📆</FormLabel>
           <FormField
             control={form.control}
             name="conversation_date"
             render={({ field }) => (
               <FormItem className="flex-1">
-                <FormControl>
-                  <Input 
-                    type="date" 
-                    {...field} 
-                    max={today}
-                    className="h-7 text-xs" 
-                  />
-                </FormControl>
+                <div className="flex items-center gap-2">
+                  <FormLabel className="text-xs whitespace-nowrap">When was it? 📆</FormLabel>
+                  <FormControl>
+                    <Input 
+                      type="date" 
+                      {...field} 
+                      max={today}
+                      className="h-7 text-xs flex-1" 
+                    />
+                  </FormControl>
+                </div>
                 <FormMessage />
               </FormItem>
             )}
           />
         </div>
 
-        <div className="space-y-1.5">
+        <div className="space-y-1">
           <div className="flex items-center gap-2">
             <FormLabel className="text-xs whitespace-nowrap">How many involved?</FormLabel>
             <FormField
@@ -216,7 +219,11 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
             <FormItem className="space-y-1">
               <FormLabel className="text-xs">Any thoughts? (Optional)</FormLabel>
               <FormControl>
-                <Input placeholder="Share your experience..." {...field} className="h-7 text-xs" />
+                <Textarea 
+                  placeholder="Share your experience..." 
+                  {...field} 
+                  className="min-h-[40px] text-xs resize-y"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

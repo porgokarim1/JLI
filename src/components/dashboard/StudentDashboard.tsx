@@ -22,6 +22,21 @@ const StudentDashboard = () => {
   const [recentEngagements, setRecentEngagements] = useState<any[]>([]);
   const [selectedEngagement, setSelectedEngagement] = useState<any>(null);
 
+  const getComfortEmoji = (comfort_level: string) => {
+    switch (comfort_level) {
+      case 'very_comfortable':
+        return '😄';
+      case 'comfortable':
+        return '🙂';
+      case 'uncomfortable':
+        return '😕';
+      case 'very_uncomfortable':
+        return '😣';
+      default:
+        return '😐';
+    }
+  };
+
   useEffect(() => {
     const fetchRecentEngagements = async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -96,6 +111,9 @@ const StudentDashboard = () => {
                 <div className="flex items-center gap-3">
                   <MessageCircle className="h-4 w-4 text-gray-400" />
                   <span className="text-sm text-gray-600">{engagement.comments || '-'}</span>
+                  <span className="text-sm">
+                    {getComfortEmoji(engagement.comfort_level || '')}
+                  </span>
                   <Button
                     variant="ghost"
                     size="icon"

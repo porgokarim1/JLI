@@ -69,7 +69,6 @@ const EngagementMetrics = ({ type }: EngagementMetricsProps) => {
 
     return (
       <div className="space-y-2">
-        <p className="font-medium">Total Conversations: {conversationCount}</p>
         {nextThreshold && (
           <p className="text-sm text-gray-600">
             {remainingConversations} more until Level {nextThreshold === 7 ? '1' : nextThreshold === 15 ? '2' : '3'}

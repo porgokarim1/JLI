@@ -51,18 +51,18 @@ const StudentDashboard = () => {
   };
 
   return (
-    <div className="h-full min-h-[calc(100vh-4rem)] p-4 max-w-7xl mx-auto space-y-4">
+    <div className="min-h-[calc(100vh-4rem)] p-4 max-w-7xl mx-auto space-y-4">
       <DashboardHeader />
       
-      {/* Main Dashboard Cards */}
-      <div className="space-y-4">
+      {/* Main Dashboard Cards - Centered with max-width */}
+      <div className="space-y-4 max-w-md mx-auto w-full px-2">
         <NextLessonCard onAttendanceClick={() => setShowAttendanceForm(true)} />
         <ReferralCard onShareLink={handleCopyReferralLink} />
         <EngagementCard onNewEngagement={() => setShowEngagementForm(true)} />
       </div>
 
-      {/* Recent Engagements Section - Now at the bottom */}
-      <div className="w-full space-y-2 bg-white/50 backdrop-blur-sm rounded-lg p-4">
+      {/* Recent Engagements Section */}
+      <div className="w-full max-w-4xl mx-auto space-y-2 bg-white/50 backdrop-blur-sm rounded-lg p-4">
         <h3 className="font-medium text-sm mb-2">Recent Engagements</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
           {recentEngagements.map((engagement) => (

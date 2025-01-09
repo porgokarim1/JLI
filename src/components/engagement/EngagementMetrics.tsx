@@ -56,11 +56,9 @@ const EngagementMetrics = ({ type }: EngagementMetricsProps) => {
       ).length || 0;
 
       return (
-        <div className="p-4 space-y-4">
-          <div className="space-y-2">
-            <p>Completed Lessons: {completedLessons}</p>
-            <p className="text-sm text-gray-600">Target: 4 lessons</p>
-          </div>
+        <div className="space-y-2">
+          <p>Completed Lessons: {completedLessons}</p>
+          <p className="text-sm text-gray-600">Target: 4 lessons</p>
         </div>
       );
     }
@@ -70,33 +68,31 @@ const EngagementMetrics = ({ type }: EngagementMetricsProps) => {
     const remainingConversations = nextThreshold ? nextThreshold - conversationCount : 0;
 
     return (
-      <div className="p-4">
-        <div className="flex flex-col gap-2">
-          <p className="font-medium">Total Conversations: {conversationCount}</p>
-          {nextThreshold && (
-            <p className="text-sm text-gray-600">
-              {remainingConversations} more until Level {nextThreshold === 7 ? '1' : nextThreshold === 15 ? '2' : '3'}
-            </p>
-          )}
-          <div className="text-sm space-y-1 mt-2">
-            <p>🎯 Level 1: 7 peers</p>
-            <p>🎯 Level 2: 15 peers</p>
-            <p>🎯 Level 3: 25 peers</p>
-          </div>
+      <div className="space-y-2">
+        <p className="font-medium">Total Conversations: {conversationCount}</p>
+        {nextThreshold && (
+          <p className="text-sm text-gray-600">
+            {remainingConversations} more until Level {nextThreshold === 7 ? '1' : nextThreshold === 15 ? '2' : '3'}
+          </p>
+        )}
+        <div className="text-sm space-y-1">
+          <p>🎯 Level 1: 7 peers</p>
+          <p>🎯 Level 2: 15 peers</p>
+          <p>🎯 Level 3: 25 peers</p>
         </div>
       </div>
     );
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
       {type === "conversation" && (
         <div className="w-full">
-          <div className="flex items-center justify-center p-6 bg-white rounded-lg shadow-lg h-full">
+          <div className="flex items-center justify-center p-4 bg-white rounded-lg shadow-lg h-full">
             <div className="flex items-center gap-4">
-              <Users className="h-12 w-12 text-primary animate-pulse" />
+              <Users className="h-8 w-8 text-primary animate-pulse" />
               <div className="text-center">
-                <div className="text-4xl font-bold text-primary">
+                <div className="text-3xl font-bold text-primary">
                   {conversations?.length || 0}
                 </div>
                 <div className="text-sm text-gray-600">Peers engaged</div>
@@ -107,7 +103,7 @@ const EngagementMetrics = ({ type }: EngagementMetricsProps) => {
       )}
       
       <Card className="w-full bg-white/90 backdrop-blur-sm">
-        <CardContent className="p-4">
+        <CardContent className="p-3">
           <MetricsContent />
         </CardContent>
       </Card>

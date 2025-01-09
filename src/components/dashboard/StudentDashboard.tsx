@@ -11,7 +11,7 @@ import { NextLessonCard } from "./cards/NextLessonCard";
 import { EngagementCard } from "./cards/EngagementCard";
 import { ReferralCard } from "./cards/ReferralCard";
 import { Button } from "@/components/ui/button";
-import { Handshake, User, Plus, MessageCircle } from "lucide-react";
+import { User, Plus, MessageCircle } from "lucide-react";
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
@@ -68,12 +68,7 @@ const StudentDashboard = () => {
       </div>
 
       <div className="w-full max-w-md mx-auto bg-white rounded-lg shadow-sm p-4">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <Handshake className="h-5 w-5 text-primary" />
-            <h3 className="font-medium">Engagements</h3>
-            <span className="text-sm text-gray-500">0/7</span>
-          </div>
+        <div className="flex items-center justify-end mb-4">
           <Button 
             size="sm"
             variant="ghost"

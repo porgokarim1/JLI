@@ -51,7 +51,7 @@ const NavigationBar = () => {
           </button>
 
           {isAuthenticated && (
-            <div className="hidden md:flex md:items-center md:space-x-4">
+            <div className="hidden md:flex md:items-center md:justify-end md:flex-1 md:space-x-4">
               <Button
                 variant="ghost"
                 className="flex items-center gap-2"
@@ -92,12 +92,15 @@ const NavigationBar = () => {
                 <User className="h-5 w-5" />
                 <span>Profile</span>
               </Button>
+              <AuthenticatedButtons />
             </div>
           )}
 
-          <div className="hidden md:flex md:items-center md:space-x-4">
-            {isAuthenticated ? <AuthenticatedButtons /> : <UnauthenticatedButtons />}
-          </div>
+          {!isAuthenticated && (
+            <div className="hidden md:flex md:items-center md:justify-end md:flex-1">
+              <UnauthenticatedButtons />
+            </div>
+          )}
 
           <div className="md:hidden flex items-center">
             <Button

@@ -49,8 +49,8 @@ const Lessons = () => {
 
   const nextLesson = getNextLesson();
 
-  const handleConfirmAttendance = (lessonId: string, e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent card click navigation
+  const handleConfirmAttendance = (lessonId: string, e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
     setSelectedLessonId(lessonId);
     setIsCompletionDialogOpen(true);
   };
@@ -58,7 +58,6 @@ const Lessons = () => {
   const handleCompletionSuccess = () => {
     setIsCompletionDialogOpen(false);
     setSelectedLessonId(null);
-    // The query will automatically refetch to show updated status
   };
 
   return (
@@ -108,6 +107,17 @@ const Lessons = () => {
                 <MapPin className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
                 <span className="text-xs sm:text-sm truncate">{nextLesson?.location || 'TBD'}</span>
               </div>
+              {nextLesson && (
+                <Button
+                  onClick={() => handleConfirmAttendance(nextLesson.id)}
+                  className="w-full mt-2 flex items-center justify-center gap-2 text-xs sm:text-sm"
+                  size="sm"
+                  variant="default"
+                >
+                  <UserCheck className="h-4 w-4" />
+                  Confirm Attendance
+                </Button>
+              )}
             </CardContent>
           </Card>
         </div>
@@ -133,21 +143,11 @@ const Lessons = () => {
                   <h3 className="font-medium text-xs sm:text-base md:text-lg mb-1 sm:mb-2 line-clamp-1">{lesson.title}</h3>
                   <p className="text-xs text-gray-600 line-clamp-2 mb-1 sm:mb-2">{lesson.description}</p>
                 </div>
-                {lesson.progress?.status === 'completed' ? (
+                {lesson.progress?.status === 'completed' && (
                   <div className="flex items-center gap-1 text-green-600">
                     <CheckCircle2 className="h-4 w-4" />
                     <span className="text-xs">Completed</span>
                   </div>
-                ) : (
-                  <Button
-                    onClick={(e) => handleConfirmAttendance(lesson.id, e)}
-                    className="w-full flex items-center justify-center gap-2 text-xs sm:text-sm"
-                    size="sm"
-                    variant="default"
-                  >
-                    <UserCheck className="h-4 w-4" />
-                    Confirm Attendance
-                  </Button>
                 )}
               </div>
             </Card>

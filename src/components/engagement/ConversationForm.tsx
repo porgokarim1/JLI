@@ -38,20 +38,20 @@ const ComfortLevelSelector = ({ value, onChange }: { value: string, onChange: (v
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+    <div className="flex flex-wrap gap-2 justify-center">
       {options.map((option) => (
         <button
           key={option.value}
           type="button"
           onClick={() => onChange(option.value)}
-          className={`flex flex-col items-center justify-center p-3 rounded-lg border-2 transition-all ${
+          className={`flex flex-col items-center justify-center p-2 rounded-lg border-2 min-w-[80px] transition-all ${
             value === option.value
               ? "border-primary bg-primary/10"
               : "border-gray-200 hover:border-primary/50"
           }`}
         >
-          <span className="text-2xl sm:text-3xl mb-1 sm:mb-2">{option.emoji}</span>
-          <span className="text-xs text-center">{option.label}</span>
+          <span className="text-xl sm:text-2xl mb-1">{option.emoji}</span>
+          <span className="text-[10px] sm:text-xs text-center leading-tight">{option.label}</span>
         </button>
       ))}
     </div>
@@ -157,7 +157,7 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
               )}
             />
 
-            <div>
+            <div className="space-y-2">
               <FormLabel className="text-sm">How many involved?</FormLabel>
               <ParticipantCounter
                 value={participantCount}
@@ -172,7 +172,7 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
               control={form.control}
               name="comfort_level"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="space-y-2">
                   <FormLabel className="text-sm">How did it go?</FormLabel>
                   <FormControl>
                     <ComfortLevelSelector

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { LogOut, User, BookOpen, MessageSquare } from "lucide-react";
+import { LogOut, User, BookOpen, MessageSquare, Home } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -26,7 +26,7 @@ const AuthenticatedButtons = () => {
         className="text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
         onClick={() => navigate("/")}
       >
-        <BookOpen className="h-5 w-5 mr-2" />
+        <Home className="h-5 w-5 mr-2" />
         Home
       </Button>
       <Button

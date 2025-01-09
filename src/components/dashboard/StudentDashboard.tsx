@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Plus, Gift, Share2 } from "lucide-react";
+import { BookOpen, Plus, Gift, Share2, Home } from "lucide-react";
 import DashboardHeader from "./DashboardHeader";
 import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -40,7 +40,7 @@ const StudentDashboard = () => {
   }, []);
 
   return (
-    <div className="h-[calc(100vh-4rem)] flex flex-col gap-3 p-4 max-w-lg mx-auto overflow-hidden">
+    <div className="h-[calc(100vh-4rem)] flex flex-col gap-3 p-4 max-w-lg mx-auto">
       <DashboardHeader />
       
       <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
@@ -89,7 +89,18 @@ const StudentDashboard = () => {
       {recentEngagements.length > 0 && (
         <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
           <CardContent className="p-4">
-            <h3 className="font-medium text-sm mb-2">Recent Engagements</h3>
+            <div className="flex justify-between items-center mb-2">
+              <h3 className="font-medium text-sm">Recent Engagements</h3>
+              {recentEngagements.length >= 3 && (
+                <Button 
+                  variant="ghost" 
+                  className="text-xs"
+                  onClick={() => navigate('/engagement')}
+                >
+                  More
+                </Button>
+              )}
+            </div>
             <div className="space-y-2">
               {recentEngagements.map((engagement) => (
                 <div key={engagement.id} className="flex items-center justify-between text-sm">

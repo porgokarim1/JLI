@@ -129,7 +129,7 @@ const Index = () => {
       case 'administrator':
         return <AdminDashboard />;
       default:
-        return <StudentDashboard conversationCount={conversationCount || 0} />;
+        return <StudentDashboard />;
     }
   };
 

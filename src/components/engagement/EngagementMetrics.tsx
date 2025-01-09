@@ -85,7 +85,6 @@ const EngagementMetrics = ({ type }: EngagementMetricsProps) => {
         <div className="p-4 space-y-4">
           <div className="space-y-2">
             <p>Completed Lessons: {completedLessons}</p>
-            <Progress value={Math.min((completedLessons / 4) * 100, 100)} className="w-full" />
             <p className="text-sm text-gray-600">Target: 4 lessons</p>
           </div>
         </div>
@@ -98,16 +97,17 @@ const EngagementMetrics = ({ type }: EngagementMetricsProps) => {
     const nextTier = getRewardTier(nextThreshold || 0);
 
     return (
-      <div className="p-4 space-y-4">
-        <div className="space-y-2">
-          <p>
-            Total Conversations: {conversationCount}
+      <div className="p-4">
+        <div className="flex justify-between items-start">
+          <div>
+            <p className="font-medium">Total: {conversationCount}</p>
             {nextTier && remainingConversations > 0 && (
-              <span> ({remainingConversations} more until {nextTier})</span>
+              <p className="text-sm text-gray-600">
+                {remainingConversations} more until {nextTier}
+              </p>
             )}
-          </p>
-          <Progress value={Math.min((conversationCount / 25) * 100, 100)} className="w-full" />
-          <div className="space-y-1 text-sm">
+          </div>
+          <div className="text-sm space-y-1">
             <p>🎯 Level 1: 7 peers</p>
             <p>🎯 Level 2: 15 peers</p>
             <p>🎯 Level 3: 25 peers</p>

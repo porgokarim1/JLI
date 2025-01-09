@@ -116,7 +116,7 @@ const Lessons = () => {
           {lessons?.map((lesson) => (
             <Card 
               key={lesson.id} 
-              className="flex flex-row md:flex-col hover:shadow-lg transition-shadow cursor-pointer relative"
+              className="flex flex-row md:flex-col hover:shadow-lg transition-shadow cursor-pointer relative bg-white/90 backdrop-blur-sm"
               onClick={() => navigate(`/lesson/${lesson.id}`)}
             >
               <div className="w-1/3 md:w-full h-24 md:h-40">
@@ -143,9 +143,10 @@ const Lessons = () => {
                     onClick={(e) => handleConfirmAttendance(lesson.id, e)}
                     className="w-full flex items-center justify-center gap-2 text-xs sm:text-sm"
                     size="sm"
+                    variant="default"
                   >
                     <UserCheck className="h-4 w-4" />
-                    Confirm Lesson
+                    Confirm Attendance
                   </Button>
                 )}
               </div>

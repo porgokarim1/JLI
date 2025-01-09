@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Plus, Gift, Share2, Handshake } from "lucide-react";
+import { BookOpen, Plus, Gift, Share2, Handshake, MapPin } from "lucide-react";
 import DashboardHeader from "./DashboardHeader";
 import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -9,6 +9,7 @@ import ConversationForm from "../engagement/ConversationForm";
 import { CompletionCodeDialog } from "../lesson/CompletionCodeDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { formatDistanceToNow } from "date-fns";
+import { toast } from "sonner";
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
@@ -22,7 +23,6 @@ const StudentDashboard = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
-      // Fetch total peers
       const { data: totalData, error: totalError } = await supabase
         .from('conversations')
         .select('participant_count')
@@ -33,7 +33,6 @@ const StudentDashboard = () => {
         setTotalPeers(total);
       }
 
-      // Fetch recent engagements
       const { data, error } = await supabase
         .from('conversations')
         .select('*')
@@ -52,6 +51,15 @@ const StudentDashboard = () => {
     fetchRecentEngagements();
   }, []);
 
+  const handleCopyReferralLink = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.origin + '/register');
+      toast.success('Referral link copied to clipboard!');
+    } catch (err) {
+      toast.error('Failed to copy referral link');
+    }
+  };
+
   return (
     <div className="h-[calc(100vh-4rem)] p-4 max-w-7xl mx-auto">
       <DashboardHeader />
@@ -69,18 +77,23 @@ const StudentDashboard = () => {
                     <p className="text-xs text-muted-foreground">02/15/2025 @4PM</p>
                   </div>
                 </div>
-                <Button 
-                  variant="default"
-                  className="text-black h-8 text-xs"
-                  onClick={() => setShowAttendanceForm(true)}
-                >
-                  Confirm Attendance
-                </Button>
+                <div className="flex flex-col gap-2">
+                  <Button 
+                    variant="default"
+                    className="text-black h-8 text-xs"
+                    onClick={() => setShowAttendanceForm(true)}
+                  >
+                    Confirm Attendance
+                  </Button>
+                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                    <MapPin className="h-4 w-4" />
+                    <span>Course Location</span>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
 
-          {/* Engagements Card */}
           <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
@@ -113,7 +126,12 @@ const StudentDashboard = () => {
                   </div>
                 </div>
                 <div className="flex flex-col items-end gap-2">
-                  <Button variant="default" size="sm" className="h-8 text-xs flex items-center gap-2 text-black">
+                  <Button 
+                    variant="default" 
+                    size="sm" 
+                    className="h-8 text-xs flex items-center gap-2 text-black"
+                    onClick={handleCopyReferralLink}
+                  >
                     <Share2 className="h-4 w-4" />
                     Share Link
                   </Button>
@@ -147,7 +165,7 @@ const StudentDashboard = () => {
             {recentEngagements.length >= 3 && (
               <Button 
                 variant="default"
-                className="w-full text-xs text-black"
+                className="w-full text-xs text-muted-foreground bg-gray-100 hover:bg-gray-200"
                 onClick={() => navigate('/engagement')}
               >
                 More

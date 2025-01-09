@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import SimpleSlideshow from "./SimpleSlideshow";
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -38,7 +37,11 @@ const HeroSection = () => {
           </div>
         </div>
         <div className="w-full h-[300px] md:h-[500px]">
-          <SimpleSlideshow />
+          <img
+            src="https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/General%20images/SM-5785-KI-GIF-1-Transparent-Story.gif"
+            alt="K'NOW Israel Animation"
+            className="w-full h-full object-contain"
+          />
         </div>
       </div>
     </div>

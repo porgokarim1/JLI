@@ -29,7 +29,7 @@ const ConversationMobileCard = ({ conversation, onEdit }: ConversationMobileCard
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <Users className="h-4 w-4 text-primary" />
-            <span>{conversation.participant_count} {conversation.participant_count === 1 ? 'person' : 'people'}</span>
+            <span>{conversation.participant_count} {conversation.participant_count === 1 ? 'peer' : 'peers'}</span>
           </div>
           <div>
             {getComfortEmoji(conversation.comfort_level || '')} {conversation.comfort_level?.replace("_", " ")}

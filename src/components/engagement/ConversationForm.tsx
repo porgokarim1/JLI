@@ -138,7 +138,10 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full max-w-md mx-auto px-4">
+        <form 
+          onSubmit={form.handleSubmit(onSubmit)} 
+          className="space-y-4 w-full max-w-md mx-auto px-4 pb-20 sm:pb-4 overflow-y-auto max-h-[calc(100vh-10rem)]"
+        >
           <div className="space-y-4">
             <FormField
               control={form.control}
@@ -196,13 +199,15 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
               )}
             />
 
-            <Button 
-              type="submit" 
-              className="w-full mt-4"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? "Recording..." : "Record Conversation"}
-            </Button>
+            <div className="sticky bottom-0 left-0 right-0 bg-white p-4 -mx-4">
+              <Button 
+                type="submit" 
+                className="w-full"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Recording..." : "Record Conversation"}
+              </Button>
+            </div>
           </div>
         </form>
       </Form>

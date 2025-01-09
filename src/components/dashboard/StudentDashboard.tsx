@@ -69,10 +69,7 @@ const StudentDashboard = () => {
         {/* Left side - Main content */}
         <div className="flex-1 space-y-4">
           <NextLessonCard onAttendanceClick={() => setShowAttendanceForm(true)} />
-          <EngagementCard 
-            totalPeers={totalPeers} 
-            onNewEngagement={() => setShowEngagementForm(true)} 
-          />
+          <EngagementCard onNewEngagement={() => setShowEngagementForm(true)} />
           <ReferralCard onShareLink={handleCopyReferralLink} />
         </div>
 

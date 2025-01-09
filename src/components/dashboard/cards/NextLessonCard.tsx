@@ -10,31 +10,38 @@ interface NextLessonCardProps {
 }
 
 export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
-  const { data: nextLesson } = useQuery({
+  const { data: nextLesson, isLoading } = useQuery({
     queryKey: ['next-lesson'],
     queryFn: async () => {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       
       const { data, error } = await supabase
-        .from('lessons_schedule')
-        .select(`
-          *,
-          lesson:lessons (
-            title,
-            description
-          )
-        `)
+        .from('lessons')
+        .select('*')
         .gte('lesson_date', today.toISOString())
         .order('lesson_date', { ascending: true })
-        .order('start_time', { ascending: true })
         .limit(1)
-        .maybeSingle();
+        .single();
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching next lesson:', error);
+        throw error;
+      }
+      
       return data;
     }
   });
+
+  if (isLoading) {
+    return (
+      <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg animate-pulse">
+        <CardContent className="p-4">
+          <div className="h-20 bg-gray-200 rounded"></div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
@@ -46,7 +53,7 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
               <h3 className="font-medium text-sm">Next Lesson</h3>
               <p className="text-xs text-muted-foreground">
                 {nextLesson?.lesson_date && format(new Date(nextLesson.lesson_date), 'MM/dd/yyyy')}
-                {nextLesson?.start_time && ` @${format(new Date(`2000-01-01T${nextLesson.start_time}`), 'h:mm a')}`}
+                {nextLesson?.lesson_time && ` @${format(new Date(`2000-01-01T${nextLesson.lesson_time}`), 'h:mm a')}`}
               </p>
               <div className="flex items-center gap-1 text-xs text-muted-foreground">
                 <MapPin className="h-4 w-4" />

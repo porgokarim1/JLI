@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { LogOut, User, LogIn, UserPlus, Library, MessageSquare } from "lucide-react";
+import { LogOut, User, LogIn, UserPlus, Library, MessageSquare, BookOpen } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -32,12 +32,23 @@ const MobileMenu = ({ isAuthenticated, setIsOpen }: MobileMenuProps) => {
           variant="ghost"
           className="w-full text-left text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
           onClick={() => {
+            navigate("/lessons");
+            setIsOpen(false);
+          }}
+        >
+          <BookOpen className="h-5 w-5 mr-2" />
+          Lessons
+        </Button>
+        <Button
+          variant="ghost"
+          className="w-full text-left text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
+          onClick={() => {
             navigate("/engagement");
             setIsOpen(false);
           }}
         >
           <MessageSquare className="h-5 w-5 mr-2" />
-          Engage
+          Engage+
         </Button>
         <Button
           variant="ghost"
@@ -48,7 +59,7 @@ const MobileMenu = ({ isAuthenticated, setIsOpen }: MobileMenuProps) => {
           }}
         >
           <Library className="h-5 w-5 mr-2" />
-          About
+          Program Overview
         </Button>
         <Button
           variant="ghost"

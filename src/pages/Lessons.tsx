@@ -2,7 +2,6 @@ import NavigationBar from "@/components/navigation/NavigationBar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useLessons } from "@/components/dashboard/useLessons";
-import { LessonCard } from "@/components/dashboard/LessonCard";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
@@ -36,9 +35,9 @@ const Lessons = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
       <NavigationBar />
-      <div className="pt-20 container mx-auto px-4 py-8">
-        <Card className="mb-8 bg-white/90 backdrop-blur-sm border-indigo-100">
-          <CardHeader className="py-4">
+      <div className="pt-16 container mx-auto px-4 py-4">
+        <Card className="mb-4 bg-white/90 backdrop-blur-sm border-indigo-100">
+          <CardHeader className="py-2">
             <CardTitle className="text-lg">Your Learning Journey</CardTitle>
             <CardDescription className="text-sm">Track your progress through all lessons</CardDescription>
           </CardHeader>
@@ -53,12 +52,12 @@ const Lessons = () => {
           </CardContent>
         </Card>
 
-        <div className="space-y-4">
-          {lessons?.map((lesson, index) => (
+        <div className="grid gap-4">
+          {lessons?.map((lesson) => (
             <Card key={lesson.id} className="hover:shadow-lg transition-shadow">
               <CardContent className="p-4">
                 <div className="flex gap-4">
-                  <div className="w-24 h-24 flex-shrink-0">
+                  <div className="w-20 h-20 md:w-24 md:h-24 flex-shrink-0">
                     {lesson.image_url && (
                       <img 
                         src={lesson.image_url} 

@@ -16,17 +16,8 @@ const BottomNav = () => {
             isActive("/") ? "text-primary" : "text-gray-500"
           }`}
         >
-          <Home className="h-6 w-6" />
+          <Home className="h-5 w-5" />
           <span className="text-xs">Home</span>
-        </button>
-        <button
-          onClick={() => navigate("/engagement")}
-          className={`flex flex-col items-center space-y-1 flex-1 py-2 ${
-            isActive("/engagement") ? "text-primary" : "text-gray-500"
-          }`}
-        >
-          <Users className="h-6 w-6" />
-          <span className="text-xs">Engage+</span>
         </button>
         <button
           onClick={() => navigate("/lessons")}
@@ -34,8 +25,26 @@ const BottomNav = () => {
             isActive("/lessons") ? "text-primary" : "text-gray-500"
           }`}
         >
-          <BookOpen className="h-6 w-6" />
+          <BookOpen className="h-5 w-5" />
           <span className="text-xs">Lessons</span>
+        </button>
+        <button
+          onClick={() => navigate("/engagement")}
+          className={`flex flex-col items-center space-y-1 flex-1 py-2 ${
+            isActive("/engagement") ? "text-primary" : "text-gray-500"
+          }`}
+        >
+          <Users className="h-5 w-5" />
+          <span className="text-xs">Engage+</span>
+        </button>
+        <button
+          onClick={() => navigate("/about")}
+          className={`flex flex-col items-center space-y-1 flex-1 py-2 ${
+            isActive("/about") ? "text-primary" : "text-gray-500"
+          }`}
+        >
+          <BookOpen className="h-5 w-5" />
+          <span className="text-xs">Program</span>
         </button>
         <button
           onClick={() => navigate("/profile")}
@@ -43,7 +52,7 @@ const BottomNav = () => {
             isActive("/profile") ? "text-primary" : "text-gray-500"
           }`}
         >
-          <User className="h-6 w-6" />
+          <User className="h-5 w-5" />
           <span className="text-xs">Profile</span>
         </button>
       </div>

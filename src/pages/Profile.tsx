@@ -107,35 +107,34 @@ const ProfilePage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
       <NavigationBar />
-      <div className="container mx-auto px-4 pt-24 pb-8">
-        <div className="max-w-4xl mx-auto space-y-8">
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold mb-2 flex items-center justify-center gap-2">
-              <User className="h-8 w-8 text-primary" />
+      <div className="container mx-auto px-4 pt-16 pb-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-4">
+            <h1 className="text-2xl md:text-3xl font-bold flex items-center justify-center gap-2">
+              <User className="h-6 w-6 text-primary" />
               <span className="bg-gradient-to-r from-primary to-purple-600 text-transparent bg-clip-text">
                 Your Profile
               </span>
-              <Sparkles className="h-8 w-8 text-yellow-400 animate-pulse" />
+              <Sparkles className="h-6 w-6 text-yellow-400 animate-pulse" />
             </h1>
-            <p className="text-gray-600">Manage your personal information and preferences ✨</p>
           </div>
 
-          <Card className="border-primary/20 bg-white/80 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="flex justify-between items-center">
+          <Card className="border-primary/20 bg-white/80 backdrop-blur-sm mb-4">
+            <CardHeader className="py-2">
+              <CardTitle className="flex justify-between items-center text-lg">
                 <span className="flex items-center gap-2">
                   Profile Information
                 </span>
                 <Button 
                   variant={isEditing ? "destructive" : "outline"}
                   onClick={() => setIsEditing(!isEditing)}
-                  className="transition-all hover:scale-105 text-black"
+                  className="transition-all hover:scale-105 text-black text-sm"
                 >
                   {isEditing ? 'Cancel' : 'Edit Profile'}
                 </Button>
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="py-2">
               <ProfileForm 
                 profile={profile}
                 isEditing={isEditing}

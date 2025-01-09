@@ -9,19 +9,19 @@ interface ParticipantCounterProps {
 const ParticipantCounter = ({ value, onChange }: ParticipantCounterProps) => {
   const options = [
     { count: 1, label: "👤 (1)", icon: <User className="h-4 w-4" /> },
-    { count: 2, label: "👥 (2 peers)", icon: <Users className="h-4 w-4" /> },
-    { count: 3, label: "👤👥 (3 peers)", icon: <Users className="h-4 w-4" /> },
-    { count: 4, label: "👥👤+ (3+ peers)", icon: <Users className="h-4 w-4" /> }
+    { count: 2, label: "👥 (2)", icon: <Users className="h-4 w-4" /> },
+    { count: 3, label: "👤👥 (3)", icon: <Users className="h-4 w-4" /> },
+    { count: 4, label: "👥👤+", icon: <Users className="h-4 w-4" /> }
   ];
 
   return (
-    <div className="flex items-center justify-center gap-2">
+    <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:items-center sm:justify-center">
       {options.map((option) => (
         <Button
           key={option.count}
           type="button"
           variant={value === option.count ? "default" : "outline"}
-          className="flex-1"
+          className="w-full text-xs sm:text-sm py-1 px-2 h-auto"
           onClick={() => onChange(option.count)}
         >
           {option.label}

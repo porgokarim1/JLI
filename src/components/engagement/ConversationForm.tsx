@@ -107,16 +107,16 @@ const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => 
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <div className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 max-w-sm mx-auto">
+          <div className="space-y-3">
             <FormField
               control={form.control}
               name="conversation_date"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>When was it?</FormLabel>
+                  <FormLabel className="text-sm">When was it?</FormLabel>
                   <FormControl>
-                    <Input type="date" {...field} />
+                    <Input type="date" {...field} className="w-full" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -124,7 +124,7 @@ const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => 
             />
 
             <div>
-              <FormLabel>How many involved?</FormLabel>
+              <FormLabel className="text-sm">How many involved?</FormLabel>
               <ParticipantCounter
                 value={participantCount}
                 onChange={(value) => {
@@ -139,10 +139,10 @@ const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => 
               name="comfort_level"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>How did it go?</FormLabel>
+                  <FormLabel className="text-sm">How did it go?</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="w-full">
                         <SelectValue placeholder="Select comfort level" />
                       </SelectTrigger>
                     </FormControl>
@@ -164,9 +164,9 @@ const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => 
               name="comments"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Any thoughts? (Optional)</FormLabel>
+                  <FormLabel className="text-sm">Any thoughts? (Optional)</FormLabel>
                   <FormControl>
-                    <Input placeholder="Share your experience..." {...field} />
+                    <Input placeholder="Share your experience..." {...field} className="w-full" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -175,7 +175,7 @@ const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => 
 
             <Button 
               type="submit" 
-              className="w-full"
+              className="w-full mt-4"
               disabled={isSubmitting}
             >
               {isSubmitting ? "Recording..." : "Record Conversation"}
@@ -185,7 +185,7 @@ const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => 
       </Form>
 
       <Dialog open={showThankYou} onOpenChange={setShowThankYou}>
-        <DialogContent className="text-center">
+        <DialogContent className="text-center sm:max-w-[425px]">
           <p className="py-4">Your conversation has been recorded successfully!</p>
           <Button onClick={handleThankYouClose} className="mt-4">
             OK

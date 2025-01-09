@@ -11,7 +11,7 @@ const HeroSection = () => {
           <div className="space-y-2">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-none relative text-3d">
               K
-              <span className="absolute -top-3 md:-top-4 left-[0.6em]">'</span>
+              <span className="absolute -top-4 md:-top-5 left-[0.2em] transform -translate-x-1/2">'</span>
               NOW
               <br />
               ISRAEL

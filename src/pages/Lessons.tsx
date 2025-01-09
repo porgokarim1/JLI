@@ -35,7 +35,6 @@ const Lessons = () => {
   const totalLessons = lessons?.length || 0;
   const progressPercentage = (completedLessons / totalLessons) * 100;
 
-  // Find the next lesson (closest future date)
   const getNextLesson = () => {
     if (!lessons?.length) return null;
     const today = new Date();
@@ -50,10 +49,8 @@ const Lessons = () => {
   return (
     <div className="h-screen overflow-hidden bg-gradient-to-br from-purple-50 via-white to-blue-50">
       {!isMobile && <NavigationBar />}
-      <div className={`h-full ${isMobile ? 'pt-2' : 'pt-20'} container mx-auto px-2 sm:px-4 flex flex-col`}>
-        {/* Dashboard Cards - Made more compact */}
-        <div className="grid grid-cols-2 gap-2 sm:gap-4 mb-2">
-          {/* Progress Card */}
+      <div className={`h-full ${isMobile ? 'pt-4' : 'pt-20'} container mx-auto px-2 sm:px-4 flex flex-col`}>
+        <div className="grid grid-cols-2 gap-2 sm:gap-4 mb-4">
           <Card className="bg-white/90 backdrop-blur-sm border-primary/20 shadow-lg">
             <CardHeader className="p-2 sm:p-4">
               <CardTitle className="text-sm sm:text-lg">Progress</CardTitle>
@@ -70,7 +67,6 @@ const Lessons = () => {
             </CardContent>
           </Card>
 
-          {/* Next Lesson Card */}
           <Card className="bg-white/90 backdrop-blur-sm border-primary/20 shadow-lg">
             <CardHeader className="p-2 sm:p-4">
               <CardTitle className="text-sm sm:text-lg">Next Lesson</CardTitle>
@@ -101,12 +97,11 @@ const Lessons = () => {
           </Card>
         </div>
 
-        {/* Lessons Grid - Adjusted for better fit */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 flex-1 mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 flex-1 mb-16 md:mb-4">
           {lessons?.slice(0, 4).map((lesson) => (
             <Card 
               key={lesson.id} 
-              className="flex flex-row md:flex-col hover:shadow-lg transition-shadow h-[calc((100vh-16rem)/4)] md:h-auto overflow-hidden cursor-pointer"
+              className="flex flex-row md:flex-col hover:shadow-lg transition-shadow cursor-pointer"
               onClick={() => navigate(`/lesson/${lesson.id}`)}
             >
               <div className="w-1/3 md:w-full h-full md:h-[30%] relative">

@@ -3,10 +3,14 @@ import { supabase } from "@/integrations/supabase/client";
 import { formatDistanceToNow } from "date-fns";
 import LessonsList from "./LessonsList";
 import ProgressOverview from "./ProgressOverview";
-import ResourcesSection from "./ResourcesSection";
 import DashboardHeader from "./DashboardHeader";
+import { CheckCircle2 } from "lucide-react";
 
-const StudentDashboard = ({ conversationCount = 0 }) => {
+interface StudentDashboardProps {
+  conversationCount: number;
+}
+
+const StudentDashboard = ({ conversationCount }: StudentDashboardProps) => {
   const { data: recentEngagements } = useQuery({
     queryKey: ['recent-engagements'],
     queryFn: async () => {
@@ -41,11 +45,9 @@ const StudentDashboard = ({ conversationCount = 0 }) => {
       <DashboardHeader conversationCount={conversationCount} />
       <ProgressOverview />
       <LessonsList />
-      <ResourcesSection />
       
       {recentEngagements && recentEngagements.length > 0 && (
         <div className="space-y-2">
-          <h3 className="text-lg font-semibold">Recent Engagements</h3>
           <div className="space-y-2">
             {recentEngagements.map((engagement) => (
               <div key={engagement.id} className="flex items-center gap-2 text-sm text-gray-600">

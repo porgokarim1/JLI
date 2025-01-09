@@ -89,10 +89,10 @@ const EngagementMetrics = ({ type }: EngagementMetricsProps) => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
       {type === "conversation" && (
-        <div className="flex-1">
-          <div className="flex items-center justify-center p-6 bg-white rounded-lg shadow-lg">
+        <div className="w-full">
+          <div className="flex items-center justify-center p-6 bg-white rounded-lg shadow-lg h-full">
             <div className="flex items-center gap-4">
               <Users className="h-12 w-12 text-primary animate-pulse" />
               <div className="text-center">
@@ -106,7 +106,7 @@ const EngagementMetrics = ({ type }: EngagementMetricsProps) => {
         </div>
       )}
       
-      <Card className="flex-1 bg-white/90 backdrop-blur-sm">
+      <Card className="w-full bg-white/90 backdrop-blur-sm">
         <CardContent className="p-4">
           <MetricsContent />
         </CardContent>

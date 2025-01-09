@@ -23,7 +23,7 @@ const Engagement = () => {
         <div className="flex flex-col gap-6">
           <h1 className="text-base font-medium">Number of peers you talked to</h1>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="w-full">
             <EngagementMetrics type="conversation" />
           </div>
 

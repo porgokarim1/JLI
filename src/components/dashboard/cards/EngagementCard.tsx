@@ -9,7 +9,7 @@ interface EngagementCardProps {
 }
 
 export const EngagementCard = ({ onNewEngagement }: EngagementCardProps) => {
-  const { data: totalPeers = 0 } = useQuery({
+  const { data: totalPeers = 0, isLoading } = useQuery({
     queryKey: ['total-peers'],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -20,11 +20,14 @@ export const EngagementCard = ({ onNewEngagement }: EngagementCardProps) => {
         .select('participant_count')
         .eq('user_id', user.id);
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching conversations:', error);
+        throw error;
+      }
       
       // Sum up all participant counts to get total number of peers
       const total = data.reduce((sum, conv) => sum + (conv.participant_count || 0), 0);
-      console.log('Total peers:', total, 'Raw data:', data); // Added for debugging
+      console.log('Total peers:', total, 'Raw data:', data); // For debugging
       return total;
     }
   });
@@ -45,7 +48,9 @@ export const EngagementCard = ({ onNewEngagement }: EngagementCardProps) => {
             <Handshake className="h-6 w-6 text-primary" />
             <div>
               <h3 className="font-medium text-sm">Engagements</h3>
-              <p className="text-xs text-muted-foreground">{totalPeers}/{nextTarget} peers</p>
+              <p className="text-xs text-muted-foreground">
+                {isLoading ? "Loading..." : `${totalPeers}/${nextTarget} peers`}
+              </p>
             </div>
           </div>
           <Button 

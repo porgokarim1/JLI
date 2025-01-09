@@ -38,20 +38,20 @@ const ComfortLevelSelector = ({ value, onChange }: { value: string, onChange: (v
   ];
 
   return (
-    <div className="flex flex-wrap gap-2 justify-center">
+    <div className="flex flex-wrap gap-1.5 justify-center">
       {options.map((option) => (
         <button
           key={option.value}
           type="button"
           onClick={() => onChange(option.value)}
-          className={`flex flex-col items-center justify-center p-2 rounded-lg border-2 min-w-[80px] transition-all ${
+          className={`flex flex-col items-center justify-center p-1.5 rounded-lg border-2 min-w-[72px] transition-all ${
             value === option.value
               ? "border-primary bg-primary/10"
               : "border-gray-200 hover:border-primary/50"
           }`}
         >
-          <span className="text-xl sm:text-2xl mb-1">{option.emoji}</span>
-          <span className="text-[10px] sm:text-xs text-center leading-tight">{option.label}</span>
+          <span className="text-lg mb-0.5">{option.emoji}</span>
+          <span className="text-[10px] leading-tight">{option.label}</span>
         </button>
       ))}
     </div>
@@ -140,74 +140,72 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
       <Form {...form}>
         <form 
           onSubmit={form.handleSubmit(onSubmit)} 
-          className="space-y-4 w-full max-w-md mx-auto px-4 pb-20 sm:pb-4 overflow-y-auto max-h-[calc(100vh-10rem)]"
+          className="space-y-3 w-full max-w-md mx-auto px-4"
         >
-          <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="conversation_date"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm">When was it?</FormLabel>
-                  <FormControl>
-                    <Input type="date" {...field} className="w-full" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+          <FormField
+            control={form.control}
+            name="conversation_date"
+            render={({ field }) => (
+              <FormItem className="space-y-1">
+                <FormLabel className="text-sm">When was it?</FormLabel>
+                <FormControl>
+                  <Input type="date" {...field} className="h-8" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div className="space-y-1">
+            <FormLabel className="text-sm">How many involved?</FormLabel>
+            <ParticipantCounter
+              value={participantCount}
+              onChange={(value) => {
+                setParticipantCount(value);
+                form.setValue("participant_count", value);
+              }}
             />
+          </div>
 
-            <div className="space-y-2">
-              <FormLabel className="text-sm">How many involved?</FormLabel>
-              <ParticipantCounter
-                value={participantCount}
-                onChange={(value) => {
-                  setParticipantCount(value);
-                  form.setValue("participant_count", value);
-                }}
-              />
-            </div>
+          <FormField
+            control={form.control}
+            name="comfort_level"
+            render={({ field }) => (
+              <FormItem className="space-y-1">
+                <FormLabel className="text-sm">How did it go?</FormLabel>
+                <FormControl>
+                  <ComfortLevelSelector
+                    value={field.value || ""}
+                    onChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            <FormField
-              control={form.control}
-              name="comfort_level"
-              render={({ field }) => (
-                <FormItem className="space-y-2">
-                  <FormLabel className="text-sm">How did it go?</FormLabel>
-                  <FormControl>
-                    <ComfortLevelSelector
-                      value={field.value || ""}
-                      onChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <FormField
+            control={form.control}
+            name="comments"
+            render={({ field }) => (
+              <FormItem className="space-y-1">
+                <FormLabel className="text-sm">Any thoughts? (Optional)</FormLabel>
+                <FormControl>
+                  <Input placeholder="Share your experience..." {...field} className="h-8" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            <FormField
-              control={form.control}
-              name="comments"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm">Any thoughts? (Optional)</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Share your experience..." {...field} className="w-full" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className="sticky bottom-0 left-0 right-0 bg-white p-4 -mx-4">
-              <Button 
-                type="submit" 
-                className="w-full"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? "Recording..." : "Record Conversation"}
-              </Button>
-            </div>
+          <div className="pt-2">
+            <Button 
+              type="submit" 
+              className="w-full h-9"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Recording..." : "Record Conversation"}
+            </Button>
           </div>
         </form>
       </Form>

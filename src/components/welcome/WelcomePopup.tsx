@@ -18,6 +18,7 @@ const WelcomePopup = ({ isOpen, onClose }: WelcomePopupProps) => {
     agreeToTerms: false,
     agreeToDisclaimer: false,
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleFieldChange = (field: string, value: boolean) => {
     setFormData((prev) => ({
@@ -27,14 +28,12 @@ const WelcomePopup = ({ isOpen, onClose }: WelcomePopupProps) => {
   };
 
   const triggerConfetti = () => {
-    // Fire confetti from the left edge
     confetti({
       particleCount: 100,
       spread: 70,
       origin: { x: 0.1, y: 0.5 }
     });
 
-    // Fire confetti from the right edge
     confetti({
       particleCount: 100,
       spread: 70,
@@ -43,6 +42,13 @@ const WelcomePopup = ({ isOpen, onClose }: WelcomePopupProps) => {
   };
 
   const handleSubmit = async () => {
+    if (!formData.agreeToTerms || !formData.agreeToDisclaimer) {
+      toast.error("Please agree to both the terms and disclaimer");
+      return;
+    }
+
+    setIsSubmitting(true);
+
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
@@ -60,19 +66,19 @@ const WelcomePopup = ({ isOpen, onClose }: WelcomePopupProps) => {
 
       if (error) throw error;
 
-      // Close the dialog immediately
+      // Close the dialog
       onClose();
       
       // Trigger confetti and show success message
       triggerConfetti();
       
-      // Show success message after a brief delay
-      setTimeout(() => {
-        toast.success("Welcome to the program! 🎉");
-      }, 500);
+      toast.success("Welcome to the program! 🎉");
       
     } catch (error: any) {
+      console.error("Error updating profile:", error);
       toast.error("Error updating profile: " + error.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -124,10 +130,10 @@ const WelcomePopup = ({ isOpen, onClose }: WelcomePopupProps) => {
 
           <Button
             onClick={handleSubmit}
-            disabled={!formData.agreeToTerms || !formData.agreeToDisclaimer}
+            disabled={!formData.agreeToTerms || !formData.agreeToDisclaimer || isSubmitting}
             className="w-full py-4 sm:py-6 text-base sm:text-lg bg-primary hover:bg-primary/90"
           >
-            Continue to Dashboard
+            {isSubmitting ? "Processing..." : "Continue to Dashboard"}
           </Button>
         </div>
       </DialogContent>

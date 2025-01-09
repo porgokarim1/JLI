@@ -8,6 +8,7 @@ import DashboardHeader from "./DashboardHeader";
 import ConversationForm from "../engagement/ConversationForm";
 import { CompletionCodeDialog } from "../lesson/CompletionCodeDialog";
 import { NextLessonCard } from "./cards/NextLessonCard";
+import { EngagementCard } from "./cards/EngagementCard";
 import { ReferralCard } from "./cards/ReferralCard";
 import { Button } from "@/components/ui/button";
 import { Handshake, User, Plus, MessageCircle } from "lucide-react";
@@ -50,23 +51,14 @@ const StudentDashboard = () => {
     }
   };
 
-  const handleEmailShare = () => {
-    const subject = encodeURIComponent("Join our program!");
-    const body = encodeURIComponent("Hey! Check out this program: " + window.location.origin);
-    window.location.href = `mailto:?subject=${subject}&body=${body}`;
-    toast.success("Email client opened");
-  };
-
   return (
     <div className="min-h-[calc(100vh-4rem)] p-4 max-w-7xl mx-auto space-y-4 pb-20">
       <DashboardHeader />
       
       <div className="space-y-4 max-w-md mx-auto w-full px-2">
         <NextLessonCard onAttendanceClick={() => setShowAttendanceForm(true)} />
-        <ReferralCard 
-          onShareLink={handleCopyReferralLink} 
-          onEmailShare={handleEmailShare}
-        />
+        <ReferralCard onShareLink={handleCopyReferralLink} />
+        <EngagementCard onNewEngagement={() => setShowEngagementForm(true)} />
       </div>
 
       <div className="w-full max-w-md mx-auto bg-white rounded-lg shadow-sm p-4">

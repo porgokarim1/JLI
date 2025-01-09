@@ -2,6 +2,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Home, Handshake, BookOpen, MessageSquare, PieChart, User } from "lucide-react";
 import { useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { X } from "lucide-react";
 
 const BottomNav = () => {
   const location = useLocation();
@@ -42,7 +45,7 @@ const BottomNav = () => {
           </button>
           <button
             onClick={() => setIsAIChatOpen(true)}
-            className="flex flex-col items-center text-gray-500"
+            className={`flex flex-col items-center text-gray-500`}
           >
             <MessageSquare className="h-5 w-5" />
             <span className="text-xs">AI Chat</span>
@@ -75,6 +78,14 @@ const BottomNav = () => {
               <MessageSquare className="h-5 w-5 text-primary" />
               <h3 className="font-semibold text-lg">AI Assistant</h3>
             </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsAIChatOpen(false)}
+              className="h-8 w-8 hover:bg-primary/10 rounded-full"
+            >
+              <X className="h-4 w-4" />
+            </Button>
           </div>
           
           <div className="h-[calc(100%-120px)] overflow-y-auto border rounded-xl p-3 md:p-4 mb-4 bg-soft-blue/30 shadow-inner">
@@ -93,12 +104,12 @@ const BottomNav = () => {
                 className="w-full px-4 py-2 md:py-3 rounded-xl border-2 border-primary/20 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all bg-white/80 backdrop-blur-sm text-sm md:text-base"
                 disabled
               />
-              <button 
-                className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary hover:bg-primary-dark text-primary-foreground h-7 w-7 md:h-8 md:w-8 rounded-lg p-0 disabled:opacity-50"
+              <Button 
+                className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary hover:bg-primary-dark text-primary-foreground h-7 w-7 md:h-8 md:w-8 rounded-lg p-0"
                 disabled
               >
                 <MessageSquare className="h-3 w-3 md:h-4 md:w-4" />
-              </button>
+              </Button>
             </div>
           </div>
         </DialogContent>

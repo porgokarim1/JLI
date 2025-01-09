@@ -10,8 +10,7 @@ const HeroSection = () => {
         <div className="text-center space-y-2 relative z-10 bg-white/80 md:bg-transparent p-3 rounded-lg">
           <div className="space-y-2">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-none relative text-3d">
-              K'N
-              OW
+              K'NOW
               <br />
               ISRAEL
             </h1>

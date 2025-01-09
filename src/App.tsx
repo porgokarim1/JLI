@@ -13,6 +13,7 @@ import Profile from "./pages/Profile";
 import About from "./pages/About";
 import Lessons from "./pages/Lessons";
 import BottomNav from "./components/navigation/BottomNav";
+import AIChat from "./pages/AIChat";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -130,6 +131,10 @@ const App = () => {
         {
           path: "/lessons",
           element: !isAuthenticated ? <Navigate to="/login" /> : <Lessons />,
+        },
+        {
+          path: "/ai-chat",
+          element: !isAuthenticated ? <Navigate to="/login" /> : <AIChat />,
         }
       ]
     }

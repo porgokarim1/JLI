@@ -5,6 +5,8 @@ import { useState } from "react";
 import ConversationForm from "./ConversationForm";
 import EmptyConversationState from "./conversations/EmptyConversationState";
 import ConversationsTable from "./conversations/ConversationsTable";
+import { Button } from "@/components/ui/button";
+import { X } from "lucide-react";
 
 const ConversationsList = () => {
   const [editingConversation, setEditingConversation] = useState<any>(null);
@@ -41,7 +43,6 @@ const ConversationsList = () => {
         onEdit={setEditingConversation} 
       />
 
-      {/* Edit Conversation Dialog */}
       <Dialog 
         open={!!editingConversation} 
         onOpenChange={(open) => !open && setEditingConversation(null)}
@@ -50,6 +51,15 @@ const ConversationsList = () => {
           <DialogHeader>
             <DialogTitle>Editing Conversation</DialogTitle>
           </DialogHeader>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+            onClick={() => setEditingConversation(null)}
+          >
+            <X className="h-4 w-4" />
+            <span className="sr-only">Close</span>
+          </Button>
           <ConversationForm 
             initialData={editingConversation}
             onSuccess={() => {

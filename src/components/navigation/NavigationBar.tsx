@@ -6,10 +6,12 @@ import { supabase } from "@/integrations/supabase/client";
 import AuthenticatedButtons from "./AuthenticatedButtons";
 import MobileMenu from "./MobileMenu";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 const NavigationBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isAIChatOpen, setIsAIChatOpen] = useState(false);
   const navigate = useNavigate();
   const isMobile = useIsMobile();
 
@@ -87,6 +89,14 @@ const NavigationBar = () => {
                 <User className="h-5 w-5 mb-1" />
                 <span className="text-xs">Profile</span>
               </Button>
+              <Button
+                variant="ghost"
+                className="flex flex-col items-center justify-center h-16 px-2"
+                onClick={() => setIsAIChatOpen(true)}
+              >
+                <MessageSquare className="h-5 w-5 mb-1" />
+                <span className="text-xs">AI Chat</span>
+              </Button>
               <AuthenticatedButtons />
             </div>
           )}
@@ -112,6 +122,50 @@ const NavigationBar = () => {
           <MobileMenu isAuthenticated={isAuthenticated} setIsOpen={setIsOpen} />
         </div>
       </div>
+
+      <Dialog open={isAIChatOpen} onOpenChange={setIsAIChatOpen}>
+        <DialogContent className="w-[90vw] max-w-[380px] h-[90vh] max-h-[500px] p-4 md:p-6">
+          <div className="flex justify-between items-center mb-4 md:mb-6">
+            <div className="flex items-center gap-2">
+              <MessageSquare className="h-5 w-5 text-primary" />
+              <h3 className="font-semibold text-lg">AI Assistant</h3>
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsAIChatOpen(false)}
+              className="h-8 w-8 hover:bg-primary/10 rounded-full"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+          
+          <div className="h-[calc(100%-120px)] overflow-y-auto border rounded-xl p-3 md:p-4 mb-4 bg-soft-blue/30 shadow-inner">
+            <div className="flex items-center justify-center h-full">
+              <p className="text-muted-foreground text-center animate-pulse">
+                AI chat assist coming soon!
+              </p>
+            </div>
+          </div>
+
+          <div className="absolute bottom-4 md:bottom-6 left-4 right-4 md:left-6 md:right-6">
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Type your message..."
+                className="w-full px-4 py-2 md:py-3 rounded-xl border-2 border-primary/20 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all bg-white/80 backdrop-blur-sm text-sm md:text-base"
+                disabled
+              />
+              <Button 
+                className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary hover:bg-primary-dark text-primary-foreground h-7 w-7 md:h-8 md:w-8 rounded-lg p-0"
+                disabled
+              >
+                <MessageSquare className="h-3 w-3 md:h-4 md:w-4" />
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </nav>
   );
 };

@@ -27,10 +27,6 @@ const NavigationBar = () => {
     return () => subscription.unsubscribe();
   }, []);
 
-  if (isMobile) {
-    return null;
-  }
-
   return (
     <nav className="bg-white border-b border-gray-200 fixed w-full top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -84,7 +80,7 @@ const NavigationBar = () => {
               <Button
                 variant="ghost"
                 className="flex flex-col items-center justify-center h-16 px-2"
-                onClick={() => setIsAIChatOpen(true)}
+                onClick={() => navigate("/ai-chat")}
               >
                 <MessageSquare className="h-5 w-5 mb-1" />
                 <span className="text-xs">AI Chat</span>

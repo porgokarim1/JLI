@@ -13,7 +13,7 @@ import Profile from "./pages/Profile";
 import About from "./pages/About";
 import Lessons from "./pages/Lessons";
 import BottomNav from "./components/navigation/BottomNav";
-import { AIChatbot } from "./components/chat/AIChatbot";
+import AIChat from "./pages/AIChat";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,12 +28,7 @@ const AppLayout = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
   return (
     <div className="pb-16 md:pb-0">
       <Outlet />
-      {isAuthenticated && (
-        <>
-          <BottomNav />
-          <AIChatbot />
-        </>
-      )}
+      {isAuthenticated && <BottomNav />}
     </div>
   );
 };
@@ -136,6 +131,10 @@ const App = () => {
         {
           path: "/lessons",
           element: !isAuthenticated ? <Navigate to="/login" /> : <Lessons />,
+        },
+        {
+          path: "/ai-chat",
+          element: !isAuthenticated ? <Navigate to="/login" /> : <AIChat />,
         }
       ]
     }
@@ -150,6 +149,3 @@ const App = () => {
       </TooltipProvider>
     </QueryClientProvider>
   );
-};
-
-export default App;

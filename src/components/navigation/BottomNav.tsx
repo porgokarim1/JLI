@@ -1,14 +1,13 @@
+import { useLocation, useNavigate } from "react-router-dom";
 import { BookOpen, Users, User, LayoutDashboard } from "lucide-react";
-import { useNavigate, useLocation } from "react-router-dom";
 
 const BottomNav = () => {
-  const navigate = useNavigate();
   const location = useLocation();
-
+  const navigate = useNavigate();
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 px-6 md:hidden">
+    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 px-6 md:hidden z-50">
       <div className="flex justify-around items-center">
         <button
           onClick={() => navigate("/")}

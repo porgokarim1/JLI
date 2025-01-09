@@ -25,6 +25,14 @@ export const EngagementCard = ({ onNewEngagement }: EngagementCardProps) => {
     }
   });
 
+  const getNextTarget = (count: number) => {
+    if (count < 7) return 7;
+    if (count < 15) return 15;
+    return 25;
+  };
+
+  const nextTarget = getNextTarget(totalPeers);
+
   return (
     <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
       <CardContent className="p-4">
@@ -33,7 +41,7 @@ export const EngagementCard = ({ onNewEngagement }: EngagementCardProps) => {
             <Handshake className="h-6 w-6 text-primary" />
             <div>
               <h3 className="font-medium text-sm">Engagements</h3>
-              <p className="text-xs text-muted-foreground">{totalPeers}/7 peers</p>
+              <p className="text-xs text-muted-foreground">{totalPeers}/{nextTarget} peers</p>
             </div>
           </div>
           <Button 

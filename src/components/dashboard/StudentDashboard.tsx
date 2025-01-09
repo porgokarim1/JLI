@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Plus, Gift, Share2, Handshake, MapPin } from "lucide-react";
+import { BookOpen, Plus, Gift, Share2, Handshake } from "lucide-react";
 import DashboardHeader from "./DashboardHeader";
 import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -17,12 +17,26 @@ const StudentDashboard = () => {
   const [showAttendanceForm, setShowAttendanceForm] = useState(false);
   const [recentEngagements, setRecentEngagements] = useState<any[]>([]);
   const [totalPeers, setTotalPeers] = useState(0);
+  const [nextLesson, setNextLesson] = useState<any>(null);
 
   useEffect(() => {
-    const fetchRecentEngagements = async () => {
+    const fetchData = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
+      // Fetch next lesson
+      const today = new Date().toISOString();
+      const { data: lessonData } = await supabase
+        .from('lessons')
+        .select('*')
+        .gte('lesson_date', today)
+        .order('lesson_date', { ascending: true })
+        .limit(1)
+        .single();
+
+      setNextLesson(lessonData);
+
+      // Fetch engagement data
       const { data: totalData, error: totalError } = await supabase
         .from('conversations')
         .select('participant_count')
@@ -48,7 +62,7 @@ const StudentDashboard = () => {
       setRecentEngagements(data);
     };
 
-    fetchRecentEngagements();
+    fetchData();
   }, []);
 
   const handleCopyReferralLink = async () => {
@@ -67,17 +81,20 @@ const StudentDashboard = () => {
       <div className="flex flex-col md:flex-row gap-4 mt-4">
         {/* Left side - Main content */}
         <div className="flex-1 space-y-4">
-          <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <BookOpen className="h-6 w-6 text-primary" />
-                  <div>
-                    <h3 className="font-medium text-sm">Next Lesson</h3>
-                    <p className="text-xs text-muted-foreground">02/15/2025 @4PM</p>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <BookOpen className="h-6 w-6 text-primary" />
+                    <div>
+                      <h3 className="font-medium text-sm">Next Lesson</h3>
+                      <p className="text-xs text-muted-foreground">
+                        {nextLesson?.lesson_date ? new Date(nextLesson.lesson_date).toLocaleDateString() : 'TBD'} 
+                        {nextLesson?.lesson_time ? ` @${nextLesson.lesson_time}` : ''}
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div className="flex flex-col gap-2">
                   <Button 
                     variant="default"
                     className="text-black h-8 text-xs"
@@ -85,61 +102,62 @@ const StudentDashboard = () => {
                   >
                     Confirm Attendance
                   </Button>
-                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                    <MapPin className="h-4 w-4" />
-                    <span>Course Location</span>
-                  </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
 
-          <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <Handshake className="h-6 w-6 text-primary" />
-                  <div>
-                    <h3 className="font-medium text-sm">Engagements</h3>
-                    <p className="text-xs text-muted-foreground">{totalPeers}/7 peers</p>
+            <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <Handshake className="h-6 w-6 text-primary" />
+                    <div>
+                      <h3 className="font-medium text-sm">Engagements</h3>
+                      <p className="text-xs text-muted-foreground">{totalPeers}/7 peers</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <Button 
+                      variant="default"
+                      className="text-black h-8 text-xs"
+                      onClick={() => setShowEngagementForm(true)}
+                    >
+                      <Plus className="h-4 w-4 mr-1" /> New
+                    </Button>
+                    <p className="text-xs text-muted-foreground text-center">
+                      {nextLesson?.location || 'TBD'}
+                    </p>
                   </div>
                 </div>
-                <Button 
-                  variant="default"
-                  className="text-black h-8 text-xs"
-                  onClick={() => setShowEngagementForm(true)}
-                >
-                  <Plus className="h-4 w-4 mr-1" /> New
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
 
-          <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <Gift className="h-6 w-6 text-primary" />
-                  <div>
-                    <h3 className="font-medium text-sm">Referral Program</h3>
-                    <p className="text-xs text-muted-foreground">Invite friends & earn rewards</p>
+            <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <Gift className="h-6 w-6 text-primary" />
+                    <div>
+                      <h3 className="font-medium text-sm">Referral Program</h3>
+                      <p className="text-xs text-muted-foreground">Invite friends & earn rewards</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-end gap-2">
+                    <Button 
+                      variant="secondary" 
+                      size="sm" 
+                      className="h-8 text-xs flex items-center gap-2"
+                      onClick={handleCopyReferralLink}
+                    >
+                      <Share2 className="h-4 w-4" />
+                      Share Link
+                    </Button>
+                    <p className="text-xs text-muted-foreground">0 referrals</p>
                   </div>
                 </div>
-                <div className="flex flex-col items-end gap-2">
-                  <Button 
-                    variant="default" 
-                    size="sm" 
-                    className="h-8 text-xs flex items-center gap-2 text-black"
-                    onClick={handleCopyReferralLink}
-                  >
-                    <Share2 className="h-4 w-4" />
-                    Share Link
-                  </Button>
-                  <p className="text-xs text-muted-foreground">0 referrals</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </div>
         </div>
 
         {/* Right side - Recent Engagements */}
@@ -164,8 +182,8 @@ const StudentDashboard = () => {
             ))}
             {recentEngagements.length >= 3 && (
               <Button 
-                variant="default"
-                className="w-full text-xs text-muted-foreground bg-gray-100 hover:bg-gray-200"
+                variant="secondary"
+                className="w-full text-xs"
                 onClick={() => navigate('/engagement')}
               >
                 More

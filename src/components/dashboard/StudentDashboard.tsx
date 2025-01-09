@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Plus, Gift, Share2, Heart } from "lucide-react";
+import { BookOpen, Plus, Gift, Share2, Handshake } from "lucide-react";
 import DashboardHeader from "./DashboardHeader";
 import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -85,7 +85,7 @@ const StudentDashboard = () => {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <Heart className="h-6 w-6 text-primary" />
+                  <Handshake className="h-6 w-6 text-primary" />
                   <div>
                     <h3 className="font-medium text-sm">Engagements</h3>
                     <p className="text-xs text-muted-foreground">{totalPeers}/7 peers</p>

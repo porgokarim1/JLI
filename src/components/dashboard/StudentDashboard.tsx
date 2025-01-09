@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Plus, Gift, Share2 } from "lucide-react";
+import { BookOpen, Plus, Gift, Share2, Heart } from "lucide-react";
 import DashboardHeader from "./DashboardHeader";
 import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -15,12 +15,25 @@ const StudentDashboard = () => {
   const [showEngagementForm, setShowEngagementForm] = useState(false);
   const [showAttendanceForm, setShowAttendanceForm] = useState(false);
   const [recentEngagements, setRecentEngagements] = useState<any[]>([]);
+  const [totalPeers, setTotalPeers] = useState(0);
 
   useEffect(() => {
     const fetchRecentEngagements = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
+      // Fetch total peers
+      const { data: totalData, error: totalError } = await supabase
+        .from('conversations')
+        .select('participant_count')
+        .eq('user_id', user.id);
+
+      if (!totalError && totalData) {
+        const total = totalData.reduce((sum, conv) => sum + (conv.participant_count || 0), 0);
+        setTotalPeers(total);
+      }
+
+      // Fetch recent engagements
       const { data, error } = await supabase
         .from('conversations')
         .select('*')
@@ -58,10 +71,32 @@ const StudentDashboard = () => {
                 </div>
                 <Button 
                   variant="outline" 
-                  className="border-primary text-primary hover:bg-primary hover:text-white text-xs h-8"
+                  className="border-primary text-primary hover:bg-primary hover:text-black text-xs h-8"
                   onClick={() => setShowAttendanceForm(true)}
                 >
                   Confirm Attendance
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Engagements Card */}
+          <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <Heart className="h-6 w-6 text-primary" />
+                  <div>
+                    <h3 className="font-medium text-sm">Engagements</h3>
+                    <p className="text-xs text-muted-foreground">{totalPeers}/7 peers</p>
+                  </div>
+                </div>
+                <Button 
+                  variant="outline"
+                  className="border-primary text-primary hover:bg-primary hover:text-black text-xs h-8"
+                  onClick={() => setShowEngagementForm(true)}
+                >
+                  <Plus className="h-4 w-4 mr-1" /> New
                 </Button>
               </div>
             </CardContent>
@@ -93,7 +128,7 @@ const StudentDashboard = () => {
         <div className="w-full md:w-64 space-y-2">
           <h3 className="font-medium text-sm mb-2">Recent Engagements</h3>
           <div className="space-y-2">
-            {recentEngagements.slice(0, 3).map((engagement) => (
+            {recentEngagements.map((engagement) => (
               <div key={engagement.id} className="bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg p-3 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span role="img" aria-label="mood">

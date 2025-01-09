@@ -36,20 +36,20 @@ const ComfortLevelSelector = ({ value, onChange }: { value: string, onChange: (v
   ];
 
   return (
-    <div className="flex flex-nowrap gap-2 justify-start overflow-x-auto pb-2">
+    <div className="flex flex-nowrap gap-1.5 justify-start overflow-x-auto">
       {options.map((option) => (
         <button
           key={option.value}
           type="button"
           onClick={() => onChange(option.value)}
-          className={`flex-shrink-0 flex items-center gap-1.5 p-1.5 rounded-lg border-2 transition-all whitespace-nowrap ${
+          className={`flex-shrink-0 flex items-center gap-1 px-2 py-1 rounded-lg border transition-all whitespace-nowrap text-xs ${
             value === option.value
               ? "border-primary bg-primary/10"
               : "border-gray-200 hover:border-primary/50"
           }`}
         >
-          <span className="text-lg">{option.emoji}</span>
-          <span className="text-xs">{option.label}</span>
+          <span className="text-base">{option.emoji}</span>
+          <span>{option.label}</span>
         </button>
       ))}
     </div>
@@ -134,17 +134,16 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
     }
   };
 
-  // Get today's date in YYYY-MM-DD format for max date
   const today = new Date().toISOString().split('T')[0];
 
   return (
     <Form {...form}>
       <form 
         onSubmit={form.handleSubmit(onSubmit)} 
-        className="space-y-4 w-full max-w-md mx-auto px-4"
+        className="space-y-3 w-full max-w-md mx-auto px-4"
       >
-        <div className="flex items-center justify-between gap-2">
-          <FormLabel className="text-sm whitespace-nowrap">When was it? 📆</FormLabel>
+        <div className="flex items-center gap-2">
+          <FormLabel className="text-xs whitespace-nowrap">When was it? 📆</FormLabel>
           <FormField
             control={form.control}
             name="conversation_date"
@@ -155,7 +154,7 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
                     type="date" 
                     {...field} 
                     max={today}
-                    className="h-8" 
+                    className="h-7 text-xs" 
                   />
                 </FormControl>
                 <FormMessage />
@@ -164,9 +163,9 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
           />
         </div>
 
-        <div className="space-y-2">
-          <div className="flex items-center justify-between gap-2">
-            <FormLabel className="text-sm whitespace-nowrap">How many involved?</FormLabel>
+        <div className="space-y-1.5">
+          <div className="flex items-center gap-2">
+            <FormLabel className="text-xs whitespace-nowrap">How many involved?</FormLabel>
             <FormField
               control={form.control}
               name="participant_count"
@@ -179,7 +178,7 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
                       max="99"
                       {...field}
                       onChange={e => field.onChange(parseInt(e.target.value))}
-                      className="h-8 w-20"
+                      className="h-7 w-16 text-xs"
                     />
                   </FormControl>
                   <FormMessage />
@@ -198,7 +197,7 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
           name="comfort_level"
           render={({ field }) => (
             <FormItem className="space-y-1">
-              <FormLabel className="text-sm">How did it go?</FormLabel>
+              <FormLabel className="text-xs">How did it go?</FormLabel>
               <FormControl>
                 <ComfortLevelSelector
                   value={field.value || ""}
@@ -215,9 +214,9 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
           name="comments"
           render={({ field }) => (
             <FormItem className="space-y-1">
-              <FormLabel className="text-sm">Any thoughts? (Optional)</FormLabel>
+              <FormLabel className="text-xs">Any thoughts? (Optional)</FormLabel>
               <FormControl>
-                <Input placeholder="Share your experience..." {...field} className="h-8" />
+                <Input placeholder="Share your experience..." {...field} className="h-7 text-xs" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -227,7 +226,7 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
         <div className="pt-2">
           <Button 
             type="submit" 
-            className="w-full h-9"
+            className="w-full h-8 text-sm"
             disabled={isSubmitting}
           >
             {isSubmitting ? "Saving..." : "Save"}

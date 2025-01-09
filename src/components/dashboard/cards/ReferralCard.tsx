@@ -8,6 +8,8 @@ interface ReferralCardProps {
   onEmailShare: () => void;
 }
 
+const REFERRAL_URL = "https://preview--app-collaborate-hub.lovable.app/register";
+
 export const ReferralCard = ({ onShareLink, onEmailShare }: ReferralCardProps) => {
   return (
     <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">

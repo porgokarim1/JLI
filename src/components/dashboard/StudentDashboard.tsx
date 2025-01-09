@@ -11,7 +11,9 @@ import { NextLessonCard } from "./cards/NextLessonCard";
 import { EngagementCard } from "./cards/EngagementCard";
 import { ReferralCard } from "./cards/ReferralCard";
 import { Button } from "@/components/ui/button";
-import { User, MessageCircle } from "lucide-react";
+import { User, MessageCircle, X } from "lucide-react";
+
+const REFERRAL_URL = "https://preview--app-collaborate-hub.lovable.app/register";
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
@@ -44,7 +46,7 @@ const StudentDashboard = () => {
 
   const handleCopyReferralLink = async () => {
     try {
-      await navigator.clipboard.writeText(window.location.origin + '/register');
+      await navigator.clipboard.writeText(REFERRAL_URL);
       toast.success('Referral link copied to clipboard!');
     } catch (err) {
       toast.error('Failed to copy referral link');
@@ -53,7 +55,7 @@ const StudentDashboard = () => {
 
   const handleEmailShare = () => {
     const subject = encodeURIComponent("Join K'NOW ISRAEL");
-    const body = encodeURIComponent(`Hey! I thought you might be interested in joining K'NOW ISRAEL. Check it out here: ${window.location.origin}/register`);
+    const body = encodeURIComponent(`Hey! I thought you might be interested in joining K'NOW ISRAEL. Check it out here: ${REFERRAL_URL}`);
     window.location.href = `mailto:?subject=${subject}&body=${body}`;
   };
 
@@ -99,6 +101,15 @@ const StudentDashboard = () => {
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Record New Engagement</DialogTitle>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-4 top-4"
+              onClick={() => setShowEngagementForm(false)}
+            >
+              <X className="h-4 w-4" />
+              <span className="sr-only">Close</span>
+            </Button>
           </DialogHeader>
           <ConversationForm 
             onSuccess={() => setShowEngagementForm(false)} 

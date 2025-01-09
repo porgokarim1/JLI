@@ -11,7 +11,7 @@ import { NextLessonCard } from "./cards/NextLessonCard";
 import { EngagementCard } from "./cards/EngagementCard";
 import { ReferralCard } from "./cards/ReferralCard";
 import { Button } from "@/components/ui/button";
-import { User, MessageCircle, X } from "lucide-react";
+import { User, MessageCircle, X, Edit2 } from "lucide-react";
 
 const REFERRAL_URL = "https://preview--app-collaborate-hub.lovable.app/register";
 
@@ -20,6 +20,7 @@ const StudentDashboard = () => {
   const [showEngagementForm, setShowEngagementForm] = useState(false);
   const [showAttendanceForm, setShowAttendanceForm] = useState(false);
   const [recentEngagements, setRecentEngagements] = useState<any[]>([]);
+  const [selectedEngagement, setSelectedEngagement] = useState<any>(null);
 
   useEffect(() => {
     const fetchRecentEngagements = async () => {
@@ -41,7 +42,7 @@ const StudentDashboard = () => {
     };
 
     fetchRecentEngagements();
-  }, []);
+  }, [showEngagementForm]); // Refetch when form closes
 
   const handleCopyReferralLink = async () => {
     try {
@@ -56,6 +57,16 @@ const StudentDashboard = () => {
     const subject = encodeURIComponent("Join K'NOW ISRAEL");
     const body = encodeURIComponent(`Hey! I thought you might be interested in joining K'NOW ISRAEL. Check it out here: ${REFERRAL_URL}`);
     window.location.href = `mailto:?subject=${subject}&body=${body}`;
+  };
+
+  const handleEditEngagement = (engagement: any) => {
+    setSelectedEngagement(engagement);
+    setShowEngagementForm(true);
+  };
+
+  const handleFormClose = () => {
+    setShowEngagementForm(false);
+    setSelectedEngagement(null);
   };
 
   return (
@@ -85,6 +96,15 @@ const StudentDashboard = () => {
                 <div className="flex items-center gap-3">
                   <MessageCircle className="h-4 w-4 text-gray-400" />
                   <span className="text-sm text-gray-600">{engagement.comments || '-'}</span>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => handleEditEngagement(engagement)}
+                    className="h-8 w-8 text-gray-400 hover:text-primary"
+                  >
+                    <Edit2 className="h-4 w-4" />
+                    <span className="sr-only">Edit engagement</span>
+                  </Button>
                 </div>
               </div>
             ))
@@ -96,23 +116,26 @@ const StudentDashboard = () => {
         </div>
       </div>
 
-      <Dialog open={showEngagementForm} onOpenChange={setShowEngagementForm}>
+      <Dialog open={showEngagementForm} onOpenChange={handleFormClose}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Record New Engagement</DialogTitle>
+            <DialogTitle>
+              {selectedEngagement ? 'Edit Engagement' : 'Record New Engagement'}
+            </DialogTitle>
             <Button
               variant="ghost"
               size="icon"
               className="absolute right-4 top-4"
-              onClick={() => setShowEngagementForm(false)}
+              onClick={handleFormClose}
             >
               <X className="h-4 w-4" />
               <span className="sr-only">Close</span>
             </Button>
           </DialogHeader>
           <ConversationForm 
-            onSuccess={() => setShowEngagementForm(false)} 
-            onClose={() => setShowEngagementForm(false)}
+            initialData={selectedEngagement}
+            onSuccess={handleFormClose}
+            onClose={handleFormClose}
           />
         </DialogContent>
       </Dialog>

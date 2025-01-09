@@ -103,17 +103,24 @@ const StudentDashboard = () => {
                 className="flex items-center justify-between py-2 border-t border-gray-100"
               >
                 <div className="flex items-center gap-3">
-                  <User className="h-4 w-4 text-gray-400" />
-                  <span className="text-sm text-gray-600">
+                  <div className="flex items-center gap-2">
+                    <User className="h-4 w-4 text-gray-400" />
+                    <span className="text-sm font-medium text-gray-700">
+                      {engagement.participant_count} {engagement.participant_count === 1 ? 'peer' : 'peers'}
+                    </span>
+                  </div>
+                  <span className="text-sm text-gray-500">
                     {formatDistanceToNow(new Date(engagement.conversation_date), { addSuffix: true })}
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <MessageCircle className="h-4 w-4 text-gray-400" />
-                  <span className="text-sm text-gray-600">{engagement.comments || '-'}</span>
-                  <span className="text-sm">
+                  <span className="text-lg">
                     {getComfortEmoji(engagement.comfort_level || '')}
                   </span>
+                  <div className="flex items-center gap-2">
+                    <MessageCircle className="h-4 w-4 text-gray-400" />
+                    <span className="text-sm text-gray-600">{engagement.comments || '-'}</span>
+                  </div>
                   <Button
                     variant="ghost"
                     size="icon"

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import NavigationBar from "@/components/navigation/NavigationBar";
@@ -10,92 +10,125 @@ import { ProfileForm } from "@/components/profile/ProfileForm";
 import { AboutSection } from "@/components/profile/AboutSection";
 import { LogOut, Sparkles, User } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { ErrorBoundary } from "react-error-boundary";
 
-const ProfilePage = () => {
-  const navigate = useNavigate();
-  const [profile, setProfile] = useState<Profile | null>(null);
+const fetchProfile = async () => {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) throw new Error('User not found');
+
+  const { data, error } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', user.id)
+    .single();
+
+  if (error) throw error;
+  return data;
+};
+
+const LoadingSpinner = () => (
+  <div className="flex items-center justify-center p-8">
+    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+  </div>
+);
+
+const ErrorFallback = ({ error, resetErrorBoundary }: { error: Error, resetErrorBoundary: () => void }) => (
+  <div className="text-center p-8">
+    <p className="text-red-500 mb-4">Something went wrong:</p>
+    <pre className="text-sm mb-4">{error.message}</pre>
+    <Button onClick={resetErrorBoundary}>Try again</Button>
+  </div>
+);
+
+const ProfileContent = ({ profile, onSignOut }: { profile: Profile, onSignOut: () => Promise<void> }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState<Partial<Profile>>({});
+  const queryClient = useQueryClient();
   const isMobile = useIsMobile();
-
-  useEffect(() => {
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        navigate("/login");
-        return;
-      }
-      fetchProfile();
-    };
-
-    checkSession();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (!session) {
-        navigate("/login");
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [navigate]);
-
-  const fetchProfile = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        toast.error('User not found');
-        navigate("/login");
-        return;
-      }
-
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', user.id)
-        .single();
-
-      if (error) {
-        toast.error('Error fetching profile');
-        return;
-      }
-
-      setProfile(data);
-      setFormData(data);
-    } catch (error) {
-      console.error('Error:', error);
-      toast.error('An error occurred while fetching profile');
-    }
-  };
 
   const handleUpdate = async () => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        toast.error('User not found');
-        return;
-      }
-
       const { error } = await supabase
         .from('profiles')
         .update({
-          id: user.id,
           ...formData
         })
-        .eq('id', user.id);
+        .eq('id', profile.id);
 
-      if (error) {
-        toast.error('Error updating profile');
-        return;
-      }
+      if (error) throw error;
 
       toast.success('Profile updated successfully 🎉');
       setIsEditing(false);
-      fetchProfile();
+      queryClient.invalidateQueries({ queryKey: ['profile'] });
     } catch (error) {
       console.error('Error:', error);
       toast.error('An error occurred while updating profile');
     }
   };
+
+  const handleChange = (field: string, value: any) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  return (
+    <>
+      {isMobile && (
+        <Button
+          variant="destructive"
+          onClick={onSignOut}
+          className="w-full mb-4 flex items-center justify-center gap-2"
+        >
+          <LogOut className="h-4 w-4" />
+          Sign Out
+        </Button>
+      )}
+
+      <Card className="border-primary/20 bg-white/80 backdrop-blur-sm mb-4">
+        <CardHeader className="py-2">
+          <CardTitle className="flex justify-between items-center text-lg">
+            <span className="flex items-center gap-2">
+              Profile Information
+            </span>
+            <Button 
+              variant={isEditing ? "destructive" : "outline"}
+              onClick={() => setIsEditing(!isEditing)}
+              className="transition-all hover:scale-105 text-black text-sm"
+            >
+              {isEditing ? 'Cancel' : 'Edit Profile'}
+            </Button>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="py-2">
+          <ProfileForm 
+            profile={profile}
+            isEditing={isEditing}
+            formData={formData}
+            onSave={handleUpdate}
+            onCancel={() => setIsEditing(false)}
+            onChange={handleChange}
+          />
+        </CardContent>
+      </Card>
+
+      <AboutSection />
+    </>
+  );
+};
+
+const ProfilePage = () => {
+  const navigate = useNavigate();
+  const isMobile = useIsMobile();
+
+  const { data: profile, isLoading, error } = useQuery({
+    queryKey: ['profile'],
+    queryFn: fetchProfile,
+    retry: 1,
+    staleTime: 1000 * 60 * 5, // Cache for 5 minutes
+  });
 
   const handleSignOut = async () => {
     try {
@@ -109,13 +142,8 @@ const ProfilePage = () => {
     }
   };
 
-  const handleChange = (field: string, value: any) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
-  };
-
+  if (isLoading) return <LoadingSpinner />;
+  if (error) return <div>Error loading profile</div>;
   if (!profile) return null;
 
   return (
@@ -133,45 +161,11 @@ const ProfilePage = () => {
             </h1>
           </div>
 
-          {isMobile && (
-            <Button
-              variant="destructive"
-              onClick={handleSignOut}
-              className="w-full mb-4 flex items-center justify-center gap-2"
-            >
-              <LogOut className="h-4 w-4" />
-              Sign Out
-            </Button>
-          )}
-
-          <Card className="border-primary/20 bg-white/80 backdrop-blur-sm mb-4">
-            <CardHeader className="py-2">
-              <CardTitle className="flex justify-between items-center text-lg">
-                <span className="flex items-center gap-2">
-                  Profile Information
-                </span>
-                <Button 
-                  variant={isEditing ? "destructive" : "outline"}
-                  onClick={() => setIsEditing(!isEditing)}
-                  className="transition-all hover:scale-105 text-black text-sm"
-                >
-                  {isEditing ? 'Cancel' : 'Edit Profile'}
-                </Button>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="py-2">
-              <ProfileForm 
-                profile={profile}
-                isEditing={isEditing}
-                formData={formData}
-                onSave={handleUpdate}
-                onCancel={() => setIsEditing(false)}
-                onChange={handleChange}
-              />
-            </CardContent>
-          </Card>
-
-          <AboutSection />
+          <ErrorBoundary FallbackComponent={ErrorFallback} onReset={() => window.location.reload()}>
+            <Suspense fallback={<LoadingSpinner />}>
+              <ProfileContent profile={profile} onSignOut={handleSignOut} />
+            </Suspense>
+          </ErrorBoundary>
         </div>
       </div>
     </div>

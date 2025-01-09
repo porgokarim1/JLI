@@ -13,6 +13,7 @@ import Profile from "./pages/Profile";
 import About from "./pages/About";
 import Lessons from "./pages/Lessons";
 import BottomNav from "./components/navigation/BottomNav";
+import { AIChatbot } from "./components/chat/AIChatbot";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,7 +28,12 @@ const AppLayout = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
   return (
     <div className="pb-16 md:pb-0">
       <Outlet />
-      {isAuthenticated && <BottomNav />}
+      {isAuthenticated && (
+        <>
+          <BottomNav />
+          <AIChatbot />
+        </>
+      )}
     </div>
   );
 };

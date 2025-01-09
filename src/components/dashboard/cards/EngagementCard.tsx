@@ -21,6 +21,8 @@ export const EngagementCard = ({ onNewEngagement }: EngagementCardProps) => {
         .eq('user_id', user.id);
 
       if (error) throw error;
+      
+      // Sum up all participant counts to get total number of peers
       return data.reduce((sum, conv) => sum + (conv.participant_count || 0), 0);
     }
   });

@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { Menu, X, Home, MessageSquare, BookOpen, PieChart, User, Handshake } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
 import AuthenticatedButtons from "./AuthenticatedButtons";
 import UnauthenticatedButtons from "./UnauthenticatedButtons";
@@ -12,9 +11,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 const NavigationBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [showAIChat, setShowAIChat] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -54,60 +51,7 @@ const NavigationBar = () => {
           </button>
 
           <div className="hidden md:flex md:items-center md:space-x-4">
-            {isAuthenticated ? (
-              <div className="flex items-center space-x-4">
-                <Button
-                  variant="ghost"
-                  className="text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
-                  onClick={() => navigate("/")}
-                >
-                  <Home className="h-5 w-5 mr-2" />
-                  Home
-                </Button>
-                <Button
-                  variant="ghost"
-                  className="text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
-                  onClick={() => navigate("/engagement")}
-                >
-                  <Handshake className="h-5 w-5 mr-2" />
-                  Engagement
-                </Button>
-                <Button
-                  variant="ghost"
-                  className="text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
-                  onClick={() => navigate("/lessons")}
-                >
-                  <BookOpen className="h-5 w-5 mr-2" />
-                  Lessons
-                </Button>
-                <Button
-                  variant="ghost"
-                  className="text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
-                  onClick={() => setShowAIChat(true)}
-                >
-                  <MessageSquare className="h-5 w-5 mr-2" />
-                  AI Chat
-                </Button>
-                <Button
-                  variant="ghost"
-                  className="text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
-                  onClick={() => navigate("/about")}
-                >
-                  <PieChart className="h-5 w-5 mr-2" />
-                  Overview
-                </Button>
-                <Button
-                  variant="ghost"
-                  className="text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
-                  onClick={() => navigate("/profile")}
-                >
-                  <User className="h-5 w-5 mr-2" />
-                  Profile
-                </Button>
-              </div>
-            ) : (
-              <UnauthenticatedButtons />
-            )}
+            {isAuthenticated ? <AuthenticatedButtons /> : <UnauthenticatedButtons />}
           </div>
 
           <div className="md:hidden flex items-center">
@@ -131,16 +75,6 @@ const NavigationBar = () => {
           <MobileMenu isAuthenticated={isAuthenticated} setIsOpen={setIsOpen} />
         </div>
       </div>
-
-      <Dialog open={showAIChat} onOpenChange={setShowAIChat}>
-        <DialogContent className="w-[90vw] max-w-[380px] h-[90vh] max-h-[500px] p-4 md:p-6">
-          <div className="flex items-center justify-center h-full">
-            <p className="text-muted-foreground text-center animate-pulse">
-              AI chat assist coming soon!
-            </p>
-          </div>
-        </DialogContent>
-      </Dialog>
     </nav>
   );
 };

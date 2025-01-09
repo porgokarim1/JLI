@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import StudentDashboard from "@/components/dashboard/StudentDashboard";
 import InstructorDashboard from "@/components/dashboard/InstructorDashboard";
 import AdminDashboard from "@/components/dashboard/AdminDashboard";
+import FloatingChatbox from "@/components/chat/FloatingChatbox";
 import WelcomePopup from "@/components/welcome/WelcomePopup";
 
 const Index = () => {
@@ -142,6 +143,7 @@ const Index = () => {
           renderDashboard()
         )}
       </div>
+      <FloatingChatbox />
       <WelcomePopup 
         isOpen={showWelcomePopup} 
         onClose={() => setShowWelcomePopup(false)} 

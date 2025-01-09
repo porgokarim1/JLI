@@ -9,11 +9,7 @@ const HeroSection = () => {
       <div className="grid md:grid-cols-2 gap-2 items-center w-full max-w-3xl mx-auto">
         <div className="text-center space-y-2 relative z-10 bg-white/80 md:bg-transparent p-3 rounded-lg">
           <div className="space-y-2">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-none relative text-3d">
-              K'NOW
-              <br />
-              ISRAEL
-            </h1>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-none relative text-3d">K'NOW<br />ISRAEL</h1>
             
             <div className="pt-2 flex flex-col sm:flex-row gap-2 justify-center">
               <Button 

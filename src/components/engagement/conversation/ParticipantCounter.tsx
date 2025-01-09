@@ -15,13 +15,13 @@ const ParticipantCounter = ({ value, onChange }: ParticipantCounterProps) => {
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:items-center sm:justify-center">
+    <div className="flex flex-nowrap gap-2 overflow-x-auto">
       {options.map((option) => (
         <Button
           key={option.count}
           type="button"
           variant={value === option.count ? "default" : "outline"}
-          className="w-full text-xs sm:text-sm py-1 px-2 h-auto"
+          className="flex-shrink-0 text-xs py-1 px-2 h-8 whitespace-nowrap"
           onClick={() => onChange(option.count)}
         >
           {option.label}

@@ -8,8 +8,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
-import { Calendar } from "lucide-react";
 import confetti from 'canvas-confetti';
+import ParticipantCounter from "./conversation/ParticipantCounter";
 
 const formSchema = z.object({
   comfort_level: z.enum(["very_comfortable", "comfortable", "uncomfortable", "very_uncomfortable", "neutral"]),
@@ -36,20 +36,20 @@ const ComfortLevelSelector = ({ value, onChange }: { value: string, onChange: (v
   ];
 
   return (
-    <div className="flex flex-wrap gap-2 justify-start">
+    <div className="flex flex-nowrap gap-2 justify-start overflow-x-auto pb-2">
       {options.map((option) => (
         <button
           key={option.value}
           type="button"
           onClick={() => onChange(option.value)}
-          className={`flex items-center gap-1.5 p-1.5 rounded-lg border-2 transition-all ${
+          className={`flex-shrink-0 flex items-center gap-1.5 p-1.5 rounded-lg border-2 transition-all whitespace-nowrap ${
             value === option.value
               ? "border-primary bg-primary/10"
               : "border-gray-200 hover:border-primary/50"
           }`}
         >
           <span className="text-lg">{option.emoji}</span>
-          <span className="text-xs whitespace-nowrap">{option.label}</span>
+          <span className="text-xs">{option.label}</span>
         </button>
       ))}
     </div>
@@ -134,6 +134,9 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
     }
   };
 
+  // Get today's date in YYYY-MM-DD format for max date
+  const today = new Date().toISOString().split('T')[0];
+
   return (
     <Form {...form}>
       <form 
@@ -148,7 +151,12 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
             render={({ field }) => (
               <FormItem className="flex-1">
                 <FormControl>
-                  <Input type="date" {...field} className="h-8" />
+                  <Input 
+                    type="date" 
+                    {...field} 
+                    max={today}
+                    className="h-8" 
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -156,26 +164,32 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
           />
         </div>
 
-        <div className="flex items-center justify-between gap-2">
-          <FormLabel className="text-sm whitespace-nowrap">How many involved?</FormLabel>
-          <FormField
-            control={form.control}
-            name="participant_count"
-            render={({ field }) => (
-              <FormItem className="flex-1">
-                <FormControl>
-                  <Input 
-                    type="number" 
-                    min="1"
-                    max="99"
-                    {...field}
-                    onChange={e => field.onChange(parseInt(e.target.value))}
-                    className="h-8"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between gap-2">
+            <FormLabel className="text-sm whitespace-nowrap">How many involved?</FormLabel>
+            <FormField
+              control={form.control}
+              name="participant_count"
+              render={({ field }) => (
+                <FormItem className="flex-1">
+                  <FormControl>
+                    <Input 
+                      type="number" 
+                      min="1"
+                      max="99"
+                      {...field}
+                      onChange={e => field.onChange(parseInt(e.target.value))}
+                      className="h-8 w-20"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <ParticipantCounter 
+            value={form.watch("participant_count")} 
+            onChange={(value) => form.setValue("participant_count", value)} 
           />
         </div>
 

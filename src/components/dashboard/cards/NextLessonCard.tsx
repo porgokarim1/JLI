@@ -10,10 +10,10 @@ interface NextLessonCardProps {
 }
 
 export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
-  const { data: nextLesson } = useQuery({
+  const { data: nextLesson, isLoading } = useQuery({
     queryKey: ['next-lesson'],
     queryFn: async () => {
-      const today = new Date().toISOString();
+      const today = new Date().toISOString().split('T')[0];
       const { data, error } = await supabase
         .from('lessons_schedule')
         .select(`
@@ -34,6 +34,16 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
     }
   });
 
+  if (isLoading) {
+    return (
+      <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg animate-pulse">
+        <CardContent className="p-4">
+          <div className="h-20"></div>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
       <CardContent className="p-4">
@@ -42,8 +52,9 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
             <BookOpen className="h-6 w-6 text-primary" />
             <div className="space-y-1">
               <h3 className="font-medium text-sm">Next Lesson</h3>
+              <p className="text-sm font-medium">{nextLesson?.lesson?.title || 'No upcoming lessons'}</p>
               <p className="text-xs text-muted-foreground">
-                {nextLesson ? format(new Date(nextLesson.lesson_date), 'MM/dd/yyyy') : 'TBD'} 
+                {nextLesson ? format(new Date(nextLesson.lesson_date), 'MM/dd/yyyy') : ''} 
                 {nextLesson?.start_time ? ` @${format(new Date(`2000-01-01T${nextLesson.start_time}`), 'h:mm a')}` : ''}
               </p>
               <div className="flex items-center gap-1 text-xs text-muted-foreground">

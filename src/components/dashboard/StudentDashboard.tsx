@@ -51,48 +51,49 @@ const StudentDashboard = () => {
   };
 
   return (
-    <div className="h-[calc(100vh-4rem)] p-4 max-w-7xl mx-auto">
+    <div className="h-full min-h-[calc(100vh-4rem)] p-4 max-w-7xl mx-auto space-y-4">
       <DashboardHeader />
       
-      <div className="flex flex-col md:flex-row gap-4 mt-4">
-        {/* Left side - Main content */}
-        <div className="flex-1 space-y-4">
-          <NextLessonCard onAttendanceClick={() => setShowAttendanceForm(true)} />
-          <ReferralCard onShareLink={handleCopyReferralLink} />
-          <EngagementCard onNewEngagement={() => setShowEngagementForm(true)} />
-        </div>
+      {/* Main Dashboard Cards */}
+      <div className="space-y-4">
+        <NextLessonCard onAttendanceClick={() => setShowAttendanceForm(true)} />
+        <ReferralCard onShareLink={handleCopyReferralLink} />
+        <EngagementCard onNewEngagement={() => setShowEngagementForm(true)} />
+      </div>
 
-        {/* Right side - Recent Engagements */}
-        <div className="w-full md:w-64 space-y-2">
-          <h3 className="font-medium text-sm mb-2">Recent Engagements</h3>
-          <div className="space-y-2">
-            {recentEngagements.map((engagement) => (
-              <div key={engagement.id} className="bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg p-3 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span role="img" aria-label="mood">
-                    {engagement.comfort_level === 'very_comfortable' ? '😊' : 
-                     engagement.comfort_level === 'comfortable' ? '🙂' : 
-                     engagement.comfort_level === 'neutral' ? '😐' : 
-                     engagement.comfort_level === 'uncomfortable' ? '😕' : '😔'}
-                  </span>
-                  <span className="text-sm text-gray-600">
-                    {formatDistanceToNow(new Date(engagement.conversation_date), { addSuffix: true })}
-                  </span>
-                </div>
-                <span className="text-sm text-gray-600">{engagement.participant_count} peers</span>
+      {/* Recent Engagements Section - Now at the bottom */}
+      <div className="w-full space-y-2 bg-white/50 backdrop-blur-sm rounded-lg p-4">
+        <h3 className="font-medium text-sm mb-2">Recent Engagements</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+          {recentEngagements.map((engagement) => (
+            <div 
+              key={engagement.id} 
+              className="bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg p-3 flex items-center justify-between"
+            >
+              <div className="flex items-center gap-2">
+                <span role="img" aria-label="mood">
+                  {engagement.comfort_level === 'very_comfortable' ? '😊' : 
+                   engagement.comfort_level === 'comfortable' ? '🙂' : 
+                   engagement.comfort_level === 'neutral' ? '😐' : 
+                   engagement.comfort_level === 'uncomfortable' ? '😕' : '😔'}
+                </span>
+                <span className="text-sm text-gray-600">
+                  {formatDistanceToNow(new Date(engagement.conversation_date), { addSuffix: true })}
+                </span>
               </div>
-            ))}
-            {recentEngagements.length >= 3 && (
-              <Button 
-                variant="default"
-                className="w-full text-xs text-muted-foreground bg-gray-100 hover:bg-gray-200"
-                onClick={() => navigate('/engagement')}
-              >
-                More
-              </Button>
-            )}
-          </div>
+              <span className="text-sm text-gray-600">{engagement.participant_count} peers</span>
+            </div>
+          ))}
         </div>
+        {recentEngagements.length >= 3 && (
+          <Button 
+            variant="default"
+            className="w-full mt-2 text-xs text-muted-foreground bg-gray-100 hover:bg-gray-200"
+            onClick={() => navigate('/engagement')}
+          >
+            View All Engagements
+          </Button>
+        )}
       </div>
 
       <Dialog open={showEngagementForm} onOpenChange={setShowEngagementForm}>

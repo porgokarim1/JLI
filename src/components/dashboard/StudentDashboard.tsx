@@ -70,8 +70,8 @@ const StudentDashboard = () => {
                   </div>
                 </div>
                 <Button 
-                  variant="outline" 
-                  className="border-primary text-primary hover:bg-primary hover:text-black text-xs h-8"
+                  variant="default"
+                  className="text-black h-8 text-xs"
                   onClick={() => setShowAttendanceForm(true)}
                 >
                   Confirm Attendance
@@ -92,8 +92,8 @@ const StudentDashboard = () => {
                   </div>
                 </div>
                 <Button 
-                  variant="outline"
-                  className="border-primary text-primary hover:bg-primary hover:text-black text-xs h-8"
+                  variant="default"
+                  className="text-black h-8 text-xs"
                   onClick={() => setShowEngagementForm(true)}
                 >
                   <Plus className="h-4 w-4 mr-1" /> New
@@ -113,7 +113,7 @@ const StudentDashboard = () => {
                   </div>
                 </div>
                 <div className="flex flex-col items-end gap-2">
-                  <Button variant="ghost" size="sm" className="h-8 text-xs flex items-center gap-2">
+                  <Button variant="default" size="sm" className="h-8 text-xs flex items-center gap-2 text-black">
                     <Share2 className="h-4 w-4" />
                     Share Link
                   </Button>
@@ -146,8 +146,8 @@ const StudentDashboard = () => {
             ))}
             {recentEngagements.length >= 3 && (
               <Button 
-                variant="ghost" 
-                className="w-full text-xs"
+                variant="default"
+                className="w-full text-xs text-black"
                 onClick={() => navigate('/engagement')}
               >
                 More

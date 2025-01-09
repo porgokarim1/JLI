@@ -12,6 +12,7 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/comp
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import ParticipantCounter from "./conversation/ParticipantCounter";
 import confetti from 'canvas-confetti';
+import { X } from "lucide-react";
 
 const formSchema = z.object({
   comfort_level: z.enum(["very_comfortable", "comfortable", "uncomfortable", "very_uncomfortable", "neutral"]),
@@ -25,9 +26,10 @@ type FormData = z.infer<typeof formSchema>;
 interface ConversationFormProps {
   initialData?: FormData & { id?: string };
   onSuccess?: () => void;
+  onClose?: () => void;
 }
 
-const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => {
+const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormProps) => {
   const [participantCount, setParticipantCount] = useState(initialData?.participant_count || 1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showThankYou, setShowThankYou] = useState(false);
@@ -108,6 +110,16 @@ const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => 
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 max-w-sm mx-auto">
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            className="absolute right-2 top-2 h-8 w-8 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+            onClick={onClose}
+          >
+            <X className="h-4 w-4" />
+            <span className="sr-only">Close</span>
+          </Button>
           <div className="space-y-3">
             <FormField
               control={form.control}
@@ -186,6 +198,16 @@ const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => 
 
       <Dialog open={showThankYou} onOpenChange={setShowThankYou}>
         <DialogContent className="text-center sm:max-w-[425px]">
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            className="absolute right-2 top-2 h-8 w-8 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+            onClick={handleThankYouClose}
+          >
+            <X className="h-4 w-4" />
+            <span className="sr-only">Close</span>
+          </Button>
           <p className="py-4">Your conversation has been recorded successfully!</p>
           <Button onClick={handleThankYouClose} className="mt-4">
             OK

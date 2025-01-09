@@ -80,7 +80,7 @@ export const CompletionCodeDialog = ({ lessonId, onSuccess, open, onOpenChange }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Enter Attendance Code</DialogTitle>
           <DialogDescription>
@@ -90,7 +90,7 @@ export const CompletionCodeDialog = ({ lessonId, onSuccess, open, onOpenChange }
         <Button
           variant="ghost"
           size="icon"
-          className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+          className="absolute right-2 top-2 h-8 w-8 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
           onClick={() => onOpenChange(false)}
         >
           <X className="h-4 w-4" />

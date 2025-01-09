@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Calendar, Clock, CheckCircle2, UserCheck } from "lucide-react";
+import { MapPin, Calendar, Clock, CheckCircle2, UserCheck, User } from "lucide-react";
 import { LessonWithProgress } from "./types";
 import { CompletionCodeDialog } from "../lesson/CompletionCodeDialog";
 import { useState } from "react";
@@ -72,6 +72,10 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
             <Clock className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
             <span>{lesson.lesson_time ? format(new Date(`2000-01-01T${lesson.lesson_time}`), 'p') : 'TBD'}</span>
           </div>
+          <div className="flex items-center gap-1 sm:gap-2">
+            <User className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
+            <span>{lesson.instructor_name || 'TBD'}</span>
+          </div>
         </div>
       </CardHeader>
       <CardContent className="mt-auto p-2 sm:p-6 pt-0 sm:pt-0">
@@ -82,7 +86,7 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
           </div>
         ) : (
           <Button 
-            className="w-full flex items-center justify-center gap-1 sm:gap-2 bg-[#FFD700] hover:bg-[#FFD700]/90 text-black mb-1 sm:mb-2 text-xs sm:text-sm h-6 sm:h-10"
+            className="w-full flex items-center justify-center gap-1 sm:gap-2 text-black mb-1 sm:mb-2 text-xs sm:text-sm h-6 sm:h-10"
             onClick={() => setIsDialogOpen(true)}
           >
             <UserCheck className="h-3 w-3 sm:h-4 sm:w-4" />

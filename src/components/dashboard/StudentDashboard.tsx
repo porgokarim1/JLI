@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Plus, Gift, Share2, LayoutDashboard } from "lucide-react";
+import { BookOpen, Plus, Gift, Share2 } from "lucide-react";
 import DashboardHeader from "./DashboardHeader";
 import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -71,28 +71,6 @@ const StudentDashboard = () => {
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <span className="text-xl">🤝</span>
-                  <div>
-                    <h3 className="font-medium text-sm">Engagements</h3>
-                    <p className="text-xs text-muted-foreground">{recentEngagements.length}/7 peers</p>
-                  </div>
-                </div>
-                <Button 
-                  variant="outline" 
-                  className="flex items-center gap-2 text-xs h-8"
-                  onClick={() => setShowEngagementForm(true)}
-                >
-                  <Plus className="h-4 w-4" />
-                  New
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
                   <Gift className="h-6 w-6 text-primary" />
                   <div>
                     <h3 className="font-medium text-sm">Referral Program</h3>
@@ -111,9 +89,9 @@ const StudentDashboard = () => {
           </Card>
         </div>
 
-        {/* Right side - Engagements list */}
+        {/* Right side - Recent Engagements */}
         <div className="w-full md:w-64 space-y-2">
-          <h3 className="font-medium text-sm mb-2">ENGAGEMENTS</h3>
+          <h3 className="font-medium text-sm mb-2">Recent Engagements</h3>
           <div className="space-y-2">
             {recentEngagements.slice(0, 3).map((engagement) => (
               <div key={engagement.id} className="bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg p-3 flex items-center justify-between">

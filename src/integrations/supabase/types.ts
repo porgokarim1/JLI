@@ -428,6 +428,7 @@ export type Database = {
         | "comfortable"
         | "uncomfortable"
         | "very_uncomfortable"
+        | "neutral"
       conversation_status: "pending" | "completed" | "follow_up"
       lesson_status: "not_started" | "in_progress" | "completed"
       media_type: "image" | "video"

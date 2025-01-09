@@ -14,7 +14,7 @@ import ParticipantCounter from "./conversation/ParticipantCounter";
 import confetti from 'canvas-confetti';
 
 const formSchema = z.object({
-  comfort_level: z.enum(["very_comfortable", "comfortable", "uncomfortable", "very_uncomfortable"]),
+  comfort_level: z.enum(["very_comfortable", "comfortable", "uncomfortable", "very_uncomfortable", "neutral"]),
   comments: z.string().optional(),
   conversation_date: z.string(),
   participant_count: z.number().min(1)
@@ -107,8 +107,8 @@ const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => 
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="space-y-6">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <div className="space-y-4">
             <FormField
               control={form.control}
               name="conversation_date"
@@ -139,16 +139,17 @@ const ConversationForm = ({ initialData, onSuccess }: ConversationFormProps) => 
               name="comfort_level"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>How did it feel?</FormLabel>
+                  <FormLabel>How did it go?</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select comfort level" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
+                    <SelectContent className="bg-white">
                       <SelectItem value="very_comfortable">Very Comfortable 😊</SelectItem>
                       <SelectItem value="comfortable">Comfortable 🙂</SelectItem>
+                      <SelectItem value="neutral">Neutral 😐</SelectItem>
                       <SelectItem value="uncomfortable">Uncomfortable 😕</SelectItem>
                       <SelectItem value="very_uncomfortable">Very Uncomfortable 😣</SelectItem>
                     </SelectContent>

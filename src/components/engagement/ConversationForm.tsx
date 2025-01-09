@@ -9,7 +9,6 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import ParticipantCounter from "./conversation/ParticipantCounter";
 import confetti from 'canvas-confetti';
 import { X } from "lucide-react";
@@ -39,7 +38,7 @@ const ComfortLevelSelector = ({ value, onChange }: { value: string, onChange: (v
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
       {options.map((option) => (
         <button
           key={option.value}
@@ -51,7 +50,7 @@ const ComfortLevelSelector = ({ value, onChange }: { value: string, onChange: (v
               : "border-gray-200 hover:border-primary/50"
           }`}
         >
-          <span className="text-3xl mb-2">{option.emoji}</span>
+          <span className="text-2xl sm:text-3xl mb-1 sm:mb-2">{option.emoji}</span>
           <span className="text-xs text-center">{option.label}</span>
         </button>
       ))}
@@ -139,8 +138,8 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 max-w-sm mx-auto">
-          <div className="space-y-3">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full max-w-md mx-auto px-4">
+          <div className="space-y-4">
             <FormField
               control={form.control}
               name="conversation_date"

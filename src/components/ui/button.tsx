@@ -17,6 +17,7 @@ const buttonVariants = cva(
           "bg-[#F4D32F] text-black hover:bg-[#F4D32F]/90",
         ghost: "hover:bg-[#F4D32F] hover:text-black",
         link: "text-[#F4D32F] underline-offset-4 hover:underline",
+        join: "bg-[#FFD700] text-black hover:bg-[#FFD700]/90 shadow-md", // Special variant for join buttons
       },
       size: {
         default: "h-10 px-4 py-2",

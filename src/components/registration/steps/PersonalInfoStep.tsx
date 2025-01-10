@@ -38,6 +38,7 @@ export const PersonalInfoStep = ({ formData, onChange, onNext, isLoading }: Pers
           <Input
             id="firstName"
             required
+            autoFocus
             value={formData.firstName}
             onChange={(e) => onChange("firstName", e.target.value)}
           />

@@ -12,6 +12,12 @@ interface GenderStepProps {
 }
 
 export const GenderStep = ({ formData, onChange, onNext, onBack }: GenderStepProps) => {
+  const handleGenderSelect = (gender: string) => {
+    onChange("gender", gender);
+    // Auto-continue after selection
+    setTimeout(() => onNext(), 300); // Small delay for visual feedback
+  };
+
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="text-center space-y-2">
@@ -19,14 +25,14 @@ export const GenderStep = ({ formData, onChange, onNext, onBack }: GenderStepPro
         <p className="text-muted-foreground">Choose your gender</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-4">
         <Card
           className={`p-6 cursor-pointer transition-all hover:scale-105 ${
             formData.gender === "male"
               ? "border-primary bg-primary/10"
               : "hover:border-primary"
           }`}
-          onClick={() => onChange("gender", "male")}
+          onClick={() => handleGenderSelect("male")}
         >
           <div className="flex flex-col items-center space-y-4">
             <div className="relative">
@@ -43,7 +49,7 @@ export const GenderStep = ({ formData, onChange, onNext, onBack }: GenderStepPro
               ? "border-primary bg-primary/10"
               : "hover:border-primary"
           }`}
-          onClick={() => onChange("gender", "female")}
+          onClick={() => handleGenderSelect("female")}
         >
           <div className="flex flex-col items-center space-y-4">
             <div className="relative">

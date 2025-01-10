@@ -140,21 +140,21 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
     <Form {...form}>
       <form 
         onSubmit={form.handleSubmit(onSubmit)} 
-        className="space-y-4 w-full max-w-2xl mx-auto px-4 md:px-6"
+        className="space-y-6 w-full max-w-2xl mx-auto px-4 md:px-6"
       >
         <FormField
           control={form.control}
           name="conversation_date"
           render={({ field }) => (
             <FormItem>
-              <div className="flex items-center justify-between gap-4">
-                <FormLabel className="text-sm whitespace-nowrap">When was it? 📆</FormLabel>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                <FormLabel className="text-sm whitespace-nowrap min-w-[100px]">When was it? 📆</FormLabel>
                 <FormControl>
                   <Input 
                     type="date" 
                     {...field} 
                     max={today}
-                    className="h-10 text-sm w-40" 
+                    className="h-9 text-sm w-full sm:w-40 border-gray-200" 
                   />
                 </FormControl>
               </div>
@@ -164,8 +164,8 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
         />
 
         <div className="space-y-2">
-          <div className="flex items-center justify-between gap-4">
-            <FormLabel className="text-sm">How many involved?</FormLabel>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+            <FormLabel className="text-sm min-w-[100px]">How many involved?</FormLabel>
             <FormField
               control={form.control}
               name="participant_count"
@@ -178,7 +178,7 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
                       max="99"
                       {...field}
                       onChange={e => field.onChange(parseInt(e.target.value))}
-                      className="h-10 text-sm w-20"
+                      className="h-9 text-sm w-20 border-gray-200"
                     />
                   </FormControl>
                   <FormMessage />
@@ -186,10 +186,12 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
               )}
             />
           </div>
-          <ParticipantCounter 
-            value={form.watch("participant_count")} 
-            onChange={(value) => form.setValue("participant_count", value)} 
-          />
+          <div className="overflow-x-auto sm:overflow-visible">
+            <ParticipantCounter 
+              value={form.watch("participant_count")} 
+              onChange={(value) => form.setValue("participant_count", value)} 
+            />
+          </div>
         </div>
 
         <FormField
@@ -219,7 +221,7 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
                 <Textarea 
                   placeholder="Share your experience..." 
                   {...field} 
-                  className="min-h-[80px] text-sm resize-y w-full"
+                  className="min-h-[80px] text-sm resize-y w-full border-gray-200"
                 />
               </FormControl>
               <FormMessage />

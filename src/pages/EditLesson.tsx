@@ -58,7 +58,18 @@ const EditLesson = () => {
 
         if (lessonError) throw lessonError;
 
-        setLesson(lessonData);
+        // Transform the lesson data to match LessonWithProgress type
+        const lessonWithProgress: LessonWithProgress = {
+          ...lessonData,
+          media: lessonData.lesson_media || [],
+          progress: {
+            status: 'not_started',
+            time_spent: 0,
+            last_position: 0
+          }
+        };
+
+        setLesson(lessonWithProgress);
       } catch (error) {
         console.error('Error fetching lesson:', error);
         toast.error('Failed to load lesson');

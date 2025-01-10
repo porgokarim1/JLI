@@ -9,7 +9,11 @@ const HeroSection = () => {
       <div className="grid md:grid-cols-2 gap-2 items-center w-full max-w-3xl mx-auto">
         <div className="text-center space-y-2 relative z-10 bg-white/80 md:bg-transparent p-3 rounded-lg">
           <div className="space-y-2">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-none relative text-3d">K'NOW<br />ISRAEL</h1>
+            <img 
+              src="https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/General%20images/Know%20Israel%20Logo%20Black.svg"
+              alt="K'NOW ISRAEL"
+              className="w-full h-auto max-w-[300px] mx-auto"
+            />
             
             <div className="pt-2 flex flex-col sm:flex-row gap-2 justify-center">
               <Button 

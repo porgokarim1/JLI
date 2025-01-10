@@ -4,9 +4,10 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { StudentList } from "./StudentList";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Users, Calendar as CalendarIcon } from "lucide-react";
+import { Users, Calendar as CalendarIcon, BookOpen } from "lucide-react";
 import { ScheduleCalendar } from "./schedule/ScheduleCalendar";
 import ScheduledLessons from "./schedule/ScheduledLessons";
+import LessonsList from "./LessonsList";
 
 const InstructorDashboard = () => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
@@ -42,7 +43,7 @@ const InstructorDashboard = () => {
       </h1>
       
       <Tabs defaultValue="schedule" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2 lg:w-[400px]">
+        <TabsList className="grid w-full grid-cols-3 lg:w-[400px]">
           <TabsTrigger value="schedule" className="flex items-center gap-2">
             <CalendarIcon className="h-4 w-4" />
             Schedule
@@ -50,6 +51,10 @@ const InstructorDashboard = () => {
           <TabsTrigger value="students" className="flex items-center gap-2">
             <Users className="h-4 w-4" />
             Students
+          </TabsTrigger>
+          <TabsTrigger value="lessons" className="flex items-center gap-2">
+            <BookOpen className="h-4 w-4" />
+            Lessons
           </TabsTrigger>
         </TabsList>
 
@@ -70,6 +75,10 @@ const InstructorDashboard = () => {
 
         <TabsContent value="students">
           <StudentList />
+        </TabsContent>
+
+        <TabsContent value="lessons">
+          <LessonsList />
         </TabsContent>
       </Tabs>
     </div>

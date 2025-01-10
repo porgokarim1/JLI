@@ -1,8 +1,10 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Calendar, Clock, CheckCircle2 } from "lucide-react";
+import { MapPin, Calendar, Clock, CheckCircle2, FilePenLine } from "lucide-react";
 import { LessonWithProgress } from "./types";
 import { format } from "date-fns";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 interface LessonCardProps {
   lesson: LessonWithProgress;
@@ -10,6 +12,8 @@ interface LessonCardProps {
 }
 
 export const LessonCard = ({ lesson }: LessonCardProps) => {
+  const navigate = useNavigate();
+  
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'completed':
@@ -29,14 +33,24 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
       <CardHeader className="flex-grow p-2 sm:p-6">
         <div className="flex items-center justify-between mb-1 sm:mb-2">
           <CardTitle className="text-sm sm:text-lg line-clamp-1">{lesson.title}</CardTitle>
-          {shouldShowStatus() && (
-            <Badge 
-              variant="secondary"
-              className={`${getStatusColor(lesson.progress?.status || '')} text-white text-xs`}
+          <div className="flex items-center gap-2">
+            {shouldShowStatus() && (
+              <Badge 
+                variant="secondary"
+                className={`${getStatusColor(lesson.progress?.status || '')} text-white text-xs`}
+              >
+                {lesson.progress?.status === 'completed' ? 'completed' : 'in progress'}
+              </Badge>
+            )}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8"
+              onClick={() => navigate(`/lesson/${lesson.id}`)}
             >
-              {lesson.progress?.status === 'completed' ? 'completed' : 'in progress'}
-            </Badge>
-          )}
+              <FilePenLine className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
         <CardDescription className="text-xs sm:text-sm line-clamp-2">{lesson.description}</CardDescription>
         

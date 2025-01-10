@@ -34,7 +34,7 @@ const HeroSection = () => {
             </div>
           </div>
         </div>
-        <div className="w-full h-[200px] md:h-[350px] flex justify-center">
+        <div className="w-full h-[300px] md:h-[450px] flex justify-center">
           <img
             src="https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/General%20images/SM-5785-KI-GIF-1-Transparent-Story.gif"
             alt="K'NOW Israel Animation"

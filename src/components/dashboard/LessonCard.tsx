@@ -5,6 +5,8 @@ import { LessonWithProgress } from "./types";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useEffect, useState } from "react";
 
 interface LessonCardProps {
   lesson: LessonWithProgress;
@@ -13,7 +15,25 @@ interface LessonCardProps {
 
 export const LessonCard = ({ lesson }: LessonCardProps) => {
   const navigate = useNavigate();
+  const [isInstructor, setIsInstructor] = useState(false);
   
+  useEffect(() => {
+    const checkRole = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single();
+
+      setIsInstructor(profile?.role === 'instructor' || profile?.role === 'administrator');
+    };
+
+    checkRole();
+  }, []);
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'completed':
@@ -42,14 +62,26 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
                 {lesson.progress?.status === 'completed' ? 'completed' : 'in progress'}
               </Badge>
             )}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8"
-              onClick={() => navigate(`/lesson/${lesson.id}`)}
-            >
-              <FilePenLine className="h-4 w-4" />
-            </Button>
+            <div className="flex gap-2">
+              {isInstructor && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8"
+                  onClick={() => navigate(`/lesson/${lesson.id}/edit`)}
+                >
+                  <FilePenLine className="h-4 w-4" />
+                </Button>
+              )}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8"
+                onClick={() => navigate(`/lesson/${lesson.id}`)}
+              >
+                <FilePenLine className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
         </div>
         <CardDescription className="text-xs sm:text-sm line-clamp-2">{lesson.description}</CardDescription>

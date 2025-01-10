@@ -4,36 +4,29 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { StudentList } from "./StudentList";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Users, Calendar as CalendarIcon, BookOpen } from "lucide-react";
-import { ScheduleCalendar } from "./schedule/ScheduleCalendar";
-import ScheduledLessons from "./schedule/ScheduledLessons";
+import { Users, BookOpen } from "lucide-react";
 import LessonsList from "./LessonsList";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { MapPin, Calendar, Clock } from "lucide-react";
 
 const InstructorDashboard = () => {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
-
-  const { data: schedules, refetch: refetchSchedules } = useQuery({
-    queryKey: ['lessons-schedule', selectedDate],
+  const { data: nextLesson } = useQuery({
+    queryKey: ['next-lesson'],
     queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return [];
-
-      const { data, error } = await supabase
-        .from('lessons_schedule')
-        .select(`
-          *,
-          lesson:lessons(title, description),
-          attendance:lesson_attendance(
-            student:profiles(first_name, last_name)
-          )
-        `)
-        .eq('instructor_id', user.id)
-        .eq('lesson_date', selectedDate ? format(selectedDate, 'yyyy-MM-dd') : null);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
       
+      const { data, error } = await supabase
+        .from('lessons')
+        .select('*')
+        .gte('lesson_date', today.toISOString())
+        .order('lesson_date', { ascending: true })
+        .limit(1)
+        .single();
+
       if (error) throw error;
       return data;
     },
-    enabled: !!selectedDate,
   });
 
   return (
@@ -41,13 +34,34 @@ const InstructorDashboard = () => {
       <h1 className="text-3xl font-bold mb-6 bg-gradient-to-r from-primary to-purple-600 text-transparent bg-clip-text">
         Instructor Dashboard
       </h1>
+
+      {nextLesson && (
+        <Card className="mb-6 bg-white/90 backdrop-blur-sm border-indigo-100">
+          <CardHeader>
+            <CardTitle className="text-lg">Next Upcoming Lesson</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <h3 className="font-medium">{nextLesson.title}</h3>
+            <div className="text-sm space-y-1 text-gray-600">
+              <div className="flex items-center gap-2">
+                <Calendar className="h-4 w-4 text-primary" />
+                <span>{nextLesson.lesson_date ? format(new Date(nextLesson.lesson_date), 'PPP') : 'TBD'}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock className="h-4 w-4 text-primary" />
+                <span>{nextLesson.lesson_time ? format(new Date(`2000-01-01T${nextLesson.lesson_time}`), 'p') : 'TBD'}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <MapPin className="h-4 w-4 text-primary" />
+                <span>{nextLesson.location || 'TBD'}</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
       
-      <Tabs defaultValue="schedule" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-3 lg:w-[400px]">
-          <TabsTrigger value="schedule" className="flex items-center gap-2">
-            <CalendarIcon className="h-4 w-4" />
-            Schedule
-          </TabsTrigger>
+      <Tabs defaultValue="students" className="space-y-6">
+        <TabsList className="grid w-full grid-cols-2 lg:w-[400px]">
           <TabsTrigger value="students" className="flex items-center gap-2">
             <Users className="h-4 w-4" />
             Students
@@ -57,21 +71,6 @@ const InstructorDashboard = () => {
             Lessons
           </TabsTrigger>
         </TabsList>
-
-        <TabsContent value="schedule" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <ScheduleCalendar 
-              selectedDate={selectedDate}
-              setSelectedDate={setSelectedDate}
-            />
-            <div className="lg:col-span-2">
-              <ScheduledLessons 
-                schedules={schedules}
-                refetchSchedules={refetchSchedules}
-              />
-            </div>
-          </div>
-        </TabsContent>
 
         <TabsContent value="students">
           <StudentList />

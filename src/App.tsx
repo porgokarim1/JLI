@@ -14,6 +14,7 @@ import About from "./pages/About";
 import Lessons from "./pages/Lessons";
 import BottomNav from "./components/navigation/BottomNav";
 import AIChat from "./pages/AIChat";
+import LessonView from "./pages/LessonView";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -135,6 +136,10 @@ const App = () => {
         {
           path: "/ai-chat",
           element: !isAuthenticated ? <Navigate to="/login" /> : <AIChat />,
+        },
+        {
+          path: "/lessons/:id",
+          element: !isAuthenticated ? <Navigate to="/login" /> : <LessonView />,
         }
       ]
     }

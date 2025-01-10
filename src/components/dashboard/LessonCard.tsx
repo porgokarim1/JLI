@@ -88,7 +88,7 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
       <Card className="hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-indigo-100 flex flex-col h-full">
         <CardHeader className="flex-grow p-2 sm:p-6">
           <div className="flex items-center justify-between mb-1 sm:mb-2">
-            <CardTitle className="text-sm sm:text-lg line-clamp-1">{lesson.title}</CardTitle>
+            <CardTitle className="text-sm sm:text-lg">{lesson.title}</CardTitle>
             <div className="flex items-center gap-2">
               {shouldShowStatus() && (
                 <Badge 
@@ -104,7 +104,7 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
                     variant="outline"
                     size="sm"
                     onClick={() => setShowEditDialog(true)}
-                    className="text-xs"
+                    className="text-xs border-yellow-500 hover:bg-yellow-500/10"
                   >
                     Edit
                   </Button>
@@ -113,14 +113,14 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
                   variant="ghost"
                   size="icon"
                   className="h-8 w-8"
-                  onClick={() => navigate(`/lesson/${lesson.id}`)}
+                  onClick={() => navigate(`/lessons/${lesson.id}`)}
                 >
                   <Eye className="h-4 w-4" />
                 </Button>
               </div>
             </div>
           </div>
-          <CardDescription className="text-xs sm:text-sm line-clamp-2">{lesson.description}</CardDescription>
+          <CardDescription className="text-xs sm:text-sm">{lesson.description}</CardDescription>
           
           <div className="mt-2 sm:mt-4 space-y-1 sm:space-y-2 text-xs sm:text-sm text-gray-600">
             <div className="flex items-center gap-1 sm:gap-2">

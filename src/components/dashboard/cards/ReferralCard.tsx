@@ -22,7 +22,7 @@ export const ReferralCard = ({ onShareLink, onEmailShare }: ReferralCardProps) =
             <Button 
               variant="outline" 
               size="sm" 
-              className="flex-1 text-xs flex items-center justify-center gap-2 border-gray-200 hover:bg-gray-100 hover:text-gray-900"
+              className="flex-1 text-xs flex items-center justify-center gap-2 border-[#878787] text-[#878787] hover:bg-[#878787]/10 hover:text-[#878787] hover:border-[#878787]"
               onClick={onShareLink}
             >
               Share
@@ -30,7 +30,7 @@ export const ReferralCard = ({ onShareLink, onEmailShare }: ReferralCardProps) =
             <Button
               variant="outline"
               size="sm"
-              className="flex-1 text-xs flex items-center justify-center gap-2 border-gray-200 hover:bg-gray-100 hover:text-gray-900"
+              className="flex-1 text-xs flex items-center justify-center gap-2 border-[#878787] text-[#878787] hover:bg-[#878787]/10 hover:text-[#878787] hover:border-[#878787]"
               onClick={onEmailShare}
             >
               <Mail className="h-4 w-4" />

@@ -11,7 +11,7 @@ import { NextLessonCard } from "./cards/NextLessonCard";
 import { EngagementCard } from "./cards/EngagementCard";
 import { ReferralCard } from "./cards/ReferralCard";
 import { Button } from "@/components/ui/button";
-import { User, MessageCircle, X, Pencil } from "lucide-react";
+import { X, Pencil } from "lucide-react";
 
 const REFERRAL_URL = "https://preview--app-collaborate-hub.lovable.app/register";
 
@@ -84,6 +84,13 @@ const StudentDashboard = () => {
     setSelectedEngagement(null);
   };
 
+  const getPeersIcon = (count: number) => {
+    if (count === 1) return '👤';
+    if (count === 2) return '👥';
+    if (count === 3) return '👤👥';
+    return '👥👤+';
+  };
+
   return (
     <div className="min-h-[calc(100vh-4rem)] p-4 max-w-7xl mx-auto space-y-4 pb-20">
       <DashboardHeader />
@@ -100,11 +107,13 @@ const StudentDashboard = () => {
             recentEngagements.map((engagement) => (
               <div 
                 key={engagement.id}
-                className="flex items-center justify-between py-2 border-t border-gray-100"
+                className="flex items-center justify-between py-2 border-t border-gray-100 whitespace-nowrap overflow-x-auto"
               >
                 <div className="flex items-center gap-3">
                   <div className="flex items-center gap-2">
-                    <User className="h-4 w-4 text-gray-400" />
+                    <span className="text-gray-600">
+                      {getPeersIcon(engagement.participant_count)}
+                    </span>
                     <span className="text-sm font-medium text-gray-700">
                       {engagement.participant_count} {engagement.participant_count === 1 ? 'peer' : 'peers'}
                     </span>
@@ -117,10 +126,7 @@ const StudentDashboard = () => {
                   <span className="text-lg">
                     {getComfortEmoji(engagement.comfort_level || '')}
                   </span>
-                  <div className="flex items-center gap-2">
-                    <MessageCircle className="h-4 w-4 text-gray-400" />
-                    <span className="text-sm text-gray-600">{engagement.comments || '-'}</span>
-                  </div>
+                  <span className="text-sm text-gray-600">{engagement.comments || '-'}</span>
                   <Button
                     variant="ghost"
                     size="icon"

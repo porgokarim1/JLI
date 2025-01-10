@@ -7,8 +7,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Profile } from "@/components/dashboard/types";
 import { ProfileForm } from "@/components/profile/ProfileForm";
-import { AboutSection } from "@/components/profile/AboutSection";
-import { LogOut, Sparkles, User } from "lucide-react";
+import { LogOut, User } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
@@ -87,18 +86,18 @@ const ProfileContent = ({ profile, onSignOut }: { profile: Profile, onSignOut: (
         </Button>
       )}
 
-      <Card className="border-primary/20 bg-white/80 backdrop-blur-sm mb-4">
+      <Card className="border-2 border-gray-400 bg-white/80 backdrop-blur-sm mb-4">
         <CardHeader className="py-2">
           <CardTitle className="flex justify-between items-center text-lg">
             <span className="flex items-center gap-2">
-              Profile Information
+              👤 Profile Information
             </span>
             <Button 
               variant={isEditing ? "destructive" : "outline"}
               onClick={() => setIsEditing(!isEditing)}
               className="transition-all hover:scale-105 text-black text-sm"
             >
-              {isEditing ? 'Cancel' : 'Edit Profile'}
+              {isEditing ? '❌ Cancel' : '✏️ Edit Profile'}
             </Button>
           </CardTitle>
         </CardHeader>
@@ -113,8 +112,6 @@ const ProfileContent = ({ profile, onSignOut }: { profile: Profile, onSignOut: (
           />
         </CardContent>
       </Card>
-
-      <AboutSection />
     </>
   );
 };
@@ -153,11 +150,10 @@ const ProfilePage = () => {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-4">
             <h1 className="text-2xl md:text-3xl font-bold flex items-center justify-center gap-2">
-              <User className="h-6 w-6 text-primary" />
-              <span className="bg-gradient-to-r from-primary to-purple-600 text-transparent bg-clip-text">
-                Your Profile
+              <User className="h-6 w-6 text-gray-600" />
+              <span className="text-gray-800">
+                Your Profile 📝
               </span>
-              <Sparkles className="h-6 w-6 text-yellow-400 animate-pulse" />
             </h1>
           </div>
 

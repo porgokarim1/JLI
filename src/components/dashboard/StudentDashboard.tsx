@@ -135,7 +135,7 @@ const StudentDashboard = () => {
             ))
           ) : (
             <div className="text-center py-4 text-gray-500 text-sm">
-              No engagement recorded. <button onClick={() => setShowEngagementForm(true)} className="text-primary hover:underline">Start here</button>
+              No engagement recorded. Start <button onClick={() => setShowEngagementForm(true)} className="text-primary hover:underline">here</button>
             </div>
           )}
         </div>

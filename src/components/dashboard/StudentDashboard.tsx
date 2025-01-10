@@ -123,7 +123,7 @@ const StudentDashboard = () => {
             recentEngagements.map((engagement) => (
               <div 
                 key={engagement.id}
-                className="flex items-center justify-between py-2 border-t border-gray-100 gap-2"
+                className="flex items-center justify-between py-2 border-t-2 border-gray-100 gap-2"
               >
                 <div className="flex items-center gap-2 min-w-0">
                   <div className="flex items-center gap-1 shrink-0">

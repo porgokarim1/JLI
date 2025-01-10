@@ -37,20 +37,20 @@ const ComfortLevelSelector = ({ value, onChange }: { value: string, onChange: (v
   ];
 
   return (
-    <div className="flex flex-nowrap gap-1 justify-start overflow-x-auto pb-1">
+    <div className="grid grid-cols-5 gap-0.5 w-full">
       {options.map((option) => (
         <button
           key={option.value}
           type="button"
           onClick={() => onChange(option.value)}
-          className={`flex-shrink-0 flex flex-col items-center gap-0.5 px-1.5 py-1 rounded-lg border transition-all text-[10px] min-w-[60px] ${
+          className={`flex-shrink-0 flex flex-col items-center gap-0.5 px-1 py-0.5 rounded-lg border transition-all text-[8px] ${
             value === option.value
               ? "border-primary bg-primary/10"
               : "border-gray-200 hover:border-primary/50"
           }`}
         >
-          <span className="text-base">{option.emoji}</span>
-          <span className="text-center leading-tight">{option.label}</span>
+          <span className="text-sm">{option.emoji}</span>
+          <span className="text-center leading-none">{option.label}</span>
         </button>
       ))}
     </div>
@@ -135,13 +135,11 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
     }
   };
 
-  const today = new Date().toISOString().split('T')[0];
-
-  return (
+return (
     <Form {...form}>
       <form 
         onSubmit={form.handleSubmit(onSubmit)} 
-        className="space-y-3 w-full max-w-md mx-auto px-4"
+        className="space-y-2 w-full max-w-md mx-auto px-2"
       >
         <div className="flex items-center gap-2">
           <FormField
@@ -150,13 +148,13 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
             render={({ field }) => (
               <FormItem className="flex-1">
                 <div className="flex items-center gap-2">
-                  <FormLabel className="text-xs whitespace-nowrap">When was it? 📆</FormLabel>
+                  <FormLabel className="text-[10px] whitespace-nowrap">When was it? 📆</FormLabel>
                   <FormControl>
                     <Input 
                       type="date" 
                       {...field} 
                       max={today}
-                      className="h-7 text-xs flex-1" 
+                      className="h-6 text-[10px] flex-1 px-1" 
                     />
                   </FormControl>
                 </div>
@@ -166,9 +164,9 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
           />
         </div>
 
-        <div className="space-y-1">
+        <div className="space-y-0.5">
           <div className="flex items-center gap-2">
-            <FormLabel className="text-xs whitespace-nowrap">How many involved?</FormLabel>
+            <FormLabel className="text-[10px] whitespace-nowrap">How many involved?</FormLabel>
             <FormField
               control={form.control}
               name="participant_count"
@@ -181,7 +179,7 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
                       max="99"
                       {...field}
                       onChange={e => field.onChange(parseInt(e.target.value))}
-                      className="h-7 w-16 text-xs"
+                      className="h-6 w-16 text-[10px]"
                     />
                   </FormControl>
                   <FormMessage />
@@ -199,8 +197,8 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
           control={form.control}
           name="comfort_level"
           render={({ field }) => (
-            <FormItem className="space-y-1">
-              <FormLabel className="text-xs">How did it go?</FormLabel>
+            <FormItem className="space-y-0.5">
+              <FormLabel className="text-[10px]">How did it go?</FormLabel>
               <FormControl>
                 <ComfortLevelSelector
                   value={field.value || ""}
@@ -216,13 +214,13 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
           control={form.control}
           name="comments"
           render={({ field }) => (
-            <FormItem className="space-y-1">
-              <FormLabel className="text-xs">Any thoughts? (Optional)</FormLabel>
+            <FormItem className="space-y-0.5">
+              <FormLabel className="text-[10px]">Any thoughts? (Optional)</FormLabel>
               <FormControl>
                 <Textarea 
                   placeholder="Share your experience..." 
                   {...field} 
-                  className="min-h-[40px] text-xs resize-y"
+                  className="min-h-[40px] text-[10px] resize-y w-full"
                 />
               </FormControl>
               <FormMessage />

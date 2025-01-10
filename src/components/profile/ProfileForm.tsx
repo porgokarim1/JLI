@@ -26,6 +26,17 @@ export const ProfileForm = ({
   onCancel,
   onChange 
 }: ProfileFormProps) => {
+  // Initialize formData with profile data when editing starts
+  useState(() => {
+    if (isEditing) {
+      onChange('first_name', profile.first_name || '');
+      onChange('last_name', profile.last_name || '');
+      onChange('email', profile.email || '');
+      onChange('phone', profile.phone || '');
+      onChange('campus', profile.campus || '');
+    }
+  }, [isEditing]);
+
   const handlePhoneChange = (value: string | undefined) => {
     if (value && !isValidPhoneNumber(value)) {
       toast.error("Please enter a valid phone number");

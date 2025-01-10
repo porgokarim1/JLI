@@ -11,8 +11,8 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/comp
 import confetti from 'canvas-confetti';
 import ParticipantCounter from "./conversation/ParticipantCounter";
 import { Textarea } from "@/components/ui/textarea";
+import { format } from "date-fns";
 
-// Get today's date in YYYY-MM-DD format
 const today = new Date().toISOString().split('T')[0];
 
 const formSchema = z.object({
@@ -32,28 +32,27 @@ interface ConversationFormProps {
 
 const ComfortLevelSelector = ({ value, onChange }: { value: string, onChange: (value: string) => void }) => {
   const options = [
-    { value: "very_comfortable", label: "Very Comfortable", emoji: "😄" },
-    { value: "comfortable", label: "Comfortable", emoji: "🙂" },
-    { value: "neutral", label: "Neutral", emoji: "😐" },
-    { value: "uncomfortable", label: "Uncomfortable", emoji: "😕" },
-    { value: "very_uncomfortable", label: "Very Uncomfortable", emoji: "😣" }
+    { value: "very_comfortable", emoji: "😄" },
+    { value: "comfortable", emoji: "🙂" },
+    { value: "neutral", emoji: "😐" },
+    { value: "uncomfortable", emoji: "😕" },
+    { value: "very_uncomfortable", emoji: "😣" }
   ];
 
   return (
-    <div className="grid grid-cols-5 gap-0.5 w-full">
+    <div className="grid grid-cols-5 gap-1 w-full">
       {options.map((option) => (
         <button
           key={option.value}
           type="button"
           onClick={() => onChange(option.value)}
-          className={`flex-shrink-0 flex flex-col items-center gap-0.5 px-1 py-0.5 rounded-lg border transition-all text-[8px] ${
+          className={`flex items-center justify-center p-2 rounded-lg border transition-all ${
             value === option.value
               ? "border-primary bg-primary/10"
               : "border-gray-200 hover:border-primary/50"
           }`}
         >
-          <span className="text-sm">{option.emoji}</span>
-          <span className="text-center leading-none">{option.label}</span>
+          <span className="text-2xl">{option.emoji}</span>
         </button>
       ))}
     </div>
@@ -142,7 +141,7 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
     <Form {...form}>
       <form 
         onSubmit={form.handleSubmit(onSubmit)} 
-        className="space-y-2 w-full max-w-2xl mx-auto px-4 md:px-6"
+        className="space-y-4 w-full max-w-2xl mx-auto px-4 md:px-6"
       >
         <div className="flex items-center gap-2">
           <FormField
@@ -151,15 +150,18 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
             render={({ field }) => (
               <FormItem className="flex-1">
                 <div className="flex items-center gap-2">
-                  <FormLabel className="text-[10px] whitespace-nowrap">When was it? 📆</FormLabel>
+                  <FormLabel className="text-sm whitespace-nowrap">When was it? 📆</FormLabel>
                   <FormControl>
                     <Input 
                       type="date" 
                       {...field} 
                       max={today}
-                      className="h-6 text-[10px] w-28 px-1" 
+                      className="h-10 text-sm w-full px-3" 
                     />
                   </FormControl>
+                </div>
+                <div className="text-sm text-gray-600 mt-1">
+                  {field.value && format(new Date(field.value), "EEE. MM/dd/yyyy")}
                 </div>
                 <FormMessage />
               </FormItem>
@@ -167,29 +169,27 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
           />
         </div>
 
-        <div className="space-y-0.5">
-          <div className="flex items-center gap-2">
-            <FormLabel className="text-[10px] whitespace-nowrap">How many involved?</FormLabel>
-            <FormField
-              control={form.control}
-              name="participant_count"
-              render={({ field }) => (
-                <FormItem className="flex-1">
-                  <FormControl>
-                    <Input 
-                      type="number" 
-                      min="1"
-                      max="99"
-                      {...field}
-                      onChange={e => field.onChange(parseInt(e.target.value))}
-                      className="h-6 w-16 text-[10px]"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+        <div className="space-y-2">
+          <FormLabel className="text-sm">How many involved?</FormLabel>
+          <FormField
+            control={form.control}
+            name="participant_count"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input 
+                    type="number" 
+                    min="1"
+                    max="99"
+                    {...field}
+                    onChange={e => field.onChange(parseInt(e.target.value))}
+                    className="h-10 text-sm w-24"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <ParticipantCounter 
             value={form.watch("participant_count")} 
             onChange={(value) => form.setValue("participant_count", value)} 
@@ -200,8 +200,8 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
           control={form.control}
           name="comfort_level"
           render={({ field }) => (
-            <FormItem className="space-y-0.5">
-              <FormLabel className="text-[10px]">How did it go?</FormLabel>
+            <FormItem className="space-y-2">
+              <FormLabel className="text-sm">How did it go?</FormLabel>
               <FormControl>
                 <ComfortLevelSelector
                   value={field.value || ""}
@@ -217,13 +217,13 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
           control={form.control}
           name="comments"
           render={({ field }) => (
-            <FormItem className="space-y-0.5">
-              <FormLabel className="text-[10px]">Any thoughts? (Optional)</FormLabel>
+            <FormItem className="space-y-2">
+              <FormLabel className="text-sm">Any thoughts? (Optional)</FormLabel>
               <FormControl>
                 <Textarea 
                   placeholder="Share your experience..." 
                   {...field} 
-                  className="min-h-[40px] text-[10px] resize-y w-full"
+                  className="min-h-[80px] text-sm resize-y w-full"
                 />
               </FormControl>
               <FormMessage />
@@ -231,10 +231,10 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
           )}
         />
 
-        <div className="pt-2">
+        <div className="pt-4">
           <Button 
             type="submit" 
-            className="w-full h-8 text-sm"
+            className="w-full h-12 text-base"
             disabled={isSubmitting}
           >
             {isSubmitting ? "Saving..." : "Save"}

@@ -11,7 +11,6 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/comp
 import confetti from 'canvas-confetti';
 import ParticipantCounter from "./conversation/ParticipantCounter";
 import { Textarea } from "@/components/ui/textarea";
-import { format } from "date-fns";
 
 const today = new Date().toISOString().split('T')[0];
 
@@ -159,9 +158,6 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
                       className="h-10 text-sm w-full px-3" 
                     />
                   </FormControl>
-                </div>
-                <div className="text-sm text-gray-600 mt-1">
-                  {field.value && format(new Date(field.value), "EEE. MM/dd/yyyy")}
                 </div>
                 <FormMessage />
               </FormItem>

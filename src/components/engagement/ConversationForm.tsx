@@ -12,6 +12,9 @@ import confetti from 'canvas-confetti';
 import ParticipantCounter from "./conversation/ParticipantCounter";
 import { Textarea } from "@/components/ui/textarea";
 
+// Get today's date in YYYY-MM-DD format
+const today = new Date().toISOString().split('T')[0];
+
 const formSchema = z.object({
   comfort_level: z.enum(["very_comfortable", "comfortable", "uncomfortable", "very_uncomfortable", "neutral"]),
   comments: z.string().optional(),
@@ -135,7 +138,7 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
     }
   };
 
-return (
+  return (
     <Form {...form}>
       <form 
         onSubmit={form.handleSubmit(onSubmit)} 

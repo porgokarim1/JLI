@@ -101,29 +101,29 @@ const Lessons = () => {
             >
               <div className="p-2 sm:p-4 flex flex-col justify-between h-full">
                 <div>
-                  <h3 className="font-medium text-xs sm:text-base md:text-lg mb-1 sm:mb-2 line-clamp-1">{lesson.title}</h3>
+                  <h3 className="font-medium text-xs sm:text-base md:text-lg mb-1 sm:mb-2">{lesson.title}</h3>
                   <p className="text-xs text-gray-600 line-clamp-2 mb-1 sm:mb-2">{lesson.description}</p>
                   
-                  <div className="space-y-1">
+                  <div className="flex items-center gap-2 text-xs">
                     <div className="flex items-center gap-1">
                       <Calendar className="h-3 w-3 text-primary" />
-                      <span className="text-xs">
+                      <span className="whitespace-nowrap">
                         {lesson.lesson_date 
-                          ? format(new Date(lesson.lesson_date), 'MMM d, yyyy')
-                          : 'Date TBD'}
+                          ? format(new Date(lesson.lesson_date), 'MMM d')
+                          : 'TBD'}
                       </span>
                     </div>
                     <div className="flex items-center gap-1">
                       <Clock className="h-3 w-3 text-primary" />
-                      <span className="text-xs">
+                      <span className="whitespace-nowrap">
                         {lesson.lesson_time
                           ? format(new Date(`2000-01-01T${lesson.lesson_time}`), 'p')
-                          : 'Time TBD'}
+                          : 'TBD'}
                       </span>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <MapPin className="h-3 w-3 text-primary" />
-                      <span className="text-xs truncate">{lesson.location || 'Location TBD'}</span>
+                    <div className="flex items-center gap-1 flex-1 min-w-0">
+                      <MapPin className="h-3 w-3 text-primary flex-shrink-0" />
+                      <span className="truncate">{lesson.location || 'TBD'}</span>
                     </div>
                   </div>
                 </div>

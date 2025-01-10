@@ -32,10 +32,8 @@ export const CampusInfoStep = ({ formData, onChange, onNext, onBack, isLoading }
         <div className="space-y-2">
           <Label>Select Your Campus</Label>
           <CampusSelector
-            selectedCampus={formData.campus}
-            selectedOrganization={formData.organization}
-            onCampusChange={(campus) => onChange("campus", campus)}
-            onOrganizationChange={(org) => onChange("organization", org)}
+            value={formData.campus}
+            onChange={(value) => onChange("campus", value)}
           />
         </div>
       </div>

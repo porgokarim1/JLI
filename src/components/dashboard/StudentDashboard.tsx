@@ -12,6 +12,7 @@ import { EngagementCard } from "./cards/EngagementCard";
 import { ReferralCard } from "./cards/ReferralCard";
 import { Button } from "@/components/ui/button";
 import { X, Pencil } from "lucide-react";
+import { format } from "date-fns";
 
 const REFERRAL_URL = "https://preview--app-collaborate-hub.lovable.app/register";
 
@@ -91,6 +92,21 @@ const StudentDashboard = () => {
     return '👥👤+';
   };
 
+  const formatDate = (date: string) => {
+    const now = new Date();
+    const conversationDate = new Date(date);
+    const diffInMinutes = Math.floor((now.getTime() - conversationDate.getTime()) / (1000 * 60));
+    
+    if (diffInMinutes < 60) {
+      return `${diffInMinutes} min ago`;
+    } else if (diffInMinutes < 24 * 60) {
+      const hours = Math.floor(diffInMinutes / 60);
+      return `${hours} hours ago`;
+    } else {
+      return format(conversationDate, 'MM/dd/yyyy');
+    }
+  };
+
   return (
     <div className="min-h-[calc(100vh-4rem)] p-4 max-w-7xl mx-auto space-y-4 pb-20">
       <DashboardHeader />
@@ -107,36 +123,36 @@ const StudentDashboard = () => {
             recentEngagements.map((engagement) => (
               <div 
                 key={engagement.id}
-                className="flex items-center justify-between py-2 border-t border-gray-100 whitespace-nowrap overflow-x-auto"
+                className="flex items-center justify-between py-2 border-t border-gray-100 gap-2"
               >
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 min-w-0">
+                  <div className="flex items-center gap-1 shrink-0">
                     <span className="text-gray-600">
                       {getPeersIcon(engagement.participant_count)}
                     </span>
                     <span className="text-sm font-medium text-gray-700">
-                      {engagement.participant_count} {engagement.participant_count === 1 ? 'peer' : 'peers'}
+                      {engagement.participant_count}
                     </span>
                   </div>
-                  <span className="text-sm text-gray-500">
-                    {formatDistanceToNow(new Date(engagement.conversation_date), { addSuffix: true })}
+                  <span className="text-sm text-gray-500 shrink-0">
+                    {formatDate(engagement.conversation_date)}
                   </span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-lg">
+                  <span className="text-lg shrink-0">
                     {getComfortEmoji(engagement.comfort_level || '')}
                   </span>
-                  <span className="text-sm text-gray-600">{engagement.comments || '-'}</span>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => handleEditEngagement(engagement)}
-                    className="h-8 w-8 text-gray-400 hover:text-primary"
-                  >
-                    <Pencil className="h-4 w-4" />
-                    <span className="sr-only">Edit engagement</span>
-                  </Button>
+                  <span className="text-sm text-gray-600 truncate">
+                    {engagement.comments || '-'}
+                  </span>
                 </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => handleEditEngagement(engagement)}
+                  className="h-8 w-8 text-gray-400 hover:text-primary shrink-0"
+                >
+                  <Pencil className="h-4 w-4" />
+                  <span className="sr-only">Edit engagement</span>
+                </Button>
               </div>
             ))
           ) : (

@@ -8,10 +8,10 @@ interface ParticipantCounterProps {
 
 const ParticipantCounter = ({ value, onChange }: ParticipantCounterProps) => {
   const options = [
-    { count: 1, label: "👤 (1)", icon: <User className="h-3 w-3" /> },
-    { count: 2, label: "👥 (2)", icon: <Users className="h-3 w-3" /> },
-    { count: 3, label: "👤👥 (3)", icon: <Users className="h-3 w-3" /> },
-    { count: 4, label: "👥👤(3+)", icon: <Users className="h-3 w-3" /> }
+    { count: 1, label: "👤", sublabel: "(1)", icon: <User className="h-3 w-3" /> },
+    { count: 2, label: "👥", sublabel: "(2)", icon: <Users className="h-3 w-3" /> },
+    { count: 3, label: "👤👥", sublabel: "(3)", icon: <Users className="h-3 w-3" /> },
+    { count: 4, label: "👥👤", sublabel: "(3+)", icon: <Users className="h-3 w-3" /> }
   ];
 
   return (
@@ -21,10 +21,11 @@ const ParticipantCounter = ({ value, onChange }: ParticipantCounterProps) => {
           key={option.count}
           type="button"
           variant={value === option.count ? "default" : "outline"}
-          className="flex-shrink-0 text-[8px] py-0.5 px-1.5 h-5 whitespace-nowrap"
+          className="flex-shrink-0 text-lg py-0.5 px-2 h-10 whitespace-nowrap"
           onClick={() => onChange(option.count)}
         >
-          {option.label}
+          <span className="mr-1">{option.label}</span>
+          <span className="text-xs text-gray-500">{option.sublabel}</span>
         </Button>
       ))}
     </div>

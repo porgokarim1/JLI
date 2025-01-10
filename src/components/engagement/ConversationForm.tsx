@@ -142,50 +142,50 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
         onSubmit={form.handleSubmit(onSubmit)} 
         className="space-y-4 w-full max-w-2xl mx-auto px-4 md:px-6"
       >
-        <div className="flex items-center gap-2">
-          <FormField
-            control={form.control}
-            name="conversation_date"
-            render={({ field }) => (
-              <FormItem className="flex-1">
-                <div className="flex items-center gap-2">
-                  <FormLabel className="text-sm whitespace-nowrap">When was it? 📆</FormLabel>
-                  <FormControl>
-                    <Input 
-                      type="date" 
-                      {...field} 
-                      max={today}
-                      className="h-10 text-sm w-full px-3" 
-                    />
-                  </FormControl>
-                </div>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
-        <div className="space-y-2">
-          <FormLabel className="text-sm">How many involved?</FormLabel>
-          <FormField
-            control={form.control}
-            name="participant_count"
-            render={({ field }) => (
-              <FormItem>
+        <FormField
+          control={form.control}
+          name="conversation_date"
+          render={({ field }) => (
+            <FormItem>
+              <div className="flex items-center justify-between gap-4">
+                <FormLabel className="text-sm whitespace-nowrap">When was it? 📆</FormLabel>
                 <FormControl>
                   <Input 
-                    type="number" 
-                    min="1"
-                    max="99"
-                    {...field}
-                    onChange={e => field.onChange(parseInt(e.target.value))}
-                    className="h-10 text-sm w-24"
+                    type="date" 
+                    {...field} 
+                    max={today}
+                    className="h-10 text-sm w-40" 
                   />
                 </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <div className="space-y-2">
+          <div className="flex items-center justify-between gap-4">
+            <FormLabel className="text-sm">How many involved?</FormLabel>
+            <FormField
+              control={form.control}
+              name="participant_count"
+              render={({ field }) => (
+                <FormItem className="flex-shrink-0">
+                  <FormControl>
+                    <Input 
+                      type="number" 
+                      min="1"
+                      max="99"
+                      {...field}
+                      onChange={e => field.onChange(parseInt(e.target.value))}
+                      className="h-10 text-sm w-20"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <ParticipantCounter 
             value={form.watch("participant_count")} 
             onChange={(value) => form.setValue("participant_count", value)} 

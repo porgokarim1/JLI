@@ -2,16 +2,11 @@ import NavigationBar from "@/components/navigation/NavigationBar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useLessons } from "@/components/dashboard/useLessons";
-import { MapPin, Calendar, Clock, CheckCircle2, UserCheck } from "lucide-react";
+import { MapPin, Calendar, Clock, CheckCircle2 } from "lucide-react";
 import { format } from "date-fns";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { CompletionCodeDialog } from "@/components/lesson/CompletionCodeDialog";
 
 const Lessons = () => {
   const { data: lessons, isLoading } = useLessons();
-  const [selectedLessonId, setSelectedLessonId] = useState<string | null>(null);
-  const [isCompletionDialogOpen, setIsCompletionDialogOpen] = useState(false);
 
   if (isLoading) {
     return (
@@ -46,17 +41,6 @@ const Lessons = () => {
   };
 
   const nextLesson = getNextLesson();
-
-  const handleConfirmAttendance = (lessonId: string, e?: React.MouseEvent) => {
-    if (e) e.stopPropagation();
-    setSelectedLessonId(lessonId);
-    setIsCompletionDialogOpen(true);
-  };
-
-  const handleCompletionSuccess = () => {
-    setIsCompletionDialogOpen(false);
-    setSelectedLessonId(null);
-  };
 
   return (
     <div className="h-screen overflow-hidden bg-gradient-to-br from-purple-50 via-white to-blue-50">
@@ -105,17 +89,6 @@ const Lessons = () => {
                 <MapPin className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
                 <span className="text-xs sm:text-sm truncate">{nextLesson?.location || 'TBD'}</span>
               </div>
-              {nextLesson && (
-                <Button
-                  onClick={() => handleConfirmAttendance(nextLesson.id)}
-                  className="w-full mt-2 flex items-center justify-center gap-2 text-xs sm:text-sm"
-                  size="sm"
-                  variant="default"
-                >
-                  <UserCheck className="h-4 w-4" />
-                  Confirm Attendance
-                </Button>
-              )}
             </CardContent>
           </Card>
         </div>
@@ -124,18 +97,9 @@ const Lessons = () => {
           {lessons?.map((lesson) => (
             <Card 
               key={lesson.id} 
-              className="flex flex-row md:flex-col relative bg-white/90 backdrop-blur-sm"
+              className="flex flex-col relative bg-white/90 backdrop-blur-sm"
             >
-              <div className="w-1/3 md:w-full h-24 md:h-40">
-                {lesson.image_url && (
-                  <img 
-                    src={lesson.image_url} 
-                    alt={lesson.title}
-                    className="w-full h-full object-cover"
-                  />
-                )}
-              </div>
-              <div className="flex-1 p-2 sm:p-4 flex flex-col justify-between">
+              <div className="p-2 sm:p-4 flex flex-col justify-between h-full">
                 <div>
                   <h3 className="font-medium text-xs sm:text-base md:text-lg mb-1 sm:mb-2 line-clamp-1">{lesson.title}</h3>
                   <p className="text-xs text-gray-600 line-clamp-2 mb-1 sm:mb-2">{lesson.description}</p>
@@ -164,37 +128,16 @@ const Lessons = () => {
                   </div>
                 </div>
                 
-                <div className="mt-2">
-                  {lesson.progress?.status === 'completed' ? (
-                    <div className="flex items-center gap-1 text-green-600">
-                      <CheckCircle2 className="h-4 w-4" />
-                      <span className="text-xs">Completed</span>
-                    </div>
-                  ) : (
-                    <Button
-                      onClick={(e) => handleConfirmAttendance(lesson.id, e)}
-                      className="w-full flex items-center justify-center gap-2 text-xs"
-                      size="sm"
-                      variant="default"
-                    >
-                      <UserCheck className="h-4 w-4" />
-                      Confirm Attendance
-                    </Button>
-                  )}
-                </div>
+                {lesson.progress?.status === 'completed' && (
+                  <div className="mt-2 flex items-center gap-1 text-green-600">
+                    <CheckCircle2 className="h-4 w-4" />
+                    <span className="text-xs">Completed</span>
+                  </div>
+                )}
               </div>
             </Card>
           ))}
         </div>
-
-        {selectedLessonId && (
-          <CompletionCodeDialog
-            lessonId={selectedLessonId}
-            onSuccess={handleCompletionSuccess}
-            open={isCompletionDialogOpen}
-            onOpenChange={setIsCompletionDialogOpen}
-          />
-        )}
       </div>
     </div>
   );

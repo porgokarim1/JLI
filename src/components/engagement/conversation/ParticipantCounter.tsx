@@ -8,10 +8,10 @@ interface ParticipantCounterProps {
 
 const ParticipantCounter = ({ value, onChange }: ParticipantCounterProps) => {
   const options = [
-    { count: 1, label: "👤", sublabel: "(1)", icon: <User className="h-3 w-3" /> },
-    { count: 2, label: "👥", sublabel: "(2)", icon: <Users className="h-3 w-3" /> },
-    { count: 3, label: "👤👥", sublabel: "(3)", icon: <Users className="h-3 w-3" /> },
-    { count: 4, label: "👥👤", sublabel: "(3+)", icon: <Users className="h-3 w-3" /> }
+    { count: 1, label: "👤", sublabel: "(1)", icon: <User className="h-2 w-2" /> },
+    { count: 2, label: "👥", sublabel: "(2)", icon: <Users className="h-2 w-2" /> },
+    { count: 3, label: "👤👥", sublabel: "(3)", icon: <Users className="h-2 w-2" /> },
+    { count: 4, label: "👥👤", sublabel: "(3+)", icon: <Users className="h-2 w-2" /> }
   ];
 
   return (

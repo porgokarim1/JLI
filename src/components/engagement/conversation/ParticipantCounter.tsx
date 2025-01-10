@@ -24,9 +24,11 @@ const ParticipantCounter = ({ value, onChange }: ParticipantCounterProps) => {
           className="flex-1 text-xl py-0.5 px-1 h-12"
           onClick={() => onChange(option.count)}
         >
-          <div className="inline-flex items-center justify-center">
-            <span>{option.label}</span>
-            <span className="text-xs text-muted-foreground align-middle">{option.sublabel}</span>
+          <div className="flex items-center justify-center h-full">
+            <span className="inline-flex items-center">
+              {option.label}
+              <span className="text-xs text-muted-foreground">{option.sublabel}</span>
+            </span>
           </div>
         </Button>
       ))}

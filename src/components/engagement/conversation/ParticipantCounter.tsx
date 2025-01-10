@@ -15,7 +15,7 @@ const ParticipantCounter = ({ value, onChange }: ParticipantCounterProps) => {
   ];
 
   return (
-    <div className="grid grid-cols-4 gap-1">
+    <div className="grid grid-cols-4 gap-2">
       {options.map((option) => (
         <Button
           key={option.count}

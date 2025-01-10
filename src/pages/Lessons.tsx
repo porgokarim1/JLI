@@ -2,7 +2,6 @@ import NavigationBar from "@/components/navigation/NavigationBar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useLessons } from "@/components/dashboard/useLessons";
-import { useNavigate } from "react-router-dom";
 import { MapPin, Calendar, Clock, CheckCircle2, UserCheck } from "lucide-react";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
@@ -11,7 +10,6 @@ import { CompletionCodeDialog } from "@/components/lesson/CompletionCodeDialog";
 
 const Lessons = () => {
   const { data: lessons, isLoading } = useLessons();
-  const navigate = useNavigate();
   const [selectedLessonId, setSelectedLessonId] = useState<string | null>(null);
   const [isCompletionDialogOpen, setIsCompletionDialogOpen] = useState(false);
 
@@ -126,8 +124,7 @@ const Lessons = () => {
           {lessons?.map((lesson) => (
             <Card 
               key={lesson.id} 
-              className="flex flex-row md:flex-col hover:shadow-lg transition-shadow cursor-pointer relative bg-white/90 backdrop-blur-sm"
-              onClick={() => navigate(`/lesson/${lesson.id}`)}
+              className="flex flex-row md:flex-col relative bg-white/90 backdrop-blur-sm"
             >
               <div className="w-1/3 md:w-full h-24 md:h-40">
                 {lesson.image_url && (
@@ -142,13 +139,49 @@ const Lessons = () => {
                 <div>
                   <h3 className="font-medium text-xs sm:text-base md:text-lg mb-1 sm:mb-2 line-clamp-1">{lesson.title}</h3>
                   <p className="text-xs text-gray-600 line-clamp-2 mb-1 sm:mb-2">{lesson.description}</p>
-                </div>
-                {lesson.progress?.status === 'completed' && (
-                  <div className="flex items-center gap-1 text-green-600">
-                    <CheckCircle2 className="h-4 w-4" />
-                    <span className="text-xs">Completed</span>
+                  
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-1">
+                      <Calendar className="h-3 w-3 text-primary" />
+                      <span className="text-xs">
+                        {lesson.lesson_date 
+                          ? format(new Date(lesson.lesson_date), 'MMM d, yyyy')
+                          : 'Date TBD'}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Clock className="h-3 w-3 text-primary" />
+                      <span className="text-xs">
+                        {lesson.lesson_time
+                          ? format(new Date(`2000-01-01T${lesson.lesson_time}`), 'p')
+                          : 'Time TBD'}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <MapPin className="h-3 w-3 text-primary" />
+                      <span className="text-xs truncate">{lesson.location || 'Location TBD'}</span>
+                    </div>
                   </div>
-                )}
+                </div>
+                
+                <div className="mt-2">
+                  {lesson.progress?.status === 'completed' ? (
+                    <div className="flex items-center gap-1 text-green-600">
+                      <CheckCircle2 className="h-4 w-4" />
+                      <span className="text-xs">Completed</span>
+                    </div>
+                  ) : (
+                    <Button
+                      onClick={(e) => handleConfirmAttendance(lesson.id, e)}
+                      className="w-full flex items-center justify-center gap-2 text-xs"
+                      size="sm"
+                      variant="default"
+                    >
+                      <UserCheck className="h-4 w-4" />
+                      Confirm Attendance
+                    </Button>
+                  )}
+                </div>
               </div>
             </Card>
           ))}

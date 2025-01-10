@@ -50,6 +50,7 @@ const Index = () => {
 
         setUserRole(profile?.role || null);
         
+        // Show welcome popup if terms haven't been agreed to
         if (profile && !profile.terms_agreed) {
           setShowWelcomePopup(true);
         }
@@ -83,6 +84,7 @@ const Index = () => {
             
           setUserRole(profile?.role || null);
           
+          // Show welcome popup if terms haven't been agreed to
           if (profile && !profile.terms_agreed) {
             setShowWelcomePopup(true);
           }
@@ -95,7 +97,7 @@ const Index = () => {
     };
   }, [navigate]);
 
-  const { data: conversationCount, isLoading: isConversationLoading, error: conversationError } = useQuery({
+  const { data: conversationCount } = useQuery({
     queryKey: ['conversation-count'],
     queryFn: async () => {
       const { data: { session } } = await supabase.auth.getSession();
@@ -108,10 +110,10 @@ const Index = () => {
 
       return count || 0;
     },
-    enabled: isLoggedIn, // Only run query if user is logged in
+    enabled: isLoggedIn,
   });
 
-  if (isLoading || isConversationLoading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
@@ -119,9 +121,16 @@ const Index = () => {
     );
   }
 
-  if (conversationError) {
-    toast.error('Error loading conversation data');
-  }
+  const renderDashboard = () => {
+    switch (userRole) {
+      case 'instructor':
+        return <InstructorDashboard />;
+      case 'administrator':
+        return <AdminDashboard />;
+      default:
+        return <StudentDashboard />;
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
@@ -139,17 +148,6 @@ const Index = () => {
       />
     </div>
   );
-
-  function renderDashboard() {
-    switch (userRole) {
-      case 'instructor':
-        return <InstructorDashboard />;
-      case 'administrator':
-        return <AdminDashboard />;
-      default:
-        return <StudentDashboard />;
-    }
-  }
 };
 
 export default Index;

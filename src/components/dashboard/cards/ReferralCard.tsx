@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Megaphone, Mail } from "lucide-react";
+import { Megaphone, Mail, Copy } from "lucide-react";
 
 interface ReferralCardProps {
   onShareLink: () => void;
@@ -25,6 +25,7 @@ export const ReferralCard = ({ onShareLink, onEmailShare }: ReferralCardProps) =
               className="flex-1 text-xs flex items-center justify-center gap-2 border-[#878787] text-[#878787] hover:bg-[#878787]/10 hover:text-[#878787] hover:border-[#878787]"
               onClick={onShareLink}
             >
+              <Copy className="h-4 w-4" />
               Share
             </Button>
             <Button

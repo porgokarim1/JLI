@@ -142,7 +142,7 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
     <Form {...form}>
       <form 
         onSubmit={form.handleSubmit(onSubmit)} 
-        className="space-y-2 w-full max-w-xl mx-auto px-4 md:px-6"
+        className="space-y-2 w-full max-w-2xl mx-auto px-4 md:px-6"
       >
         <div className="flex items-center gap-2">
           <FormField
@@ -157,7 +157,7 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
                       type="date" 
                       {...field} 
                       max={today}
-                      className="h-6 text-[10px] w-32 px-1" 
+                      className="h-6 text-[10px] w-28 px-1" 
                     />
                   </FormControl>
                 </div>

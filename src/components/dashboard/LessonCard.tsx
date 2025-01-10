@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Calendar, Clock, CheckCircle2, FilePenLine } from "lucide-react";
+import { MapPin, Calendar, Clock, CheckCircle2, FilePenLine, Eye } from "lucide-react";
 import { LessonWithProgress } from "./types";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
@@ -65,12 +65,12 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
             <div className="flex gap-2">
               {isInstructor && (
                 <Button
-                  variant="ghost"
+                  variant="outline"
                   size="icon"
-                  className="h-8 w-8"
+                  className="h-8 w-8 border-yellow-500 hover:bg-yellow-50"
                   onClick={() => navigate(`/lesson/${lesson.id}/edit`)}
                 >
-                  <FilePenLine className="h-4 w-4" />
+                  <FilePenLine className="h-4 w-4 text-yellow-600" />
                 </Button>
               )}
               <Button
@@ -79,7 +79,7 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
                 className="h-8 w-8"
                 onClick={() => navigate(`/lesson/${lesson.id}`)}
               >
-                <FilePenLine className="h-4 w-4" />
+                <Eye className="h-4 w-4" />
               </Button>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -27,7 +27,7 @@ export const ProfileForm = ({
   onChange 
 }: ProfileFormProps) => {
   // Initialize formData with profile data when editing starts
-  useState(() => {
+  useEffect(() => {
     if (isEditing) {
       onChange('first_name', profile.first_name || '');
       onChange('last_name', profile.last_name || '');
@@ -35,7 +35,7 @@ export const ProfileForm = ({
       onChange('phone', profile.phone || '');
       onChange('campus', profile.campus || '');
     }
-  }, [isEditing]);
+  }, [isEditing, profile, onChange]);
 
   const handlePhoneChange = (value: string | undefined) => {
     if (value && !isValidPhoneNumber(value)) {

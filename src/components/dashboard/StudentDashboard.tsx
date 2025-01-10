@@ -11,7 +11,7 @@ import { NextLessonCard } from "./cards/NextLessonCard";
 import { EngagementCard } from "./cards/EngagementCard";
 import { ReferralCard } from "./cards/ReferralCard";
 import { Button } from "@/components/ui/button";
-import { X, Pencil } from "lucide-react";
+import { X, FilePenLine } from "lucide-react";
 import { format } from "date-fns";
 
 const REFERRAL_URL = "https://preview--app-collaborate-hub.lovable.app/register";
@@ -150,7 +150,7 @@ const StudentDashboard = () => {
                   onClick={() => handleEditEngagement(engagement)}
                   className="h-8 w-8 text-gray-400 hover:text-primary shrink-0"
                 >
-                  <Pencil className="h-4 w-4" />
+                  <FilePenLine className="h-4 w-4" />
                   <span className="sr-only">Edit engagement</span>
                 </Button>
               </div>

@@ -104,26 +104,27 @@ const Lessons = () => {
                   <h3 className="font-medium text-xs sm:text-base md:text-lg mb-1 sm:mb-2 line-clamp-1">{lesson.title}</h3>
                   <p className="text-xs text-gray-600 line-clamp-2 mb-1 sm:mb-2">{lesson.description}</p>
                   
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-1">
-                      <Calendar className="h-3 w-3 text-primary" />
-                      <span className="text-xs">
+                  {/* Updated mobile-friendly lesson info section */}
+                  <div className="flex items-center gap-2 text-xs text-gray-600 overflow-hidden">
+                    <div className="flex items-center gap-1 min-w-fit">
+                      <Calendar className="h-3 w-3 text-primary shrink-0" />
+                      <span className="truncate">
                         {lesson.lesson_date 
-                          ? format(new Date(lesson.lesson_date), 'MMM d, yyyy')
-                          : 'Date TBD'}
+                          ? format(new Date(lesson.lesson_date), 'MMM d')
+                          : 'TBD'}
                       </span>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <Clock className="h-3 w-3 text-primary" />
-                      <span className="text-xs">
+                    <div className="flex items-center gap-1 min-w-fit">
+                      <Clock className="h-3 w-3 text-primary shrink-0" />
+                      <span className="truncate">
                         {lesson.lesson_time
                           ? format(new Date(`2000-01-01T${lesson.lesson_time}`), 'p')
-                          : 'Time TBD'}
+                          : 'TBD'}
                       </span>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <MapPin className="h-3 w-3 text-primary" />
-                      <span className="text-xs truncate">{lesson.location || 'Location TBD'}</span>
+                    <div className="flex items-center gap-1 flex-1">
+                      <MapPin className="h-3 w-3 text-primary shrink-0" />
+                      <span className="truncate">{lesson.location || 'TBD'}</span>
                     </div>
                   </div>
                 </div>

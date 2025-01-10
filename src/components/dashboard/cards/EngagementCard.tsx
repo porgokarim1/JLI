@@ -25,9 +25,7 @@ export const EngagementCard = ({ onNewEngagement }: EngagementCardProps) => {
         throw error;
       }
       
-      // Sum up all participant counts to get total number of peers
       const total = data.reduce((sum, conv) => sum + (conv.participant_count || 0), 0);
-      console.log('Total peers:', total, 'Raw data:', data); // For debugging
       return total;
     }
   });
@@ -58,7 +56,7 @@ export const EngagementCard = ({ onNewEngagement }: EngagementCardProps) => {
             className="text-black h-8 text-xs"
             onClick={onNewEngagement}
           >
-            <Plus className="h-4 w-4 mr-1" /> New
+            Add
           </Button>
         </div>
       </CardContent>

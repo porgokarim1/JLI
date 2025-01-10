@@ -52,21 +52,24 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
             <div className="space-y-1">
               <h3 className="font-medium text-sm">Next Lesson</h3>
               <p className="text-xs text-muted-foreground">
-                {nextLesson?.lesson_date && format(new Date(nextLesson.lesson_date), 'MM/dd/yyyy')}
+                {nextLesson?.lesson_date && format(new Date(nextLesson.lesson_date), 'EEE. MM/dd/yyyy')}
                 {nextLesson?.lesson_time && ` @${format(new Date(`2000-01-01T${nextLesson.lesson_time}`), 'h:mm a')}`}
               </p>
               <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                <MapPin className="h-4 w-4" />
-                <span>{nextLesson?.location || 'Location TBD'}</span>
+                <MapPin className="h-4 w-4 flex-shrink-0" />
+                <span className="truncate">{nextLesson?.location || 'Location TBD'}</span>
               </div>
+              {nextLesson?.description && (
+                <p className="text-xs text-muted-foreground line-clamp-2">{nextLesson.description}</p>
+              )}
             </div>
           </div>
           <Button 
             variant="default"
-            className="text-black h-8 text-xs"
+            className="text-black h-8 text-xs whitespace-nowrap"
             onClick={onAttendanceClick}
           >
-            Confirm Attendance
+            Attend
           </Button>
         </div>
       </CardContent>

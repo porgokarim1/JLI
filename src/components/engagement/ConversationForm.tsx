@@ -17,7 +17,12 @@ const today = new Date().toISOString().split('T')[0];
 const formSchema = z.object({
   comfort_level: z.enum(["very_comfortable", "comfortable", "uncomfortable", "very_uncomfortable", "neutral"]),
   comments: z.string().optional(),
-  conversation_date: z.string(),
+  conversation_date: z.string().refine((date) => {
+    const selectedDate = new Date(date);
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+    return selectedDate <= currentDate;
+  }, "Future dates are not allowed"),
   participant_count: z.number().min(1).max(99)
 });
 

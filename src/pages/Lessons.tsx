@@ -101,10 +101,9 @@ const Lessons = () => {
             >
               <div className="p-2 sm:p-4 flex flex-col justify-between h-full">
                 <div>
-                  <h3 className="font-medium text-xs sm:text-base md:text-lg mb-1 sm:mb-2 line-clamp-1">{lesson.title}</h3>
+                  <h3 className="font-medium text-xs sm:text-base md:text-lg mb-1 sm:mb-2 break-words">{lesson.title}</h3>
                   <p className="text-xs text-gray-600 line-clamp-2 mb-1 sm:mb-2">{lesson.description}</p>
                   
-                  {/* Updated mobile-friendly lesson info section */}
                   <div className="flex items-center gap-2 text-xs text-gray-600 overflow-hidden">
                     <div className="flex items-center gap-1 min-w-fit">
                       <Calendar className="h-3 w-3 text-primary shrink-0" />

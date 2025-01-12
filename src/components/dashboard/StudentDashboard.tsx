@@ -85,82 +85,18 @@ const StudentDashboard = () => {
     setSelectedEngagement(null);
   };
 
-  const getPeersIcon = (count: number) => {
-    if (count === 1) return '👤';
-    if (count === 2) return '👥';
-    if (count === 3) return '👤👥';
-    return '👥👤+';
-  };
-
-  const formatDate = (date: string) => {
-    const now = new Date();
-    const conversationDate = new Date(date);
-    const diffInMinutes = Math.floor((now.getTime() - conversationDate.getTime()) / (1000 * 60));
-    
-    if (diffInMinutes < 60) {
-      return `${diffInMinutes} min ago`;
-    } else if (diffInMinutes < 24 * 60) {
-      const hours = Math.floor(diffInMinutes / 60);
-      return `${hours} hours ago`;
-    } else {
-      return format(conversationDate, 'MM/dd/yyyy');
-    }
-  };
-
   return (
-    <div className="min-h-[calc(100vh-4rem)] p-4 max-w-7xl mx-auto space-y-4 pb-20">
+    <div className="min-h-[100dvh] p-4 max-w-7xl mx-auto space-y-4 pb-20">
       <DashboardHeader />
       
       <div className="space-y-4 max-w-md mx-auto w-full px-2">
         <NextLessonCard onAttendanceClick={() => setShowAttendanceForm(true)} />
         <ReferralCard onShareLink={handleCopyReferralLink} onEmailShare={handleEmailShare} />
-        <EngagementCard onNewEngagement={() => setShowEngagementForm(true)} />
-      </div>
-
-      <div className="w-full max-w-md mx-auto bg-white rounded-lg shadow-sm p-4">
-        <div className="space-y-3">
-          {recentEngagements.length > 0 ? (
-            recentEngagements.map((engagement) => (
-              <div 
-                key={engagement.id}
-                className="flex items-center justify-between py-2 border-t-2 border-gray-300 gap-2"
-              >
-                <div className="flex items-center gap-2 min-w-0">
-                  <div className="flex items-center gap-1 shrink-0">
-                    <span className="text-gray-600">
-                      {getPeersIcon(engagement.participant_count)}
-                    </span>
-                    <span className="text-sm font-medium text-gray-700">
-                      {engagement.participant_count}
-                    </span>
-                  </div>
-                  <span className="text-sm text-gray-500 shrink-0">
-                    {formatDate(engagement.conversation_date)}
-                  </span>
-                  <span className="text-lg shrink-0">
-                    {getComfortEmoji(engagement.comfort_level || '')}
-                  </span>
-                  <span className="text-sm text-gray-600 truncate">
-                    {engagement.comments || '-'}
-                  </span>
-                </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => handleEditEngagement(engagement)}
-                  className="h-8 w-8 text-gray-400 hover:text-primary shrink-0"
-                >
-                  <FilePenLine className="h-4 w-4" />
-                  <span className="sr-only">Edit engagement</span>
-                </Button>
-              </div>
-            ))
-          ) : (
-            <div className="text-center py-4 text-gray-500 text-sm">
-              No engagement recorded. Start <button onClick={() => setShowEngagementForm(true)} className="text-primary hover:underline">here</button>
-            </div>
-          )}
-        </div>
+        <EngagementCard 
+          onNewEngagement={() => setShowEngagementForm(true)} 
+          onEditEngagement={handleEditEngagement}
+          recentEngagements={recentEngagements}
+        />
       </div>
 
       <Dialog open={showEngagementForm} onOpenChange={handleFormClose}>

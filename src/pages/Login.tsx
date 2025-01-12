@@ -38,7 +38,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 flex items-center justify-center p-4">
+    <div className="min-h-[100dvh] bg-gradient-to-br from-purple-50 via-white to-blue-50 flex items-center justify-center p-4">
       <div className="container max-w-md mx-auto">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
@@ -97,7 +97,7 @@ const Login = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col space-y-4">
+              <div className="flex flex-col space-y-4 sticky bottom-4 bg-white/70 backdrop-blur-sm py-4">
                 <Button 
                   type="submit"
                   className="w-full bg-[#FFD700] hover:bg-[#FFD700]/90 text-black"
@@ -109,7 +109,7 @@ const Login = () => {
                   type="button"
                   variant="outline"
                   onClick={() => navigate("/register")}
-                  className="w-full border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700]/10"
+                  className="w-full border-gray-500 text-gray-500 hover:bg-gray-500/10"
                   disabled={isLoading}
                 >
                   Join

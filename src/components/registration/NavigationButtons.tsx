@@ -24,7 +24,7 @@ export const NavigationButtons = ({
   const navigate = useNavigate();
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-sm border-t md:static md:bg-transparent md:border-0 md:p-0">
+    <div className="sticky bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-sm border-t">
       <div className="flex gap-4 max-w-md mx-auto">
         {showBack && (
           <Button

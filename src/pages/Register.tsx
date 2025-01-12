@@ -126,9 +126,9 @@ const Register = () => {
   const CurrentStepComponent = steps[currentStep].component;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md mx-auto">
-        <div className="bg-white shadow-xl rounded-lg p-6">
+    <div className="min-h-[100dvh] bg-gradient-to-br from-purple-50 via-white to-blue-50">
+      <div className="container max-w-md mx-auto py-6 px-4">
+        <div className="bg-white shadow-xl rounded-lg">
           <CurrentStepComponent {...steps[currentStep].props} />
         </div>
       </div>

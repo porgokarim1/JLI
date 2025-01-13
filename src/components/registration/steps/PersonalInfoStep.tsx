@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { NavigationButtons } from "../NavigationButtons";
+import { CheckCircle2, Circle } from "lucide-react";
 
 interface PersonalInfoStepProps {
   formData: {
@@ -24,8 +25,7 @@ export const PersonalInfoStep = ({ formData, onChange, onNext, isLoading }: Pers
   return (
     <div className="space-y-6 animate-fade-in pb-24 md:pb-0 px-8 py-8">
       <div className="text-center space-y-2">
-        <h2 className="text-2xl font-bold">Let's get to know you! 👋</h2>
-        <p className="text-muted-foreground">Tell us about yourself</p>
+        <h2 className="text-2xl font-bold">Welcome! 👋</h2>
       </div>
 
       <div className="space-y-4">
@@ -49,6 +49,13 @@ export const PersonalInfoStep = ({ formData, onChange, onNext, isLoading }: Pers
             onChange={(e) => onChange("lastName", e.target.value)}
           />
         </div>
+      </div>
+
+      <div className="flex justify-center space-x-2 mb-4">
+        <CheckCircle2 className="w-5 h-5 text-[#8B5CF6]" />
+        <Circle className="w-5 h-5 text-muted" />
+        <Circle className="w-5 h-5 text-muted" />
+        <Circle className="w-5 h-5 text-muted" />
       </div>
 
       <NavigationButtons

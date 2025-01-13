@@ -34,12 +34,15 @@ const HeroSection = () => {
             </div>
           </div>
         </div>
-        <div className="w-full h-[300px] md:h-[450px] flex justify-center">
+        <div className="w-full h-[300px] md:h-[450px] flex flex-col justify-center items-center">
           <img
             src="https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/General%20images/SM-5785-KI-GIF-1-Transparent-Story.gif"
             alt="K'NOW Israel Animation"
             className="w-full h-full object-contain"
           />
+          <p className="text-black text-sm md:text-base mt-4 max-w-[400px] text-center">
+            A four-part course on confronting the pervasive lies and misinformation about Israel that Jewish students frequently face on college campuses, equipping you with practical skills and effective responses.
+          </p>
         </div>
       </div>
     </div>

@@ -14,15 +14,13 @@ interface GenderStepProps {
 export const GenderStep = ({ formData, onChange, onNext, onBack }: GenderStepProps) => {
   const handleGenderSelect = (gender: string) => {
     onChange("gender", gender);
-    // Auto-continue after selection
-    setTimeout(() => onNext(), 300); // Small delay for visual feedback
+    setTimeout(() => onNext(), 300);
   };
 
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold">Tell us about yourself! 💫</h2>
-        <p className="text-muted-foreground">Choose your gender</p>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
@@ -35,10 +33,7 @@ export const GenderStep = ({ formData, onChange, onNext, onBack }: GenderStepPro
           onClick={() => handleGenderSelect("male")}
         >
           <div className="flex flex-col items-center space-y-4">
-            <div className="relative">
-              <User className="w-16 h-16 text-primary" />
-              <div className="absolute -bottom-1 right-0 w-4 h-4 bg-blue-500 rounded-full" />
-            </div>
+            <User className="w-16 h-16 text-primary" />
             <span className="text-lg font-semibold">Male</span>
           </div>
         </Card>
@@ -52,10 +47,7 @@ export const GenderStep = ({ formData, onChange, onNext, onBack }: GenderStepPro
           onClick={() => handleGenderSelect("female")}
         >
           <div className="flex flex-col items-center space-y-4">
-            <div className="relative">
-              <User className="w-16 h-16 text-primary" />
-              <div className="absolute -bottom-1 right-0 w-4 h-4 bg-pink-500 rounded-full" />
-            </div>
+            <User className="w-16 h-16 text-primary" />
             <span className="text-lg font-semibold">Female</span>
           </div>
         </Card>

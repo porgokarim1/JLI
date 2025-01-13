@@ -104,9 +104,8 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
                   </span>
                   <div className="px-2 min-w-0">
                     {engagement.comments && (
-                      <span className="text-sm text-gray-600 truncate flex items-center gap-1">
-                        <MessageSquare className="h-3 w-3 shrink-0" />
-                        <span className="truncate">{engagement.comments}</span>
+                      <span className="text-sm text-gray-600 truncate">
+                        {engagement.comments}
                       </span>
                     )}
                   </div>

@@ -14,7 +14,9 @@ const HeroSection = () => {
               alt="K'NOW ISRAEL"
               className="w-full h-auto max-w-[300px] mx-auto"
             />
-            
+            <p className="text-black text-sm md:text-base mt-4 max-w-[400px] mx-auto">
+              A four-part course on confronting the pervasive lies and misinformation about Israel that Jewish students frequently face on college campuses, equipping you with practical skills and effective responses.
+            </p>
             <div className="pt-2 flex flex-col sm:flex-row gap-2 justify-center">
               <Button 
                 size="lg"
@@ -40,9 +42,6 @@ const HeroSection = () => {
             alt="K'NOW Israel Animation"
             className="w-full h-full object-contain"
           />
-          <p className="text-black text-sm md:text-base mt-4 max-w-[400px] text-center">
-            A four-part course on confronting the pervasive lies and misinformation about Israel that Jewish students frequently face on college campuses, equipping you with practical skills and effective responses.
-          </p>
         </div>
       </div>
     </div>

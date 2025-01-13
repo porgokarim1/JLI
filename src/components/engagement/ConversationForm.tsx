@@ -118,6 +118,12 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
         return;
       }
 
+      // Close the form immediately
+      if (onClose) onClose();
+      
+      // Start confetti animation
+      triggerConfetti();
+
       const { error } = await supabase.from("conversations").upsert({
         comfort_level: formData.comfort_level,
         comments: formData.comments,
@@ -129,13 +135,15 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
 
       if (error) throw error;
 
-      triggerConfetti();
+      // Refresh the page after a short delay to allow confetti to play
       setTimeout(() => {
         window.location.reload();
       }, 3000);
       
     } catch (error: any) {
       toast.error("Error recording conversation: " + error.message);
+      // If there's an error, reopen the form
+      if (onClose) onSuccess?.();
     } finally {
       setIsSubmitting(false);
     }

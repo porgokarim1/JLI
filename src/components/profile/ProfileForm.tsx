@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -34,6 +34,7 @@ export const ProfileForm = ({
       onChange('email', profile.email || '');
       onChange('phone', profile.phone || '');
       onChange('campus', profile.campus || '');
+      onChange('gender', profile.gender || '');
     }
   }, [isEditing, profile, onChange]);
 
@@ -42,7 +43,7 @@ export const ProfileForm = ({
       toast.error("Please enter a valid phone number");
       return;
     }
-    onChange('phone', value);
+    onChange('phone', value || '');
   };
 
   if (!isEditing) {
@@ -82,6 +83,7 @@ export const ProfileForm = ({
             name="first_name"
             value={formData.first_name || ''}
             onChange={(e) => onChange('first_name', e.target.value)}
+            className="bg-white"
           />
         </div>
         <div className="space-y-2">
@@ -91,6 +93,7 @@ export const ProfileForm = ({
             name="last_name"
             value={formData.last_name || ''}
             onChange={(e) => onChange('last_name', e.target.value)}
+            className="bg-white"
           />
         </div>
         <div className="space-y-2">
@@ -102,6 +105,7 @@ export const ProfileForm = ({
               defaultCountry="US"
               value={formData.phone || ''}
               onChange={handlePhoneChange}
+              className="bg-white"
             />
           </div>
         </div>
@@ -109,7 +113,7 @@ export const ProfileForm = ({
           <Label htmlFor="campus">Campus</Label>
           <Select 
             value={formData.campus || ''}
-            onValueChange={(value) => onChange("campus", value)}
+            onValueChange={(value) => onChange('campus', value)}
           >
             <SelectTrigger className="bg-white">
               <SelectValue placeholder="Select your campus" />

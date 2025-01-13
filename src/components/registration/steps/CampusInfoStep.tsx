@@ -18,7 +18,6 @@ export const CampusInfoStep = ({ formData, onChange, onNext, onBack, isLoading }
     <div className="space-y-6 animate-fade-in">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold">Almost there! 🎓</h2>
-        <p className="text-muted-foreground">Tell us about your campus</p>
       </div>
 
       <div className="space-y-4">
@@ -54,7 +53,7 @@ export const CampusInfoStep = ({ formData, onChange, onNext, onBack, isLoading }
             className="flex-1"
             disabled={isLoading || !formData.campus}
           >
-            {isLoading ? "Registering..." : "Complete Registration"}
+            {isLoading ? "Registering..." : "Done ✔️"}
           </Button>
         </div>
       </div>

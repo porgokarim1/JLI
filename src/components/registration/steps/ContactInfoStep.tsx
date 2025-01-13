@@ -32,7 +32,6 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, isLoading 
     <div className="space-y-6 animate-fade-in">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold">How can we reach you? 📱</h2>
-        <p className="text-muted-foreground">Enter your contact information</p>
       </div>
 
       <div className="space-y-4">

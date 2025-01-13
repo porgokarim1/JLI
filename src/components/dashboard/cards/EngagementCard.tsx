@@ -90,30 +90,32 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
             recentEngagements.map((engagement) => (
               <div 
                 key={engagement.id}
-                className="flex items-center justify-between py-2 border-t border-gray-200 gap-2"
+                className="flex items-center justify-between py-2 border-t border-gray-200"
               >
-                <div className="flex items-center gap-3 min-w-0">
-                  <span className="text-sm text-gray-600 whitespace-nowrap">
+                <div className="grid grid-cols-4 gap-2 items-center min-w-0 flex-1 divide-x divide-gray-200">
+                  <span className="text-sm text-gray-600 whitespace-nowrap px-2">
                     {format(new Date(engagement.conversation_date), 'MMM d')}
                   </span>
-                  <span className="text-lg">
+                  <span className="text-lg px-2 text-center">
                     {getComfortEmoji(engagement.comfort_level || '')}
                   </span>
-                  <span className="text-sm whitespace-nowrap">
+                  <span className="text-sm whitespace-nowrap px-2 text-center">
                     {getPeersIcon(engagement.participant_count)}
                   </span>
-                  {engagement.comments && (
-                    <span className="text-sm text-gray-600 truncate flex items-center gap-1">
-                      <MessageSquare className="h-3 w-3" />
-                      {engagement.comments}
-                    </span>
-                  )}
+                  <div className="px-2 min-w-0">
+                    {engagement.comments && (
+                      <span className="text-sm text-gray-600 truncate flex items-center gap-1">
+                        <MessageSquare className="h-3 w-3 shrink-0" />
+                        <span className="truncate">{engagement.comments}</span>
+                      </span>
+                    )}
+                  </div>
                 </div>
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => onEditEngagement(engagement)}
-                  className="h-8 w-8 text-gray-400 hover:text-primary shrink-0"
+                  className="h-8 w-8 text-gray-400 hover:text-primary shrink-0 ml-2"
                 >
                   <FilePenLine className="h-4 w-4" />
                   <span className="sr-only">Edit engagement</span>

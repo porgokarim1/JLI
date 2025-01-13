@@ -26,9 +26,10 @@ export const NavigationButtons = ({
   return (
     <div className="flex flex-col space-y-4">
       <div className="flex justify-center space-x-2 mb-4">
-        <ArrowLeft className="w-5 h-5 text-muted" />
-        <ArrowRight className="w-5 h-5 text-muted" />
-        <Home className="w-5 h-5 text-muted" />
+        <div className="w-2.5 h-2.5 rounded-full bg-primary"></div>
+        <div className="w-2.5 h-2.5 rounded-full bg-muted"></div>
+        <div className="w-2.5 h-2.5 rounded-full bg-muted"></div>
+        <div className="w-2.5 h-2.5 rounded-full bg-muted"></div>
       </div>
 
       <div className="flex gap-4">

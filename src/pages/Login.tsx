@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -38,15 +38,27 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-gradient-to-br from-purple-50 via-white to-blue-50">
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-md mx-auto space-y-8 pt-16">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold tracking-tight">Welcome back</h2>
-            <p className="text-sm text-muted-foreground mt-2">
-              New to KNOW ISRAEL? <Link to="/register" className="text-primary hover:underline">Join</Link>
-            </p>
+    <div className="min-h-[100dvh] bg-gradient-to-br from-purple-50 via-white to-blue-50 flex items-center justify-center p-4">
+      <div className="container max-w-md mx-auto">
+        <div className="text-center mb-8">
+          <div className="flex justify-center mb-4">
+            <img 
+              src="https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/lesson_images/logo.png?t=2025-01-02T06%3A41%3A20.422Z"
+              alt="Logo"
+              className="h-12 cursor-pointer"
+              onClick={() => navigate("/")}
+            />
           </div>
+          <h1 className="text-4xl font-black mb-2">
+            <span className="text-black relative">
+              K
+              <span className="absolute -top-1 left-[0.45em]">'</span>
+            </span>
+            <span className="text-black">NOW</span>
+            <span className="text-black"> ISRAEL</span>
+          </h1>
+          <p className="text-black font-medium">Welcome back! Let's continue learning together.</p>
+        </div>
 
         <Card className="bg-white/70 backdrop-blur-sm border-primary">
           <CardHeader className="space-y-1">
@@ -106,7 +118,6 @@ const Login = () => {
             </form>
           </CardContent>
         </Card>
-        </div>
       </div>
     </div>
   );

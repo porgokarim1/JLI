@@ -1,7 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { NavigationButtons } from "../NavigationButtons";
-import { CheckCircle2, Circle } from "lucide-react";
 
 interface PersonalInfoStepProps {
   formData: {
@@ -28,7 +27,7 @@ export const PersonalInfoStep = ({ formData, onChange, onNext, isLoading }: Pers
         <h2 className="text-2xl font-bold">Let's get to know you! 👋</h2>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-4 px-4">
         <div>
           <Label htmlFor="firstName">Your First Name</Label>
           <Input
@@ -51,14 +50,16 @@ export const PersonalInfoStep = ({ formData, onChange, onNext, isLoading }: Pers
         </div>
       </div>
 
-      <NavigationButtons
-        showBack={false}
-        showHome={true}
-        onNext={handleNext}
-        isNextDisabled={!formData.firstName.trim() || !formData.lastName.trim()}
-        isLoading={isLoading}
-        homeButtonClassName="text-gray-500 border-gray-500 hover:bg-gray-100"
-      />
+      <div className="px-4">
+        <NavigationButtons
+          showBack={false}
+          showHome={true}
+          onNext={handleNext}
+          isNextDisabled={!formData.firstName.trim() || !formData.lastName.trim()}
+          isLoading={isLoading}
+          homeButtonClassName="text-gray-500 border-gray-500 hover:bg-gray-100"
+        />
+      </div>
     </div>
   );
 };

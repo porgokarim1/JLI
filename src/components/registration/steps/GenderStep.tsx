@@ -18,14 +18,14 @@ export const GenderStep = ({ formData, onChange, onNext, onBack }: GenderStepPro
   };
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-6 animate-fade-in p-8">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold">Tell us about yourself! 💫</h2>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-4 px-4">
         <Card
-          className={`p-6 cursor-pointer transition-all hover:scale-105 ${
+          className={`p-8 cursor-pointer transition-all hover:scale-105 ${
             formData.gender === "male"
               ? "border-primary bg-primary/10"
               : "hover:border-primary"
@@ -39,7 +39,7 @@ export const GenderStep = ({ formData, onChange, onNext, onBack }: GenderStepPro
         </Card>
 
         <Card
-          className={`p-6 cursor-pointer transition-all hover:scale-105 ${
+          className={`p-8 cursor-pointer transition-all hover:scale-105 ${
             formData.gender === "female"
               ? "border-primary bg-primary/10"
               : "hover:border-primary"
@@ -53,7 +53,7 @@ export const GenderStep = ({ formData, onChange, onNext, onBack }: GenderStepPro
         </Card>
       </div>
 
-      <div className="flex flex-col space-y-4">
+      <div className="flex flex-col space-y-4 px-4">
         <div className="flex justify-center space-x-2 mb-4">
           <CheckCircle2 className="w-5 h-5 text-[#8B5CF6]" />
           <CheckCircle2 className="w-5 h-5 text-[#8B5CF6]" />

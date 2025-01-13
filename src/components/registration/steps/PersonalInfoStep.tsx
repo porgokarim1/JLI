@@ -22,7 +22,7 @@ export const PersonalInfoStep = ({ formData, onChange, onNext, isLoading }: Pers
   };
 
   return (
-    <div className="space-y-6 animate-fade-in pb-24 md:pb-0">
+    <div className="space-y-6 animate-fade-in pb-24 md:pb-0 px-6 py-6">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold">Let's get to know you! 👋</h2>
         <p className="text-muted-foreground">Tell us about yourself</p>
@@ -57,7 +57,10 @@ export const PersonalInfoStep = ({ formData, onChange, onNext, isLoading }: Pers
         onNext={handleNext}
         isNextDisabled={!formData.firstName.trim() || !formData.lastName.trim()}
         isLoading={isLoading}
+        homeButtonClassName="text-gray-500 border-gray-500 hover:bg-gray-100"
       />
     </div>
   );
 };
+
+export default PersonalInfoStep;

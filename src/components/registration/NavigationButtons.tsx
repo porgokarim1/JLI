@@ -1,31 +1,37 @@
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, Check, Home } from "lucide-react";
+import { ArrowLeft, ArrowRight, Home } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 interface NavigationButtonsProps {
-  showBack?: boolean;
+  showBack: boolean;
   showHome?: boolean;
-  nextLabel?: string;
   onNext: () => void;
   onBack?: () => void;
   isNextDisabled?: boolean;
   isLoading?: boolean;
+  homeButtonClassName?: string;
 }
 
 export const NavigationButtons = ({
-  showBack = true,
-  showHome = false,
-  nextLabel = "Next",
+  showBack,
+  showHome,
   onNext,
   onBack,
-  isNextDisabled = false,
-  isLoading = false,
+  isNextDisabled,
+  isLoading,
+  homeButtonClassName
 }: NavigationButtonsProps) => {
   const navigate = useNavigate();
 
   return (
-    <div className="sticky bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-sm border-t">
-      <div className="flex gap-4 max-w-md mx-auto">
+    <div className="flex flex-col space-y-4">
+      <div className="flex justify-center space-x-2 mb-4">
+        <ArrowLeft className="w-5 h-5 text-muted" />
+        <ArrowRight className="w-5 h-5 text-muted" />
+        <Home className="w-5 h-5 text-muted" />
+      </div>
+
+      <div className="flex gap-4">
         {showBack && (
           <Button
             variant="outline"
@@ -37,30 +43,24 @@ export const NavigationButtons = ({
             Back
           </Button>
         )}
-        
         {showHome && (
           <Button
             variant="outline"
             onClick={() => navigate("/")}
-            className="flex-1"
+            className={`flex-1 ${homeButtonClassName}`}
             disabled={isLoading}
           >
             <Home className="mr-2 h-4 w-4" />
             Back to Main Page
           </Button>
         )}
-
         <Button
           onClick={onNext}
           className="flex-1"
-          disabled={isNextDisabled || isLoading}
+          disabled={isLoading || isNextDisabled}
         >
-          {nextLabel}
-          {nextLabel === "Next" ? (
-            <ArrowRight className="ml-2 h-4 w-4" />
-          ) : (
-            <Check className="ml-2 h-4 w-4" />
-          )}
+          Next
+          <ArrowRight className="ml-2 h-4 w-4" />
         </Button>
       </div>
     </div>

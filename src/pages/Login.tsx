@@ -52,7 +52,6 @@ const Login = () => {
           <h1 className="text-4xl font-black mb-2">
             <span className="text-black">KNOW ISRAEL</span>
           </h1>
-          <p className="text-black font-medium">Welcome back! Let's continue learning together.</p>
         </div>
 
         <Card className="bg-white/70 backdrop-blur-sm border-primary">

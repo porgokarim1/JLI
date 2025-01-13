@@ -333,18 +333,21 @@ export type Database = {
       }
       universities: {
         Row: {
+          confirmed: boolean | null
           created_at: string
           id: string
           name: string
           updated_at: string
         }
         Insert: {
+          confirmed?: boolean | null
           created_at?: string
           id?: string
           name: string
           updated_at?: string
         }
         Update: {
+          confirmed?: boolean | null
           created_at?: string
           id?: string
           name?: string

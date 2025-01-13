@@ -26,9 +26,9 @@ export const ProfileForm = ({
   onCancel,
   onChange 
 }: ProfileFormProps) => {
-  // Initialize formData with profile data when editing starts
+  // Initialize formData with profile data only when editing starts
   useEffect(() => {
-    if (isEditing) {
+    if (isEditing && !formData.first_name) {
       onChange('first_name', profile.first_name || '');
       onChange('last_name', profile.last_name || '');
       onChange('email', profile.email || '');
@@ -36,7 +36,7 @@ export const ProfileForm = ({
       onChange('campus', profile.campus || '');
       onChange('gender', profile.gender || '');
     }
-  }, [isEditing, profile, onChange]);
+  }, [isEditing]);
 
   const handlePhoneChange = (value: string | undefined) => {
     if (value && !isValidPhoneNumber(value)) {

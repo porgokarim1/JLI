@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, Home } from "lucide-react";
+import { ArrowLeft, ArrowRight, Home, CheckCircle2, Circle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 interface NavigationButtonsProps {
@@ -26,10 +26,10 @@ export const NavigationButtons = ({
   return (
     <div className="flex flex-col space-y-4">
       <div className="flex justify-center space-x-2 mb-4">
-        <div className="w-2.5 h-2.5 rounded-full bg-primary"></div>
-        <div className="w-2.5 h-2.5 rounded-full bg-muted"></div>
-        <div className="w-2.5 h-2.5 rounded-full bg-muted"></div>
-        <div className="w-2.5 h-2.5 rounded-full bg-muted"></div>
+        <CheckCircle2 className="w-5 h-5 text-[#8B5CF6]" />
+        <Circle className="w-5 h-5 text-muted" />
+        <Circle className="w-5 h-5 text-muted" />
+        <Circle className="w-5 h-5 text-muted" />
       </div>
 
       <div className="flex gap-4">

@@ -4,8 +4,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { universities } from "./data/universities";
 import { UniversitySelectItem } from "./UniversitySelectItem";
+import { useUniversities } from "@/hooks/use-universities";
 
 interface CampusSelectorProps {
   value: string;
@@ -13,12 +13,14 @@ interface CampusSelectorProps {
 }
 
 export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
+  const { data: universities = [], isLoading } = useUniversities();
+
   return (
     <Select value={value} onValueChange={onChange}>
-      <SelectTrigger className="w-full bg-white">
-        <SelectValue placeholder="Select your campus..." />
+      <SelectTrigger className="w-full bg-white" disabled={isLoading}>
+        <SelectValue placeholder={isLoading ? "Loading universities..." : "Select your campus..."} />
       </SelectTrigger>
-      <SelectContent className="bg-white border border-input shadow-md">
+      <SelectContent className="bg-white border border-input shadow-md max-h-[300px]">
         {universities.map((university) => (
           <UniversitySelectItem key={university} university={university} />
         ))}

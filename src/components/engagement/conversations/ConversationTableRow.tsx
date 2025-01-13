@@ -13,9 +13,7 @@ const ConversationTableRow = ({ conversation, onEdit }: ConversationTableRowProp
       <td className="py-4">
         <div className="flex items-center">
           <Users className="h-4 w-4 mr-2 text-primary" />
-          <span className="whitespace-nowrap">
-            {conversation.participant_count} {conversation.participant_count === 1 ? 'peer' : 'peers'}
-          </span>
+          {conversation.participant_count} {conversation.participant_count === 1 ? 'peer' : 'peers'}
         </div>
       </td>
       <td className="py-4">

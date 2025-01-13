@@ -2,28 +2,11 @@ import NavigationBar from "@/components/navigation/NavigationBar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useLessons } from "@/components/dashboard/useLessons";
-import { MapPin, Calendar, Clock, CheckCircle2, University } from "lucide-react";
+import { MapPin, Calendar, Clock, CheckCircle2 } from "lucide-react";
 import { format } from "date-fns";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 
 const Lessons = () => {
   const { data: lessons, isLoading } = useLessons();
-  const { data: profile } = useQuery({
-    queryKey: ['user-profile'],
-    queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return null;
-
-      const { data } = await supabase
-        .from('profiles')
-        .select('organization')
-        .eq('id', user.id)
-        .single();
-      
-      return data;
-    }
-  });
 
   if (isLoading) {
     return (
@@ -82,12 +65,6 @@ const Lessons = () => {
 
           <Card className="bg-white/90 backdrop-blur-sm border-primary/20 shadow-lg">
             <CardHeader className="p-2 sm:p-4">
-              {profile?.organization && (
-                <div className="flex items-center gap-2 mb-1 text-xs sm:text-sm text-muted-foreground">
-                  <University className="h-3 w-3 sm:h-4 sm:w-4" />
-                  <span>{profile.organization}</span>
-                </div>
-              )}
               <CardTitle className="text-sm sm:text-lg">Next Lesson</CardTitle>
               <CardDescription className="text-xs sm:text-sm">Upcoming session</CardDescription>
             </CardHeader>

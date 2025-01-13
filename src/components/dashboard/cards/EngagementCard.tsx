@@ -99,7 +99,7 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
                   <span className="text-lg">
                     {getComfortEmoji(engagement.comfort_level || '')}
                   </span>
-                  <span className="text-sm">
+                  <span className="text-sm whitespace-nowrap">
                     {getPeersIcon(engagement.participant_count)}
                   </span>
                   {engagement.comments && (

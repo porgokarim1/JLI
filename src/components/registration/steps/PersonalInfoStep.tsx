@@ -59,13 +59,6 @@ export const PersonalInfoStep = ({ formData, onChange, onNext, isLoading }: Pers
         isLoading={isLoading}
         homeButtonClassName="text-gray-500 border-gray-500 hover:bg-gray-100"
       />
-
-      <div className="flex justify-center space-x-2 mb-4">
-        <CheckCircle2 className="w-5 h-5 text-[#8B5CF6]" />
-        <Circle className="w-5 h-5 text-muted" />
-        <Circle className="w-5 h-5 text-muted" />
-        <Circle className="w-5 h-5 text-muted" />
-      </div>
     </div>
   );
 };

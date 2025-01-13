@@ -9,7 +9,7 @@ import { Profile } from "@/components/dashboard/types";
 import { ProfileForm } from "@/components/profile/ProfileForm";
 import { LogOut, User } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
 
 const fetchProfile = async () => {
@@ -20,6 +20,21 @@ const fetchProfile = async () => {
     .from('profiles')
     .select('*')
     .eq('id', user.id)
+    .single();
+
+  if (error) throw error;
+  return data;
+};
+
+const updateProfile = async (profile: Partial<Profile>) => {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) throw new Error('User not found');
+
+  const { data, error } = await supabase
+    .from('profiles')
+    .update(profile)
+    .eq('id', user.id)
+    .select()
     .single();
 
   if (error) throw error;
@@ -46,24 +61,21 @@ const ProfileContent = ({ profile, onSignOut }: { profile: Profile, onSignOut: (
   const queryClient = useQueryClient();
   const isMobile = useIsMobile();
 
-  const handleUpdate = async () => {
-    try {
-      const { error } = await supabase
-        .from('profiles')
-        .update({
-          ...formData
-        })
-        .eq('id', profile.id);
-
-      if (error) throw error;
-
-      toast.success('Profile updated successfully 🎉');
+  const updateProfileMutation = useMutation({
+    mutationFn: updateProfile,
+    onSuccess: () => {
+      toast.success('Profile updated successfully');
       setIsEditing(false);
       queryClient.invalidateQueries({ queryKey: ['profile'] });
-    } catch (error) {
-      console.error('Error:', error);
-      toast.error('An error occurred while updating profile');
+    },
+    onError: (error: Error) => {
+      console.error('Error updating profile:', error);
+      toast.error(`Error updating profile: ${error.message}`);
     }
+  });
+
+  const handleUpdate = async () => {
+    updateProfileMutation.mutate(formData);
   };
 
   const handleChange = (field: string, value: any) => {
@@ -94,7 +106,12 @@ const ProfileContent = ({ profile, onSignOut }: { profile: Profile, onSignOut: (
             </span>
             <Button 
               variant={isEditing ? "destructive" : "outline"}
-              onClick={() => setIsEditing(!isEditing)}
+              onClick={() => {
+                if (isEditing) {
+                  setFormData({});
+                }
+                setIsEditing(!isEditing);
+              }}
               className="transition-all hover:scale-105 text-black text-sm"
             >
               {isEditing ? '❌ Cancel' : '✏️ Edit Profile'}
@@ -107,7 +124,10 @@ const ProfileContent = ({ profile, onSignOut }: { profile: Profile, onSignOut: (
             isEditing={isEditing}
             formData={formData}
             onSave={handleUpdate}
-            onCancel={() => setIsEditing(false)}
+            onCancel={() => {
+              setFormData({});
+              setIsEditing(false);
+            }}
             onChange={handleChange}
           />
         </CardContent>

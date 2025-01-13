@@ -9,7 +9,7 @@ interface PersonalInfoStepProps {
   onNext: () => void;
 }
 
-const PersonalInfoStep = ({ formData, onChange, onNext }: PersonalInfoStepProps) => {
+export const PersonalInfoStep = ({ formData, onChange, onNext }: PersonalInfoStepProps) => {
   const navigate = useNavigate();
   
   return (
@@ -34,5 +34,3 @@ const PersonalInfoStep = ({ formData, onChange, onNext }: PersonalInfoStepProps)
     </div>
   );
 };
-
-export default PersonalInfoStep;

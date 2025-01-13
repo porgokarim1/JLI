@@ -22,7 +22,7 @@ export const PersonalInfoStep = ({ formData, onChange, onNext, isLoading }: Pers
   };
 
   return (
-    <div className="space-y-6 animate-fade-in pb-24 md:pb-0 px-8 py-8">
+    <div className="space-y-6 p-8">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold">Let's get to know you! 👋</h2>
       </div>

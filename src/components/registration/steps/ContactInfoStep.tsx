@@ -29,7 +29,7 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, isLoading 
   const isEmailValid = validateEmail(formData.email);
 
   return (
-    <div className="space-y-6 animate-fade-in p-8">
+    <div className="space-y-6 p-8">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold">How can we reach you? 📱</h2>
       </div>

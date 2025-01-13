@@ -18,7 +18,7 @@ export const GenderStep = ({ formData, onChange, onNext, onBack }: GenderStepPro
   };
 
   return (
-    <div className="space-y-6 animate-fade-in p-8">
+    <div className="space-y-6 p-8">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold">Tell us about yourself! 💫</h2>
       </div>

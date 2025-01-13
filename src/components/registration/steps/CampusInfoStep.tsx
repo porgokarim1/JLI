@@ -15,7 +15,7 @@ interface CampusInfoStepProps {
 
 export const CampusInfoStep = ({ formData, onChange, onNext, onBack, isLoading }: CampusInfoStepProps) => {
   return (
-    <div className="space-y-6 animate-fade-in p-8">
+    <div className="space-y-6 p-8">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold">Almost there! 🎓</h2>
       </div>

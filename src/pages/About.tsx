@@ -5,11 +5,11 @@ const About = () => {
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
       <NavigationBar />
       <div className="container mx-auto px-4 pt-24 pb-16">
-        <h1 className="text-4xl font-bold mb-8 text-center">About K'NOW ISRAEL</h1>
+        <h1 className="text-4xl font-bold mb-8 text-center">About KNOW ISRAEL</h1>
         
         <div className="prose prose-lg mx-auto">
           <p className="mb-6">
-            K'NOW ISRAEL is a pioneering educational initiative designed to empower Jewish and Israeli individuals with the knowledge, wisdom, and communication skills needed to engage in meaningful dialogues about Israel through a Torah-based perspective.
+            KNOW ISRAEL is a pioneering educational initiative designed to empower Jewish and Israeli individuals with the knowledge, wisdom, and communication skills needed to engage in meaningful dialogues about Israel through a Torah-based perspective.
           </p>
 
           <h2 className="text-2xl font-semibold mb-4">Our Mission</h2>
@@ -47,7 +47,7 @@ const About = () => {
           <div className="bg-primary/10 p-6 rounded-lg mb-6">
             <h2 className="text-2xl font-semibold mb-4">Join Our Community</h2>
             <p>
-              Whether you're a student, professional, or community leader, K'NOW ISRAEL provides the tools and knowledge needed to become an effective advocate for Israel while staying true to Torah values. Join us in building bridges of understanding and fostering meaningful dialogue about Israel in your community.
+              Whether you're a student, professional, or community leader, KNOW ISRAEL provides the tools and knowledge needed to become an effective advocate for Israel while staying true to Torah values. Join us in building bridges of understanding and fostering meaningful dialogue about Israel in your community.
             </p>
           </div>
         </div>

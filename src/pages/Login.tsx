@@ -50,12 +50,7 @@ const Login = () => {
             />
           </div>
           <h1 className="text-4xl font-black mb-2">
-            <span className="text-black relative">
-              K
-              <span className="absolute -top-1 left-[0.45em]">'</span>
-            </span>
-            <span className="text-black">NOW</span>
-            <span className="text-black"> ISRAEL</span>
+            <span className="text-black">KNOW ISRAEL</span>
           </h1>
           <p className="text-black font-medium">Welcome back! Let's continue learning together.</p>
         </div>

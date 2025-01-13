@@ -61,6 +61,13 @@ export type Database = {
             referencedRelation: "student_progress_overview"
             referencedColumns: ["student_id"]
           },
+          {
+            foreignKeyName: "conversations_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_roles_cache"
+            referencedColumns: ["id"]
+          },
         ]
       }
       lesson_attendance: {
@@ -106,6 +113,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "student_progress_overview"
             referencedColumns: ["student_id"]
+          },
+          {
+            foreignKeyName: "lesson_attendance_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "user_roles_cache"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -240,6 +254,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "student_progress_overview"
             referencedColumns: ["student_id"]
+          },
+          {
+            foreignKeyName: "lessons_schedule_instructor_id_fkey"
+            columns: ["instructor_id"]
+            isOneToOne: false
+            referencedRelation: "user_roles_cache"
+            referencedColumns: ["id"]
           },
           {
             foreignKeyName: "lessons_schedule_lesson_id_fkey"
@@ -390,6 +411,13 @@ export type Database = {
             referencedRelation: "student_progress_overview"
             referencedColumns: ["student_id"]
           },
+          {
+            foreignKeyName: "user_lesson_progress_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_roles_cache"
+            referencedColumns: ["id"]
+          },
         ]
       }
     }
@@ -408,12 +436,148 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles_cache: {
+        Row: {
+          id: string | null
+          role: Database["public"]["Enums"]["user_role"] | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
+      bytea_to_text: {
+        Args: {
+          data: string
+        }
+        Returns: string
+      }
       generate_attendance_code: {
         Args: Record<PropertyKey, never>
         Returns: string
       }
+      http: {
+        Args: {
+          request: Database["public"]["CompositeTypes"]["http_request"]
+        }
+        Returns: Database["public"]["CompositeTypes"]["http_response"]
+      }
+      http_delete:
+        | {
+            Args: {
+              uri: string
+            }
+            Returns: Database["public"]["CompositeTypes"]["http_response"]
+          }
+        | {
+            Args: {
+              uri: string
+              content: string
+              content_type: string
+            }
+            Returns: Database["public"]["CompositeTypes"]["http_response"]
+          }
+      http_get:
+        | {
+            Args: {
+              uri: string
+            }
+            Returns: Database["public"]["CompositeTypes"]["http_response"]
+          }
+        | {
+            Args: {
+              uri: string
+              data: Json
+            }
+            Returns: Database["public"]["CompositeTypes"]["http_response"]
+          }
+      http_head: {
+        Args: {
+          uri: string
+        }
+        Returns: Database["public"]["CompositeTypes"]["http_response"]
+      }
+      http_header: {
+        Args: {
+          field: string
+          value: string
+        }
+        Returns: Database["public"]["CompositeTypes"]["http_header"]
+      }
+      http_list_curlopt: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          curlopt: string
+          value: string
+        }[]
+      }
+      http_patch: {
+        Args: {
+          uri: string
+          content: string
+          content_type: string
+        }
+        Returns: Database["public"]["CompositeTypes"]["http_response"]
+      }
+      http_post:
+        | {
+            Args: {
+              uri: string
+              content: string
+              content_type: string
+            }
+            Returns: Database["public"]["CompositeTypes"]["http_response"]
+          }
+        | {
+            Args: {
+              uri: string
+              data: Json
+            }
+            Returns: Database["public"]["CompositeTypes"]["http_response"]
+          }
+      http_put: {
+        Args: {
+          uri: string
+          content: string
+          content_type: string
+        }
+        Returns: Database["public"]["CompositeTypes"]["http_response"]
+      }
+      http_reset_curlopt: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
+      http_set_curlopt: {
+        Args: {
+          curlopt: string
+          value: string
+        }
+        Returns: boolean
+      }
+      text_to_bytea: {
+        Args: {
+          data: string
+        }
+        Returns: string
+      }
+      urlencode:
+        | {
+            Args: {
+              data: Json
+            }
+            Returns: string
+          }
+        | {
+            Args: {
+              string: string
+            }
+            Returns: string
+          }
+        | {
+            Args: {
+              string: string
+            }
+            Returns: string
+          }
     }
     Enums: {
       campus_region:
@@ -435,7 +599,23 @@ export type Database = {
       user_role: "student" | "instructor" | "administrator"
     }
     CompositeTypes: {
-      [_ in never]: never
+      http_header: {
+        field: string | null
+        value: string | null
+      }
+      http_request: {
+        method: unknown | null
+        uri: string | null
+        headers: Database["public"]["CompositeTypes"]["http_header"][] | null
+        content_type: string | null
+        content: string | null
+      }
+      http_response: {
+        status: number | null
+        content_type: string | null
+        headers: Database["public"]["CompositeTypes"]["http_header"][] | null
+        content: string | null
+      }
     }
   }
 }

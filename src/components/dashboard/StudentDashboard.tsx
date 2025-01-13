@@ -102,8 +102,8 @@ const StudentDashboard = () => {
       <Dialog open={showEngagementForm} onOpenChange={handleFormClose}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>
-              {selectedEngagement ? 'Edit Engagement' : 'Record New Engagement'}
+            <DialogTitle className="text-center">
+              Log Engagement
             </DialogTitle>
             <Button
               variant="ghost"

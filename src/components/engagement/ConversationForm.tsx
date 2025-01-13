@@ -50,13 +50,13 @@ const ComfortLevelSelector = ({ value, onChange }: { value: string, onChange: (v
           key={option.value}
           type="button"
           onClick={() => onChange(option.value)}
-          className={`flex items-center justify-center p-2 rounded-lg border transition-all ${
+          className={`flex items-center justify-center p-3 rounded-lg border transition-all ${
             value === option.value
               ? "border-primary bg-primary/10"
               : "border-gray-200 hover:border-primary/50"
           }`}
         >
-          <span className="text-2xl">{option.emoji}</span>
+          <span className="text-3xl">{option.emoji}</span>
         </button>
       ))}
     </div>

@@ -13,6 +13,16 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
   const { data: nextLesson, isLoading } = useQuery({
     queryKey: ['next-lesson'],
     queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('Not authenticated');
+
+      // Get user's university
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('campus')
+        .eq('id', user.id)
+        .single();
+
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       
@@ -29,7 +39,7 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
         throw error;
       }
       
-      return data;
+      return { ...data, userCampus: profile?.campus };
     }
   });
 
@@ -47,6 +57,11 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
     <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
       <CardContent className="p-4">
         <div className="space-y-3">
+          {nextLesson?.userCampus && (
+            <p className="text-xs text-muted-foreground font-medium border-b pb-2">
+              {nextLesson.userCampus}
+            </p>
+          )}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <BookOpen className="h-6 w-6 text-primary" />

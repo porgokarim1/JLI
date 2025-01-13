@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -26,6 +26,8 @@ export const ProfileForm = ({
   onCancel,
   onChange 
 }: ProfileFormProps) => {
+  const [showPhoneError, setShowPhoneError] = useState(false);
+
   // Initialize formData with profile data only when editing starts
   useEffect(() => {
     if (isEditing && !formData.first_name) {
@@ -39,11 +41,15 @@ export const ProfileForm = ({
   }, [isEditing]);
 
   const handlePhoneChange = (value: string | undefined) => {
-    if (value && !isValidPhoneNumber(value)) {
-      toast.error("Please enter a valid phone number");
-      return;
-    }
     onChange('phone', value || '');
+    setShowPhoneError(false); // Reset error when user types
+  };
+
+  const handlePhoneBlur = () => {
+    if (formData.phone && !isValidPhoneNumber(formData.phone)) {
+      setShowPhoneError(true);
+      toast.error("Please enter a valid phone number");
+    }
   };
 
   if (!isEditing) {
@@ -109,6 +115,7 @@ export const ProfileForm = ({
               defaultCountry="US"
               value={formData.phone || ''}
               onChange={handlePhoneChange}
+              onBlur={handlePhoneBlur}
               className="bg-white"
             />
           </div>

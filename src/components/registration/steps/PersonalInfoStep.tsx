@@ -1,7 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { NavigationButtons } from "../NavigationButtons";
-import { CheckCircle2, Circle } from "lucide-react";
 
 interface PersonalInfoStepProps {
   formData: {
@@ -49,13 +48,6 @@ export const PersonalInfoStep = ({ formData, onChange, onNext, isLoading }: Pers
             onChange={(e) => onChange("lastName", e.target.value)}
           />
         </div>
-      </div>
-
-      <div className="flex justify-center space-x-2 mb-4">
-        <CheckCircle2 className="w-5 h-5 text-[#8B5CF6]" />
-        <Circle className="w-5 h-5 text-muted" />
-        <Circle className="w-5 h-5 text-muted" />
-        <Circle className="w-5 h-5 text-muted" />
       </div>
 
       <NavigationButtons

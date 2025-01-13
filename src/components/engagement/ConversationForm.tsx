@@ -11,6 +11,7 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/comp
 import confetti from 'canvas-confetti';
 import ParticipantCounter from "./conversation/ParticipantCounter";
 import { Textarea } from "@/components/ui/textarea";
+import { useQueryClient } from "@tanstack/react-query";
 
 const today = new Date().toISOString().split('T')[0];
 
@@ -65,6 +66,7 @@ const ComfortLevelSelector = ({ value, onChange }: { value: string, onChange: (v
 
 const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const queryClient = useQueryClient();
   
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -135,10 +137,8 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
 
       if (error) throw error;
 
-      // Refresh the page after a short delay to allow confetti to play
-      setTimeout(() => {
-        window.location.reload();
-      }, 3000);
+      // Invalidate and refetch conversations data
+      queryClient.invalidateQueries({ queryKey: ['conversations'] });
       
     } catch (error: any) {
       toast.error("Error recording conversation: " + error.message);

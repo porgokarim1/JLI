@@ -56,7 +56,7 @@ const ComfortLevelSelector = ({ value, onChange }: { value: string, onChange: (v
               : "border-gray-200 hover:border-primary/50"
           }`}
         >
-          <span className="text-2xl">{option.emoji}</span>
+          <span className="text-3xl sm:text-4xl">{option.emoji}</span>
         </button>
       ))}
     </div>

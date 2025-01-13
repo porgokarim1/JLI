@@ -87,39 +87,41 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
 
         <div className="space-y-2">
           {recentEngagements.length > 0 ? (
-            recentEngagements.map((engagement) => (
-              <div 
-                key={engagement.id}
-                className="flex items-center justify-between py-2 border-t border-gray-200 gap-2"
-              >
-                <div className="flex items-center gap-3 min-w-0">
-                  <span className="text-sm text-gray-600 whitespace-nowrap">
-                    {format(new Date(engagement.conversation_date), 'MMM d')}
-                  </span>
-                  <span className="text-lg">
-                    {getComfortEmoji(engagement.comfort_level || '')}
-                  </span>
-                  <span className="text-sm">
-                    {getPeersIcon(engagement.participant_count)}
-                  </span>
-                  {engagement.comments && (
-                    <span className="text-sm text-gray-600 truncate flex items-center gap-1">
-                      <MessageSquare className="h-3 w-3" />
-                      {engagement.comments}
-                    </span>
-                  )}
-                </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => onEditEngagement(engagement)}
-                  className="h-8 w-8 text-gray-400 hover:text-primary shrink-0"
+            <div className="divide-y divide-gray-100">
+              {recentEngagements.map((engagement) => (
+                <div 
+                  key={engagement.id}
+                  className="flex items-center justify-between py-2 gap-4"
                 >
-                  <FilePenLine className="h-4 w-4" />
-                  <span className="sr-only">Edit engagement</span>
-                </Button>
-              </div>
-            ))
+                  <div className="grid grid-cols-4 gap-4 items-center flex-1 min-w-0">
+                    <span className="text-sm text-gray-600 whitespace-nowrap">
+                      {format(new Date(engagement.conversation_date), 'MMM d')}
+                    </span>
+                    <span className="text-lg justify-self-center">
+                      {getComfortEmoji(engagement.comfort_level || '')}
+                    </span>
+                    <span className="text-sm justify-self-center">
+                      {getPeersIcon(engagement.participant_count)}
+                    </span>
+                    {engagement.comments && (
+                      <span className="text-sm text-gray-600 truncate flex items-center gap-1">
+                        <MessageSquare className="h-3 w-3 flex-shrink-0" />
+                        {engagement.comments}
+                      </span>
+                    )}
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => onEditEngagement(engagement)}
+                    className="h-8 w-8 text-gray-400 hover:text-primary shrink-0"
+                  >
+                    <FilePenLine className="h-4 w-4" />
+                    <span className="sr-only">Edit engagement</span>
+                  </Button>
+                </div>
+              ))}
+            </div>
           ) : (
             <div className="text-center py-4 text-gray-500 text-sm">
               No engagement recorded. Start <button onClick={onNewEngagement} className="text-primary hover:underline">here</button>

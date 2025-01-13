@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, MapPin } from "lucide-react";
+import { BookOpen, MapPin, University } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
@@ -10,6 +10,22 @@ interface NextLessonCardProps {
 }
 
 export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
+  const { data: profile } = useQuery({
+    queryKey: ['user-profile'],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return null;
+
+      const { data } = await supabase
+        .from('profiles')
+        .select('organization')
+        .eq('id', user.id)
+        .single();
+      
+      return data;
+    }
+  });
+
   const { data: nextLesson, isLoading } = useQuery({
     queryKey: ['next-lesson'],
     queryFn: async () => {
@@ -46,6 +62,12 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
   return (
     <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
       <CardContent className="p-4">
+        {profile?.organization && (
+          <div className="flex items-center gap-2 mb-3 text-sm text-muted-foreground">
+            <University className="h-4 w-4" />
+            <span>{profile.organization}</span>
+          </div>
+        )}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">

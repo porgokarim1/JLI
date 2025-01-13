@@ -61,6 +61,13 @@ export type Database = {
             referencedRelation: "student_progress_overview"
             referencedColumns: ["student_id"]
           },
+          {
+            foreignKeyName: "conversations_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_roles_cache"
+            referencedColumns: ["id"]
+          },
         ]
       }
       lesson_attendance: {
@@ -106,6 +113,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "student_progress_overview"
             referencedColumns: ["student_id"]
+          },
+          {
+            foreignKeyName: "lesson_attendance_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "user_roles_cache"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -240,6 +254,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "student_progress_overview"
             referencedColumns: ["student_id"]
+          },
+          {
+            foreignKeyName: "lessons_schedule_instructor_id_fkey"
+            columns: ["instructor_id"]
+            isOneToOne: false
+            referencedRelation: "user_roles_cache"
+            referencedColumns: ["id"]
           },
           {
             foreignKeyName: "lessons_schedule_lesson_id_fkey"
@@ -390,6 +411,13 @@ export type Database = {
             referencedRelation: "student_progress_overview"
             referencedColumns: ["student_id"]
           },
+          {
+            foreignKeyName: "user_lesson_progress_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_roles_cache"
+            referencedColumns: ["id"]
+          },
         ]
       }
     }
@@ -405,6 +433,13 @@ export type Database = {
           last_name: string | null
           student_id: string | null
           total_conversations: number | null
+        }
+        Relationships: []
+      }
+      user_roles_cache: {
+        Row: {
+          id: string | null
+          role: Database["public"]["Enums"]["user_role"] | null
         }
         Relationships: []
       }

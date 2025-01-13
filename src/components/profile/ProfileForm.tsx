@@ -73,6 +73,10 @@ export const ProfileForm = ({
     );
   }
 
+  const handleInputChange = (field: string, value: string) => {
+    onChange(field, value);
+  };
+
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -82,7 +86,7 @@ export const ProfileForm = ({
             id="first_name"
             name="first_name"
             value={formData.first_name || ''}
-            onChange={(e) => onChange('first_name', e.target.value)}
+            onChange={(e) => handleInputChange('first_name', e.target.value)}
             className="bg-white"
           />
         </div>
@@ -92,7 +96,7 @@ export const ProfileForm = ({
             id="last_name"
             name="last_name"
             value={formData.last_name || ''}
-            onChange={(e) => onChange('last_name', e.target.value)}
+            onChange={(e) => handleInputChange('last_name', e.target.value)}
             className="bg-white"
           />
         </div>
@@ -113,7 +117,7 @@ export const ProfileForm = ({
           <Label htmlFor="campus">Campus</Label>
           <Select 
             value={formData.campus || ''}
-            onValueChange={(value) => onChange('campus', value)}
+            onValueChange={(value) => handleInputChange('campus', value)}
           >
             <SelectTrigger className="bg-white">
               <SelectValue placeholder="Select your campus" />

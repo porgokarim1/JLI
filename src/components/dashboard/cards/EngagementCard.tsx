@@ -102,9 +102,9 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
                   <span className="text-sm whitespace-nowrap px-2 text-center">
                     {getPeersIcon(engagement.participant_count)}
                   </span>
-                  <div className="px-2 min-w-0">
+                  <div className="px-2 min-w-0 pr-12 relative">
                     {engagement.comments && (
-                      <span className="text-sm text-gray-600 truncate">
+                      <span className="text-sm text-gray-600 block truncate">
                         {engagement.comments}
                       </span>
                     )}
@@ -114,7 +114,7 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
                   variant="ghost"
                   size="icon"
                   onClick={() => onEditEngagement(engagement)}
-                  className="h-8 w-8 text-gray-400 hover:text-primary shrink-0 ml-2"
+                  className="h-8 w-8 text-gray-400 hover:text-primary shrink-0 ml-2 absolute right-4"
                 >
                   <FilePenLine className="h-4 w-4" />
                   <span className="sr-only">Edit engagement</span>

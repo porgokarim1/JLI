@@ -3,13 +3,11 @@ import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { PersonalInfoSection } from "../PersonalInfoSection";
 
-interface PersonalInfoStepProps {
+const PersonalInfoStep = ({ formData, onChange, onNext }: {
   formData: any;
   onChange: (field: string, value: string) => void;
   onNext: () => void;
-}
-
-export const PersonalInfoStep = ({ formData, onChange, onNext }: PersonalInfoStepProps) => {
+}) => {
   const navigate = useNavigate();
   
   return (
@@ -34,3 +32,5 @@ export const PersonalInfoStep = ({ formData, onChange, onNext }: PersonalInfoSte
     </div>
   );
 };
+
+export default PersonalInfoStep;

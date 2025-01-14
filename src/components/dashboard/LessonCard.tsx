@@ -85,20 +85,39 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
 
   return (
     <>
-      <Card className="hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-indigo-100 flex flex-col h-full">
+      <Card className="hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-indigo-100">
         <div className="flex flex-col h-full">
-          {/* Image container with responsive layout */}
-          <div className="w-full h-48 md:h-40 relative overflow-hidden rounded-t-lg">
-            <img
-              src={lesson.image_url}
-              alt={lesson.title}
-              className="w-full h-full object-cover"
-            />
+          {/* Mobile view: Image on the left */}
+          <div className="block md:hidden">
+            <div className="flex">
+              <div className="w-1/3 h-24">
+                <img
+                  src={lesson.image_url || '/placeholder.svg'}
+                  alt={lesson.title}
+                  className="w-full h-full object-cover rounded-l-lg"
+                />
+              </div>
+              <div className="w-2/3 p-3">
+                <h3 className="font-medium text-sm line-clamp-1">{lesson.title}</h3>
+                <p className="text-xs text-gray-600 line-clamp-2 mt-1">{lesson.description}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop view: Image on top */}
+          <div className="hidden md:block">
+            <div className="h-40 w-full">
+              <img
+                src={lesson.image_url || '/placeholder.svg'}
+                alt={lesson.title}
+                className="w-full h-full object-cover rounded-t-lg"
+              />
+            </div>
           </div>
 
           {/* Content container */}
-          <div className="flex-1 p-4 flex flex-col">
-            <div className="flex items-center justify-between mb-2">
+          <div className="flex-1 p-3 md:p-4 flex flex-col">
+            <div className="hidden md:flex items-center justify-between mb-2">
               <CardTitle className="text-lg line-clamp-1">{lesson.title}</CardTitle>
               <div className="flex items-center gap-2">
                 {shouldShowStatus() && (
@@ -132,26 +151,28 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
               </div>
             </div>
 
-            <CardDescription className="text-sm mb-4 line-clamp-2">{lesson.description}</CardDescription>
+            <div className="hidden md:block">
+              <CardDescription className="text-sm mb-4 line-clamp-2">{lesson.description}</CardDescription>
+            </div>
             
-            <div className="mt-auto space-y-2 text-sm text-gray-600">
-              <div className="flex items-center gap-2">
-                <MapPin className="h-4 w-4 text-primary" />
+            <div className="mt-auto space-y-1 text-xs md:text-sm text-gray-600">
+              <div className="flex items-center gap-1">
+                <MapPin className="h-3 w-3 md:h-4 md:w-4 text-primary" />
                 <span className="truncate">{lesson.location || 'TBD'}</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4 text-primary" />
+              <div className="flex items-center gap-1">
+                <Calendar className="h-3 w-3 md:h-4 md:w-4 text-primary" />
                 <span>{lesson.lesson_date ? format(new Date(lesson.lesson_date), 'PPP') : 'TBD'}</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Clock className="h-4 w-4 text-primary" />
+              <div className="flex items-center gap-1">
+                <Clock className="h-3 w-3 md:h-4 md:w-4 text-primary" />
                 <span>{lesson.lesson_time ? format(new Date(`2000-01-01T${lesson.lesson_time}`), 'p') : 'TBD'}</span>
               </div>
             </div>
 
             {lesson.progress?.status === 'completed' && (
-              <div className="flex items-center justify-center gap-2 py-2 text-green-600 text-sm mt-4">
-                <CheckCircle2 className="h-4 w-4" />
+              <div className="flex items-center justify-center gap-1 py-1 text-green-600 text-xs mt-2">
+                <CheckCircle2 className="h-3 w-3 md:h-4 md:w-4" />
                 <span className="font-medium">Lesson Completed</span>
               </div>
             )}

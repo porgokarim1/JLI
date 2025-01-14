@@ -337,6 +337,33 @@ export type Database = {
         }
         Relationships: []
       }
+      SYSVR_System_Variables: {
+        Row: {
+          Var_Code: string | null
+          Var_Description: string | null
+          Var_ID: number
+          Var_Type: string
+          Var_UserID: number
+          Var_Value: string | null
+        }
+        Insert: {
+          Var_Code?: string | null
+          Var_Description?: string | null
+          Var_ID?: never
+          Var_Type: string
+          Var_UserID?: number
+          Var_Value?: string | null
+        }
+        Update: {
+          Var_Code?: string | null
+          Var_Description?: string | null
+          Var_ID?: never
+          Var_Type?: string
+          Var_UserID?: number
+          Var_Value?: string | null
+        }
+        Relationships: []
+      }
       universities: {
         Row: {
           confirmed: boolean | null
@@ -431,6 +458,180 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      USER_Users: {
+        Row: {
+          USER_AccountID: number
+          USER_Active: boolean
+          USER_Address1: string | null
+          USER_CanChangeHub: boolean
+          USER_CanReviewOrders: boolean
+          USER_CitizenshipStatus: string
+          USER_City: string | null
+          USER_CompanyID: number
+          USER_CurrentSession: number
+          USER_DateCreate: string
+          USER_DateModify: string
+          USER_DateofBirth: string | null
+          USER_DateofHire: string
+          USER_DefEmailAccID: number
+          USER_Department: string | null
+          USER_Dependants: number
+          USER_Email: string | null
+          USER_EmergencyContactPerson: string | null
+          USER_EmergencyPhone: string | null
+          USER_EmployeeGrade: number
+          USER_EmploymentType: string
+          USER_External: boolean
+          USER_Fax: string | null
+          USER_FilingStatus: string
+          USER_FirstName: string | null
+          USER_FullName: string | null
+          USER_HubID: number
+          USER_LastName: string | null
+          USER_Level: string
+          USER_NUserID: number
+          USER_OfficeID: number
+          USER_Password: string
+          USER_PersonType: string
+          USER_Phone1: string | null
+          USER_PositionTitle: string
+          USER_ReportsToManagerID: number
+          USER_RoleID: number
+          USER_SalaryOrHourlyRate: number
+          USER_SecurityLevel: number
+          USER_SocialSecurity: string | null
+          USER_State: string | null
+          USER_TaxNumber: string
+          USER_TimeModify: string
+          USER_TotalSessions: number
+          USER_UserCreate: string
+          USER_UserID: number
+          USER_UserModify: string
+          USER_UserName: string
+          USER_UserType: string
+          USER_VacationDays: number
+          USER_VacationDaysAccrued: number
+          USER_VacationHours: number
+          USER_VacationHoursAccrued: number
+          USER_YearsOfService: number
+          USER_Zip: string | null
+        }
+        Insert: {
+          USER_AccountID?: number
+          USER_Active?: boolean
+          USER_Address1?: string | null
+          USER_CanChangeHub?: boolean
+          USER_CanReviewOrders?: boolean
+          USER_CitizenshipStatus?: string
+          USER_City?: string | null
+          USER_CompanyID?: number
+          USER_CurrentSession?: number
+          USER_DateCreate?: string
+          USER_DateModify?: string
+          USER_DateofBirth?: string | null
+          USER_DateofHire?: string
+          USER_DefEmailAccID?: number
+          USER_Department?: string | null
+          USER_Dependants?: number
+          USER_Email?: string | null
+          USER_EmergencyContactPerson?: string | null
+          USER_EmergencyPhone?: string | null
+          USER_EmployeeGrade?: number
+          USER_EmploymentType?: string
+          USER_External?: boolean
+          USER_Fax?: string | null
+          USER_FilingStatus?: string
+          USER_FirstName?: string | null
+          USER_FullName?: string | null
+          USER_HubID?: number
+          USER_LastName?: string | null
+          USER_Level?: string
+          USER_NUserID?: number
+          USER_OfficeID?: number
+          USER_Password?: string
+          USER_PersonType?: string
+          USER_Phone1?: string | null
+          USER_PositionTitle?: string
+          USER_ReportsToManagerID?: number
+          USER_RoleID?: number
+          USER_SalaryOrHourlyRate?: number
+          USER_SecurityLevel?: number
+          USER_SocialSecurity?: string | null
+          USER_State?: string | null
+          USER_TaxNumber?: string
+          USER_TimeModify?: string
+          USER_TotalSessions?: number
+          USER_UserCreate?: string
+          USER_UserID?: number
+          USER_UserModify?: string
+          USER_UserName?: string
+          USER_UserType?: string
+          USER_VacationDays?: number
+          USER_VacationDaysAccrued?: number
+          USER_VacationHours?: number
+          USER_VacationHoursAccrued?: number
+          USER_YearsOfService?: number
+          USER_Zip?: string | null
+        }
+        Update: {
+          USER_AccountID?: number
+          USER_Active?: boolean
+          USER_Address1?: string | null
+          USER_CanChangeHub?: boolean
+          USER_CanReviewOrders?: boolean
+          USER_CitizenshipStatus?: string
+          USER_City?: string | null
+          USER_CompanyID?: number
+          USER_CurrentSession?: number
+          USER_DateCreate?: string
+          USER_DateModify?: string
+          USER_DateofBirth?: string | null
+          USER_DateofHire?: string
+          USER_DefEmailAccID?: number
+          USER_Department?: string | null
+          USER_Dependants?: number
+          USER_Email?: string | null
+          USER_EmergencyContactPerson?: string | null
+          USER_EmergencyPhone?: string | null
+          USER_EmployeeGrade?: number
+          USER_EmploymentType?: string
+          USER_External?: boolean
+          USER_Fax?: string | null
+          USER_FilingStatus?: string
+          USER_FirstName?: string | null
+          USER_FullName?: string | null
+          USER_HubID?: number
+          USER_LastName?: string | null
+          USER_Level?: string
+          USER_NUserID?: number
+          USER_OfficeID?: number
+          USER_Password?: string
+          USER_PersonType?: string
+          USER_Phone1?: string | null
+          USER_PositionTitle?: string
+          USER_ReportsToManagerID?: number
+          USER_RoleID?: number
+          USER_SalaryOrHourlyRate?: number
+          USER_SecurityLevel?: number
+          USER_SocialSecurity?: string | null
+          USER_State?: string | null
+          USER_TaxNumber?: string
+          USER_TimeModify?: string
+          USER_TotalSessions?: number
+          USER_UserCreate?: string
+          USER_UserID?: number
+          USER_UserModify?: string
+          USER_UserName?: string
+          USER_UserType?: string
+          USER_VacationDays?: number
+          USER_VacationDaysAccrued?: number
+          USER_VacationHours?: number
+          USER_VacationHoursAccrued?: number
+          USER_YearsOfService?: number
+          USER_Zip?: string | null
+        }
+        Relationships: []
       }
     }
     Views: {

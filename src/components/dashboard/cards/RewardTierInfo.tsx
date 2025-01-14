@@ -33,39 +33,26 @@ export const RewardTierInfo = ({ totalPeers }: RewardTierInfoProps) => {
 
       {isExpanded && (
         <div className="mt-8 space-y-16 relative px-4">
-          {/* Decorative background path */}
-          <svg 
-            className="absolute top-0 left-12 h-full w-4 -z-10" 
-            preserveAspectRatio="none"
-            viewBox="0 0 50 400"
-          >
-            <path
-              d="M25,0 C50,100 0,200 25,300 C50,400 25,500 25,600"
-              stroke="#E5E7EB"
-              strokeWidth="3"
-              strokeDasharray="5,5"
-              fill="none"
-              className="path-line"
-            />
-          </svg>
+          {/* Solid connecting path */}
+          <div className="absolute top-6 left-[23px] w-0.5 h-[calc(100%-50px)] bg-gradient-to-b from-primary/30 to-primary/10 -z-10" />
 
           {tiers.map((tier, index) => (
             <div key={tier.count} className="relative flex items-start gap-6">
               {/* Connection line to next milestone */}
               {index < tiers.length - 1 && (
-                <div className="absolute left-6 top-10 h-16 w-0.5 bg-gradient-to-b from-gray-200 to-transparent -z-10" />
+                <div className="absolute left-6 top-10 h-16 w-0.5 bg-primary/20" />
               )}
 
               {/* Milestone circle */}
               <div 
                 className={`relative flex-shrink-0 w-12 h-12 rounded-full ${tier.color} 
                   flex items-center justify-center shadow-lg 
-                  ${totalPeers >= tier.count ? 'animate-float' : 'opacity-70'}
+                  ${totalPeers >= tier.count ? 'transition-transform duration-700 hover:scale-110' : 'opacity-70'}
                   transition-all duration-300 ease-in-out`}
               >
                 <span className="text-gray-700 font-bold">{tier.count}</span>
                 {totalPeers >= tier.count && (
-                  <div className="absolute -right-1 -top-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white flex items-center justify-center animate-pulse-soft">
+                  <div className="absolute -right-1 -top-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white flex items-center justify-center">
                     <span className="text-white text-xs">✓</span>
                   </div>
                 )}

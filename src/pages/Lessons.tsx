@@ -1,5 +1,5 @@
 import NavigationBar from "@/components/navigation/NavigationBar";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useLessons } from "@/components/dashboard/useLessons";
 import { MapPin, Calendar, Clock, CheckCircle2 } from "lucide-react";
@@ -106,43 +106,53 @@ const Lessons = () => {
           {lessons?.map((lesson) => (
             <Card 
               key={lesson.id} 
-              className="flex flex-col relative bg-white/90 backdrop-blur-sm"
+              className="flex flex-col relative bg-white/90 backdrop-blur-sm overflow-hidden"
             >
-              <div className="p-2 sm:p-4 flex flex-col justify-between h-full">
-                <div>
-                  <h3 className="font-medium text-xs sm:text-base md:text-lg mb-1 sm:mb-2">{lesson.title}</h3>
-                  <p className="text-xs text-gray-600 line-clamp-2 mb-1 sm:mb-2">{lesson.description}</p>
-                  
-                  <div className="flex items-center gap-2 text-xs">
-                    <div className="flex items-center gap-1">
-                      <Calendar className="h-3 w-3 text-primary" />
-                      <span className="whitespace-nowrap">
-                        {lesson.lesson_date 
-                          ? format(new Date(lesson.lesson_date), 'MMM d')
-                          : 'TBD'}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Clock className="h-3 w-3 text-primary" />
-                      <span className="whitespace-nowrap">
-                        {lesson.lesson_time
-                          ? format(new Date(`2000-01-01T${lesson.lesson_time}`), 'p')
-                          : 'TBD'}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-1 flex-1 min-w-0">
-                      <MapPin className="h-3 w-3 text-primary flex-shrink-0" />
-                      <span className="truncate">{lesson.location || 'TBD'}</span>
-                    </div>
-                  </div>
-                </div>
-                
-                {lesson.progress?.status === 'completed' && (
-                  <div className="mt-2 flex items-center gap-1 text-green-600">
-                    <CheckCircle2 className="h-4 w-4" />
-                    <span className="text-xs">Completed</span>
+              <div className="flex flex-row md:flex-col w-full">
+                {lesson.image_url && (
+                  <div className="w-1/3 md:w-full h-full md:h-40">
+                    <img 
+                      src={lesson.image_url} 
+                      alt={lesson.title}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 )}
+                <div className="flex-1 p-2 sm:p-4 flex flex-col justify-between">
+                  <div>
+                    <h3 className="font-medium text-xs sm:text-base md:text-lg mb-1 sm:mb-2">{lesson.title}</h3>
+                    
+                    <div className="flex items-center gap-2 text-xs">
+                      <div className="flex items-center gap-1">
+                        <Calendar className="h-3 w-3 text-primary" />
+                        <span className="whitespace-nowrap">
+                          {lesson.lesson_date 
+                            ? format(new Date(lesson.lesson_date), 'MMM d')
+                            : 'TBD'}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Clock className="h-3 w-3 text-primary" />
+                        <span className="whitespace-nowrap">
+                          {lesson.lesson_time
+                            ? format(new Date(`2000-01-01T${lesson.lesson_time}`), 'p')
+                            : 'TBD'}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-1 flex-1 min-w-0">
+                        <MapPin className="h-3 w-3 text-primary flex-shrink-0" />
+                        <span className="truncate">{lesson.location || 'TBD'}</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {lesson.progress?.status === 'completed' && (
+                    <div className="mt-2 flex items-center gap-1 text-green-600">
+                      <CheckCircle2 className="h-4 w-4" />
+                      <span className="text-xs">Completed</span>
+                    </div>
+                  )}
+                </div>
               </div>
             </Card>
           ))}

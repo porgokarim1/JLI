@@ -4,7 +4,6 @@ import { Handshake, FilePenLine } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
-import RewardTierInfo from "@/components/engagement/RewardTierInfo";
 
 interface EngagementCardProps {
   onNewEngagement: () => void;
@@ -33,6 +32,14 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
       return total;
     }
   });
+
+  const getNextTarget = (count: number) => {
+    if (count < 7) return 7;
+    if (count < 15) return 15;
+    return 25;
+  };
+
+  const nextTarget = getNextTarget(totalPeers);
 
   const getComfortEmoji = (comfort_level: string) => {
     switch (comfort_level) {
@@ -65,7 +72,7 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
             <div>
               <h3 className="font-medium text-sm">Peer Conversations</h3>
               <p className="text-xs text-muted-foreground">
-                {isLoading ? "Loading..." : totalPeers > 0 ? `${totalPeers} peers engaged` : ""}
+                {isLoading ? "Loading..." : totalPeers > 0 ? `${totalPeers}/${nextTarget} peers` : ""}
               </p>
             </div>
           </div>
@@ -77,8 +84,6 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
             Log
           </Button>
         </div>
-
-        <RewardTierInfo currentPeers={totalPeers} />
 
         <div className="space-y-2">
           {recentEngagements.length > 0 ? (

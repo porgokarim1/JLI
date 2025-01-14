@@ -86,24 +86,48 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
     <>
       <Card className="hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-indigo-100">
         <div className="flex flex-col h-full">
-          {/* Mobile view: Image on the left */}
+          {/* Mobile view: New design with lesson order on the left */}
           <div className="block md:hidden">
             <div className="flex">
-              <div className="w-1/3 h-24">
-                <img
-                  src={lesson.image_url || '/placeholder.svg'}
-                  alt={lesson.title}
-                  className="w-full h-full object-cover rounded-l-lg"
-                />
+              <div className="w-16 h-24 flex items-center justify-center bg-primary text-primary-foreground font-bold text-3xl">
+                {lesson.lesson_order || '1'}
               </div>
-              <div className="w-2/3 p-3">
-                <h3 className="font-medium text-sm line-clamp-1">{lesson.title}</h3>
-                <p className="text-xs text-gray-600 line-clamp-2 mt-1">{lesson.description}</p>
+              <div className="flex-1 p-3">
+                <h3 className="font-medium text-sm mb-1">{lesson.title}</h3>
+                <p className="text-xs text-gray-600 mb-2 line-clamp-2">{lesson.description}</p>
+                <div className="space-y-1">
+                  <div className="flex items-center gap-1 text-xs text-gray-600">
+                    <Calendar className="h-3 w-3 text-primary" />
+                    <span>{lesson.lesson_date ? format(new Date(lesson.lesson_date), 'PPP') : 'TBD'}</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-xs text-gray-600">
+                    <Clock className="h-3 w-3 text-primary" />
+                    <span>{lesson.lesson_time ? format(new Date(`2000-01-01T${lesson.lesson_time}`), 'p') : 'TBD'}</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-xs text-gray-600">
+                    <MapPin className="h-3 w-3 text-primary" />
+                    <span className="truncate">{lesson.location || 'TBD'}</span>
+                  </div>
+                </div>
+                {shouldShowStatus() && (
+                  <div className="mt-2 flex items-center gap-1 text-green-600 text-xs">
+                    <CheckCircle2 className="h-3 w-3" />
+                    <span>Completed</span>
+                  </div>
+                )}
               </div>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 self-start mt-2 mr-2"
+                onClick={() => navigate(`/lessons/${lesson.id}`)}
+              >
+                <Eye className="h-4 w-4" />
+              </Button>
             </div>
           </div>
 
-          {/* Desktop view: Image on top */}
+          {/* Desktop view: Keep existing layout */}
           <div className="hidden md:block">
             <div className="h-40 w-full">
               <img
@@ -112,73 +136,72 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
                 className="w-full h-full object-cover rounded-t-lg"
               />
             </div>
-          </div>
-
-          {/* Content container */}
-          <div className="flex-1 p-3 md:p-4 flex flex-col">
-            <div className="hidden md:flex items-center justify-between mb-2">
-              <CardTitle className="text-lg line-clamp-1">{lesson.title}</CardTitle>
-              <div className="flex items-center gap-2">
-                {shouldShowStatus() && (
-                  <Badge 
-                    variant="secondary"
-                    className={`${getStatusColor(lesson.progress?.status || '')} text-white text-xs`}
-                  >
-                    {lesson.progress?.status === 'completed' ? 'completed' : 'in progress'}
-                  </Badge>
-                )}
-                <div className="flex gap-2">
-                  {isInstructor && (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setShowEditDialog(true)}
-                      className="text-xs border-yellow-500 hover:bg-yellow-500/10"
+            <div className="flex-1 p-3 md:p-4 flex flex-col">
+              <div className="hidden md:flex items-center justify-between mb-2">
+                <CardTitle className="text-lg line-clamp-1">{lesson.title}</CardTitle>
+                <div className="flex items-center gap-2">
+                  {shouldShowStatus() && (
+                    <Badge 
+                      variant="secondary"
+                      className={`${getStatusColor(lesson.progress?.status || '')} text-white text-xs`}
                     >
-                      Edit
-                    </Button>
+                      {lesson.progress?.status === 'completed' ? 'completed' : 'in progress'}
+                    </Badge>
                   )}
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8"
-                    onClick={() => navigate(`/lessons/${lesson.id}`)}
-                  >
-                    <Eye className="h-4 w-4" />
-                  </Button>
+                  <div className="flex gap-2">
+                    {isInstructor && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setShowEditDialog(true)}
+                        className="text-xs border-yellow-500 hover:bg-yellow-500/10"
+                      >
+                        Edit
+                      </Button>
+                    )}
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8"
+                      onClick={() => navigate(`/lessons/${lesson.id}`)}
+                    >
+                      <Eye className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="hidden md:block">
-              <CardDescription className="text-sm mb-4 line-clamp-2">{lesson.description}</CardDescription>
-            </div>
-            
-            <div className="mt-auto space-y-1 text-xs md:text-sm text-gray-600">
-              <div className="flex items-center gap-1">
-                <MapPin className="h-3 w-3 md:h-4 md:w-4 text-primary" />
-                <span className="truncate">{lesson.location || 'TBD'}</span>
+              <div className="hidden md:block">
+                <CardDescription className="text-sm mb-4 line-clamp-2">{lesson.description}</CardDescription>
               </div>
-              <div className="flex items-center gap-1">
-                <Calendar className="h-3 w-3 md:h-4 md:w-4 text-primary" />
-                <span>{lesson.lesson_date ? format(new Date(lesson.lesson_date), 'PPP') : 'TBD'}</span>
+              
+              <div className="mt-auto space-y-1 text-xs md:text-sm text-gray-600">
+                <div className="flex items-center gap-1">
+                  <MapPin className="h-3 w-3 md:h-4 md:w-4 text-primary" />
+                  <span className="truncate">{lesson.location || 'TBD'}</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <Calendar className="h-3 w-3 md:h-4 md:w-4 text-primary" />
+                  <span>{lesson.lesson_date ? format(new Date(lesson.lesson_date), 'PPP') : 'TBD'}</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <Clock className="h-3 w-3 md:h-4 md:w-4 text-primary" />
+                  <span>{lesson.lesson_time ? format(new Date(`2000-01-01T${lesson.lesson_time}`), 'p') : 'TBD'}</span>
+                </div>
               </div>
-              <div className="flex items-center gap-1">
-                <Clock className="h-3 w-3 md:h-4 md:w-4 text-primary" />
-                <span>{lesson.lesson_time ? format(new Date(`2000-01-01T${lesson.lesson_time}`), 'p') : 'TBD'}</span>
-              </div>
-            </div>
 
-            {shouldShowStatus() && (
-              <div className="flex items-center justify-center gap-1 py-1 text-green-600 text-xs mt-2">
-                <CheckCircle2 className="h-3 w-3 md:h-4 md:w-4" />
-                <span className="font-medium">Lesson Completed</span>
-              </div>
-            )}
+              {shouldShowStatus() && (
+                <div className="flex items-center justify-center gap-1 py-1 text-green-600 text-xs mt-2">
+                  <CheckCircle2 className="h-3 w-3 md:h-4 md:w-4" />
+                  <span className="font-medium">Lesson Completed</span>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </Card>
 
+      {/* Edit Dialog: Keep existing implementation */}
       <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>

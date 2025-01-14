@@ -15,11 +15,11 @@ export const ReferralCard = ({ onShareLink, onEmailShare }: ReferralCardProps) =
         await navigator.share({
           title: "Join K'NOW ISRAEL",
           text: "Hey! Want to learn how to communicate about Israel? Join here",
-          url: 'Knowisrael.app'
+          url: 'https://knowisrael.app'
         });
       } else {
         // Fallback to copying to clipboard
-        await navigator.clipboard.writeText('Knowisrael.app');
+        await navigator.clipboard.writeText('https://knowisrael.app');
         toast.success('Link copied to clipboard!');
       }
     } catch (err) {

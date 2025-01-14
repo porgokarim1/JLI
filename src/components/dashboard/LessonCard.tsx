@@ -70,63 +70,65 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
 
   return (
     <>
-      <Card className="hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-gray-900">
-        <div className="flex flex-row lg:flex-col h-full">
-          {/* Left/Top section with lesson order */}
-          <div className="w-1/5 lg:w-full bg-primary flex items-center justify-center p-4 lg:p-8 border-r lg:border-r-0 lg:border-b border-gray-900">
-            <span className="text-[4rem] lg:text-[6rem] font-bold text-primary-foreground leading-none flex items-center justify-center w-full h-full">
+      <Card className="h-full hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-gray-900">
+        <div className="flex flex-col h-full">
+          {/* Top section with lesson order */}
+          <div className="bg-primary p-4 border-b border-gray-900">
+            <span className="text-4xl font-bold text-primary-foreground leading-none flex items-center justify-center w-full">
               {lesson.lesson_order || '1'}
             </span>
           </div>
 
-          {/* Right/Bottom section with lesson details */}
-          <div className="w-4/5 lg:w-full p-4">
-            <div className="flex justify-between items-start">
+          {/* Bottom section with lesson details */}
+          <div className="p-4 flex flex-col flex-grow">
+            <div className="flex justify-between items-start mb-4">
               <div className="flex-1">
                 <h3 className="text-sm font-semibold mb-1">{lesson.title}</h3>
                 <p className="text-xs text-gray-600 mb-2 line-clamp-2">{lesson.description}</p>
-                
-                {/* Date, Time, and Location on one line */}
-                <div className="flex items-center gap-4 text-xs text-gray-600">
-                  <div className="flex items-center gap-1">
-                    <Calendar className="h-3 w-3 text-primary" />
-                    <span>{lesson.lesson_date ? format(new Date(lesson.lesson_date), 'MMM d') : 'TBD'}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Clock className="h-3 w-3 text-primary" />
-                    <span>{lesson.lesson_time ? format(new Date(`2000-01-01T${lesson.lesson_time}`), 'p') : 'TBD'}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <MapPin className="h-3 w-3 text-primary" />
-                    <span className="truncate">{lesson.location || 'TBD'}</span>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="flex gap-2 ml-2">
-                {isInstructor && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setShowEditDialog(true)}
-                    className="text-xs border-yellow-500 hover:bg-yellow-500/10 h-7"
-                  >
-                    Edit
-                  </Button>
-                )}
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-7 w-7"
-                  onClick={() => navigate(`/lessons/${lesson.id}`)}
-                >
-                  <Eye className="h-3 w-3" />
-                </Button>
               </div>
             </div>
 
+            {/* Date, Time, and Location */}
+            <div className="space-y-2 text-xs text-gray-600 mt-auto">
+              <div className="flex items-center gap-1">
+                <Calendar className="h-3 w-3 text-primary" />
+                <span>{lesson.lesson_date ? format(new Date(lesson.lesson_date), 'MMM d') : 'TBD'}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <Clock className="h-3 w-3 text-primary" />
+                <span>{lesson.lesson_time ? format(new Date(`2000-01-01T${lesson.lesson_time}`), 'p') : 'TBD'}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <MapPin className="h-3 w-3 text-primary" />
+                <span className="truncate">{lesson.location || 'TBD'}</span>
+              </div>
+            </div>
+
+            {/* Action buttons */}
+            <div className="flex justify-between items-center mt-4 pt-4 border-t border-gray-200">
+              {isInstructor && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowEditDialog(true)}
+                  className="text-xs border-yellow-500 hover:bg-yellow-500/10"
+                >
+                  Edit
+                </Button>
+              )}
+              <Button
+                variant="ghost"
+                size="sm"
+                className="ml-auto"
+                onClick={() => navigate(`/lessons/${lesson.id}`)}
+              >
+                <Eye className="h-3 w-3 mr-1" />
+                <span>View</span>
+              </Button>
+            </div>
+
             {lesson.progress?.status === 'completed' && (
-              <div className="mt-1 flex items-center gap-1 text-green-600">
+              <div className="mt-2 flex items-center gap-1 text-green-600">
                 <CheckCircle2 className="h-3 w-3" />
                 <span className="text-xs font-medium">Completed</span>
               </div>

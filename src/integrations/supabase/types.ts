@@ -692,6 +692,45 @@ export type Database = {
       }
     }
     Views: {
+      conversations_with_profiles: {
+        Row: {
+          campus: string | null
+          comfort_level:
+            | Database["public"]["Enums"]["comfort_level_type"]
+            | null
+          comments: string | null
+          conversation_date: string | null
+          created_at: string | null
+          id: string | null
+          participant_count: number | null
+          role: Database["public"]["Enums"]["user_role"] | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversations_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "student_progress_overview"
+            referencedColumns: ["student_id"]
+          },
+          {
+            foreignKeyName: "conversations_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_roles_cache"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lessons_view: {
         Row: {
           attendance_code: string | null

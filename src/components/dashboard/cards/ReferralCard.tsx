@@ -14,12 +14,12 @@ export const ReferralCard = ({ onShareLink, onEmailShare }: ReferralCardProps) =
       if (navigator.share) {
         await navigator.share({
           title: "Join K'NOW ISRAEL",
-          text: "Hey! I thought you might be interested in joining K'NOW ISRAEL. Check it out!",
-          url: 'Knowisrael.com'
+          text: "Hey! Want to learn how to communicate about Israel? Join here",
+          url: 'Knowisrael.app'
         });
       } else {
         // Fallback to copying to clipboard
-        await navigator.clipboard.writeText('Knowisrael.com');
+        await navigator.clipboard.writeText('Knowisrael.app');
         toast.success('Link copied to clipboard!');
       }
     } catch (err) {

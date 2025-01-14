@@ -95,9 +95,9 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
               Attend
             </Button>
           </div>
-          {nextLesson?.description && (
+          {nextLesson?.title && (
             <p className="text-xs text-muted-foreground italic leading-relaxed">
-              {nextLesson.description}
+              {nextLesson.title}
             </p>
           )}
         </div>

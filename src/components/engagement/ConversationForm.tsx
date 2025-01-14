@@ -179,7 +179,7 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
 
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <FormLabel className="text-sm whitespace-nowrap min-w-[90px]">How many involved?</FormLabel>
+            <FormLabel className="text-sm whitespace-nowrap min-w-[90px]">How many peers involved?</FormLabel>
             <FormField
               control={form.control}
               name="participant_count"
@@ -246,7 +246,7 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
             className="w-full h-12 text-base"
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Saving..." : "Save"}
+            {isSubmitting ? "Saving..." : "Log Peer Engagement"}
           </Button>
         </div>
       </form>

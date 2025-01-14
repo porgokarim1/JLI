@@ -72,7 +72,7 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
             <div>
               <h3 className="font-medium text-sm">Peer Conversations</h3>
               <p className="text-xs text-muted-foreground">
-                {isLoading ? "Loading..." : `${totalPeers}/${nextTarget} peers`}
+                {isLoading ? "Loading..." : totalPeers > 0 ? `${totalPeers}/${nextTarget} peers` : ""}
               </p>
             </div>
           </div>
@@ -123,7 +123,7 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
             ))
           ) : (
             <div className="text-center py-4 text-gray-500 text-sm">
-              No engagement recorded. Start <button onClick={onNewEngagement} className="text-primary hover:underline">here</button>
+              No conversation logged yet. Start <button onClick={onNewEngagement} className="text-primary hover:underline">here</button>
             </div>
           )}
         </div>

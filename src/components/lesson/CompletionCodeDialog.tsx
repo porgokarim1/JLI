@@ -84,7 +84,7 @@ export const CompletionCodeDialog = ({ lessonId, onSuccess, open, onOpenChange }
         <DialogHeader>
           <DialogTitle>Enter Attendance Code</DialogTitle>
           <DialogDescription>
-            Please enter the attendance code provided by your instructor to confirm your presence in this lesson.
+            Please enter the attendance code provided by your instructor to confirm your presence at this lesson.
           </DialogDescription>
         </DialogHeader>
         <Button

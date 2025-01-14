@@ -1,4 +1,4 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Calendar, Clock, CheckCircle2, Eye } from "lucide-react";
 import { LessonWithProgress } from "./types";
@@ -85,23 +85,23 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
 
   return (
     <>
-      <Card className="hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-indigo-100 h-[280px] overflow-hidden">
-        <div className="flex flex-col h-full">
-          {/* Image Section */}
-          <div className="h-24 overflow-hidden">
-            {lesson.image_url && (
-              <img 
-                src={lesson.image_url} 
-                alt={lesson.title}
-                className="w-full h-full object-cover"
-              />
-            )}
-          </div>
-          
-          {/* Content Section */}
-          <div className="flex-1 flex flex-col p-3">
-            <div className="flex items-center justify-between mb-1">
-              <h3 className="text-sm font-medium line-clamp-1">{lesson.title}</h3>
+      <Card className="flex flex-row md:flex-col relative bg-white/90 backdrop-blur-sm overflow-hidden h-24 md:h-[280px]">
+        {/* Image Section */}
+        <div className="w-1/3 md:w-full h-full md:h-32 overflow-hidden">
+          {lesson.image_url && (
+            <img 
+              src={lesson.image_url} 
+              alt={lesson.title}
+              className="w-full h-full object-cover"
+            />
+          )}
+        </div>
+        
+        {/* Content Section */}
+        <div className="flex-1 p-2 flex flex-col justify-between min-w-0">
+          <div>
+            <div className="flex items-center justify-between gap-1 mb-0.5">
+              <h3 className="text-xs font-medium line-clamp-1">{lesson.title}</h3>
               <div className="flex items-center gap-1">
                 {shouldShowStatus() && (
                   <Badge 
@@ -134,30 +134,34 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
               </div>
             </div>
 
-            <p className="text-[10px] text-gray-600 line-clamp-2 mb-2">{lesson.description}</p>
+            <p className="text-[10px] text-gray-600 line-clamp-2 mb-1">{lesson.description}</p>
             
-            <div className="mt-auto space-y-1">
-              <div className="flex items-center gap-1 text-[10px] text-gray-600">
-                <MapPin className="h-2.5 w-2.5 text-primary" />
+            <div className="flex items-center gap-2 text-[10px]">
+              <div className="flex items-center gap-1">
+                <Calendar className="h-2.5 w-2.5 text-primary" />
+                <span className="whitespace-nowrap">
+                  {lesson.lesson_date ? format(new Date(lesson.lesson_date), 'MMM d') : 'TBD'}
+                </span>
+              </div>
+              <div className="flex items-center gap-1">
+                <Clock className="h-2.5 w-2.5 text-primary" />
+                <span className="whitespace-nowrap">
+                  {lesson.lesson_time ? format(new Date(`2000-01-01T${lesson.lesson_time}`), 'p') : 'TBD'}
+                </span>
+              </div>
+              <div className="flex items-center gap-1 flex-1 min-w-0">
+                <MapPin className="h-2.5 w-2.5 text-primary flex-shrink-0" />
                 <span className="truncate">{lesson.location || 'TBD'}</span>
               </div>
-              <div className="flex items-center gap-1 text-[10px] text-gray-600">
-                <Calendar className="h-2.5 w-2.5 text-primary" />
-                <span>{lesson.lesson_date ? format(new Date(lesson.lesson_date), 'PPP') : 'TBD'}</span>
-              </div>
-              <div className="flex items-center gap-1 text-[10px] text-gray-600">
-                <Clock className="h-2.5 w-2.5 text-primary" />
-                <span>{lesson.lesson_time ? format(new Date(`2000-01-01T${lesson.lesson_time}`), 'p') : 'TBD'}</span>
-              </div>
             </div>
-
-            {lesson.progress?.status === 'completed' && (
-              <div className="flex items-center justify-center gap-1 py-1 text-green-600 text-[10px] mt-1">
-                <CheckCircle2 className="h-2.5 w-2.5" />
-                <span className="font-medium">Lesson Completed</span>
-              </div>
-            )}
           </div>
+
+          {lesson.progress?.status === 'completed' && (
+            <div className="hidden md:flex items-center justify-center gap-1 py-1 text-green-600 text-[10px] mt-1">
+              <CheckCircle2 className="h-2.5 w-2.5" />
+              <span className="font-medium">Lesson Completed</span>
+            </div>
+          )}
         </div>
       </Card>
 

@@ -4,9 +4,13 @@ import { Progress } from "@/components/ui/progress";
 import { useLessons } from "@/components/dashboard/useLessons";
 import { MapPin, Calendar, Clock, CheckCircle2 } from "lucide-react";
 import { format } from "date-fns";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { CompletionCodeDialog } from "@/components/lesson/CompletionCodeDialog";
 
 const Lessons = () => {
   const { data: lessons, isLoading } = useLessons();
+  const [showAttendanceForm, setShowAttendanceForm] = useState(false);
 
   if (isLoading) {
     return (
@@ -50,15 +54,21 @@ const Lessons = () => {
           <Card className="bg-white/90 backdrop-blur-sm border-primary/20 shadow-lg">
             <CardHeader className="p-2 sm:p-4">
               <CardTitle className="text-sm sm:text-lg">Progress</CardTitle>
-              <CardDescription className="text-xs sm:text-sm">Your learning journey</CardDescription>
             </CardHeader>
             <CardContent className="p-2 sm:p-4 pt-0">
               <div>
                 <div className="flex justify-between mb-1 sm:mb-2">
-                  <span className="text-xs sm:text-sm font-medium">{completedLessons}/{totalLessons} lessons</span>
+                  <span className="text-xs sm:text-sm font-medium">{completedLessons}/4 lessons</span>
                   <span className="text-xs sm:text-sm font-medium">{Math.round(progressPercentage)}%</span>
                 </div>
                 <Progress value={progressPercentage} className="h-1.5 sm:h-2" />
+                <Button 
+                  variant="default"
+                  className="w-full mt-4 text-black h-8 text-xs"
+                  onClick={() => setShowAttendanceForm(true)}
+                >
+                  Attend
+                </Button>
               </div>
             </CardContent>
           </Card>
@@ -66,7 +76,7 @@ const Lessons = () => {
           <Card className="bg-white/90 backdrop-blur-sm border-primary/20 shadow-lg">
             <CardHeader className="p-2 sm:p-4">
               <CardTitle className="text-sm sm:text-lg">Next Lesson</CardTitle>
-              <CardDescription className="text-xs sm:text-sm">Upcoming session</CardDescription>
+              <CardDescription className="text-xs sm:text-sm">{nextLesson?.title || 'No upcoming lessons'}</CardDescription>
             </CardHeader>
             <CardContent className="p-2 sm:p-4 pt-0 space-y-1">
               <div className="flex items-center gap-1 sm:gap-2">
@@ -138,6 +148,13 @@ const Lessons = () => {
             </Card>
           ))}
         </div>
+
+        <CompletionCodeDialog
+          lessonId={nextLesson?.id || ''}
+          onSuccess={() => setShowAttendanceForm(false)}
+          open={showAttendanceForm}
+          onOpenChange={setShowAttendanceForm}
+        />
       </div>
     </div>
   );

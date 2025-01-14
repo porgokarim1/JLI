@@ -182,7 +182,7 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
             <FormField
               control={form.control}
               name="participant_count"
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <FormItem>
                   <FormControl>
                     <Input 
@@ -191,7 +191,7 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
                       max="99"
                       {...field}
                       onChange={e => field.onChange(parseInt(e.target.value))}
-                      className="h-9 text-sm w-[70px] border border-gray-300"
+                      className={`h-9 text-sm w-[70px] border ${fieldState.invalid ? 'border-red-500' : 'border-gray-300'}`}
                     />
                   </FormControl>
                   <FormMessage />

@@ -168,6 +168,7 @@ export type Database = {
           image_url: string
           instructor_name: string | null
           lesson_date: string | null
+          lesson_order: string | null
           lesson_time: string | null
           location: string | null
           title: string
@@ -181,6 +182,7 @@ export type Database = {
           image_url: string
           instructor_name?: string | null
           lesson_date?: string | null
+          lesson_order?: string | null
           lesson_time?: string | null
           location?: string | null
           title: string
@@ -194,6 +196,7 @@ export type Database = {
           image_url?: string
           instructor_name?: string | null
           lesson_date?: string | null
+          lesson_order?: string | null
           lesson_time?: string | null
           location?: string | null
           title?: string
@@ -283,6 +286,7 @@ export type Database = {
           middle_name: string | null
           organization: string | null
           phone: string | null
+          referal_code: string | null
           reward_claimed: boolean | null
           reward_tier: string | null
           reward_tier_form_submitted: boolean | null
@@ -302,6 +306,7 @@ export type Database = {
           middle_name?: string | null
           organization?: string | null
           phone?: string | null
+          referal_code?: string | null
           reward_claimed?: boolean | null
           reward_tier?: string | null
           reward_tier_form_submitted?: boolean | null
@@ -321,6 +326,7 @@ export type Database = {
           middle_name?: string | null
           organization?: string | null
           phone?: string | null
+          referal_code?: string | null
           reward_claimed?: boolean | null
           reward_tier?: string | null
           reward_tier_form_submitted?: boolean | null
@@ -337,6 +343,7 @@ export type Database = {
           created_at: string
           id: string
           name: string
+          phone1: string | null
           updated_at: string
         }
         Insert: {
@@ -344,6 +351,7 @@ export type Database = {
           created_at?: string
           id?: string
           name: string
+          phone1?: string | null
           updated_at?: string
         }
         Update: {
@@ -351,6 +359,7 @@ export type Database = {
           created_at?: string
           id?: string
           name?: string
+          phone1?: string | null
           updated_at?: string
         }
         Relationships: []

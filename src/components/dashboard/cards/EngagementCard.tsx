@@ -30,7 +30,8 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
       
       const total = data.reduce((sum, conv) => sum + (conv.participant_count || 0), 0);
       return total;
-    }
+    },
+    refetchOnWindowFocus: true
   });
 
   const getNextTarget = (count: number) => {

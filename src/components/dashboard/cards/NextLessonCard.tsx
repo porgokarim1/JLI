@@ -79,7 +79,7 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
                 <h3 className="font-medium text-sm">Next Lesson</h3>
                 <p className="text-xs text-muted-foreground">
                   {nextLesson?.lesson_date && format(new Date(nextLesson.lesson_date), 'EEE. MM/dd/yyyy')}
-                  {nextLesson?.lesson_time && ` ⏰ ${format(new Date(`2000-01-01T${nextLesson.lesson_time}`), 'h:mm a')}`}
+                  {nextLesson?.lesson_time ? ` ⏰ ${format(new Date(`2000-01-01T${nextLesson.lesson_time}`), 'h:mm a')}` : ' ⏰ TBD'}
                 </p>
                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
                   <MapPin className="h-4 w-4 flex-shrink-0" />

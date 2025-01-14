@@ -1,5 +1,4 @@
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { MapPin, Calendar, Clock, CheckCircle2, Eye } from "lucide-react";
 import { LessonWithProgress } from "./types";
 import { format } from "date-fns";
@@ -69,10 +68,6 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
     }
   };
 
-  const shouldShowStatus = () => {
-    return lesson.progress?.status === 'completed';
-  };
-
   return (
     <>
       <Card className="hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-gray-900">
@@ -87,17 +82,34 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
           {/* Right section with lesson details */}
           <div className="w-4/5 p-4">
             <div className="flex justify-between items-start mb-2">
-              <div>
-                <h3 className="font-semibold text-lg mb-1">{lesson.title}</h3>
-                <p className="text-sm text-gray-600 mb-3 line-clamp-2">{lesson.description}</p>
+              <div className="flex-1">
+                <h3 className="text-base font-semibold mb-1">{lesson.title}</h3>
+                <p className="text-xs text-gray-600 mb-2 line-clamp-2">{lesson.description}</p>
+                
+                {/* Date, Time, and Location on one line */}
+                <div className="flex items-center gap-4 text-xs text-gray-600">
+                  <div className="flex items-center gap-1">
+                    <Calendar className="h-3 w-3 text-primary" />
+                    <span>{lesson.lesson_date ? format(new Date(lesson.lesson_date), 'MMM d') : 'TBD'}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Clock className="h-3 w-3 text-primary" />
+                    <span>{lesson.lesson_time ? format(new Date(`2000-01-01T${lesson.lesson_time}`), 'p') : 'TBD'}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <MapPin className="h-3 w-3 text-primary" />
+                    <span className="truncate">{lesson.location || 'TBD'}</span>
+                  </div>
+                </div>
               </div>
-              <div className="flex gap-2">
+              
+              <div className="flex gap-2 ml-2">
                 {isInstructor && (
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => setShowEditDialog(true)}
-                    className="text-xs border-yellow-500 hover:bg-yellow-500/10"
+                    className="text-xs border-yellow-500 hover:bg-yellow-500/10 h-7"
                   >
                     Edit
                   </Button>
@@ -105,33 +117,18 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-8 w-8"
+                  className="h-7 w-7"
                   onClick={() => navigate(`/lessons/${lesson.id}`)}
                 >
-                  <Eye className="h-4 w-4" />
+                  <Eye className="h-3 w-3" />
                 </Button>
               </div>
             </div>
 
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 text-sm text-gray-600">
-                <Calendar className="h-4 w-4 text-primary" />
-                <span>{lesson.lesson_date ? format(new Date(lesson.lesson_date), 'PPP') : 'TBD'}</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-gray-600">
-                <Clock className="h-4 w-4 text-primary" />
-                <span>{lesson.lesson_time ? format(new Date(`2000-01-01T${lesson.lesson_time}`), 'p') : 'TBD'}</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-gray-600">
-                <MapPin className="h-4 w-4 text-primary" />
-                <span className="truncate">{lesson.location || 'TBD'}</span>
-              </div>
-            </div>
-
-            {shouldShowStatus() && (
-              <div className="mt-3 flex items-center gap-2 text-green-600">
-                <CheckCircle2 className="h-4 w-4" />
-                <span className="font-medium">Completed</span>
+            {lesson.progress?.status === 'completed' && (
+              <div className="mt-1 flex items-center gap-1 text-green-600">
+                <CheckCircle2 className="h-3 w-3" />
+                <span className="text-xs font-medium">Completed</span>
               </div>
             )}
           </div>

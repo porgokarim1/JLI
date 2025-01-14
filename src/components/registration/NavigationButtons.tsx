@@ -24,7 +24,7 @@ export const NavigationButtons = ({
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col space-y-4">
+    <div className="flex flex-col space-y-4 w-full px-4">
       <div className="flex justify-center space-x-2 mb-4">
         <CheckCircle2 className="w-5 h-5 text-[#8B5CF6]" />
         <Circle className="w-5 h-5 text-muted" />
@@ -32,12 +32,12 @@ export const NavigationButtons = ({
         <Circle className="w-5 h-5 text-muted" />
       </div>
 
-      <div className="flex gap-4">
+      <div className="flex gap-2 w-full flex-col sm:flex-row">
         {showBack && (
           <Button
             variant="outline"
             onClick={onBack}
-            className="flex-1"
+            className="flex-1 border-gray-400 text-gray-500 hover:bg-gray-100 hover:text-gray-600"
             disabled={isLoading}
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
@@ -48,7 +48,7 @@ export const NavigationButtons = ({
           <Button
             variant="outline"
             onClick={() => navigate("/")}
-            className={`flex-1 ${homeButtonClassName}`}
+            className={`flex-1 border-gray-400 text-gray-500 hover:bg-gray-100 hover:text-gray-600 ${homeButtonClassName}`}
             disabled={isLoading}
           >
             <Home className="mr-2 h-4 w-4" />
@@ -57,7 +57,7 @@ export const NavigationButtons = ({
         )}
         <Button
           onClick={onNext}
-          className="flex-1"
+          className="flex-1 bg-[#FFD700] text-black hover:bg-[#FFD700]/90"
           disabled={isLoading || isNextDisabled}
         >
           Next

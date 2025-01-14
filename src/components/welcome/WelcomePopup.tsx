@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Sparkles } from "lucide-react";
-import { TermsSection } from "@/components/registration/TermsSection";
 import confetti from "canvas-confetti";
 
 interface WelcomePopupProps {
@@ -66,12 +64,8 @@ const WelcomePopup = ({ isOpen, onClose }: WelcomePopupProps) => {
 
       if (error) throw error;
 
-      // Close the dialog
       onClose();
-      
-      // Trigger confetti and show success message
       triggerConfetti();
-      
       toast.success("Welcome to the program! 🎉");
       
     } catch (error: any) {
@@ -90,43 +84,64 @@ const WelcomePopup = ({ isOpen, onClose }: WelcomePopupProps) => {
             <h1 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-4 flex items-center justify-center gap-2 text-secondary">
               Welcome! <Sparkles className="h-5 w-5 sm:h-6 sm:w-6 text-primary animate-pulse" />
             </h1>
-            <p className="text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6 leading-relaxed px-2">
-              Thank you for joining our program. We're excited to have you on board!
+            <p className="text-sm sm:text-base text-muted-foreground mb-4">
+              Thank you for joining the Know Israel program. We're excited to have you on board!
             </p>
           </div>
 
-          <Card className="border-primary/20">
-            <CardHeader>
-              <CardTitle className="text-lg sm:text-xl text-secondary">What to Expect</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3 sm:space-y-4">
-              <ul className="list-none space-y-2 sm:space-y-3 text-muted-foreground text-sm sm:text-base">
-                {[
-                  "Engage in meaningful conversations with peers",
-                  "Participate in interactive learning sessions",
-                  "Access valuable educational resources",
-                  "Track your progress and earn rewards"
-                ].map((item, index) => (
-                  <li key={index} className="flex items-center gap-2 group">
-                    <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-primary group-hover:scale-125 transition-transform" />
-                    <span className="group-hover:text-secondary transition-colors">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
+          <div className="bg-secondary/5 rounded-lg p-4">
+            <h2 className="font-semibold text-lg mb-3">What to Expect</h2>
+            <ul className="space-y-2 text-sm">
+              <li className="flex items-center gap-2">
+                <div className="h-1.5 w-1.5 rounded-full bg-primary" />
+                <span>Participate in 4 interactive learning sessions</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <div className="h-1.5 w-1.5 rounded-full bg-primary" />
+                <span>Engage in meaningful conversations with peers</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <div className="h-1.5 w-1.5 rounded-full bg-primary" />
+                <span>Track your progress and earn rewards</span>
+              </li>
+            </ul>
+          </div>
 
-          <Card className="border-primary/20">
-            <CardHeader>
-              <CardTitle className="text-lg sm:text-xl text-secondary">Terms & Agreement</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <TermsSection
-                formData={formData}
-                onChange={handleFieldChange}
-              />
-            </CardContent>
-          </Card>
+          <div className="space-y-4">
+            <h2 className="font-semibold text-lg">Terms & Agreement</h2>
+            
+            <div className="space-y-4">
+              <label className="flex items-start gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={formData.agreeToTerms}
+                  onChange={(e) => handleFieldChange('agreeToTerms', e.target.checked)}
+                  className="mt-1"
+                />
+                <div className="text-sm">
+                  <p className="font-medium">I agree to the program conditions</p>
+                  <p className="text-muted-foreground text-xs mt-1">
+                    By agreeing to the program conditions, I acknowledge that I will participate in educational sessions, engage respectfully with others, and maintain the confidentiality of sensitive discussions.
+                  </p>
+                </div>
+              </label>
+
+              <label className="flex items-start gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={formData.agreeToDisclaimer}
+                  onChange={(e) => handleFieldChange('agreeToDisclaimer', e.target.checked)}
+                  className="mt-1"
+                />
+                <div className="text-sm">
+                  <p className="font-medium">I agree to the program disclaimer</p>
+                  <p className="text-muted-foreground text-xs mt-1">
+                    I understand this program is partially funded by third-party foundations including Mosaic United. Any data on this webapp may be submitted to them in order to receive funding. They may use that information to contact me for verification purposes.
+                  </p>
+                </div>
+              </label>
+            </div>
+          </div>
 
           <Button
             onClick={handleSubmit}

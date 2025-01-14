@@ -1,3 +1,4 @@
+import { useState } from "react";
 import NavigationBar from "@/components/navigation/NavigationBar";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -5,7 +6,6 @@ import { useLessons } from "@/components/dashboard/useLessons";
 import { MapPin, Calendar, Clock, CheckCircle2 } from "lucide-react";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
 import { CompletionCodeDialog } from "@/components/lesson/CompletionCodeDialog";
 
 const Lessons = () => {
@@ -50,6 +50,7 @@ const Lessons = () => {
     <div className="h-screen overflow-hidden bg-gradient-to-br from-purple-50 via-white to-blue-50">
       <NavigationBar />
       <div className="h-[calc(100vh-4rem)] pt-20 container mx-auto px-2 sm:px-4 flex flex-col">
+        {/* Progress and Next Lesson Cards */}
         <div className="grid grid-cols-2 gap-2 sm:gap-4 mb-2 sm:mb-4">
           <Card className="bg-white/90 backdrop-blur-sm border-primary/20 shadow-lg">
             <CardHeader className="p-2 sm:p-4">
@@ -102,6 +103,7 @@ const Lessons = () => {
           </Card>
         </div>
 
+        {/* Lessons Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 pb-4 flex-1 overflow-y-auto">
           {lessons?.map((lesson) => (
             <Card 
@@ -110,7 +112,7 @@ const Lessons = () => {
             >
               <div className="flex flex-row md:flex-col w-full">
                 {lesson.image_url && (
-                  <div className="w-1/3 md:w-full h-24 md:h-40">
+                  <div className="w-1/3 md:w-full h-24 md:h-40 overflow-hidden md:rounded-t-lg rounded-l-lg md:rounded-l-none">
                     <img 
                       src={lesson.image_url} 
                       alt={lesson.title}

@@ -16,7 +16,6 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Not authenticated');
 
-      // Get user's university
       const { data: profile } = await supabase
         .from('profiles')
         .select('campus')
@@ -86,7 +85,7 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
             </Button>
           </div>
           {nextLesson?.description && (
-            <p className="text-xs text-muted-foreground italic leading-relaxed">
+            <p className="text-sm text-muted-foreground italic leading-relaxed">
               {nextLesson.description}
             </p>
           )}

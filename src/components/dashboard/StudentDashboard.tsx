@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { X, FilePenLine } from "lucide-react";
 import { format } from "date-fns";
 
-const REFERRAL_URL = "https://preview--app-collaborate-hub.lovable.app/register";
+const REFERRAL_URL = "Knowisrael.com";
 
 const StudentDashboard = () => {
   const navigate = useNavigate();

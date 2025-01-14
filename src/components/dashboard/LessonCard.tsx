@@ -70,7 +70,7 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
 
   return (
     <>
-      <Card className="flex flex-col h-full hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-gray-900">
+      <Card className="h-full flex flex-col hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-gray-900">
         {/* Top section with lesson order */}
         <div className="bg-primary p-4 border-b border-gray-900">
           <span className="text-4xl font-bold text-primary-foreground leading-none flex items-center justify-center w-full">
@@ -80,15 +80,13 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
 
         {/* Bottom section with lesson details */}
         <div className="p-4 flex flex-col flex-grow">
-          <div className="flex justify-between items-start mb-4">
-            <div className="flex-1">
-              <h3 className="text-sm font-semibold mb-1">{lesson.title}</h3>
-              <p className="text-xs text-gray-600 mb-2 line-clamp-2">{lesson.description}</p>
-            </div>
+          <div className="flex-1">
+            <h3 className="text-sm font-semibold mb-2">{lesson.title}</h3>
+            <p className="text-xs text-gray-600 mb-4 line-clamp-2">{lesson.description}</p>
           </div>
 
           {/* Date, Time, and Location */}
-          <div className="space-y-2 text-xs text-gray-600 mt-auto">
+          <div className="space-y-2 text-xs text-gray-600">
             <div className="flex items-center gap-1">
               <Calendar className="h-3 w-3 text-primary" />
               <span>{lesson.lesson_date ? format(new Date(lesson.lesson_date), 'MMM d') : 'TBD'}</span>

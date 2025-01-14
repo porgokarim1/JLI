@@ -54,7 +54,7 @@ const Lessons = () => {
     <div className="h-screen overflow-hidden bg-gradient-to-br from-purple-50 via-white to-blue-50">
       <NavigationBar />
       <div className="h-[calc(100vh-4rem)] pt-20 container mx-auto px-2 sm:px-4 flex flex-col">
-        <div className="grid grid-cols-2 gap-2 sm:gap-4 mb-2 sm:mb-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 mb-2 sm:mb-4">
           <Card className="bg-white/90 backdrop-blur-sm border-primary/20 shadow-lg">
             <div className="p-2 sm:p-4">
               <h3 className="text-sm sm:text-lg font-semibold">Progress</h3>
@@ -96,16 +96,19 @@ const Lessons = () => {
           </Card>
         </div>
 
-        {/* Updated to show lessons in a single row */}
+        {/* Updated to show lessons in a single row on desktop and full width on mobile */}
         <div className="flex-1 overflow-hidden">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 h-full p-4">
-            {sortedLessons.map((lesson, index) => (
-              <LessonCard 
-                key={lesson.id} 
-                lesson={lesson}
-                index={index}
-              />
-            ))}
+          <div className="h-full p-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 h-full">
+              {sortedLessons.map((lesson, index) => (
+                <div key={lesson.id} className="w-full">
+                  <LessonCard 
+                    lesson={lesson}
+                    index={index}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 

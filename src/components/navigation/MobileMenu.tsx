@@ -54,6 +54,17 @@ const MobileMenu = ({ isAuthenticated, setIsOpen }: MobileMenuProps) => {
           variant="ghost"
           className="w-full text-left text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
           onClick={() => {
+            navigate("/ai-chat");
+            setIsOpen(false);
+          }}
+        >
+          <MessageSquare className="h-5 w-5 mr-2" />
+          AI Chat
+        </Button>
+        <Button
+          variant="ghost"
+          className="w-full text-left text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
+          onClick={() => {
             navigate("/about");
             setIsOpen(false);
           }}

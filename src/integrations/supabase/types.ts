@@ -405,6 +405,21 @@ export type Database = {
         }
         Relationships: []
       }
+      universities_temp: {
+        Row: {
+          confirmed: boolean | null
+          Uname: string
+        }
+        Insert: {
+          confirmed?: boolean | null
+          Uname: string
+        }
+        Update: {
+          confirmed?: boolean | null
+          Uname?: string
+        }
+        Relationships: []
+      }
       user_lesson_progress: {
         Row: {
           completed_at: string | null

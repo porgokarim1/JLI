@@ -1,9 +1,11 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Handshake, FilePenLine } from "lucide-react";
+import { Handshake, FilePenLine, ChevronDown, ChevronUp } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
+import { useState } from "react";
+import { RewardTierInfo } from "./RewardTierInfo";
 
 interface EngagementCardProps {
   onNewEngagement: () => void;
@@ -12,6 +14,8 @@ interface EngagementCardProps {
 }
 
 export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngagements }: EngagementCardProps) => {
+  const [showEngagements, setShowEngagements] = useState(true);
+  
   const { data: totalPeers = 0, isLoading } = useQuery({
     queryKey: ['total-peers'],
     queryFn: async () => {
@@ -38,8 +42,6 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
     if (count < 15) return 15;
     return 25;
   };
-
-  const nextTarget = getNextTarget(totalPeers);
 
   const getComfortEmoji = (comfort_level: string) => {
     switch (comfort_level) {
@@ -72,7 +74,7 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
             <div>
               <h3 className="font-medium text-sm">Peer Conversations</h3>
               <p className="text-xs text-muted-foreground">
-                {isLoading ? "Loading..." : totalPeers > 0 ? `${totalPeers}/${nextTarget} peers` : ""}
+                {isLoading ? "Loading..." : totalPeers > 0 ? `${totalPeers}/${getNextTarget(totalPeers)} peers` : ""}
               </p>
             </div>
           </div>
@@ -85,45 +87,63 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
           </Button>
         </div>
 
-        <div className="space-y-2">
-          {recentEngagements.length > 0 ? (
-            recentEngagements.map((engagement) => (
-              <div 
-                key={engagement.id}
-                className="flex items-center justify-between py-2 border-t border-gray-200"
-              >
-                <div className="grid grid-cols-4 gap-1 items-center min-w-0 flex-1 divide-x divide-gray-200">
-                  <span className="text-sm text-gray-600 whitespace-nowrap px-1">
-                    {format(new Date(engagement.conversation_date), 'MMM d')}
-                  </span>
-                  <span className="text-lg px-1 text-center">
-                    {getComfortEmoji(engagement.comfort_level || '')}
-                  </span>
-                  <span className="text-sm whitespace-nowrap px-1 text-center">
-                    {getPeersIcon(engagement.participant_count)}
-                  </span>
-                  <div className="px-1 min-w-0 pr-10 relative">
-                    {engagement.comments && (
-                      <span className="text-sm text-gray-600 block truncate">
-                        {engagement.comments}
+        <RewardTierInfo totalPeers={totalPeers} />
+
+        <div className="border-t border-gray-200 pt-4">
+          <button
+            onClick={() => setShowEngagements(!showEngagements)}
+            className="flex items-center justify-between w-full text-left mb-4"
+          >
+            <span className="font-medium">Past Conversations</span>
+            {showEngagements ? (
+              <ChevronUp className="h-5 w-5 text-gray-500" />
+            ) : (
+              <ChevronDown className="h-5 w-5 text-gray-500" />
+            )}
+          </button>
+
+          {showEngagements && (
+            <div className="space-y-2">
+              {recentEngagements.length > 0 ? (
+                recentEngagements.map((engagement) => (
+                  <div 
+                    key={engagement.id}
+                    className="flex items-center justify-between py-2 border-t border-gray-200"
+                  >
+                    <div className="grid grid-cols-4 gap-1 items-center min-w-0 flex-1 divide-x divide-gray-200">
+                      <span className="text-sm text-gray-600 whitespace-nowrap px-1">
+                        {format(new Date(engagement.conversation_date), 'MMM d')}
                       </span>
-                    )}
+                      <span className="text-lg px-1 text-center">
+                        {getComfortEmoji(engagement.comfort_level || '')}
+                      </span>
+                      <span className="text-sm whitespace-nowrap px-1 text-center">
+                        {getPeersIcon(engagement.participant_count)}
+                      </span>
+                      <div className="px-1 min-w-0 pr-10 relative">
+                        {engagement.comments && (
+                          <span className="text-sm text-gray-600 block truncate">
+                            {engagement.comments}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => onEditEngagement(engagement)}
+                      className="h-8 w-8 text-gray-400 hover:text-primary shrink-0 ml-1 absolute right-4"
+                    >
+                      <FilePenLine className="h-4 w-4" />
+                      <span className="sr-only">Edit engagement</span>
+                    </Button>
                   </div>
+                ))
+              ) : (
+                <div className="text-center py-4 text-gray-500 text-sm">
+                  No conversation logged yet. Start <button onClick={onNewEngagement} className="text-primary hover:underline">here</button>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => onEditEngagement(engagement)}
-                  className="h-8 w-8 text-gray-400 hover:text-primary shrink-0 ml-1 absolute right-4"
-                >
-                  <FilePenLine className="h-4 w-4" />
-                  <span className="sr-only">Edit engagement</span>
-                </Button>
-              </div>
-            ))
-          ) : (
-            <div className="text-center py-4 text-gray-500 text-sm">
-              No conversation logged yet. Start <button onClick={onNewEngagement} className="text-primary hover:underline">here</button>
+              )}
             </div>
           )}
         </div>

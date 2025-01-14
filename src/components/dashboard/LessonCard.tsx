@@ -28,7 +28,7 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
     lesson_date: lesson.lesson_date || '',
     lesson_time: lesson.lesson_time || ''
   });
-  
+
   useEffect(() => {
     const checkRole = async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -85,23 +85,24 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
 
   return (
     <>
-      <Card className="flex flex-row md:flex-col relative bg-white/90 backdrop-blur-sm overflow-hidden h-24 md:h-[280px]">
+      <Card className="flex flex-row md:flex-col relative bg-white/90 backdrop-blur-sm h-24 md:h-64">
         {/* Image Section */}
-        <div className="w-1/3 md:w-full h-full md:h-32 overflow-hidden">
+        <div className="w-24 md:w-full h-24 md:h-32 relative overflow-hidden">
           {lesson.image_url && (
             <img 
               src={lesson.image_url} 
               alt={lesson.title}
               className="w-full h-full object-cover"
+              style={{ maxHeight: '160px' }}
             />
           )}
         </div>
         
         {/* Content Section */}
-        <div className="flex-1 p-2 flex flex-col justify-between min-w-0">
+        <div className="flex-1 p-2 md:p-3 flex flex-col justify-between min-w-0">
           <div>
-            <div className="flex items-center justify-between gap-1 mb-0.5">
-              <h3 className="text-xs font-medium line-clamp-1">{lesson.title}</h3>
+            <div className="flex items-center justify-between gap-1 mb-1">
+              <h3 className="text-xs md:text-sm font-medium line-clamp-1">{lesson.title}</h3>
               <div className="flex items-center gap-1">
                 {shouldShowStatus() && (
                   <Badge 
@@ -134,9 +135,9 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
               </div>
             </div>
 
-            <p className="text-[10px] text-gray-600 line-clamp-2 mb-1">{lesson.description}</p>
+            <p className="text-[10px] md:text-xs text-gray-600 line-clamp-2 mb-2">{lesson.description}</p>
             
-            <div className="flex items-center gap-2 text-[10px]">
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px]">
               <div className="flex items-center gap-1">
                 <Calendar className="h-2.5 w-2.5 text-primary" />
                 <span className="whitespace-nowrap">

@@ -24,9 +24,6 @@ export const useLessons = () => {
               type,
               created_at,
               updated_at
-            ),
-            universities (
-              name
             )
           `)
           .order('lesson_order', { ascending: true });
@@ -51,7 +48,6 @@ export const useLessons = () => {
           const result = {
             ...lesson,
             media: lesson.lesson_media,
-            university_name: lesson.universities?.name,
             progress: progress ? {
               status: progress.status,
               time_spent: progress.time_spent,

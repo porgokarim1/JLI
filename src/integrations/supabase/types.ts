@@ -179,7 +179,6 @@ export type Database = {
           lesson_time: string | null
           location: string | null
           title: string
-          university_id: string
         }
         Insert: {
           completion_code?: string | null
@@ -194,7 +193,6 @@ export type Database = {
           lesson_time?: string | null
           location?: string | null
           title: string
-          university_id: string
         }
         Update: {
           completion_code?: string | null
@@ -209,17 +207,8 @@ export type Database = {
           lesson_time?: string | null
           location?: string | null
           title?: string
-          university_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "lessons_university_id_fkey"
-            columns: ["university_id"]
-            isOneToOne: false
-            referencedRelation: "universities"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       lessons_schedule: {
         Row: {
@@ -707,13 +696,6 @@ export type Database = {
             columns: ["instructor_id"]
             isOneToOne: false
             referencedRelation: "user_roles_cache"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "lessons_university_id_fkey"
-            columns: ["university_id"]
-            isOneToOne: false
-            referencedRelation: "universities"
             referencedColumns: ["id"]
           },
         ]

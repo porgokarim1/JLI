@@ -33,7 +33,7 @@ export const RewardTierInfo = ({ totalPeers }: RewardTierInfoProps) => {
   ];
 
   return (
-    <div className="border-t border-gray-200 pt-4">
+    <div className="border-t border-gray-200">
       <button
         onClick={() => setIsExpanded(!isExpanded)}
         className="flex items-center justify-end w-full text-left text-gray-500 hover:text-gray-700 transition-colors"
@@ -46,7 +46,7 @@ export const RewardTierInfo = ({ totalPeers }: RewardTierInfoProps) => {
       </button>
 
       {isExpanded && (
-        <div className="mt-8 space-y-16 relative px-4">
+        <div className="mt-2 space-y-16 relative px-4">
           <div className="absolute top-6 left-[23px] w-0.5 h-[calc(100%-50px)] bg-gradient-to-b from-primary/30 to-primary/10 -z-10" />
 
           {tiers.map((tier, index) => {
@@ -71,7 +71,7 @@ export const RewardTierInfo = ({ totalPeers }: RewardTierInfoProps) => {
                   )}
                 </div>
 
-                <div className="flex-1 pt-2">
+                <div className="flex-1">
                   <span className="font-medium block mb-1">{tier.title}</span>
                   <span className={`text-sm ${totalPeers >= tier.count ? 'text-green-600' : 'text-gray-600'}`}>
                     {tier.reward}

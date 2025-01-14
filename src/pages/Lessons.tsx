@@ -112,7 +112,7 @@ const Lessons = () => {
             >
               <div className="flex flex-row md:flex-col w-full">
                 {lesson.image_url && (
-                  <div className="w-1/2 md:w-full h-32 md:h-48 relative overflow-hidden">
+                  <div className="w-1/3 md:w-full h-24 md:h-32 relative overflow-hidden">
                     <img 
                       src={lesson.image_url} 
                       alt={lesson.title}
@@ -120,14 +120,14 @@ const Lessons = () => {
                     />
                   </div>
                 )}
-                <div className="flex-1 p-2 sm:p-4 flex flex-col justify-between">
+                <div className="flex-1 p-2 flex flex-col justify-between">
                   <div>
-                    <h3 className="font-medium text-xs sm:text-base md:text-lg mb-1 sm:mb-2">{lesson.title}</h3>
-                    <p className="text-xs text-gray-600 mb-2 line-clamp-2">{lesson.description}</p>
+                    <h3 className="font-medium text-xs md:text-sm mb-1">{lesson.title}</h3>
+                    <p className="text-[10px] md:text-xs text-gray-600 mb-1 line-clamp-2">{lesson.description}</p>
                     
-                    <div className="flex items-center gap-2 text-xs">
+                    <div className="flex flex-col gap-0.5 text-[10px] md:text-xs">
                       <div className="flex items-center gap-1">
-                        <Calendar className="h-3 w-3 text-primary" />
+                        <Calendar className="h-2.5 w-2.5 md:h-3 md:w-3 text-primary flex-shrink-0" />
                         <span className="whitespace-nowrap">
                           {lesson.lesson_date 
                             ? format(new Date(lesson.lesson_date), 'MMM d')
@@ -135,24 +135,24 @@ const Lessons = () => {
                         </span>
                       </div>
                       <div className="flex items-center gap-1">
-                        <Clock className="h-3 w-3 text-primary" />
+                        <Clock className="h-2.5 w-2.5 md:h-3 md:w-3 text-primary flex-shrink-0" />
                         <span className="whitespace-nowrap">
                           {lesson.lesson_time
                             ? format(new Date(`2000-01-01T${lesson.lesson_time}`), 'p')
                             : 'TBD'}
                         </span>
                       </div>
-                      <div className="flex items-center gap-1 flex-1 min-w-0">
-                        <MapPin className="h-3 w-3 text-primary flex-shrink-0" />
+                      <div className="flex items-center gap-1">
+                        <MapPin className="h-2.5 w-2.5 md:h-3 md:w-3 text-primary flex-shrink-0" />
                         <span className="truncate">{lesson.location || 'TBD'}</span>
                       </div>
                     </div>
                   </div>
                   
                   {lesson.progress?.status === 'completed' && (
-                    <div className="mt-2 flex items-center gap-1 text-green-600">
-                      <CheckCircle2 className="h-4 w-4" />
-                      <span className="text-xs">Completed</span>
+                    <div className="mt-1 flex items-center gap-1 text-green-600">
+                      <CheckCircle2 className="h-3 w-3" />
+                      <span className="text-[10px] md:text-xs">Completed</span>
                     </div>
                   )}
                 </div>

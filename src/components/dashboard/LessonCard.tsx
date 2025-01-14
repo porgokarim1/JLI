@@ -78,9 +78,9 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
     }
   };
 
+  // Updated shouldShowStatus function to properly check completion status
   const shouldShowStatus = () => {
-    if (!lesson.progress) return false;
-    return lesson.progress.status === 'completed';
+    return lesson.progress && lesson.progress.status === 'completed';
   };
 
   return (
@@ -170,7 +170,7 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
               </div>
             </div>
 
-            {lesson.progress?.status === 'completed' && (
+            {shouldShowStatus() && (
               <div className="flex items-center justify-center gap-1 py-1 text-green-600 text-xs mt-2">
                 <CheckCircle2 className="h-3 w-3 md:h-4 md:w-4" />
                 <span className="font-medium">Lesson Completed</span>

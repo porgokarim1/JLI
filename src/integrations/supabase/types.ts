@@ -214,6 +214,36 @@ export type Database = {
           },
         ]
       }
+      lessons_instructors_info: {
+        Row: {
+          created_at: string
+          description: string | null
+          duration: number | null
+          id: number
+          image_url: string | null
+          lesson_order: number | null
+          title: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          duration?: number | null
+          id?: number
+          image_url?: string | null
+          lesson_order?: number | null
+          title?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          duration?: number | null
+          id?: number
+          image_url?: string | null
+          lesson_order?: number | null
+          title?: string | null
+        }
+        Relationships: []
+      }
       lessons_schedule: {
         Row: {
           attendance_code: string | null

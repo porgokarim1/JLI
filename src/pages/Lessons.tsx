@@ -110,7 +110,7 @@ const Lessons = () => {
             >
               <div className="flex flex-row md:flex-col w-full">
                 {lesson.image_url && (
-                  <div className="w-1/3 md:w-full h-full md:h-40">
+                  <div className="w-1/3 md:w-full h-24 md:h-40">
                     <img 
                       src={lesson.image_url} 
                       alt={lesson.title}
@@ -121,6 +121,7 @@ const Lessons = () => {
                 <div className="flex-1 p-2 sm:p-4 flex flex-col justify-between">
                   <div>
                     <h3 className="font-medium text-xs sm:text-base md:text-lg mb-1 sm:mb-2">{lesson.title}</h3>
+                    <p className="text-xs text-gray-600 mb-2 line-clamp-2">{lesson.description}</p>
                     
                     <div className="flex items-center gap-2 text-xs">
                       <div className="flex items-center gap-1">

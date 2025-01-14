@@ -22,12 +22,12 @@ export const PersonalInfoStep = ({ formData, onChange, onNext, isLoading }: Pers
   };
 
   return (
-    <div className="space-y-6 p-8">
+    <div className="space-y-6 p-4 sm:p-8">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold">Let's get to know you! 👋</h2>
       </div>
 
-      <div className="space-y-4 px-4">
+      <div className="space-y-4">
         <div>
           <Label htmlFor="firstName">Your First Name</Label>
           <Input
@@ -50,16 +50,13 @@ export const PersonalInfoStep = ({ formData, onChange, onNext, isLoading }: Pers
         </div>
       </div>
 
-      <div className="px-4">
-        <NavigationButtons
-          showBack={false}
-          showHome={true}
-          onNext={handleNext}
-          isNextDisabled={!formData.firstName.trim() || !formData.lastName.trim()}
-          isLoading={isLoading}
-          homeButtonClassName="text-gray-500 border-gray-500 hover:bg-gray-100"
-        />
-      </div>
+      <NavigationButtons
+        showBack={false}
+        showHome={true}
+        onNext={handleNext}
+        isNextDisabled={!formData.firstName.trim() || !formData.lastName.trim()}
+        isLoading={isLoading}
+      />
     </div>
   );
 };

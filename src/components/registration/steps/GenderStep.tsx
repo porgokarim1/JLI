@@ -18,12 +18,12 @@ export const GenderStep = ({ formData, onChange, onNext, onBack }: GenderStepPro
   };
 
   return (
-    <div className="space-y-6 p-8">
+    <div className="space-y-6 p-4 sm:p-8">
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold">Tell us about yourself! 💫</h2>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 px-4">
+      <div className="grid grid-cols-2 gap-4">
         <Card
           className={`p-8 cursor-pointer transition-all hover:scale-105 ${
             formData.gender === "male"
@@ -53,7 +53,7 @@ export const GenderStep = ({ formData, onChange, onNext, onBack }: GenderStepPro
         </Card>
       </div>
 
-      <div className="flex flex-col space-y-4 px-4">
+      <div className="flex flex-col space-y-4">
         <div className="flex justify-center space-x-2 mb-4">
           <CheckCircle2 className="w-5 h-5 text-[#8B5CF6]" />
           <CheckCircle2 className="w-5 h-5 text-[#8B5CF6]" />
@@ -65,7 +65,7 @@ export const GenderStep = ({ formData, onChange, onNext, onBack }: GenderStepPro
           <Button
             variant="outline"
             onClick={onBack}
-            className="flex-1"
+            className="flex-1 border-[#8E9196] text-[#8E9196] hover:bg-gray-50"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back

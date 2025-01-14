@@ -26,6 +26,10 @@ export type Lesson = {
   lesson_time?: string;
   instructor_name?: string;
   lesson_media: LessonMedia[];
+  university_id?: string;
+  universities?: {
+    name: string;
+  };
 };
 
 export type LessonWithProgress = Lesson & {

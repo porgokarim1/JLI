@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, MapPin } from "lucide-react";
+import { BookOpen, MapPin, Calendar, Clock } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
@@ -26,13 +26,19 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       
+      // Join with universities to filter by user's university
       const { data, error } = await supabase
         .from('lessons')
-        .select('*')
+        .select(`
+          *,
+          universities (
+            name
+          )
+        `)
         .gte('lesson_date', today.toISOString())
         .order('lesson_date', { ascending: true })
         .limit(1)
-        .single();
+        .maybeSingle();
 
       if (error) {
         console.error('Error fetching next lesson:', error);
@@ -57,9 +63,9 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
     <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
       <CardContent className="p-4">
         <div className="space-y-3">
-          {nextLesson?.userCampus && (
+          {nextLesson?.universities?.name && (
             <p className="text-xs text-muted-foreground font-medium border-b pb-2">
-              {nextLesson.userCampus}
+              {nextLesson.universities.name}
             </p>
           )}
           <div className="flex items-center justify-between">

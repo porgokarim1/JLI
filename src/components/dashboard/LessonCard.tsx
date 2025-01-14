@@ -89,8 +89,8 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
             </div>
 
             <div className="flex justify-between items-end">
-              {/* Icons and details */}
-              <div className="space-y-1 text-xs text-gray-600">
+              {/* Icons and details in a row */}
+              <div className="flex space-x-3 text-xs text-gray-600">
                 <div className="flex items-center gap-1">
                   <Calendar className="h-3 w-3 text-primary" />
                   <span>{lesson.lesson_date ? format(new Date(lesson.lesson_date), 'MMM d') : 'TBD'}</span>
@@ -203,8 +203,8 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
             <p className="text-xs text-gray-600 mb-4 line-clamp-2">{lesson.description}</p>
           </div>
 
-          {/* Date, Time, and Location */}
-          <div className="space-y-2 text-xs text-gray-600">
+          {/* Date, Time, and Location in a row */}
+          <div className="flex space-x-3 text-xs text-gray-600">
             <div className="flex items-center gap-1">
               <Calendar className="h-3 w-3 text-primary" />
               <span>{lesson.lesson_date ? format(new Date(lesson.lesson_date), 'MMM d') : 'TBD'}</span>

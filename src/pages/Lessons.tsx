@@ -37,6 +37,8 @@ const Lessons = () => {
   const getNextLesson = () => {
     if (!lessons?.length) return null;
     const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
     const futureLessons = lessons
       .filter(lesson => lesson.lesson_date && new Date(lesson.lesson_date) >= today)
       .sort((a, b) => new Date(a.lesson_date!).getTime() - new Date(b.lesson_date!).getTime());
@@ -51,9 +53,10 @@ const Lessons = () => {
   );
 
   return (
-    <div className="h-screen overflow-hidden bg-gradient-to-br from-purple-50 via-white to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
       <NavigationBar />
-      <div className="h-[calc(100vh-4rem)] pt-20 container mx-auto px-2 sm:px-4 flex flex-col">
+      <div className="h-full pt-20 container mx-auto px-2 sm:px-4 flex flex-col">
+        {/* Progress and Next Lesson cards side by side */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 mb-2 sm:mb-4">
           <Card className="bg-white/90 backdrop-blur-sm border-primary/20 shadow-lg">
             <div className="p-2 sm:p-4">
@@ -96,19 +99,17 @@ const Lessons = () => {
           </Card>
         </div>
 
-        {/* Updated to show lessons in a single row on desktop and full width on mobile */}
-        <div className="flex-1 overflow-hidden">
-          <div className="h-full p-4">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 h-full">
-              {sortedLessons.map((lesson, index) => (
-                <div key={lesson.id} className="w-full">
-                  <LessonCard 
-                    lesson={lesson}
-                    index={index}
-                  />
-                </div>
-              ))}
-            </div>
+        {/* Lessons grid with overflow scroll */}
+        <div className="flex-1 overflow-y-auto">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 p-4">
+            {sortedLessons.map((lesson, index) => (
+              <div key={lesson.id} className="w-full">
+                <LessonCard 
+                  lesson={lesson}
+                  index={index}
+                />
+              </div>
+            ))}
           </div>
         </div>
 

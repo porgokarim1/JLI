@@ -1,5 +1,5 @@
 import NavigationBar from "@/components/navigation/NavigationBar";
-import { Card } from "@/components/ui/card";
+import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useLessons } from "@/components/dashboard/useLessons";
 import { MapPin, Calendar, Clock, CheckCircle2 } from "lucide-react";

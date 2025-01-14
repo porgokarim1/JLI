@@ -11,6 +11,8 @@ export const useLessons = () => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) throw new Error('User not authenticated');
 
+        console.log('Fetching lessons for user:', user.id);
+
         // Fetch lessons and their progress, ordered by lesson_order
         const { data: lessonsData, error: lessonsError } = await supabase
           .from('lessons')
@@ -28,6 +30,8 @@ export const useLessons = () => {
 
         if (lessonsError) throw lessonsError;
 
+        console.log('Lessons data:', lessonsData);
+
         // Fetch progress for all lessons
         const { data: progressData, error: progressError } = await supabase
           .from('user_lesson_progress')
@@ -36,10 +40,12 @@ export const useLessons = () => {
 
         if (progressError) throw progressError;
 
+        console.log('Progress data:', progressData);
+
         // Combine lessons with their progress
         const lessonsWithProgress = lessonsData.map((lesson: any) => {
           const progress = progressData?.find((p: any) => p.lesson_id === lesson.id);
-          return {
+          const result = {
             ...lesson,
             media: lesson.lesson_media,
             progress: progress ? {
@@ -52,6 +58,8 @@ export const useLessons = () => {
               last_position: 0,
             }
           };
+          console.log('Lesson with progress:', result);
+          return result;
         });
 
         return lessonsWithProgress;

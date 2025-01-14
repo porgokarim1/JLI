@@ -78,9 +78,10 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
     }
   };
 
-  // Updated shouldShowStatus function to properly check completion status
+  // Updated shouldShowStatus function with additional logging
   const shouldShowStatus = () => {
-    return lesson.progress && lesson.progress.status === 'completed';
+    console.log('Checking status for lesson:', lesson.id, 'Progress:', lesson.progress);
+    return lesson.progress?.status === 'completed';
   };
 
   return (

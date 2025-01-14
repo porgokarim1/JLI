@@ -86,9 +86,9 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
   return (
     <>
       <Card className="hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-indigo-100 flex flex-col h-full">
-        <div className="flex flex-col md:flex-row h-full">
+        <div className="flex flex-col h-full">
           {/* Image container with responsive layout */}
-          <div className="w-24 md:w-full h-24 md:h-48 relative overflow-hidden md:rounded-t-lg">
+          <div className="w-full h-48 md:h-40 relative overflow-hidden rounded-t-lg">
             <img
               src={lesson.image_url}
               alt={lesson.title}
@@ -97,9 +97,9 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
           </div>
 
           {/* Content container */}
-          <div className="flex-1 p-2 sm:p-4 flex flex-col">
-            <div className="flex items-center justify-between mb-1 sm:mb-2">
-              <CardTitle className="text-sm sm:text-lg">{lesson.title}</CardTitle>
+          <div className="flex-1 p-4 flex flex-col">
+            <div className="flex items-center justify-between mb-2">
+              <CardTitle className="text-lg line-clamp-1">{lesson.title}</CardTitle>
               <div className="flex items-center gap-2">
                 {shouldShowStatus() && (
                   <Badge 
@@ -132,26 +132,26 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
               </div>
             </div>
 
-            <CardDescription className="text-xs sm:text-sm mb-2">{lesson.description}</CardDescription>
+            <CardDescription className="text-sm mb-4 line-clamp-2">{lesson.description}</CardDescription>
             
-            <div className="mt-auto space-y-1 sm:space-y-2 text-xs sm:text-sm text-gray-600">
-              <div className="flex items-center gap-1 sm:gap-2">
-                <MapPin className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
+            <div className="mt-auto space-y-2 text-sm text-gray-600">
+              <div className="flex items-center gap-2">
+                <MapPin className="h-4 w-4 text-primary" />
                 <span className="truncate">{lesson.location || 'TBD'}</span>
               </div>
-              <div className="flex items-center gap-1 sm:gap-2">
-                <Calendar className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
+              <div className="flex items-center gap-2">
+                <Calendar className="h-4 w-4 text-primary" />
                 <span>{lesson.lesson_date ? format(new Date(lesson.lesson_date), 'PPP') : 'TBD'}</span>
               </div>
-              <div className="flex items-center gap-1 sm:gap-2">
-                <Clock className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
+              <div className="flex items-center gap-2">
+                <Clock className="h-4 w-4 text-primary" />
                 <span>{lesson.lesson_time ? format(new Date(`2000-01-01T${lesson.lesson_time}`), 'p') : 'TBD'}</span>
               </div>
             </div>
 
             {lesson.progress?.status === 'completed' && (
-              <div className="flex items-center justify-center gap-1 sm:gap-2 py-1 sm:py-2 text-green-600 text-xs sm:text-sm mt-2">
-                <CheckCircle2 className="h-3 w-3 sm:h-4 sm:w-4" />
+              <div className="flex items-center justify-center gap-2 py-2 text-green-600 text-sm mt-4">
+                <CheckCircle2 className="h-4 w-4" />
                 <span className="font-medium">Lesson Completed</span>
               </div>
             )}

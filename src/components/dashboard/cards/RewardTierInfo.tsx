@@ -1,4 +1,4 @@
-import { Trophy, ChevronDown, ChevronUp, Shirt, Scroll, Gift } from "lucide-react";
+import { ChevronDown, ChevronUp, Shirt, Scroll, Gift } from "lucide-react";
 import { useState } from "react";
 
 interface RewardTierInfoProps {
@@ -36,16 +36,12 @@ export const RewardTierInfo = ({ totalPeers }: RewardTierInfoProps) => {
     <div className="border-t border-gray-200 pt-4">
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="flex items-center justify-between w-full text-left"
+        className="flex items-center justify-end w-full text-left text-gray-500 hover:text-gray-700 transition-colors"
       >
-        <div className="flex items-center gap-2">
-          <Trophy className="h-5 w-5 text-yellow-500" />
-          <span className="font-medium">Reward Tiers</span>
-        </div>
         {isExpanded ? (
-          <ChevronUp className="h-5 w-5 text-gray-500" />
+          <ChevronUp className="h-5 w-5" />
         ) : (
-          <ChevronDown className="h-5 w-5 text-gray-500" />
+          <ChevronDown className="h-5 w-5" />
         )}
       </button>
 

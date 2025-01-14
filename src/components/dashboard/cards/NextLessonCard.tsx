@@ -9,6 +9,16 @@ interface NextLessonCardProps {
   onAttendanceClick: () => void;
 }
 
+type NextLesson = {
+  id: string;
+  title: string;
+  description: string | null;
+  location: string | null;
+  lesson_date: string | null;
+  lesson_time: string | null;
+  userCampus?: string | null;
+}
+
 export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
   const { data: nextLesson, isLoading } = useQuery({
     queryKey: ['next-lesson'],
@@ -39,7 +49,7 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
         throw error;
       }
       
-      return { ...data, userCampus: profile?.campus };
+      return { ...data, userCampus: profile?.campus } as NextLesson;
     }
   });
 

@@ -96,14 +96,17 @@ const Lessons = () => {
           </Card>
         </div>
 
-        <div className="grid grid-cols-1 gap-2 sm:gap-4 pb-4 flex-1 overflow-y-auto">
-          {sortedLessons.map((lesson, index) => (
-            <LessonCard 
-              key={lesson.id} 
-              lesson={lesson}
-              index={index}
-            />
-          ))}
+        {/* Updated to show lessons in a single row */}
+        <div className="flex-1 overflow-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 h-full p-4">
+            {sortedLessons.map((lesson, index) => (
+              <LessonCard 
+                key={lesson.id} 
+                lesson={lesson}
+                index={index}
+              />
+            ))}
+          </div>
         </div>
 
         <CompletionCodeDialog

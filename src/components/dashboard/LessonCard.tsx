@@ -71,23 +71,23 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
   return (
     <>
       <Card className="hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-gray-900">
-        <div className="flex h-full">
-          {/* Left section with lesson order */}
-          <div className="w-1/5 bg-primary flex items-center justify-center p-4 border-r border-gray-900">
-            <span className="text-4xl font-bold text-primary-foreground">
+        <div className="flex flex-col lg:flex-row h-full">
+          {/* Top/Left section with lesson order */}
+          <div className="w-full lg:w-1/5 bg-primary flex items-center justify-center p-8 lg:p-4 border-b lg:border-b-0 lg:border-r border-gray-900">
+            <span className="text-6xl lg:text-5xl font-bold text-primary-foreground">
               {lesson.lesson_order || '1'}
             </span>
           </div>
 
-          {/* Right section with lesson details */}
-          <div className="w-4/5 p-4">
-            <div className="flex justify-between items-start mb-2">
+          {/* Bottom/Right section with lesson details */}
+          <div className="w-full lg:w-4/5 p-4">
+            <div className="flex justify-between items-start">
               <div className="flex-1">
-                <h3 className="text-base font-semibold mb-1">{lesson.title}</h3>
+                <h3 className="text-sm font-semibold mb-1">{lesson.title}</h3>
                 <p className="text-xs text-gray-600 mb-2 line-clamp-2">{lesson.description}</p>
                 
                 {/* Date, Time, and Location on one line */}
-                <div className="flex items-center gap-4 text-xs text-gray-600">
+                <div className="flex items-center gap-4 text-xs text-gray-600 flex-wrap">
                   <div className="flex items-center gap-1">
                     <Calendar className="h-3 w-3 text-primary" />
                     <span>{lesson.lesson_date ? format(new Date(lesson.lesson_date), 'MMM d') : 'TBD'}</span>

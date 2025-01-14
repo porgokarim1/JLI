@@ -56,9 +56,9 @@ const Lessons = () => {
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
       <NavigationBar />
       <div className="h-full pt-20 container mx-auto px-2 sm:px-4 flex flex-col">
-        {/* Progress and Next Lesson cards side by side */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 mb-2 sm:mb-4">
-          <Card className="bg-white/90 backdrop-blur-sm border-primary/20 shadow-lg">
+        {/* Progress and Next Lesson cards side by side - using flex instead of grid */}
+        <div className="flex flex-row gap-2 sm:gap-4 mb-2 sm:mb-4">
+          <Card className="flex-1 bg-white/90 backdrop-blur-sm border-primary/20 shadow-lg">
             <div className="p-2 sm:p-4">
               <h3 className="text-sm sm:text-lg font-semibold">Progress</h3>
               <div className="mt-2">
@@ -78,7 +78,7 @@ const Lessons = () => {
             </div>
           </Card>
 
-          <Card className="bg-white/90 backdrop-blur-sm border-primary/20 shadow-lg">
+          <Card className="flex-1 bg-white/90 backdrop-blur-sm border-primary/20 shadow-lg">
             <div className="p-2 sm:p-4">
               <h3 className="text-sm sm:text-lg font-semibold">Next Lesson</h3>
               <div className="mt-2 text-xs sm:text-sm">

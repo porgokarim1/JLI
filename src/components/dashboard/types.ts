@@ -31,6 +31,9 @@ export type Lesson = {
     name: string;
   };
   lesson_order?: string;
+  attendance_code?: string;
+  start_time?: string;
+  end_time?: string;
 };
 
 export type LessonWithProgress = Lesson & {

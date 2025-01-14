@@ -13,12 +13,12 @@ export const useLessons = () => {
 
         console.log('Fetching lessons for user:', user.id);
 
-        // Fetch lessons and their progress, ordered by lesson_order
+        // Fetch lessons from the view, ordered by lesson_order
         const { data: lessonsData, error: lessonsError } = await supabase
-          .from('lessons')
+          .from('lessons_view_simple')
           .select(`
             *,
-            lesson_media (
+            lesson_media:lesson_media (
               id,
               url,
               type,
@@ -47,7 +47,7 @@ export const useLessons = () => {
           const progress = progressData?.find((p: any) => p.lesson_id === lesson.id);
           const result = {
             ...lesson,
-            media: lesson.lesson_media,
+            media: lesson.lesson_media || [],
             progress: progress ? {
               status: progress.status,
               time_spent: progress.time_spent,

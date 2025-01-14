@@ -16,7 +16,7 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Not authenticated');
 
-      // Get user's university
+      // Get user's profile
       const { data: profile } = await supabase
         .from('profiles')
         .select('campus')
@@ -26,15 +26,9 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       
-      // Join with universities to filter by user's university
       const { data, error } = await supabase
         .from('lessons')
-        .select(`
-          *,
-          universities (
-            name
-          )
-        `)
+        .select('*')
         .gte('lesson_date', today.toISOString())
         .order('lesson_date', { ascending: true })
         .limit(1)
@@ -63,9 +57,9 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
     <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
       <CardContent className="p-4">
         <div className="space-y-3">
-          {nextLesson?.universities?.name && (
+          {nextLesson?.userCampus && (
             <p className="text-xs text-muted-foreground font-medium border-b pb-2">
-              {nextLesson.universities.name}
+              {nextLesson.userCampus}
             </p>
           )}
           <div className="flex items-center justify-between">

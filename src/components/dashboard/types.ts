@@ -30,6 +30,7 @@ export type Lesson = {
   universities?: {
     name: string;
   };
+  lesson_order?: string;
 };
 
 export type LessonWithProgress = Lesson & {

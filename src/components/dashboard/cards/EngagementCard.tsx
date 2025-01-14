@@ -65,6 +65,12 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
     return '👥👤+';
   };
 
+  const getProgressMessage = (count: number) => {
+    const nextTarget = getNextTarget(count);
+    const remaining = nextTarget - count;
+    return `Congrats, you've engaged ${count} peers.\n${remaining} more to go reach goal ${nextTarget === 7 ? '1' : nextTarget === 15 ? '2' : '3'}`;
+  };
+
   return (
     <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
       <CardContent className="p-4 space-y-4">
@@ -73,8 +79,8 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
             <Handshake className="h-6 w-6 text-primary" />
             <div>
               <h3 className="font-medium text-sm">Peer Conversations</h3>
-              <p className="text-xs text-muted-foreground">
-                {isLoading ? "Loading..." : totalPeers > 0 ? `${totalPeers}/${getNextTarget(totalPeers)} peers` : ""}
+              <p className="text-xs text-muted-foreground whitespace-pre-line">
+                {isLoading ? "Loading..." : totalPeers > 0 ? getProgressMessage(totalPeers) : ""}
               </p>
             </div>
           </div>

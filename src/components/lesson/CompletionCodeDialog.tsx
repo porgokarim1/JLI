@@ -39,27 +39,40 @@ export const CompletionCodeDialog = ({ lessonId, onSuccess, open, onOpenChange }
     setError(null);
 
     try {
-      const { data: lesson, error: lessonError } = await supabase
-        .from('lessons')
-        .select('completion_code')
-        .eq('id', lessonId)
+      // Get user's university/campus
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("User not authenticated");
+
+      const { data: userProfile } = await supabase
+        .from('profiles')
+        .select('campus')
+        .eq('id', user.id)
         .single();
 
-      if (lessonError) throw lessonError;
-
-      if (lesson.completion_code !== code.toUpperCase()) {
-        setError("Invalid attendance code. Please try again.");
+      if (!userProfile?.campus) {
+        setError("Could not determine your university. Please update your profile.");
         return;
       }
 
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("User not authenticated");
+      // Find the lesson with matching completion code from user's university
+      const { data: lessons } = await supabase
+        .from('lessons')
+        .select('*, universities!inner(*)')
+        .eq('completion_code', code.toUpperCase())
+        .eq('universities.name', userProfile.campus);
+
+      if (!lessons || lessons.length === 0) {
+        setError("Invalid attendance code for your university. Please try again.");
+        return;
+      }
+
+      const lesson = lessons[0];
 
       const { error: progressError } = await supabase
         .from('user_lesson_progress')
         .upsert({
           user_id: user.id,
-          lesson_id: lessonId,
+          lesson_id: lesson.id,
           status: 'completed',
           completed_at: new Date().toISOString(),
         });

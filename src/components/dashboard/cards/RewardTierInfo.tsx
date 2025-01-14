@@ -1,4 +1,4 @@
-import { Trophy, ChevronDown, ChevronUp } from "lucide-react";
+import { Trophy, ChevronDown, ChevronUp, Shirt, Scroll, Gift } from "lucide-react";
 import { useState } from "react";
 
 interface RewardTierInfoProps {
@@ -9,9 +9,27 @@ export const RewardTierInfo = ({ totalPeers }: RewardTierInfoProps) => {
   const [isExpanded, setIsExpanded] = useState(true);
 
   const tiers = [
-    { count: 7, reward: "Get cool merch!", color: "bg-soft-orange" },
-    { count: 15, reward: "Get the 'Skilled Communicator' Certificate from Jewish Learning Institute", color: "bg-soft-purple" },
-    { count: 25, reward: "Participate in a grand raffle at the end of the semester.", color: "bg-soft-pink" }
+    { 
+      count: 7, 
+      title: "Goal 1: 7 peers",
+      reward: "Score cool merch!", 
+      color: "bg-soft-orange",
+      icon: Shirt
+    },
+    { 
+      count: 15, 
+      title: "Goal 2: 15 peers",
+      reward: "Receive the Skilled Communicator Certificate", 
+      color: "bg-soft-purple",
+      icon: Scroll
+    },
+    { 
+      count: 25, 
+      title: "Goal 3: 25 peers",
+      reward: "Participate in our grand raffle at the end of the semester (Draw on June 1st 2025)", 
+      color: "bg-soft-pink",
+      icon: Gift
+    }
   ];
 
   return (
@@ -33,42 +51,42 @@ export const RewardTierInfo = ({ totalPeers }: RewardTierInfoProps) => {
 
       {isExpanded && (
         <div className="mt-8 space-y-16 relative px-4">
-          {/* Solid connecting path */}
           <div className="absolute top-6 left-[23px] w-0.5 h-[calc(100%-50px)] bg-gradient-to-b from-primary/30 to-primary/10 -z-10" />
 
-          {tiers.map((tier, index) => (
-            <div key={tier.count} className="relative flex items-start gap-6">
-              {/* Connection line to next milestone */}
-              {index < tiers.length - 1 && (
-                <div className="absolute left-6 top-10 h-16 w-0.5 bg-primary/20" />
-              )}
-
-              {/* Milestone circle */}
-              <div 
-                className={`relative flex-shrink-0 w-12 h-12 rounded-full ${tier.color} 
-                  flex items-center justify-center shadow-lg 
-                  ${totalPeers >= tier.count ? 'transition-transform duration-700 hover:scale-110' : 'opacity-70'}
-                  transition-all duration-300 ease-in-out`}
-              >
-                <span className="text-gray-700 font-bold">{tier.count}</span>
-                {totalPeers >= tier.count && (
-                  <div className="absolute -right-1 -top-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white flex items-center justify-center">
-                    <span className="text-white text-xs">✓</span>
-                  </div>
+          {tiers.map((tier, index) => {
+            const Icon = tier.icon;
+            return (
+              <div key={tier.count} className="relative flex items-start gap-6">
+                {index < tiers.length - 1 && (
+                  <div className="absolute left-6 top-10 h-16 w-0.5 bg-primary/20" />
                 )}
-              </div>
 
-              {/* Reward content */}
-              <div className="flex-1 pt-2">
-                <span className={`font-medium ${totalPeers >= tier.count ? 'text-green-600' : 'text-gray-600'}`}>
-                  {tier.reward}
-                </span>
-                {totalPeers >= tier.count && (
-                  <span className="ml-2 text-sm text-green-500">Achieved!</span>
-                )}
+                <div 
+                  className={`relative flex-shrink-0 w-12 h-12 rounded-full ${tier.color} 
+                    flex items-center justify-center shadow-lg 
+                    ${totalPeers >= tier.count ? 'transition-transform duration-700 hover:scale-110' : 'opacity-70'}
+                    transition-all duration-300 ease-in-out`}
+                >
+                  <Icon className="h-6 w-6 text-gray-700" />
+                  {totalPeers >= tier.count && (
+                    <div className="absolute -right-1 -top-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white flex items-center justify-center">
+                      <span className="text-white text-xs">✓</span>
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex-1 pt-2">
+                  <span className="font-medium block mb-1">{tier.title}</span>
+                  <span className={`text-sm ${totalPeers >= tier.count ? 'text-green-600' : 'text-gray-600'}`}>
+                    {tier.reward}
+                  </span>
+                  {totalPeers >= tier.count && (
+                    <span className="ml-2 text-sm text-green-500">Achieved!</span>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

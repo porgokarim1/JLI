@@ -9,9 +9,9 @@ export const RewardTierInfo = ({ totalPeers }: RewardTierInfoProps) => {
   const [isExpanded, setIsExpanded] = useState(true);
 
   const tiers = [
-    { count: 7, reward: "Get cool merch!" },
-    { count: 15, reward: "Get the 'Skilled Communicator' Certificate from Jewish Learning Institute" },
-    { count: 25, reward: "Participate in a grand raffle at the end of the semester." }
+    { count: 7, reward: "Get cool merch!", color: "bg-yellow-400" },
+    { count: 15, reward: "Get the 'Skilled Communicator' Certificate from Jewish Learning Institute", color: "bg-orange-400" },
+    { count: 25, reward: "Participate in a grand raffle at the end of the semester.", color: "bg-pink-500" }
   ];
 
   const getProgress = (count: number) => {
@@ -39,21 +39,44 @@ export const RewardTierInfo = ({ totalPeers }: RewardTierInfoProps) => {
       </button>
 
       {isExpanded && (
-        <div className="mt-4 space-y-4">
+        <div className="mt-6 space-y-12 relative">
+          {/* SVG Path connecting milestones */}
+          <svg className="absolute top-0 left-8 h-full w-4 -z-10" preserveAspectRatio="none">
+            <path
+              d="M 20,0 C 20,50 0,100 20,150 C 40,200 20,250 20,300"
+              stroke="#E5E7EB"
+              strokeWidth="2"
+              fill="none"
+              className="path-line"
+            />
+          </svg>
+
           {tiers.map((tier, index) => (
-            <div key={tier.count} className="relative">
-              <div className="flex items-center gap-3 mb-2">
-                <span className={`font-medium ${totalPeers >= tier.count ? 'text-green-600' : 'text-gray-600'}`}>
-                  Goal {index + 1}: {tier.count} peers
-                </span>
+            <div key={tier.count} className="relative flex items-start gap-6">
+              <div className={`relative flex-shrink-0 w-10 h-10 rounded-full ${tier.color} flex items-center justify-center shadow-lg ${
+                totalPeers >= tier.count ? 'animate-pulse-soft' : 'opacity-50'
+              }`}>
+                <span className="text-white font-bold">{tier.count}</span>
+                {totalPeers >= tier.count && (
+                  <div className="absolute -right-1 -top-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white flex items-center justify-center">
+                    <span className="text-white text-xs">✓</span>
+                  </div>
+                )}
               </div>
-              <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-primary transition-all duration-500 ease-out"
-                  style={{ width: `${getProgress(tier.count)}%` }}
-                />
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className={`font-medium ${totalPeers >= tier.count ? 'text-green-600' : 'text-gray-600'}`}>
+                    Goal {index + 1}: {tier.count} peers
+                  </span>
+                </div>
+                <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-primary transition-all duration-500 ease-out"
+                    style={{ width: `${getProgress(tier.count)}%` }}
+                  />
+                </div>
+                <p className="text-sm text-gray-600 mt-1">{tier.reward}</p>
               </div>
-              <p className="text-sm text-gray-600 mt-1">{tier.reward}</p>
             </div>
           ))}
         </div>

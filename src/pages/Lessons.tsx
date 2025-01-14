@@ -112,7 +112,7 @@ const Lessons = () => {
             >
               <div className="flex flex-row md:flex-col w-full">
                 {lesson.image_url && (
-                  <div className="w-1/3 md:w-full h-24 md:h-40 overflow-hidden md:rounded-t-lg rounded-l-lg md:rounded-l-none">
+                  <div className="w-1/3 md:w-full h-32 md:h-48 overflow-hidden">
                     <img 
                       src={lesson.image_url} 
                       alt={lesson.title}

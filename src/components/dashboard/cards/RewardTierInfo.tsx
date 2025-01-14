@@ -46,7 +46,7 @@ export const RewardTierInfo = ({ totalPeers }: RewardTierInfoProps) => {
       </button>
 
       {isExpanded && (
-        <div className="mt-2 space-y-16 relative px-4">
+        <div className="space-y-16 relative px-4">
           <div className="absolute top-6 left-[23px] w-0.5 h-[calc(100%-50px)] bg-gradient-to-b from-primary/30 to-primary/10 -z-10" />
 
           {tiers.map((tier, index) => {

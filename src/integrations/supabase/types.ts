@@ -172,7 +172,7 @@ export type Database = {
           lesson_time: string | null
           location: string | null
           title: string
-          university_id: string | null
+          university_id: string
         }
         Insert: {
           completion_code?: string | null
@@ -187,7 +187,7 @@ export type Database = {
           lesson_time?: string | null
           location?: string | null
           title: string
-          university_id?: string | null
+          university_id: string
         }
         Update: {
           completion_code?: string | null
@@ -202,7 +202,7 @@ export type Database = {
           lesson_time?: string | null
           location?: string | null
           title?: string
-          university_id?: string | null
+          university_id?: string
         }
         Relationships: [
           {

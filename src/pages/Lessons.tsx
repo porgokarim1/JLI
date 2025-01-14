@@ -5,7 +5,7 @@ import { Calendar, MapPin } from "lucide-react";
 import { format } from "date-fns";
 import { useLessons } from "@/components/dashboard/useLessons";
 import LessonsList from "@/components/dashboard/LessonsList";
-import LoadingSkeleton from "@/components/dashboard/LoadingSkeleton";
+import { LoadingSkeleton } from "@/components/dashboard/LoadingSkeleton";
 
 const Lessons = () => {
   const navigate = useNavigate();
@@ -71,7 +71,7 @@ const Lessons = () => {
           </Card>
         )}
 
-        <LessonsList lessons={lessons || []} onLessonClick={handleLessonClick} />
+        <LessonsList />
       </div>
     </div>
   );

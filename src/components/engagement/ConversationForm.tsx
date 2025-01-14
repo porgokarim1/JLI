@@ -139,6 +139,7 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
 
       // Invalidate and refetch conversations data
       queryClient.invalidateQueries({ queryKey: ['conversations'] });
+      queryClient.invalidateQueries({ queryKey: ['total-peers'] });
       
     } catch (error: any) {
       toast.error("Error recording conversation: " + error.message);
@@ -194,7 +195,6 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
                       className={`h-9 text-sm w-[70px] border ${fieldState.invalid ? 'border-red-500' : 'border-gray-300'}`}
                     />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />

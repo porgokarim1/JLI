@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, FilePenLine, MessageSquare, Users } from "lucide-react";
+import { Handshake, FilePenLine } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
@@ -30,8 +30,7 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
       
       const total = data.reduce((sum, conv) => sum + (conv.participant_count || 0), 0);
       return total;
-    },
-    refetchOnWindowFocus: true
+    }
   });
 
   const getNextTarget = (count: number) => {
@@ -69,9 +68,9 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
       <CardContent className="p-4 space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Users className="h-6 w-6 text-primary" />
+            <Handshake className="h-6 w-6 text-primary" />
             <div>
-              <h3 className="font-medium text-sm">Engagements</h3>
+              <h3 className="font-medium text-sm">Peer Conversations</h3>
               <p className="text-xs text-muted-foreground">
                 {isLoading ? "Loading..." : `${totalPeers}/${nextTarget} peers`}
               </p>
@@ -82,7 +81,7 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
             className="text-black h-8 text-xs"
             onClick={onNewEngagement}
           >
-            Add
+            Log
           </Button>
         </div>
 

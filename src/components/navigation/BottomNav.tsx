@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { Home, BookOpen, MessageSquare, PieChart, User } from "lucide-react";
+import { Home, BookOpen, PieChart, User } from "lucide-react";
 
 const BottomNav = () => {
   const location = useLocation();
@@ -26,15 +26,6 @@ const BottomNav = () => {
         >
           <BookOpen className="h-5 w-5" />
           <span className="text-xs">Lessons</span>
-        </button>
-        <button
-          onClick={() => navigate("/ai-chat")}
-          className={`flex flex-col items-center ${
-            isActive("/ai-chat") ? "text-primary" : "text-gray-500"
-          }`}
-        >
-          <MessageSquare className="h-5 w-5" />
-          <span className="text-xs">AI Chat</span>
         </button>
         <button
           onClick={() => navigate("/about")}

@@ -88,7 +88,7 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
       <Card className="hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-indigo-100 h-[280px] overflow-hidden">
         <div className="flex flex-col h-full">
           {/* Image Section */}
-          <div className="h-32 overflow-hidden">
+          <div className="h-24 overflow-hidden">
             {lesson.image_url && (
               <img 
                 src={lesson.image_url} 

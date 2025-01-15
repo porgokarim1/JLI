@@ -4,7 +4,8 @@ import ConversationsList from "@/components/engagement/ConversationsList";
 import EngagementMetrics from "@/components/engagement/EngagementMetrics";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import {
   Dialog,
   DialogContent,
@@ -15,13 +16,45 @@ import {
 
 const Engagement = () => {
   const [open, setOpen] = useState(false);
+  const [firstName, setFirstName] = useState<string>("");
+
+  useEffect(() => {
+    const getProfile = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+
+        const { data: profile, error } = await supabase
+          .from('profiles')
+          .select('first_name')
+          .eq('id', user.id)
+          .single();
+        
+        if (error) {
+          console.error('Error fetching profile:', error);
+          return;
+        }
+        
+        if (profile?.first_name) {
+          setFirstName(profile.first_name);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    getProfile();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
       <NavigationBar />
       <div className="container mx-auto px-4 pt-24 pb-8">
         <div className="flex flex-col gap-6">
-          <h1 className="text-base font-medium">Number of peers you talked to</h1>
+          {firstName && (
+            <h1 className="text-xl font-medium text-gray-900">Welcome back, {firstName}</h1>
+          )}
+          <h2 className="text-base font-medium">Number of peers you talked to</h2>
           
           <div className="w-full">
             <EngagementMetrics type="conversation" />

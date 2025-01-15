@@ -2,7 +2,6 @@ import NavigationBar from "@/components/navigation/NavigationBar";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useLessons } from "@/components/dashboard/useLessons";
-import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { CompletionCodeDialog } from "@/components/lesson/CompletionCodeDialog";
 import { LessonCard } from "@/components/dashboard/LessonCard";
@@ -55,13 +54,6 @@ const Lessons = () => {
                   <span className="text-xs sm:text-sm font-medium">{Math.round(progressPercentage)}%</span>
                 </div>
                 <Progress value={progressPercentage} className="h-1.5 sm:h-2" />
-                <Button 
-                  variant="default"
-                  className="w-full mt-4 text-black h-8 text-xs"
-                  onClick={() => setShowAttendanceForm(true)}
-                >
-                  Attend
-                </Button>
               </div>
             </div>
           </Card>

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { CompletionCodeDialog } from "@/components/lesson/CompletionCodeDialog";
 import { LessonCard } from "@/components/dashboard/LessonCard";
+import { NextLessonCard } from "@/components/dashboard/cards/NextLessonCard";
 
 const Lessons = () => {
   const { data: lessons, isLoading } = useLessons();
@@ -34,18 +35,6 @@ const Lessons = () => {
   const totalLessons = lessons?.length || 0;
   const progressPercentage = (completedLessons / totalLessons) * 100;
 
-  const getNextLesson = () => {
-    if (!lessons?.length) return null;
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    
-    return lessons
-      .filter(lesson => lesson.lesson_date && new Date(lesson.lesson_date) >= today)
-      .sort((a, b) => new Date(a.lesson_date!).getTime() - new Date(b.lesson_date!).getTime())[0];
-  };
-
-  const nextLesson = getNextLesson();
-
   // Sort lessons by lesson_order
   const sortedLessons = [...(lessons || [])].sort((a, b) => 
     (a.lesson_order || '').localeCompare(b.lesson_order || '')
@@ -55,7 +44,7 @@ const Lessons = () => {
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
       <NavigationBar />
       <div className="h-full pt-20 container mx-auto px-2 sm:px-4 flex flex-col">
-        {/* Progress and Next Lesson cards side by side - using flex instead of grid */}
+        {/* Progress and Next Lesson cards side by side - using flex */}
         <div className="flex flex-row gap-2 sm:gap-4 mb-2 sm:mb-4">
           <Card className="flex-1 bg-white/90 backdrop-blur-sm border-primary/20 shadow-lg">
             <div className="p-2 sm:p-4">
@@ -77,25 +66,9 @@ const Lessons = () => {
             </div>
           </Card>
 
-          <Card className="flex-1 bg-white/90 backdrop-blur-sm border-primary/20 shadow-lg">
-            <div className="p-2 sm:p-4">
-              <h3 className="text-sm sm:text-lg font-semibold">Next Lesson</h3>
-              <div className="mt-2 text-xs sm:text-sm">
-                {nextLesson ? (
-                  <>
-                    <p className="font-medium">{nextLesson.title}</p>
-                    <p className="text-gray-600 mt-1">
-                      {nextLesson.lesson_date 
-                        ? new Date(nextLesson.lesson_date).toLocaleDateString()
-                        : 'Date TBD'}
-                    </p>
-                  </>
-                ) : (
-                  <p className="text-gray-600">No upcoming lessons scheduled</p>
-                )}
-              </div>
-            </div>
-          </Card>
+          <div className="flex-1">
+            <NextLessonCard onAttendanceClick={() => setShowAttendanceForm(true)} />
+          </div>
         </div>
 
         {/* Lessons grid with overflow scroll */}
@@ -113,7 +86,7 @@ const Lessons = () => {
         </div>
 
         <CompletionCodeDialog
-          lessonId={nextLesson?.id || ''}
+          lessonId={lessons?.[0]?.id || ''}
           onSuccess={() => setShowAttendanceForm(false)}
           open={showAttendanceForm}
           onOpenChange={setShowAttendanceForm}

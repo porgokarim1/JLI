@@ -32,15 +32,15 @@ const ScheduledLessons = ({ schedules, refetchSchedules }: ScheduledLessonsProps
         .from("lessons_schedule")
         .select(`
           id,
-          lesson:lessons (
-            title,
-            description
-          ),
           lesson_date,
           start_time,
           end_time,
           location,
-          attendance_code
+          attendance_code,
+          lesson:lessons!inner (
+            title,
+            description
+          )
         `)
         .eq("instructor_id", user.id)
         .order("lesson_date", { ascending: true });

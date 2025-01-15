@@ -55,8 +55,8 @@ const AdminDashboard = () => {
         .from('lessons_schedule')
         .select(`
           *,
-          lesson:lessons(title),
-          instructor:profiles(first_name, last_name)
+          lesson:lessons!inner(title),
+          instructor:profiles!instructor_id(first_name, last_name)
         `)
         .order('lesson_date', { ascending: true })
         .limit(5);

@@ -22,7 +22,7 @@ export const useLessons = () => {
 
         console.log('User profile:', userProfile);
 
-        // Fetch lessons from the view, filtered by campus if user is not an instructor/admin
+        // Fetch lessons from the view, filtered by campus for both students and instructors
         const query = supabase
           .from('lessons_view_simple')
           .select(`
@@ -37,8 +37,9 @@ export const useLessons = () => {
           `)
           .order('lesson_order', { ascending: true });
 
-        // Only filter by campus if the user is a student
-        if (userProfile.role === 'student' && userProfile.campus) {
+        // Filter by campus for both students and instructors
+        // Only administrators can see all lessons
+        if (userProfile.role !== 'administrator' && userProfile.campus) {
           query.eq('university_name', userProfile.campus);
         }
 

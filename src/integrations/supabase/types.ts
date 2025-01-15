@@ -786,6 +786,7 @@ export type Database = {
           image_url: string | null
           instructor_id: string | null
           lesson_date: string | null
+          lesson_id: string | null
           lesson_order: string | null
           lesson_time: string | null
           location: string | null
@@ -814,6 +815,27 @@ export type Database = {
             columns: ["instructor_id"]
             isOneToOne: false
             referencedRelation: "user_roles_cache"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lessons_schedule_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lessons_schedule_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons_view"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lessons_schedule_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lessons_view_simple"
             referencedColumns: ["id"]
           },
         ]

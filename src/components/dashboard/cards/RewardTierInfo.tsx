@@ -11,21 +11,24 @@ export const RewardTierInfo = ({ totalPeers }: RewardTierInfoProps) => {
   const tiers = [
     { 
       count: 7, 
-      title: "Goal 1: 7 peers",
+      title: "Goal 1",
+      subtitle: "7 peers",
       reward: "Score cool merch!", 
       color: "bg-soft-orange",
       icon: Shirt
     },
     { 
       count: 15, 
-      title: "Goal 2: 15 peers",
+      title: "Goal 2",
+      subtitle: "15 peers",
       reward: "Receive the Skilled Communicator Certificate", 
       color: "bg-soft-purple",
       icon: Scroll
     },
     { 
       count: 25, 
-      title: "Goal 3: 25 peers",
+      title: "Goal 3",
+      subtitle: "25 peers",
       reward: "Participate in our grand raffle at the end of the semester (Draw on June 1st 2025)", 
       color: "bg-soft-pink",
       icon: Gift
@@ -72,8 +75,11 @@ export const RewardTierInfo = ({ totalPeers }: RewardTierInfoProps) => {
                 </div>
 
                 <div className="flex-1">
-                  <span className="font-medium block mb-1">{tier.title}</span>
-                  <span className={`text-sm ${totalPeers >= tier.count ? 'text-green-600' : 'text-gray-600'}`}>
+                  <div className="flex flex-col">
+                    <span className="font-bold text-lg">{tier.title}</span>
+                    <span className="text-sm text-gray-600 font-medium">{tier.subtitle}</span>
+                  </div>
+                  <span className={`text-sm mt-1 block ${totalPeers >= tier.count ? 'text-green-600' : 'text-gray-600'}`}>
                     {tier.reward}
                   </span>
                   {totalPeers >= tier.count && (

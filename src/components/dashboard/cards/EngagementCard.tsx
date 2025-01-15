@@ -68,7 +68,7 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
   const getProgressMessage = (count: number) => {
     const nextTarget = getNextTarget(count);
     const remaining = nextTarget - count;
-    return `Congrats, you've engaged ${count} peers.\n${remaining} more to go reach goal ${nextTarget === 7 ? '1' : nextTarget === 15 ? '2' : '3'}`;
+    return `Congrats, you've engaged ${count} ${count === 1 ? 'peer' : 'peers'}.\n${remaining} more to reach goal ${nextTarget === 7 ? '1' : nextTarget === 15 ? '2' : '3'}`;
   };
 
   return (
@@ -78,8 +78,8 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
           <div className="flex items-center gap-3">
             <Handshake className="h-6 w-6 text-primary" />
             <div>
-              <h3 className="font-medium text-sm">Peer Conversations</h3>
-              <p className="text-xs text-muted-foreground whitespace-pre-line">
+              <h3 className="font-medium text-base">Peer Conversations</h3>
+              <p className="text-sm text-black font-medium whitespace-pre-line">
                 {isLoading ? "Loading..." : totalPeers > 0 ? getProgressMessage(totalPeers) : ""}
               </p>
             </div>

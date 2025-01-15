@@ -44,7 +44,19 @@ export const useLessons = () => {
         throw error;
       }
 
-      return data;
+      // Transform the data to match the expected LessonWithProgress type
+      const transformedData = data?.map(lesson => ({
+        ...lesson,
+        created_at: new Date().toISOString(), // Since view doesn't include this field
+        lesson_media: lesson.media || [],
+        progress: {
+          status: "not_started",
+          time_spent: 0,
+          last_position: 0
+        }
+      }));
+
+      return transformedData;
     },
   });
 };

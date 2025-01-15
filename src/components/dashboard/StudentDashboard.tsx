@@ -22,6 +22,35 @@ const StudentDashboard = () => {
   const [showAttendanceForm, setShowAttendanceForm] = useState(false);
   const [recentEngagements, setRecentEngagements] = useState<any[]>([]);
   const [selectedEngagement, setSelectedEngagement] = useState<any>(null);
+  const [firstName, setFirstName] = useState<string>("");
+
+  useEffect(() => {
+    const getProfile = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+
+        const { data: profile, error } = await supabase
+          .from('profiles')
+          .select('first_name')
+          .eq('id', user.id)
+          .single();
+        
+        if (error) {
+          console.error('Error fetching profile:', error);
+          return;
+        }
+        
+        if (profile?.first_name) {
+          setFirstName(profile.first_name);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    getProfile();
+  }, []);
 
   const getComfortEmoji = (comfort_level: string) => {
     switch (comfort_level) {
@@ -90,6 +119,9 @@ const StudentDashboard = () => {
       <DashboardHeader />
       
       <div className="space-y-4 max-w-md mx-auto w-full px-2">
+        {firstName && (
+          <h1 className="text-xl font-medium text-gray-900">Welcome back, {firstName}</h1>
+        )}
         <NextLessonCard onAttendanceClick={() => setShowAttendanceForm(true)} />
         <ReferralCard onShareLink={handleCopyReferralLink} onEmailShare={handleEmailShare} />
         <EngagementCard 

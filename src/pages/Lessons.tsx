@@ -6,10 +6,13 @@ import { useState } from "react";
 import { CompletionCodeDialog } from "@/components/lesson/CompletionCodeDialog";
 import { LessonCard } from "@/components/dashboard/LessonCard";
 import { NextLessonCard } from "@/components/dashboard/cards/NextLessonCard";
+import BottomNav from "@/components/navigation/BottomNav";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Lessons = () => {
   const { data: lessons, isLoading } = useLessons();
   const [showAttendanceForm, setShowAttendanceForm] = useState(false);
+  const isMobile = useIsMobile();
 
   if (isLoading) {
     return (
@@ -26,6 +29,7 @@ const Lessons = () => {
             </div>
           </div>
         </div>
+        {isMobile && <BottomNav />}
       </div>
     );
   }
@@ -42,9 +46,9 @@ const Lessons = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
       <NavigationBar />
-      <div className="h-full pt-20 container mx-auto px-2 sm:px-4 flex flex-col">
-        {/* Progress and Next Lesson cards side by side - using flex */}
-        <div className="flex flex-row gap-2 sm:gap-4 mb-2 sm:mb-4">
+      <div className="h-full pt-20 pb-24 md:pb-8 container mx-auto px-2 sm:px-4 flex flex-col">
+        {/* Progress and Next Lesson cards - stack on mobile, side by side on desktop */}
+        <div className="flex flex-col md:flex-row gap-2 sm:gap-4 mb-2 sm:mb-4">
           <Card className="flex-1 bg-white/90 backdrop-blur-sm border-primary/20 shadow-lg">
             <div className="p-2 sm:p-4">
               <h3 className="text-sm sm:text-lg font-semibold">Progress</h3>
@@ -63,13 +67,21 @@ const Lessons = () => {
           </div>
         </div>
 
-        {/* Lessons grid with overflow scroll */}
+        {/* Lessons grid - single column on mobile, 4 columns on desktop */}
         <div className="flex-1 overflow-y-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6 p-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 p-2 md:p-4">
             {sortedLessons.map((lesson, index) => (
               <div key={lesson.id} className="w-full">
                 <LessonCard 
-                  lesson={lesson}
+                  lesson={{
+                    ...lesson,
+                    media: [],
+                    progress: {
+                      status: lesson.progress?.status || 'not_started',
+                      time_spent: lesson.progress?.time_spent || 0,
+                      last_position: lesson.progress?.last_position || 0
+                    }
+                  }}
                   index={index}
                 />
               </div>
@@ -84,6 +96,7 @@ const Lessons = () => {
           onOpenChange={setShowAttendanceForm}
         />
       </div>
+      {isMobile && <BottomNav />}
     </div>
   );
 };

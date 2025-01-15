@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { X, FilePenLine } from "lucide-react";
 import { format } from "date-fns";
 
-const REFERRAL_URL = "Knowisrael.com";
+const REFERRAL_URL = "knowisrael.app";
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
@@ -71,7 +71,7 @@ const StudentDashboard = () => {
 
   const handleEmailShare = () => {
     const subject = encodeURIComponent("Join K'NOW ISRAEL");
-    const body = encodeURIComponent(`Hey! I thought you might be interested in joining K'NOW ISRAEL. Check it out here: ${REFERRAL_URL}`);
+    const body = encodeURIComponent(`Hey! Want to learn how to communicate about Israel? Join here ${REFERRAL_URL}`);
     window.location.href = `mailto:?subject=${subject}&body=${body}`;
   };
 

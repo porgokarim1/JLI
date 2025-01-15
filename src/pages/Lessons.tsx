@@ -39,10 +39,9 @@ const Lessons = () => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     
-    const futureLessons = lessons
+    return lessons
       .filter(lesson => lesson.lesson_date && new Date(lesson.lesson_date) >= today)
-      .sort((a, b) => new Date(a.lesson_date!).getTime() - new Date(b.lesson_date!).getTime());
-    return futureLessons[0];
+      .sort((a, b) => new Date(a.lesson_date!).getTime() - new Date(b.lesson_date!).getTime())[0];
   };
 
   const nextLesson = getNextLesson();

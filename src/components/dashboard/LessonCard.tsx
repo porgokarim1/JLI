@@ -125,7 +125,6 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
           </div>
         </Card>
 
-        {/* Edit Dialog */}
         <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
@@ -237,8 +236,7 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
               className="ml-auto"
               onClick={() => navigate(`/lessons/${lesson.id}`)}
             >
-              <Eye className="h-3 w-3 mr-1" />
-              <span>View</span>
+              <Eye className="h-3 w-3" />
             </Button>
           </div>
 
@@ -251,7 +249,6 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
         </div>
       </Card>
 
-      {/* Edit Dialog */}
       <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>

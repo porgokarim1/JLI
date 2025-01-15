@@ -11,10 +11,19 @@ export const useLessons = () => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) throw new Error('User not authenticated');
 
-        console.log('Fetching lessons for user:', user.id);
+        // First get the user's campus
+        const { data: userProfile, error: profileError } = await supabase
+          .from('profiles')
+          .select('campus, role')
+          .eq('id', user.id)
+          .single();
 
-        // Fetch lessons from the view, ordered by lesson_order
-        const { data: lessonsData, error: lessonsError } = await supabase
+        if (profileError) throw profileError;
+
+        console.log('User profile:', userProfile);
+
+        // Fetch lessons from the view, filtered by campus if user is not an instructor/admin
+        const query = supabase
           .from('lessons_view_simple')
           .select(`
             *,
@@ -27,6 +36,13 @@ export const useLessons = () => {
             )
           `)
           .order('lesson_order', { ascending: true });
+
+        // Only filter by campus if the user is a student
+        if (userProfile.role === 'student' && userProfile.campus) {
+          query.eq('university_name', userProfile.campus);
+        }
+
+        const { data: lessonsData, error: lessonsError } = await query;
 
         if (lessonsError) throw lessonsError;
 

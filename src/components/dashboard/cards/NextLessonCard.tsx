@@ -15,8 +15,9 @@ type NextLesson = {
   description: string | null;
   location: string | null;
   lesson_date: string | null;
-  lesson_time: string | null;
-  userCampus?: string | null;
+  start_time: string | null;
+  end_time: string | null;
+  university_name: string | null;
 }
 
 export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
@@ -37,8 +38,9 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
       today.setHours(0, 0, 0, 0);
       
       const { data, error } = await supabase
-        .from('lessons')
+        .from('lessons_view_simple')
         .select('*')
+        .eq('university_name', profile?.campus)
         .gte('lesson_date', today.toISOString())
         .order('lesson_date', { ascending: true })
         .limit(1)
@@ -49,7 +51,7 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
         throw error;
       }
       
-      return { ...data, userCampus: profile?.campus } as NextLesson;
+      return data as NextLesson;
     }
   });
 
@@ -67,9 +69,9 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
     <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
       <CardContent className="p-4">
         <div className="space-y-3">
-          {nextLesson?.userCampus && (
+          {nextLesson?.university_name && (
             <p className="text-xs text-muted-foreground font-medium border-b pb-2">
-              {nextLesson.userCampus}
+              {nextLesson.university_name}
             </p>
           )}
           <div className="flex items-center justify-between">
@@ -79,7 +81,7 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
                 <h3 className="font-medium text-sm">Next Lesson</h3>
                 <p className="text-xs text-muted-foreground">
                   {nextLesson?.lesson_date && format(new Date(nextLesson.lesson_date), 'EEE. MM/dd/yyyy')}
-                  {nextLesson?.lesson_time ? ` ⏰ ${format(new Date(`2000-01-01T${nextLesson.lesson_time}`), 'h:mm a')}` : ' ⏰ TBD'}
+                  {nextLesson?.start_time ? ` ⏰ ${format(new Date(`2000-01-01T${nextLesson.start_time}`), 'h:mm a')}` : ' ⏰ TBD'}
                 </p>
                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
                   <MapPin className="h-4 w-4 flex-shrink-0" />

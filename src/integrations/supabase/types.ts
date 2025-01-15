@@ -101,6 +101,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "lesson_attendance_schedule_id_fkey"
+            columns: ["schedule_id"]
+            isOneToOne: false
+            referencedRelation: "lessons_view_simple"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "lesson_attendance_student_id_fkey"
             columns: ["student_id"]
             isOneToOne: false
@@ -163,13 +170,6 @@ export type Database = {
             referencedRelation: "lessons_view"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "lesson_media_lesson_id_fkey"
-            columns: ["lesson_id"]
-            isOneToOne: false
-            referencedRelation: "lessons_view_simple"
-            referencedColumns: ["id"]
-          },
         ]
       }
       lessons: {
@@ -221,86 +221,43 @@ export type Database = {
         Row: {
           attendance_code: string | null
           campus: string | null
-          created_at: string
-          end_time: string
+          created_at: string | null
+          end_time: string | null
           id: string
           instructor_id: string | null
-          lesson_date: string
+          lesson_date: string | null
           lesson_id: string | null
           location: string | null
-          start_time: string
-          updated_at: string
+          start_time: string | null
+          updated_at: string | null
         }
         Insert: {
           attendance_code?: string | null
           campus?: string | null
-          created_at?: string
-          end_time: string
+          created_at?: string | null
+          end_time?: string | null
           id?: string
           instructor_id?: string | null
-          lesson_date: string
+          lesson_date?: string | null
           lesson_id?: string | null
           location?: string | null
-          start_time: string
-          updated_at?: string
+          start_time?: string | null
+          updated_at?: string | null
         }
         Update: {
           attendance_code?: string | null
           campus?: string | null
-          created_at?: string
-          end_time?: string
+          created_at?: string | null
+          end_time?: string | null
           id?: string
           instructor_id?: string | null
-          lesson_date?: string
+          lesson_date?: string | null
           lesson_id?: string | null
           location?: string | null
-          start_time?: string
-          updated_at?: string
+          start_time?: string | null
+          updated_at?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "lessons_schedule_instructor_id_fkey"
-            columns: ["instructor_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "lessons_schedule_instructor_id_fkey"
-            columns: ["instructor_id"]
-            isOneToOne: false
-            referencedRelation: "student_progress_overview"
-            referencedColumns: ["student_id"]
-          },
-          {
-            foreignKeyName: "lessons_schedule_instructor_id_fkey"
-            columns: ["instructor_id"]
-            isOneToOne: false
-            referencedRelation: "user_roles_cache"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "lessons_schedule_lesson_id_fkey"
-            columns: ["lesson_id"]
-            isOneToOne: false
-            referencedRelation: "lessons"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "lessons_schedule_lesson_id_fkey"
-            columns: ["lesson_id"]
-            isOneToOne: false
-            referencedRelation: "lessons_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "lessons_schedule_lesson_id_fkey"
-            columns: ["lesson_id"]
-            isOneToOne: false
-            referencedRelation: "lessons_view_simple"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       profiles: {
         Row: {
@@ -484,13 +441,6 @@ export type Database = {
             columns: ["lesson_id"]
             isOneToOne: false
             referencedRelation: "lessons_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "user_lesson_progress_lesson_id_fkey"
-            columns: ["lesson_id"]
-            isOneToOne: false
-            referencedRelation: "lessons_view_simple"
             referencedColumns: ["id"]
           },
           {
@@ -751,29 +701,7 @@ export type Database = {
           university_id: string | null
           university_name: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "lessons_schedule_instructor_id_fkey"
-            columns: ["instructor_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "lessons_schedule_instructor_id_fkey"
-            columns: ["instructor_id"]
-            isOneToOne: false
-            referencedRelation: "student_progress_overview"
-            referencedColumns: ["student_id"]
-          },
-          {
-            foreignKeyName: "lessons_schedule_instructor_id_fkey"
-            columns: ["instructor_id"]
-            isOneToOne: false
-            referencedRelation: "user_roles_cache"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       lessons_view_simple: {
         Row: {
@@ -795,50 +723,7 @@ export type Database = {
           university_id: string | null
           university_name: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "lessons_schedule_instructor_id_fkey"
-            columns: ["instructor_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "lessons_schedule_instructor_id_fkey"
-            columns: ["instructor_id"]
-            isOneToOne: false
-            referencedRelation: "student_progress_overview"
-            referencedColumns: ["student_id"]
-          },
-          {
-            foreignKeyName: "lessons_schedule_instructor_id_fkey"
-            columns: ["instructor_id"]
-            isOneToOne: false
-            referencedRelation: "user_roles_cache"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "lessons_schedule_lesson_id_fkey"
-            columns: ["lesson_id"]
-            isOneToOne: false
-            referencedRelation: "lessons"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "lessons_schedule_lesson_id_fkey"
-            columns: ["lesson_id"]
-            isOneToOne: false
-            referencedRelation: "lessons_view"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "lessons_schedule_lesson_id_fkey"
-            columns: ["lesson_id"]
-            isOneToOne: false
-            referencedRelation: "lessons_view_simple"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       student_progress_overview: {
         Row: {

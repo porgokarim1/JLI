@@ -20,16 +20,7 @@ export const useLessons = () => {
       // Base query for lessons
       let query = supabase
         .from('lessons_view_simple')
-        .select(`
-          *,
-          media:lesson_media!lesson_id(
-            id,
-            url,
-            type,
-            created_at,
-            updated_at
-          )
-        `)
+        .select()
         .order('lesson_order', { ascending: true });
 
       // Filter by campus for students and instructors
@@ -48,7 +39,7 @@ export const useLessons = () => {
       const transformedData = data?.map(lesson => ({
         ...lesson,
         created_at: new Date().toISOString(), // Since view doesn't include this field
-        lesson_media: lesson.media || [],
+        lesson_media: [], // Empty array since we're not fetching media
         progress: {
           status: "not_started",
           time_spent: 0,

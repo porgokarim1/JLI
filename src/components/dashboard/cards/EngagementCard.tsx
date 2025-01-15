@@ -75,18 +75,14 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
     <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
       <CardContent className="p-4 space-y-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Handshake className="h-6 w-6 text-primary" />
-            <div>
-              <h3 className="font-medium text-base">Peer Conversations</h3>
-              <p className="text-sm text-black font-medium whitespace-pre-line">
-                {isLoading ? "Loading..." : totalPeers > 0 ? getProgressMessage(totalPeers) : ""}
-              </p>
-            </div>
+          <div className="flex-1">
+            <p className="text-lg font-semibold text-black whitespace-pre-line">
+              {isLoading ? "Loading..." : totalPeers > 0 ? getProgressMessage(totalPeers) : ""}
+            </p>
           </div>
           <Button 
             variant="default"
-            className="text-black h-8 text-xs"
+            className="text-black h-8 text-xs ml-4"
             onClick={onNewEngagement}
           >
             Log
@@ -96,17 +92,19 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
         <RewardTierInfo totalPeers={totalPeers} />
 
         <div className="border-t border-gray-200 pt-4">
-          <button
-            onClick={() => setShowEngagements(!showEngagements)}
-            className="flex items-center justify-between w-full text-left mb-4"
-          >
-            <span className="font-medium">Past Conversations</span>
-            {showEngagements ? (
-              <ChevronUp className="h-5 w-5 text-gray-500" />
-            ) : (
-              <ChevronDown className="h-5 w-5 text-gray-500" />
-            )}
-          </button>
+          <div className="flex items-center justify-between mb-4">
+            <span className="font-medium">Conversations</span>
+            <button
+              onClick={() => setShowEngagements(!showEngagements)}
+              className="flex items-center"
+            >
+              {showEngagements ? (
+                <ChevronUp className="h-5 w-5 text-gray-500" />
+              ) : (
+                <ChevronDown className="h-5 w-5 text-gray-500" />
+              )}
+            </button>
+          </div>
 
           {showEngagements && (
             <div className="space-y-2">

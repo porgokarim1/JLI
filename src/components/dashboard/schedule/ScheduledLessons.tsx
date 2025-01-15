@@ -37,10 +37,7 @@ const ScheduledLessons = ({ schedules, refetchSchedules }: ScheduledLessonsProps
           end_time,
           location,
           attendance_code,
-          lesson:lessons!inner (
-            title,
-            description
-          )
+          lesson:lessons(title, description)
         `)
         .eq("instructor_id", user.id)
         .order("lesson_date", { ascending: true });

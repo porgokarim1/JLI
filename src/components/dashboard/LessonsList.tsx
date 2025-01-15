@@ -12,7 +12,15 @@ const LessonsList = () => {
   // Sort lessons by lesson_order
   const sortedLessons = [...(lessons || [])].sort((a, b) => {
     return (a.lesson_order || '').localeCompare(b.lesson_order || '');
-  });
+  }).map(lesson => ({
+    ...lesson,
+    media: lesson.lesson_media || [], // Map lesson_media to media property
+    progress: {
+      status: lesson.progress?.status || 'not_started',
+      time_spent: lesson.progress?.time_spent || 0,
+      last_position: lesson.progress?.last_position || 0
+    }
+  }));
 
   return (
     <div className="container mx-auto px-4 py-8">

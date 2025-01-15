@@ -41,7 +41,15 @@ const Lessons = () => {
   // Sort lessons by lesson_order
   const sortedLessons = [...(lessons || [])].sort((a, b) => 
     (a.lesson_order || '').localeCompare(b.lesson_order || '')
-  );
+  ).map(lesson => ({
+    ...lesson,
+    media: lesson.lesson_media || [],
+    progress: {
+      status: (lesson.progress?.status || 'not_started') as 'not_started' | 'in_progress' | 'completed',
+      time_spent: lesson.progress?.time_spent || 0,
+      last_position: lesson.progress?.last_position || 0
+    }
+  }));
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">

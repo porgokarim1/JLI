@@ -55,8 +55,7 @@ const AdminDashboard = () => {
         .from('lessons_schedule')
         .select(`
           *,
-          lesson:lessons!inner(title),
-          instructor:profiles!instructor_id(first_name, last_name)
+          lesson:lessons(title, description)
         `)
         .order('lesson_date', { ascending: true })
         .limit(5);
@@ -135,7 +134,7 @@ const AdminDashboard = () => {
                         {format(new Date(`2000-01-01T${schedule.start_time}`), 'h:mm a')}
                       </p>
                       <p className="text-sm text-gray-600">
-                        Instructor: {schedule.instructor?.first_name} {schedule.instructor?.last_name}
+                        Instructor: {schedule.lesson?.instructor_name}
                       </p>
                     </div>
                   ))}

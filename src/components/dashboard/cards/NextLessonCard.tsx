@@ -79,13 +79,23 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
               <BookOpen className="h-6 w-6 text-primary" />
               <div className="space-y-0.5">
                 <h3 className="font-medium text-sm">Next Lesson</h3>
-                <p className="text-xs text-muted-foreground">
-                  {nextLesson?.lesson_date && format(new Date(nextLesson.lesson_date), 'EEE. MM/dd/yyyy')}
-                  {nextLesson?.start_time ? ` ⏰ ${format(new Date(`2000-01-01T${nextLesson.start_time}`), 'h:mm a')}` : ' ⏰ TBD'}
-                </p>
-                <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                  <MapPin className="h-4 w-4 flex-shrink-0" />
-                  <span className="truncate">{nextLesson?.location || 'Location TBD'}</span>
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                    <Calendar className="h-4 w-4 flex-shrink-0" />
+                    <span>
+                      {nextLesson?.lesson_date && format(new Date(nextLesson.lesson_date), 'EEE. MM/dd/yyyy')}
+                      {nextLesson?.start_time ? ` ⏰ ${format(new Date(`2000-01-01T${nextLesson.start_time}`), 'h:mm a')}` : ' ⏰ TBD'}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                    <MapPin className="h-4 w-4 flex-shrink-0" />
+                    <span className="truncate">{nextLesson?.location || 'Location TBD'}</span>
+                  </div>
+                  {nextLesson?.title && (
+                    <p className="text-sm font-semibold leading-relaxed">
+                      {nextLesson.title}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -97,11 +107,6 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
               Attend
             </Button>
           </div>
-          {nextLesson?.title && (
-            <p className="text-xs text-muted-foreground italic leading-relaxed">
-              {nextLesson.title}
-            </p>
-          )}
         </div>
       </CardContent>
     </Card>

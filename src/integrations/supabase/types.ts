@@ -937,14 +937,29 @@ export type Database = {
         }
         Returns: Json
       }
-      send_email: {
-        Args: {
-          to_email: string
-          subject: string
-          html_content: string
-        }
-        Returns: Json
-      }
+      send_email:
+        | {
+            Args: {
+              to_email: string
+              subject: string
+              html_content: string
+            }
+            Returns: Json
+          }
+        | {
+            Args: {
+              to_emails: string[]
+              subject: string
+              html_content?: string
+              text_content?: string
+              from_address?: string
+              cc_emails?: string[]
+              bcc_emails?: string[]
+              reply_to_emails?: string[]
+              tags?: Json
+            }
+            Returns: Json
+          }
       send_smtp_email: {
         Args: {
           to_email: string

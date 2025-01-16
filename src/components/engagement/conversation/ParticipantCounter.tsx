@@ -29,13 +29,18 @@ const ParticipantCounter = ({ value, onChange }: ParticipantCounterProps) => {
     }
   ];
 
+  const getSelectedCount = (optionCount: number, currentValue: number) => {
+    if (optionCount === 4 && currentValue >= 4) return true;
+    return currentValue === optionCount;
+  };
+
   return (
     <div className="grid grid-cols-4 gap-2">
       {options.map((option) => (
         <Button
           key={option.count}
           type="button"
-          variant={value === option.count ? "default" : "outline"}
+          variant={getSelectedCount(option.count, value) ? "default" : "outline"}
           className="flex-1 py-0.5 px-1 h-16"
           onClick={() => onChange(option.count)}
         >

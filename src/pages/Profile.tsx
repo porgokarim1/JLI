@@ -165,7 +165,7 @@ const ProfilePage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
       <NavigationBar />
-      <div className="container mx-auto px-4 pt-16 pb-4">
+      <div className="container mx-auto px-4 pt-24 pb-4">
         <div className="max-w-4xl mx-auto">
           <ErrorBoundary FallbackComponent={ErrorFallback} onReset={() => window.location.reload()}>
             <Suspense fallback={<LoadingSpinner />}>

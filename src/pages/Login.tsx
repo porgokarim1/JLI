@@ -143,15 +143,31 @@ const Login = () => {
       </div>
 
       <Dialog open={showInstructorDialog} onOpenChange={setShowInstructorDialog}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-[425px] bg-white/95 backdrop-blur-sm border-primary">
           <DialogHeader>
-            <DialogTitle>Instructor Access</DialogTitle>
+            <DialogTitle className="text-2xl font-bold text-center text-primary">
+              Instructor Access
+            </DialogTitle>
           </DialogHeader>
-          <div className="py-4">
-            <p>This platform is designed for students. As an instructor, please use the dedicated teacher platform to access your account.</p>
+          <div className="py-6">
+            <div className="space-y-4">
+              <div className="flex justify-center mb-4">
+                <img 
+                  src="https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/lesson_images/logo.png"
+                  alt="Logo"
+                  className="h-16"
+                />
+              </div>
+              <p className="text-center text-gray-700">
+                This platform is designed for students. As an instructor, please use the dedicated teacher platform to access your account.
+              </p>
+            </div>
           </div>
-          <DialogFooter>
-            <Button onClick={handleInstructorRedirect}>
+          <DialogFooter className="sm:justify-center">
+            <Button 
+              onClick={handleInstructorRedirect}
+              className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-black font-semibold"
+            >
               Go to Teacher Platform
             </Button>
           </DialogFooter>

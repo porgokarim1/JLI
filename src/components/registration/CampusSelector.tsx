@@ -1,19 +1,10 @@
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { useState } from "react";
+  Select,
+  SelectContent,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { UniversitySelectItem } from "./UniversitySelectItem";
 import { useUniversities } from "@/hooks/use-universities";
 
 interface CampusSelectorProps {
@@ -22,53 +13,18 @@ interface CampusSelectorProps {
 }
 
 export const CampusSelector = ({ value, onChange }: CampusSelectorProps) => {
-  const [open, setOpen] = useState(false);
   const { data: universities = [], isLoading } = useUniversities();
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-full justify-between bg-white"
-          disabled={isLoading}
-        >
-          {value
-            ? universities.find((university) => university === value)
-            : isLoading 
-              ? "Loading universities..."
-              : "Select your campus..."}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-full p-0">
-        <Command>
-          <CommandInput placeholder="Search campus..." />
-          <CommandEmpty>No campus found.</CommandEmpty>
-          <CommandGroup className="max-h-[300px] overflow-auto">
-            {universities.map((university) => (
-              <CommandItem
-                key={university}
-                value={university}
-                onSelect={() => {
-                  onChange(university);
-                  setOpen(false);
-                }}
-              >
-                <Check
-                  className={cn(
-                    "mr-2 h-4 w-4",
-                    value === university ? "opacity-100" : "opacity-0"
-                  )}
-                />
-                {university}
-              </CommandItem>
-            ))}
-          </CommandGroup>
-        </Command>
-      </PopoverContent>
-    </Popover>
+    <Select value={value} onValueChange={onChange}>
+      <SelectTrigger className="w-full bg-white" disabled={isLoading}>
+        <SelectValue placeholder={isLoading ? "Loading universities..." : "Select your campus..."} />
+      </SelectTrigger>
+      <SelectContent className="bg-white border border-input shadow-md max-h-[300px]">
+        {universities.map((university) => (
+          <UniversitySelectItem key={university} university={university} />
+        ))}
+      </SelectContent>
+    </Select>
   );
 };

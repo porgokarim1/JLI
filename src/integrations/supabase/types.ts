@@ -349,30 +349,6 @@ export type Database = {
         }
         Relationships: []
       }
-      test_notifications: {
-        Row: {
-          body: string
-          created_at: string | null
-          id: number
-          recipient_email: string
-          subject: string
-        }
-        Insert: {
-          body: string
-          created_at?: string | null
-          id?: number
-          recipient_email: string
-          subject: string
-        }
-        Update: {
-          body?: string
-          created_at?: string | null
-          id?: number
-          recipient_email?: string
-          subject?: string
-        }
-        Relationships: []
-      }
       universities: {
         Row: {
           confirmed: boolean | null

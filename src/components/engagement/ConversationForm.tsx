@@ -178,8 +178,12 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
         />
 
         <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            <FormLabel className="text-sm whitespace-nowrap min-w-[90px]">How many peers involved?</FormLabel>
+          <FormLabel className="text-sm">How many peers involved?</FormLabel>
+          <ParticipantCounter 
+            value={form.watch("participant_count")} 
+            onChange={(value) => form.setValue("participant_count", value)} 
+          />
+          <div className="flex items-center gap-2 mt-2">
             <FormField
               control={form.control}
               name="participant_count"
@@ -198,11 +202,8 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
                 </FormItem>
               )}
             />
+            <span className="text-sm text-muted-foreground">participants</span>
           </div>
-          <ParticipantCounter 
-            value={form.watch("participant_count")} 
-            onChange={(value) => form.setValue("participant_count", value)} 
-          />
         </div>
 
         <FormField

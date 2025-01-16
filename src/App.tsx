@@ -61,7 +61,7 @@ const App = () => {
             .single();
 
           if (profile?.role === 'instructor') {
-            window.location.href = 'https://instructor.knowisrael.app';
+            window.location.href = 'https://teacher.knowisrael.app';
             return;
           }
         }
@@ -92,7 +92,7 @@ const App = () => {
           .single();
 
         if (profile?.role === 'instructor') {
-          window.location.href = 'https://instructor.knowisrael.app';
+          window.location.href = 'https://teacher.knowisrael.app';
           return;
         }
       }

@@ -7,10 +7,18 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { LogIn } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
 
 const Login = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [showInstructorDialog, setShowInstructorDialog] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -21,12 +29,28 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
         email: formData.email,
         password: formData.password,
       });
 
-      if (error) throw error;
+      if (signInError) throw signInError;
+
+      // Check user role
+      const { data: profileData, error: profileError } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', signInData.user.id)
+        .single();
+
+      if (profileError) throw profileError;
+
+      if (profileData.role === 'instructor') {
+        // Sign out the instructor
+        await supabase.auth.signOut();
+        setShowInstructorDialog(true);
+        return;
+      }
 
       toast.success("Successfully logged in!");
       navigate("/");
@@ -35,6 +59,11 @@ const Login = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleInstructorRedirect = () => {
+    window.open('https://teacher.knowisrael.app', '_blank');
+    setShowInstructorDialog(false);
   };
 
   return (
@@ -113,6 +142,22 @@ const Login = () => {
           </CardContent>
         </Card>
       </div>
+
+      <Dialog open={showInstructorDialog} onOpenChange={setShowInstructorDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Instructor Access</DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <p>This platform is designed for students. As an instructor, please use the dedicated teacher platform to access your account.</p>
+          </div>
+          <DialogFooter>
+            <Button onClick={handleInstructorRedirect}>
+              Go to Teacher Platform
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

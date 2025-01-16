@@ -99,7 +99,7 @@ const ProfileContent = ({ profile, onSignOut }: { profile: Profile, onSignOut: (
       )}
 
       <Card className="border-2 border-gray-400 bg-white/80 backdrop-blur-sm mb-4">
-        <CardHeader className="py-2">
+        <CardHeader className="py-1">
           <CardTitle className="flex justify-end items-center text-lg">
             <Button 
               variant={isEditing ? "destructive" : "outline"}

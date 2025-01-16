@@ -46,9 +46,10 @@ const Login = () => {
       if (profileError) throw profileError;
 
       if (profileData.role === 'instructor') {
-        // Sign out the instructor
+        // Sign out the instructor and show dialog
         await supabase.auth.signOut();
         setShowInstructorDialog(true);
+        setIsLoading(false);
         return;
       }
 

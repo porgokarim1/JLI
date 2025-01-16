@@ -100,17 +100,10 @@ const ProfileContent = ({ profile, onSignOut }: { profile: Profile, onSignOut: (
       )}
 
       <Card className="border-2 border-gray-400 bg-white/80 backdrop-blur-sm mb-4">
-        <CardHeader className="flex flex-row items-center justify-between p-4 pb-0">
-          <div className="grid grid-cols-2 gap-4 flex-1">
-            <div>
-              <Label className="text-sm text-gray-500">First Name</Label>
-              <p className="text-lg">{profile.first_name}</p>
-            </div>
-            <div>
-              <Label className="text-sm text-gray-500">Last Name</Label>
-              <p className="text-lg">{profile.last_name}</p>
-            </div>
-          </div>
+        <CardHeader className="flex flex-row items-center justify-between p-4">
+          <CardTitle className="text-2xl font-bold">
+            {profile.first_name} {profile.last_name}
+          </CardTitle>
           <Button 
             variant={isEditing ? "destructive" : "outline"}
             onClick={() => {

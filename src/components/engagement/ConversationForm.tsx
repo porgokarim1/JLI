@@ -22,12 +22,7 @@ const today = new Date().toISOString().split('T')[0];
 const formSchema = z.object({
   comfort_level: z.enum(["very_comfortable", "comfortable", "uncomfortable", "very_uncomfortable", "neutral"]),
   comments: z.string().optional(),
-  conversation_date: z.string().refine((date) => {
-    const selectedDate = new Date(date);
-    const currentDate = new Date();
-    currentDate.setHours(0, 0, 0, 0);
-    return selectedDate <= currentDate;
-  }, "Future dates are not allowed"),
+  conversation_date: z.date(),
   participant_count: z.number().min(1).max(99)
 });
 
@@ -77,7 +72,7 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
     defaultValues: {
       comfort_level: initialData?.comfort_level,
       comments: initialData?.comments || "",
-      conversation_date: initialData?.conversation_date || new Date().toISOString().split("T")[0],
+      conversation_date: initialData?.conversation_date ? new Date(initialData.conversation_date) : new Date(),
       participant_count: initialData?.participant_count || 1
     },
   });
@@ -108,10 +103,9 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
     frame();
   };
 
-  const onSubmit = async () => {
+  const onSubmit = async (data: FormData) => {
     try {
       setIsSubmitting(true);
-      const formData = form.getValues();
       
       const { data: { user }, error: userError } = await supabase.auth.getUser();
       if (userError) {
@@ -128,10 +122,10 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
       triggerConfetti();
 
       const { error } = await supabase.from("conversations").upsert({
-        comfort_level: formData.comfort_level,
-        comments: formData.comments,
-        conversation_date: formData.conversation_date,
-        participant_count: formData.participant_count,
+        comfort_level: data.comfort_level,
+        comments: data.comments,
+        conversation_date: data.conversation_date.toISOString().split('T')[0],
+        participant_count: data.participant_count,
         user_id: user.id,
         ...(initialData?.id ? { id: initialData.id } : {}),
       });
@@ -168,19 +162,19 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
                       <Button
                         variant="outline"
                         className={cn(
-                          "h-8 text-sm w-[120px] pl-3 text-left font-normal bg-white",
+                          "h-8 text-sm w-[120px] pl-3 text-left font-normal bg-white text-foreground",
                           !field.value && "text-muted-foreground"
                         )}
                       >
-                        {field.value ? format(new Date(field.value), "MMM d, yyyy") : "Pick a date"}
+                        {field.value ? format(field.value, "MMM d, yyyy") : "Pick a date"}
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0 bg-white" align="start">
                     <Calendar
                       mode="single"
-                      selected={field.value ? new Date(field.value) : undefined}
-                      onSelect={(date) => field.onChange(date?.toISOString().split('T')[0])}
+                      selected={field.value}
+                      onSelect={field.onChange}
                       disabled={(date) => date > new Date()}
                       initialFocus
                       className="rounded-md border bg-white"

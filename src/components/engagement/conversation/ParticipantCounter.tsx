@@ -35,24 +35,25 @@ const ParticipantCounter = ({ value, onChange }: ParticipantCounterProps) => {
   };
 
   return (
-    <div className="grid grid-cols-4 gap-2">
+    <div className="grid grid-cols-4 gap-1 w-full">
       {options.map((option) => (
-        <Button
+        <button
           key={option.count}
           type="button"
-          variant={getSelectedCount(option.count, value) ? "default" : "outline"}
-          className="flex-1 py-0.5 px-1 h-16"
           onClick={() => onChange(option.count)}
+          className={`flex flex-col items-center justify-center p-2 rounded-lg border transition-all ${
+            getSelectedCount(option.count, value)
+              ? "border-primary bg-primary/10"
+              : "border-gray-200 hover:border-primary/50"
+          }`}
         >
-          <div className="flex flex-col items-center justify-center h-full gap-1">
-            <img 
-              src={option.image} 
-              alt={`${option.count} ${option.count === 1 ? 'person' : 'people'}`}
-              className="h-8 w-auto object-contain"
-            />
-            <span className="text-xs text-muted-foreground">{option.sublabel}</span>
-          </div>
-        </Button>
+          <img 
+            src={option.image} 
+            alt={`${option.count} ${option.count === 1 ? 'person' : 'people'}`}
+            className="h-8 w-auto object-contain"
+          />
+          <span className="text-xs text-muted-foreground mt-1">{option.sublabel}</span>
+        </button>
       ))}
     </div>
   );

@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { User, Users } from "lucide-react";
 
 interface ParticipantCounterProps {
   value: number;
@@ -8,10 +7,26 @@ interface ParticipantCounterProps {
 
 const ParticipantCounter = ({ value, onChange }: ParticipantCounterProps) => {
   const options = [
-    { count: 1, label: "👤", sublabel: "1", icon: <User className="h-2 w-2" /> },
-    { count: 2, label: "👥", sublabel: "2", icon: <Users className="h-2 w-2" /> },
-    { count: 3, label: "👤👥", sublabel: "3", icon: <Users className="h-2 w-2" /> },
-    { count: 4, label: "👥👤", sublabel: "4+", icon: <Users className="h-2 w-2" /> }
+    { 
+      count: 1, 
+      image: "https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/General%20images/onePersonBlack.png", 
+      sublabel: "1" 
+    },
+    { 
+      count: 2, 
+      image: "https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/General%20images/twoPeopleBlack.png", 
+      sublabel: "2" 
+    },
+    { 
+      count: 3, 
+      image: "https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/General%20images/threePeopleBlack.png", 
+      sublabel: "3" 
+    },
+    { 
+      count: 4, 
+      image: "https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/General%20images/fourPeopleBlack.png", 
+      sublabel: "4+" 
+    }
   ];
 
   return (
@@ -21,14 +36,16 @@ const ParticipantCounter = ({ value, onChange }: ParticipantCounterProps) => {
           key={option.count}
           type="button"
           variant={value === option.count ? "default" : "outline"}
-          className="flex-1 text-xl py-0.5 px-1 h-12"
+          className="flex-1 py-0.5 px-1 h-16"
           onClick={() => onChange(option.count)}
         >
-          <div className="flex items-center justify-center h-full">
-            <span className="inline-flex items-center">
-              {option.label}
-              <span className="text-xs text-muted-foreground">{option.sublabel}</span>
-            </span>
+          <div className="flex flex-col items-center justify-center h-full gap-1">
+            <img 
+              src={option.image} 
+              alt={`${option.count} ${option.count === 1 ? 'person' : 'people'}`}
+              className="h-8 w-auto object-contain"
+            />
+            <span className="text-xs text-muted-foreground">{option.sublabel}</span>
           </div>
         </Button>
       ))}

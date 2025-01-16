@@ -929,7 +929,23 @@ export type Database = {
         }
         Returns: Json
       }
+      send_and_log_smtp_email: {
+        Args: {
+          to_email: string
+          subject: string
+          html_content: string
+        }
+        Returns: Json
+      }
       send_email: {
+        Args: {
+          to_email: string
+          subject: string
+          html_content: string
+        }
+        Returns: Json
+      }
+      send_smtp_email: {
         Args: {
           to_email: string
           subject: string

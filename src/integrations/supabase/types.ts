@@ -819,13 +819,13 @@ export type Database = {
         }
         Returns: string
       }
-      fn_generate_instructor_email_for_profile: {
+      fn_generate_rabi_email_for_profile: {
         Args: {
           p_id: string
         }
         Returns: string
       }
-      fn_generate_student_email_for_profile: {
+      fn_generate_student_email: {
         Args: {
           p_id: string
         }

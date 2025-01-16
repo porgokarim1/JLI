@@ -98,8 +98,7 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
         <RewardTierInfo totalPeers={totalPeers} />
 
         <div className="border-t border-gray-200 pt-4">
-          <div className="flex items-center justify-between mb-4">
-            <span className="font-medium">Conversations</span>
+          <div className="flex items-center justify-end">
             {recentEngagements.length > 0 && (
               <button
                 onClick={() => setShowEngagements(!showEngagements)}

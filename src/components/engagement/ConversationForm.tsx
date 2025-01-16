@@ -12,15 +12,18 @@ import confetti from 'canvas-confetti';
 import ParticipantCounter from "./conversation/ParticipantCounter";
 import { Textarea } from "@/components/ui/textarea";
 import { useQueryClient } from "@tanstack/react-query";
-import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { format } from "date-fns";
-import { cn } from "@/lib/utils";
+
+const today = new Date().toISOString().split('T')[0];
 
 const formSchema = z.object({
   comfort_level: z.enum(["very_comfortable", "comfortable", "uncomfortable", "very_uncomfortable", "neutral"]),
   comments: z.string().optional(),
-  conversation_date: z.date(),
+  conversation_date: z.string().refine((date) => {
+    const selectedDate = new Date(date);
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+    return selectedDate <= currentDate;
+  }, "Future dates are not allowed"),
   participant_count: z.number().min(1).max(99)
 });
 
@@ -63,7 +66,6 @@ const ComfortLevelSelector = ({ value, onChange }: { value: string, onChange: (v
 
 const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [open, setOpen] = useState(false);
   const queryClient = useQueryClient();
   
   const form = useForm<FormData>({
@@ -71,7 +73,7 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
     defaultValues: {
       comfort_level: initialData?.comfort_level,
       comments: initialData?.comments || "",
-      conversation_date: initialData?.conversation_date ? new Date(initialData.conversation_date) : new Date(),
+      conversation_date: initialData?.conversation_date || new Date().toISOString().split("T")[0],
       participant_count: initialData?.participant_count || 1
     },
   });
@@ -102,9 +104,10 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
     frame();
   };
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async () => {
     try {
       setIsSubmitting(true);
+      const formData = form.getValues();
       
       const { data: { user }, error: userError } = await supabase.auth.getUser();
       if (userError) {
@@ -121,10 +124,10 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
       triggerConfetti();
 
       const { error } = await supabase.from("conversations").upsert({
-        comfort_level: data.comfort_level,
-        comments: data.comments,
-        conversation_date: data.conversation_date.toISOString().split('T')[0],
-        participant_count: data.participant_count,
+        comfort_level: formData.comfort_level,
+        comments: formData.comments,
+        conversation_date: formData.conversation_date,
+        participant_count: formData.participant_count,
         user_id: user.id,
         ...(initialData?.id ? { id: initialData.id } : {}),
       });
@@ -154,36 +157,15 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
           render={({ field }) => (
             <FormItem>
               <div className="flex items-center gap-2">
-                <FormLabel className="text-sm whitespace-nowrap">When?</FormLabel>
-                <Popover open={open} onOpenChange={setOpen}>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        className={cn(
-                          "h-8 text-sm w-[120px] pl-3 text-left font-normal bg-white text-foreground",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        {field.value ? format(field.value, "MMM d, yyyy") : "Pick a date"}
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0 bg-white" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={(date) => {
-                        field.onChange(date);
-                        setOpen(false);
-                      }}
-                      disabled={(date) => date > new Date()}
-                      initialFocus
-                      className="rounded-md border bg-white"
-                    />
-                  </PopoverContent>
-                </Popover>
+                <FormLabel className="text-sm whitespace-nowrap">When? 📆</FormLabel>
+                <FormControl>
+                  <Input 
+                    type="date" 
+                    {...field} 
+                    max={today}
+                    className="h-8 text-sm w-[120px] border border-gray-300" 
+                  />
+                </FormControl>
               </div>
               <FormMessage />
             </FormItem>

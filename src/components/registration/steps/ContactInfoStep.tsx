@@ -38,6 +38,13 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, isLoading 
     }
   };
 
+  const handlePhoneKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && formData.phone) {
+      e.preventDefault();
+      onNext();
+    }
+  };
+
   const isEmailValid = validateEmail(formData.email);
 
   return (
@@ -72,6 +79,7 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, isLoading 
               defaultCountry="US"
               value={formData.phone || ''}
               onChange={handlePhoneChange}
+              onKeyDown={handlePhoneKeyDown}
             />
           </div>
         </div>

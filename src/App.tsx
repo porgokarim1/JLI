@@ -15,7 +15,6 @@ import Lessons from "./pages/Lessons";
 import BottomNav from "./components/navigation/BottomNav";
 import AIChat from "./pages/AIChat";
 import LessonView from "./pages/LessonView";
-import InstructorRedirect from "./pages/InstructorRedirect";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,11 +25,11 @@ const queryClient = new QueryClient({
   },
 });
 
-const AppLayout = ({ isAuthenticated, userRole }: { isAuthenticated: boolean; userRole: string | null }) => {
+const AppLayout = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
   return (
     <div className="pb-16 md:pb-0">
       <Outlet />
-      {isAuthenticated && userRole !== 'instructor' && <BottomNav />}
+      {isAuthenticated && <BottomNav />}
     </div>
   );
 };
@@ -38,7 +37,6 @@ const AppLayout = ({ isAuthenticated, userRole }: { isAuthenticated: boolean; us
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [userRole, setUserRole] = useState<string | null>(null);
 
   useEffect(() => {
     const checkSession = async () => {
@@ -56,16 +54,6 @@ const App = () => {
         }
 
         setIsAuthenticated(!!session);
-
-        if (session?.user) {
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('role')
-            .eq('id', session.user.id)
-            .single();
-          
-          setUserRole(profile?.role || null);
-        }
       } catch (error) {
         console.error("Error in session check:", error);
         setIsAuthenticated(false);
@@ -80,24 +68,16 @@ const App = () => {
       console.log("Auth state changed:", event, !!session);
       
       if (event === 'SIGNED_OUT' || event === 'TOKEN_REFRESHED') {
+        // Clear any cached data
         queryClient.clear();
       }
 
       switch (event) {
         case 'SIGNED_OUT':
           setIsAuthenticated(false);
-          setUserRole(null);
           break;
         case 'SIGNED_IN':
           setIsAuthenticated(true);
-          if (session?.user) {
-            const { data: profile } = await supabase
-              .from('profiles')
-              .select('role')
-              .eq('id', session.user.id)
-              .single();
-            setUserRole(profile?.role || null);
-          }
           break;
         case 'TOKEN_REFRESHED':
           setIsAuthenticated(!!session);
@@ -127,13 +107,11 @@ const App = () => {
 
   const router = createBrowserRouter([
     {
-      element: <AppLayout isAuthenticated={isAuthenticated || false} userRole={userRole} />,
+      element: <AppLayout isAuthenticated={isAuthenticated || false} />,
       children: [
         {
           path: "/",
-          element: isAuthenticated && userRole === 'instructor' 
-            ? <InstructorRedirect />
-            : <Index />,
+          element: <Index />,
         },
         {
           path: "/register",
@@ -145,28 +123,23 @@ const App = () => {
         },
         {
           path: "/profile",
-          element: !isAuthenticated ? <Navigate to="/login" /> : 
-            userRole === 'instructor' ? <InstructorRedirect /> : <Profile />,
+          element: !isAuthenticated ? <Navigate to="/login" /> : <Profile />,
         },
         {
           path: "/about",
-          element: !isAuthenticated ? <Navigate to="/login" /> : 
-            userRole === 'instructor' ? <InstructorRedirect /> : <About />,
+          element: !isAuthenticated ? <Navigate to="/login" /> : <About />,
         },
         {
           path: "/lessons",
-          element: !isAuthenticated ? <Navigate to="/login" /> : 
-            userRole === 'instructor' ? <InstructorRedirect /> : <Lessons />,
+          element: !isAuthenticated ? <Navigate to="/login" /> : <Lessons />,
         },
         {
           path: "/ai-chat",
-          element: !isAuthenticated ? <Navigate to="/login" /> : 
-            userRole === 'instructor' ? <InstructorRedirect /> : <AIChat />,
+          element: !isAuthenticated ? <Navigate to="/login" /> : <AIChat />,
         },
         {
           path: "/lessons/:id",
-          element: !isAuthenticated ? <Navigate to="/login" /> : 
-            userRole === 'instructor' ? <InstructorRedirect /> : <LessonView />,
+          element: !isAuthenticated ? <Navigate to="/login" /> : <LessonView />,
         }
       ]
     }

@@ -1,7 +1,6 @@
 import { LessonCard } from "./LessonCard";
 import { LoadingSkeleton } from "./LoadingSkeleton";
 import { useLessons } from "./useLessons";
-import { LessonWithProgress, LessonStatus } from "@/types/lessons";
 
 const LessonsList = () => {
   const { data: lessons, isLoading } = useLessons();
@@ -17,11 +16,11 @@ const LessonsList = () => {
     ...lesson,
     media: lesson.lesson_media || [], // Map lesson_media to media property
     progress: {
-      status: (lesson.progress?.status || 'not_started') as LessonStatus,
+      status: lesson.progress?.status || 'not_started',
       time_spent: lesson.progress?.time_spent || 0,
       last_position: lesson.progress?.last_position || 0
     }
-  } as LessonWithProgress));
+  }));
 
   return (
     <div className="container mx-auto px-4 py-8">

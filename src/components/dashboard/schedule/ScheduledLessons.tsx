@@ -2,7 +2,19 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { LoadingSkeleton } from "../LoadingSkeleton";
-import { ScheduledLesson } from "@/types/lessons";
+
+interface ScheduledLesson {
+  id: string;
+  lesson: {
+    title: string;
+    description: string;
+  };
+  lesson_date: string;
+  start_time: string;
+  end_time: string;
+  location: string;
+  attendance_code: string;
+}
 
 interface ScheduledLessonsProps {
   schedules?: ScheduledLesson[];
@@ -35,13 +47,7 @@ const ScheduledLessons = ({ schedules, refetchSchedules }: ScheduledLessonsProps
         throw error;
       }
 
-      return data.map(schedule => ({
-        ...schedule,
-        lesson: {
-          title: schedule.lesson?.title || 'Untitled',
-          description: schedule.lesson?.description || 'No description'
-        }
-      })) as ScheduledLesson[];
+      return data as ScheduledLesson[];
     },
     enabled: !schedules, // Only run the query if schedules prop is not provided
   });

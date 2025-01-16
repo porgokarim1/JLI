@@ -73,9 +73,7 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
       <CardContent className="p-4 space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="bg-primary/10 rounded-full p-2">
-              <Handshake className="h-5 w-5 text-primary" />
-            </div>
+            <Handshake className="h-6 w-6 text-primary" />
             <div className="flex-1">
               {isLoading ? (
                 <p className="text-lg font-semibold text-black">Loading...</p>

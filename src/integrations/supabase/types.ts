@@ -819,6 +819,12 @@ export type Database = {
         }
         Returns: string
       }
+      fn_generate_instructor_email_for_profile: {
+        Args: {
+          p_id: string
+        }
+        Returns: string
+      }
       fn_generate_student_email_for_profile: {
         Args: {
           p_id: string

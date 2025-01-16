@@ -29,32 +29,31 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      // First, attempt to sign in
-      const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+      // First check if the user exists and get their role
+      const { data: profileData, error: profileError } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('email', formData.email)
+        .single();
+
+      if (profileData?.role === 'instructor') {
+        setIsLoading(false);
+        setShowInstructorDialog(true);
+        return; // Stop here if it's an instructor
+      }
+
+      // Proceed with login only if not an instructor
+      const { error: signInError } = await supabase.auth.signInWithPassword({
         email: formData.email,
         password: formData.password,
       });
 
       if (signInError) throw signInError;
 
-      // Check user role before proceeding with navigation
-      const { data: profileData, error: profileError } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', signInData.user.id)
-        .single();
-
-      if (profileError) throw profileError;
-
-      if (profileData.role === 'instructor') {
-        // Sign out the instructor immediately
-        await supabase.auth.signOut();
-        setShowInstructorDialog(true);
-      } else {
-        toast.success("Successfully logged in!");
-        navigate("/");
-      }
+      toast.success("Successfully logged in!");
+      navigate("/");
     } catch (error: any) {
+      setIsLoading(false);
       toast.error("Error during login: " + error.message);
     } finally {
       setIsLoading(false);

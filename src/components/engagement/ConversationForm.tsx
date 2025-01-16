@@ -168,7 +168,7 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
                       <Button
                         variant="outline"
                         className={cn(
-                          "h-8 text-sm w-[120px] pl-3 text-left font-normal",
+                          "h-8 text-sm w-[120px] pl-3 text-left font-normal bg-white",
                           !field.value && "text-muted-foreground"
                         )}
                       >
@@ -176,13 +176,14 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent className="w-auto p-0 bg-white" align="start">
                     <Calendar
                       mode="single"
                       selected={field.value ? new Date(field.value) : undefined}
                       onSelect={(date) => field.onChange(date?.toISOString().split('T')[0])}
                       disabled={(date) => date > new Date()}
                       initialFocus
+                      className="rounded-md border bg-white"
                     />
                   </PopoverContent>
                 </Popover>

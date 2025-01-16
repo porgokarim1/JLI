@@ -72,21 +72,21 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
     <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
       <CardContent className="p-4 space-y-4">
         <div className="flex items-center justify-between">
-          <div className="flex-1">
-            {isLoading ? (
-              <p className="text-lg font-semibold text-black">Loading...</p>
-            ) : totalPeers > 0 ? (
-              <p className="text-lg font-semibold text-black whitespace-pre-line">
-                {getProgressMessage(totalPeers)}
-              </p>
-            ) : (
-              <div className="flex items-center space-x-3">
-                <div className="bg-yellow-100 rounded-full p-2">
-                  <Handshake className="h-5 w-5 text-yellow-600" />
-                </div>
+          <div className="flex items-center gap-3">
+            <div className="bg-primary/10 rounded-full p-2">
+              <Handshake className="h-5 w-5 text-primary" />
+            </div>
+            <div className="flex-1">
+              {isLoading ? (
+                <p className="text-lg font-semibold text-black">Loading...</p>
+              ) : totalPeers > 0 ? (
+                <p className="text-lg font-semibold text-black whitespace-pre-line">
+                  {getProgressMessage(totalPeers)}
+                </p>
+              ) : (
                 <p className="text-lg font-semibold text-black">Engage with peers</p>
-              </div>
-            )}
+              )}
+            </div>
           </div>
           <Button 
             variant="default"

@@ -53,19 +53,6 @@ const App = () => {
           return;
         }
 
-        if (session) {
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('role')
-            .eq('id', session.user.id)
-            .single();
-
-          if (profile?.role === 'instructor') {
-            window.location.href = 'https://teacher.knowisrael.app';
-            return;
-          }
-        }
-
         setIsAuthenticated(!!session);
       } catch (error) {
         console.error("Error in session check:", error);
@@ -81,20 +68,8 @@ const App = () => {
       console.log("Auth state changed:", event, !!session);
       
       if (event === 'SIGNED_OUT' || event === 'TOKEN_REFRESHED') {
+        // Clear any cached data
         queryClient.clear();
-      }
-
-      if (session) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('role')
-          .eq('id', session.user.id)
-          .single();
-
-        if (profile?.role === 'instructor') {
-          window.location.href = 'https://teacher.knowisrael.app';
-          return;
-        }
       }
 
       switch (event) {

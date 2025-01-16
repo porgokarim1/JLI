@@ -52,8 +52,11 @@ const AdminDashboard = () => {
     queryKey: ['recent-schedules'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('lessons_view_simple')
-        .select('*')
+        .from('lessons_schedule')
+        .select(`
+          *,
+          lesson:lessons(title, description)
+        `)
         .order('lesson_date', { ascending: true })
         .limit(5);
       if (error) throw error;
@@ -125,13 +128,13 @@ const AdminDashboard = () => {
                 <div className="space-y-4">
                   {recentSchedules?.map((schedule) => (
                     <div key={schedule.id} className="p-4 border rounded-lg bg-white/50">
-                      <h3 className="font-semibold">{schedule.title}</h3>
+                      <h3 className="font-semibold">{schedule.lesson?.title}</h3>
                       <p className="text-sm text-gray-600">
                         {format(new Date(schedule.lesson_date), 'PPP')} at{' '}
                         {format(new Date(`2000-01-01T${schedule.start_time}`), 'h:mm a')}
                       </p>
                       <p className="text-sm text-gray-600">
-                        Location: {schedule.location || 'TBD'}
+                        Instructor: {schedule.lesson?.instructor_name}
                       </p>
                     </div>
                   ))}

@@ -157,7 +157,7 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
           render={({ field }) => (
             <FormItem>
               <div className="flex items-center gap-2">
-                <FormLabel className="text-sm whitespace-nowrap">When? 📆</FormLabel>
+                <FormLabel className="text-sm whitespace-nowrap">When? </FormLabel>
                 <FormControl>
                   <Input 
                     type="date" 

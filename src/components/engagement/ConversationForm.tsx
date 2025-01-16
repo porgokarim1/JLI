@@ -12,6 +12,11 @@ import confetti from 'canvas-confetti';
 import ParticipantCounter from "./conversation/ParticipantCounter";
 import { Textarea } from "@/components/ui/textarea";
 import { useQueryClient } from "@tanstack/react-query";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const today = new Date().toISOString().split('T')[0];
 
@@ -160,17 +165,38 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
           control={form.control}
           name="conversation_date"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex flex-col">
               <div className="flex items-center gap-2">
                 <FormLabel className="text-sm whitespace-nowrap min-w-[90px]">When was it? 📆</FormLabel>
-                <FormControl>
-                  <Input 
-                    type="date" 
-                    {...field} 
-                    max={today}
-                    className="h-9 text-sm w-[120px] border border-gray-300" 
-                  />
-                </FormControl>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <div className="flex h-9 w-[120px] rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors hover:border-primary cursor-pointer">
+                        <span className="flex items-center gap-2">
+                          {field.value ? (
+                            format(new Date(field.value), "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="h-4 w-4 opacity-50" />
+                        </span>
+                      </div>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value ? new Date(field.value) : undefined}
+                      onSelect={(date) => {
+                        if (date) {
+                          field.onChange(date.toISOString().split('T')[0]);
+                        }
+                      }}
+                      disabled={(date) => date > new Date()}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
               </div>
               <FormMessage />
             </FormItem>

@@ -1,6 +1,7 @@
 import { LessonCard } from "./LessonCard";
 import { LoadingSkeleton } from "./LoadingSkeleton";
 import { useLessons } from "./useLessons";
+import { LessonProgress } from "./types";
 
 const LessonsList = () => {
   const { data: lessons, isLoading } = useLessons();
@@ -16,7 +17,7 @@ const LessonsList = () => {
     ...lesson,
     media: lesson.lesson_media || [], // Map lesson_media to media property
     progress: {
-      status: lesson.progress?.status || 'not_started',
+      status: (lesson.progress?.status || 'not_started') as LessonProgress['status'],
       time_spent: lesson.progress?.time_spent || 0,
       last_position: lesson.progress?.last_position || 0
     }

@@ -47,9 +47,16 @@ const ScheduledLessons = ({ schedules, refetchSchedules }: ScheduledLessonsProps
         throw error;
       }
 
-      return data as ScheduledLesson[];
+      // Transform the data to match ScheduledLesson type
+      return (data as any[]).map(schedule => ({
+        ...schedule,
+        lesson: {
+          title: schedule.lesson?.title || 'Untitled Lesson',
+          description: schedule.lesson?.description || 'No description available'
+        }
+      })) as ScheduledLesson[];
     },
-    enabled: !schedules, // Only run the query if schedules prop is not provided
+    enabled: !schedules,
   });
 
   if (isLoading) return <LoadingSkeleton />;

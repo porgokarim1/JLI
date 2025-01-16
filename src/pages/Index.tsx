@@ -6,7 +6,6 @@ import NavigationBar from "@/components/navigation/NavigationBar";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import StudentDashboard from "@/components/dashboard/StudentDashboard";
-import InstructorDashboard from "@/components/dashboard/InstructorDashboard";
 import AdminDashboard from "@/components/dashboard/AdminDashboard";
 import WelcomePopup from "@/components/welcome/WelcomePopup";
 
@@ -48,9 +47,14 @@ const Index = () => {
           return;
         }
 
+        // Redirect instructors to the instructor portal
+        if (profile?.role === 'instructor') {
+          window.location.href = 'https://instructor.knowisrael.app';
+          return;
+        }
+
         setUserRole(profile?.role || null);
         
-        // Show welcome popup if terms haven't been agreed to
         if (profile && !profile.terms_agreed) {
           setShowWelcomePopup(true);
         }
@@ -82,9 +86,14 @@ const Index = () => {
             .eq('id', session.user.id)
             .single();
             
+          // Redirect instructors to the instructor portal
+          if (profile?.role === 'instructor') {
+            window.location.href = 'https://instructor.knowisrael.app';
+            return;
+          }
+
           setUserRole(profile?.role || null);
           
-          // Show welcome popup if terms haven't been agreed to
           if (profile && !profile.terms_agreed) {
             setShowWelcomePopup(true);
           }
@@ -123,8 +132,6 @@ const Index = () => {
 
   const renderDashboard = () => {
     switch (userRole) {
-      case 'instructor':
-        return <InstructorDashboard />;
       case 'administrator':
         return <AdminDashboard />;
       default:

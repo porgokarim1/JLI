@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { MapPin, Calendar, Clock, CheckCircle2, Eye } from "lucide-react";
+import { MapPin, Calendar, Clock, CheckCircle2 } from "lucide-react";
 import { LessonWithProgress } from "./types";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
@@ -112,7 +112,7 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
                 className="ml-auto"
                 onClick={() => navigate(`/lessons/${lesson.id}`)}
               >
-                <Eye className="h-3 w-3" />
+                View
               </Button>
             </div>
 
@@ -236,7 +236,7 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
               className="ml-auto"
               onClick={() => navigate(`/lessons/${lesson.id}`)}
             >
-              <Eye className="h-3 w-3" />
+              View
             </Button>
           </div>
 

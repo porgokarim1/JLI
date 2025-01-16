@@ -864,6 +864,16 @@ export type Database = {
         }
         Returns: boolean
       }
+      send_test_email: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      send_welcome_email_test: {
+        Args: {
+          recipient_email: string
+        }
+        Returns: undefined
+      }
       text_to_bytea: {
         Args: {
           data: string

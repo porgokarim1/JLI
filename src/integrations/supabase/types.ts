@@ -819,6 +819,12 @@ export type Database = {
         }
         Returns: string
       }
+      fn_generate_student_email_for_profile: {
+        Args: {
+          p_id: string
+        }
+        Returns: string
+      }
       generate_attendance_code: {
         Args: Record<PropertyKey, never>
         Returns: string

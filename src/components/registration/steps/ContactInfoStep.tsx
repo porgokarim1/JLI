@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, CheckCircle2, Circle } from "lucide-react";
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
+import { useRef } from 'react';
 
 interface ContactInfoStepProps {
   formData: {
@@ -17,6 +18,7 @@ interface ContactInfoStepProps {
 }
 
 export const ContactInfoStep = ({ formData, onChange, onNext, onBack, isLoading }: ContactInfoStepProps) => {
+  const phoneInputRef = useRef<HTMLDivElement>(null);
   const handlePhoneChange = (value: string | undefined) => {
     onChange("phone", value || "");
   };
@@ -24,6 +26,16 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, isLoading 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
+  };
+
+  const handleEmailKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Tab' && !e.shiftKey && validateEmail(formData.email)) {
+      e.preventDefault();
+      const phoneInput = phoneInputRef.current?.querySelector('input');
+      if (phoneInput) {
+        phoneInput.focus();
+      }
+    }
   };
 
   const isEmailValid = validateEmail(formData.email);
@@ -43,6 +55,7 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, isLoading 
             required
             value={formData.email}
             onChange={(e) => onChange("email", e.target.value)}
+            onKeyDown={handleEmailKeyDown}
             className={!isEmailValid && formData.email ? "border-red-500" : ""}
           />
           {!isEmailValid && formData.email && (
@@ -52,7 +65,7 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, isLoading 
 
         <div>
           <Label htmlFor="phone">Phone Number</Label>
-          <div className="phone-input-container">
+          <div className="phone-input-container" ref={phoneInputRef}>
             <PhoneInput
               international
               countryCallingCodeEditable={false}

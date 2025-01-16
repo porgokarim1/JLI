@@ -99,8 +99,17 @@ const ProfileContent = ({ profile, onSignOut }: { profile: Profile, onSignOut: (
       )}
 
       <Card className="border-2 border-gray-400 bg-white/80 backdrop-blur-sm mb-4">
-        <CardHeader className="flex flex-row justify-between items-center py-1">
-          <div className="flex-1"></div>
+        <CardHeader className="flex flex-row items-center justify-between p-4 pb-0">
+          <div className="grid grid-cols-2 gap-4 flex-1">
+            <div>
+              <Label className="text-sm text-gray-500">First Name</Label>
+              <p className="text-lg">{profile.first_name}</p>
+            </div>
+            <div>
+              <Label className="text-sm text-gray-500">Last Name</Label>
+              <p className="text-lg">{profile.last_name}</p>
+            </div>
+          </div>
           <Button 
             variant={isEditing ? "destructive" : "outline"}
             onClick={() => {
@@ -109,12 +118,12 @@ const ProfileContent = ({ profile, onSignOut }: { profile: Profile, onSignOut: (
               }
               setIsEditing(!isEditing);
             }}
-            className="transition-all hover:scale-105 text-black text-sm"
+            className="transition-all hover:scale-105 text-black text-sm ml-4"
           >
             {isEditing ? '❌ Cancel' : '✏️ Edit Profile'}
           </Button>
         </CardHeader>
-        <CardContent className="pt-0">
+        <CardContent className="pt-4">
           <ProfileForm 
             profile={profile}
             isEditing={isEditing}

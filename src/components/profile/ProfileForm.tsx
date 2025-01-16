@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -44,22 +44,26 @@ export const ProfileForm = ({
 
   if (!isEditing) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <Label className="text-sm text-gray-500">First Name</Label>
-          <p className="text-lg">{profile.first_name}</p>
+      <div className="space-y-4">
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Label className="text-sm text-gray-500">First Name</Label>
+            <p className="text-lg">{profile.first_name}</p>
+          </div>
+          <div>
+            <Label className="text-sm text-gray-500">Last Name</Label>
+            <p className="text-lg">{profile.last_name}</p>
+          </div>
         </div>
-        <div>
-          <Label className="text-sm text-gray-500">Last Name</Label>
-          <p className="text-lg">{profile.last_name}</p>
-        </div>
-        <div>
-          <Label className="text-sm text-gray-500">Email</Label>
-          <p className="text-lg">{profile.email}</p>
-        </div>
-        <div>
-          <Label className="text-sm text-gray-500">Phone</Label>
-          <p className="text-lg">{profile.phone}</p>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Label className="text-sm text-gray-500">Email</Label>
+            <p className="text-lg">{profile.email}</p>
+          </div>
+          <div>
+            <Label className="text-sm text-gray-500">Phone</Label>
+            <p className="text-lg">{profile.phone}</p>
+          </div>
         </div>
         <div>
           <Label className="text-sm text-gray-500">Campus</Label>
@@ -75,7 +79,7 @@ export const ProfileForm = ({
 
   return (
     <div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="first_name">First Name</Label>
           <Input
@@ -96,6 +100,8 @@ export const ProfileForm = ({
             className="bg-white"
           />
         </div>
+      </div>
+      <div className="grid grid-cols-2 gap-4 mt-4">
         <div className="space-y-2">
           <Label htmlFor="phone">Phone</Label>
           <div className="phone-input-container">

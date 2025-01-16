@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { MapPin, Calendar, Clock, CheckCircle2 } from "lucide-react";
+import { MapPin, Calendar, Clock, CheckCircle2, Eye } from "lucide-react";
 import { LessonWithProgress } from "./types";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
@@ -74,12 +74,14 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
     return (
       <>
         <Card className="flex h-32 hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-gray-900">
+          {/* Left section (20%) with lesson order */}
           <div className="w-[20%] bg-primary flex items-center justify-center border-r border-gray-900">
             <span className="text-4xl font-bold text-primary-foreground">
               {lesson.lesson_order || '1'}
             </span>
           </div>
 
+          {/* Right section (80%) with lesson details */}
           <div className="w-[80%] p-3 flex flex-col justify-between">
             <div>
               <h3 className="text-sm font-semibold mb-1">{lesson.title}</h3>
@@ -87,6 +89,7 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
             </div>
 
             <div className="flex justify-between items-end">
+              {/* Icons and details in a row */}
               <div className="flex space-x-3 text-xs text-gray-600">
                 <div className="flex items-center gap-1">
                   <Calendar className="h-3 w-3 text-primary" />
@@ -102,13 +105,14 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
                 </div>
               </div>
 
+              {/* View button */}
               <Button
                 variant="ghost"
                 size="sm"
                 className="ml-auto"
                 onClick={() => navigate(`/lessons/${lesson.id}`)}
               >
-                View
+                <Eye className="h-3 w-3" />
               </Button>
             </div>
 
@@ -184,18 +188,21 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
   return (
     <>
       <Card className="h-full flex flex-col hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-gray-900">
+        {/* Top section with lesson order */}
         <div className="bg-primary p-4 border-b border-gray-900">
           <span className="text-4xl font-bold text-primary-foreground leading-none flex items-center justify-center w-full">
             {lesson.lesson_order || '1'}
           </span>
         </div>
 
+        {/* Bottom section with lesson details */}
         <div className="p-4 flex flex-col flex-grow">
           <div className="flex-1">
             <h3 className="text-sm font-semibold mb-2">{lesson.title}</h3>
             <p className="text-xs text-gray-600 mb-4 line-clamp-2">{lesson.description}</p>
           </div>
 
+          {/* Date, Time, and Location in a row */}
           <div className="flex space-x-3 text-xs text-gray-600">
             <div className="flex items-center gap-1">
               <Calendar className="h-3 w-3 text-primary" />
@@ -211,6 +218,7 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
             </div>
           </div>
 
+          {/* Action buttons */}
           <div className="flex justify-between items-center mt-4 pt-4 border-t border-gray-200">
             {isInstructor && (
               <Button
@@ -228,7 +236,7 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
               className="ml-auto"
               onClick={() => navigate(`/lessons/${lesson.id}`)}
             >
-              View
+              <Eye className="h-3 w-3" />
             </Button>
           </div>
 

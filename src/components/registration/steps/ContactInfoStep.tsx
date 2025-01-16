@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, CheckCircle2, Circle } from "lucide-react";
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 
 interface ContactInfoStepProps {
   formData: {
@@ -19,6 +19,13 @@ interface ContactInfoStepProps {
 
 export const ContactInfoStep = ({ formData, onChange, onNext, onBack, isLoading }: ContactInfoStepProps) => {
   const phoneInputRef = useRef<HTMLDivElement>(null);
+  const emailInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    // Auto-focus email input when component mounts
+    emailInputRef.current?.focus();
+  }, []);
+
   const handlePhoneChange = (value: string | undefined) => {
     onChange("phone", value || "");
   };
@@ -60,6 +67,7 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, isLoading 
             id="email"
             type="email"
             required
+            ref={emailInputRef}
             value={formData.email}
             onChange={(e) => onChange("email", e.target.value)}
             onKeyDown={handleEmailKeyDown}

@@ -51,13 +51,13 @@ const ComfortLevelSelector = ({ value, onChange }: { value: string, onChange: (v
           key={option.value}
           type="button"
           onClick={() => onChange(option.value)}
-          className={`flex items-center justify-center p-3 rounded-lg border transition-all ${
+          className={`flex items-center justify-center p-2 rounded-lg border transition-all ${
             value === option.value
               ? "border-primary bg-primary/10"
               : "border-gray-200 hover:border-primary/50"
           }`}
         >
-          <span className="text-3xl">{option.emoji}</span>
+          <span className="text-2xl">{option.emoji}</span>
         </button>
       ))}
     </div>
@@ -120,10 +120,7 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
         return;
       }
 
-      // Close the form immediately
       if (onClose) onClose();
-      
-      // Start confetti animation
       triggerConfetti();
 
       const { error } = await supabase.from("conversations").upsert({
@@ -137,13 +134,11 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
 
       if (error) throw error;
 
-      // Invalidate and refetch conversations data
       queryClient.invalidateQueries({ queryKey: ['conversations'] });
       queryClient.invalidateQueries({ queryKey: ['total-peers'] });
       
     } catch (error: any) {
       toast.error("Error recording conversation: " + error.message);
-      // If there's an error, reopen the form
       if (onClose) onSuccess?.();
     } finally {
       setIsSubmitting(false);
@@ -154,7 +149,7 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
     <Form {...form}>
       <form 
         onSubmit={form.handleSubmit(onSubmit)} 
-        className="space-y-6 w-full max-w-2xl mx-auto px-4 md:px-6"
+        className="space-y-4 w-full max-w-md mx-auto px-2 sm:px-4"
       >
         <FormField
           control={form.control}
@@ -162,13 +157,13 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
           render={({ field }) => (
             <FormItem>
               <div className="flex items-center gap-2">
-                <FormLabel className="text-sm whitespace-nowrap min-w-[90px]">When was it? 📆</FormLabel>
+                <FormLabel className="text-sm whitespace-nowrap">When? 📆</FormLabel>
                 <FormControl>
                   <Input 
                     type="date" 
                     {...field} 
                     max={today}
-                    className="h-9 text-sm w-[120px] border border-gray-300" 
+                    className="h-8 text-sm w-[120px] border border-gray-300" 
                   />
                 </FormControl>
               </div>
@@ -183,7 +178,7 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
             value={form.watch("participant_count")} 
             onChange={(value) => form.setValue("participant_count", value)} 
           />
-          <div className="flex items-center gap-2 mt-2">
+          <div className="flex items-center gap-2">
             <FormField
               control={form.control}
               name="participant_count"
@@ -196,7 +191,7 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
                       max="99"
                       {...field}
                       onChange={e => field.onChange(parseInt(e.target.value))}
-                      className={`h-9 text-sm w-[70px] border ${fieldState.invalid ? 'border-red-500' : 'border-gray-300'}`}
+                      className={`h-8 text-sm w-[70px] border ${fieldState.invalid ? 'border-red-500' : 'border-gray-300'}`}
                     />
                   </FormControl>
                 </FormItem>
@@ -210,7 +205,7 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
           control={form.control}
           name="comfort_level"
           render={({ field }) => (
-            <FormItem className="space-y-2">
+            <FormItem className="space-y-1">
               <FormLabel className="text-sm">How did it go?</FormLabel>
               <FormControl>
                 <ComfortLevelSelector
@@ -227,13 +222,13 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
           control={form.control}
           name="comments"
           render={({ field }) => (
-            <FormItem className="space-y-2">
+            <FormItem className="space-y-1">
               <FormLabel className="text-sm">Any thoughts? (Optional)</FormLabel>
               <FormControl>
                 <Textarea 
                   placeholder="Share your experience..." 
                   {...field} 
-                  className="min-h-[80px] text-sm resize-y w-full border border-gray-300"
+                  className="min-h-[60px] text-sm resize-none w-full border border-gray-300"
                 />
               </FormControl>
               <FormMessage />
@@ -241,10 +236,10 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
           )}
         />
 
-        <div className="pt-4">
+        <div className="pt-2">
           <Button 
             type="submit" 
-            className="w-full h-12 text-base"
+            className="w-full h-10 text-base"
             disabled={isSubmitting}
           >
             {isSubmitting ? "Saving..." : "Log Peer Engagement"}

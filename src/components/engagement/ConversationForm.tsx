@@ -17,8 +17,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 
-const today = new Date().toISOString().split('T')[0];
-
 const formSchema = z.object({
   comfort_level: z.enum(["very_comfortable", "comfortable", "uncomfortable", "very_uncomfortable", "neutral"]),
   comments: z.string().optional(),
@@ -65,6 +63,7 @@ const ComfortLevelSelector = ({ value, onChange }: { value: string, onChange: (v
 
 const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [open, setOpen] = useState(false);
   const queryClient = useQueryClient();
   
   const form = useForm<FormData>({
@@ -156,10 +155,11 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
             <FormItem>
               <div className="flex items-center gap-2">
                 <FormLabel className="text-sm whitespace-nowrap">When?</FormLabel>
-                <Popover>
+                <Popover open={open} onOpenChange={setOpen}>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
+                        type="button"
                         variant="outline"
                         className={cn(
                           "h-8 text-sm w-[120px] pl-3 text-left font-normal bg-white text-foreground",
@@ -174,7 +174,10 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
                     <Calendar
                       mode="single"
                       selected={field.value}
-                      onSelect={field.onChange}
+                      onSelect={(date) => {
+                        field.onChange(date);
+                        setOpen(false);
+                      }}
                       disabled={(date) => date > new Date()}
                       initialFocus
                       className="rounded-md border bg-white"

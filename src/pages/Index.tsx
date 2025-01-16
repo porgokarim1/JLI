@@ -49,7 +49,7 @@ const Index = () => {
 
         // Redirect instructors to the instructor portal
         if (profile?.role === 'instructor') {
-          window.location.href = 'https://instructor.knowisrael.app';
+          window.location.href = 'https://teacher.knowisrael.app';
           return;
         }
 
@@ -88,7 +88,7 @@ const Index = () => {
             
           // Redirect instructors to the instructor portal
           if (profile?.role === 'instructor') {
-            window.location.href = 'https://instructor.knowisrael.app';
+            window.location.href = 'https://teacher.knowisrael.app';
             return;
           }
 

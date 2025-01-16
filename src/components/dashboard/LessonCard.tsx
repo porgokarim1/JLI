@@ -1,9 +1,8 @@
 import { Card } from "@/components/ui/card";
-import { MapPin, Calendar, Clock, CheckCircle2, Eye } from "lucide-react";
+import { MapPin, Calendar, Clock, CheckCircle2 } from "lucide-react";
 import { LessonWithProgress } from "./types";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
@@ -18,7 +17,6 @@ interface LessonCardProps {
 }
 
 export const LessonCard = ({ lesson }: LessonCardProps) => {
-  const navigate = useNavigate();
   const isMobile = useIsMobile();
   const [isInstructor, setIsInstructor] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
@@ -104,16 +102,6 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
                   <span className="truncate">{lesson.location || 'TBD'}</span>
                 </div>
               </div>
-
-              {/* View button */}
-              <Button
-                variant="ghost"
-                size="sm"
-                className="ml-auto"
-                onClick={() => navigate(`/lessons/${lesson.id}`)}
-              >
-                <Eye className="h-3 w-3" />
-              </Button>
             </div>
 
             {lesson.progress?.status === 'completed' && (
@@ -219,8 +207,8 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
           </div>
 
           {/* Action buttons */}
-          <div className="flex justify-between items-center mt-4 pt-4 border-t border-gray-200">
-            {isInstructor && (
+          {isInstructor && (
+            <div className="flex justify-between items-center mt-4 pt-4 border-t border-gray-200">
               <Button
                 variant="outline"
                 size="sm"
@@ -229,16 +217,8 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
               >
                 Edit
               </Button>
-            )}
-            <Button
-              variant="ghost"
-              size="sm"
-              className="ml-auto"
-              onClick={() => navigate(`/lessons/${lesson.id}`)}
-            >
-              <Eye className="h-3 w-3" />
-            </Button>
-          </div>
+            </div>
+          )}
 
           {lesson.progress?.status === 'completed' && (
             <div className="mt-2 flex items-center gap-1 text-green-600">

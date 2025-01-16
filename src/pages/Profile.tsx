@@ -4,10 +4,11 @@ import { supabase } from "@/integrations/supabase/client";
 import NavigationBar from "@/components/navigation/NavigationBar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Profile } from "@/components/dashboard/types";
 import { ProfileForm } from "@/components/profile/ProfileForm";
-import { LogOut, User } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
@@ -99,26 +100,24 @@ const ProfileContent = ({ profile, onSignOut }: { profile: Profile, onSignOut: (
       )}
 
       <Card className="border-2 border-gray-400 bg-white/80 backdrop-blur-sm mb-4">
-        <CardHeader className="py-2">
-          <CardTitle className="flex justify-between items-center text-lg">
-            <span className="flex items-center gap-2">
-              👤 Profile Information
-            </span>
-            <Button 
-              variant={isEditing ? "destructive" : "outline"}
-              onClick={() => {
-                if (isEditing) {
-                  setFormData({});
-                }
-                setIsEditing(!isEditing);
-              }}
-              className="transition-all hover:scale-105 text-black text-sm"
-            >
-              {isEditing ? '❌ Cancel' : '✏️ Edit Profile'}
-            </Button>
+        <CardHeader className="flex flex-row items-center justify-between p-4">
+          <CardTitle className="text-2xl font-bold">
+            {profile.first_name} {profile.last_name}
           </CardTitle>
+          <Button 
+            variant={isEditing ? "destructive" : "outline"}
+            onClick={() => {
+              if (isEditing) {
+                setFormData({});
+              }
+              setIsEditing(!isEditing);
+            }}
+            className="transition-all hover:scale-105 text-black text-sm ml-4"
+          >
+            {isEditing ? '❌ Cancel' : '✏️ Edit Profile'}
+          </Button>
         </CardHeader>
-        <CardContent className="py-2">
+        <CardContent className="pt-4">
           <ProfileForm 
             profile={profile}
             isEditing={isEditing}
@@ -166,17 +165,8 @@ const ProfilePage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
       <NavigationBar />
-      <div className="container mx-auto px-4 pt-16 pb-4">
+      <div className="container mx-auto px-4 pt-24 pb-4">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-4">
-            <h1 className="text-2xl md:text-3xl font-bold flex items-center justify-center gap-2">
-              <User className="h-6 w-6 text-gray-600" />
-              <span className="text-gray-800">
-                Your Profile 📝
-              </span>
-            </h1>
-          </div>
-
           <ErrorBoundary FallbackComponent={ErrorFallback} onReset={() => window.location.reload()}>
             <Suspense fallback={<LoadingSpinner />}>
               <ProfileContent profile={profile} onSignOut={handleSignOut} />

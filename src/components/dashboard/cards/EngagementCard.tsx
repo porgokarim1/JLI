@@ -27,10 +27,7 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
         .select('participant_count')
         .eq('user_id', user.id);
 
-      if (error) {
-        console.error('Error fetching conversations:', error);
-        throw error;
-      }
+      if (error) throw error;
       
       const total = data.reduce((sum, conv) => sum + (conv.participant_count || 0), 0);
       return total;
@@ -75,10 +72,19 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
     <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
       <CardContent className="p-4 space-y-4">
         <div className="flex items-center justify-between">
-          <div className="flex-1">
-            <p className="text-lg font-semibold text-black whitespace-pre-line">
-              {isLoading ? "Loading..." : totalPeers > 0 ? getProgressMessage(totalPeers) : ""}
-            </p>
+          <div className="flex items-center gap-3">
+            <Handshake className="h-6 w-6 text-primary" />
+            <div className="flex-1">
+              {isLoading ? (
+                <p className="text-lg font-semibold text-black">Loading...</p>
+              ) : totalPeers > 0 ? (
+                <p className="text-lg font-semibold text-black whitespace-pre-line">
+                  {getProgressMessage(totalPeers)}
+                </p>
+              ) : (
+                <p className="text-lg font-semibold text-black">Engage with peers</p>
+              )}
+            </div>
           </div>
           <Button 
             variant="default"
@@ -92,18 +98,19 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
         <RewardTierInfo totalPeers={totalPeers} />
 
         <div className="border-t border-gray-200 pt-4">
-          <div className="flex items-center justify-between mb-4">
-            <span className="font-medium">Conversations</span>
-            <button
-              onClick={() => setShowEngagements(!showEngagements)}
-              className="flex items-center"
-            >
-              {showEngagements ? (
-                <ChevronUp className="h-5 w-5 text-gray-500" />
-              ) : (
-                <ChevronDown className="h-5 w-5 text-gray-500" />
-              )}
-            </button>
+          <div className="flex items-center justify-end">
+            {recentEngagements.length > 0 && (
+              <button
+                onClick={() => setShowEngagements(!showEngagements)}
+                className="flex items-center"
+              >
+                {showEngagements ? (
+                  <ChevronUp className="h-5 w-5 text-gray-500" />
+                ) : (
+                  <ChevronDown className="h-5 w-5 text-gray-500" />
+                )}
+              </button>
+            )}
           </div>
 
           {showEngagements && (
@@ -145,7 +152,7 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
                 ))
               ) : (
                 <div className="text-center py-4 text-gray-500 text-sm">
-                  No conversation logged yet. Start <button onClick={onNewEngagement} className="text-primary hover:underline">here</button>
+                  No conversation logged yet
                 </div>
               )}
             </div>

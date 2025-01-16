@@ -70,6 +70,39 @@ export type Database = {
           },
         ]
       }
+      email_logs: {
+        Row: {
+          created_at: string | null
+          html_content: string
+          id: number
+          response: Json | null
+          status: string
+          subject: string
+          to_email: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          html_content: string
+          id?: number
+          response?: Json | null
+          status: string
+          subject: string
+          to_email: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          html_content?: string
+          id?: number
+          response?: Json | null
+          status?: string
+          subject?: string
+          to_email?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       lesson_attendance: {
         Row: {
           attendance_time: string | null
@@ -346,6 +379,30 @@ export type Database = {
           Var_Type?: string
           Var_UserID?: number
           Var_Value?: string | null
+        }
+        Relationships: []
+      }
+      test_notifications: {
+        Row: {
+          body: string
+          created_at: string | null
+          id: number
+          recipient_email: string
+          subject: string
+        }
+        Insert: {
+          body: string
+          created_at?: string | null
+          id?: number
+          recipient_email: string
+          subject: string
+        }
+        Update: {
+          body?: string
+          created_at?: string | null
+          id?: number
+          recipient_email?: string
+          subject?: string
         }
         Relationships: []
       }
@@ -762,6 +819,18 @@ export type Database = {
         }
         Returns: string
       }
+      fn_generate_rabi_email_for_profile: {
+        Args: {
+          p_id: string
+        }
+        Returns: string
+      }
+      fn_generate_student_email: {
+        Args: {
+          p_id: string
+        }
+        Returns: string
+      }
       generate_attendance_code: {
         Args: Record<PropertyKey, never>
         Returns: string
@@ -863,6 +932,63 @@ export type Database = {
           value: string
         }
         Returns: boolean
+      }
+      send_and_log_email: {
+        Args: {
+          to_email: string
+          subject: string
+          html_content: string
+        }
+        Returns: Json
+      }
+      send_and_log_smtp_email: {
+        Args: {
+          to_email: string
+          subject: string
+          html_content: string
+        }
+        Returns: Json
+      }
+      send_email:
+        | {
+            Args: {
+              to_email: string
+              subject: string
+              html_content: string
+            }
+            Returns: Json
+          }
+        | {
+            Args: {
+              to_emails: string[]
+              subject: string
+              html_content?: string
+              text_content?: string
+              from_address?: string
+              cc_emails?: string[]
+              bcc_emails?: string[]
+              reply_to_emails?: string[]
+              tags?: Json
+            }
+            Returns: Json
+          }
+      send_smtp_email: {
+        Args: {
+          to_email: string
+          subject: string
+          html_content: string
+        }
+        Returns: Json
+      }
+      send_test_email: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      send_welcome_email_test: {
+        Args: {
+          recipient_email: string
+        }
+        Returns: undefined
       }
       text_to_bytea: {
         Args: {

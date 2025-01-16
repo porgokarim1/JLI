@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { NavigationButtons } from "../NavigationButtons";
+import { useRef, useEffect } from 'react';
 
 interface PersonalInfoStepProps {
   formData: {
@@ -14,11 +15,11 @@ interface PersonalInfoStepProps {
 }
 
 export const PersonalInfoStep = ({ formData, onChange, onNext, isLoading }: PersonalInfoStepProps) => {
-  const handleNext = () => {
-    if (!formData.firstName.trim() || !formData.lastName.trim()) {
-      return;
+  const handleLastNameKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && formData.firstName.trim() && formData.lastName.trim()) {
+      e.preventDefault();
+      onNext();
     }
-    onNext();
   };
 
   return (
@@ -46,6 +47,7 @@ export const PersonalInfoStep = ({ formData, onChange, onNext, isLoading }: Pers
             required
             value={formData.lastName}
             onChange={(e) => onChange("lastName", e.target.value)}
+            onKeyDown={handleLastNameKeyDown}
           />
         </div>
       </div>
@@ -53,7 +55,7 @@ export const PersonalInfoStep = ({ formData, onChange, onNext, isLoading }: Pers
       <NavigationButtons
         showBack={false}
         showHome={true}
-        onNext={handleNext}
+        onNext={onNext}
         isNextDisabled={!formData.firstName.trim() || !formData.lastName.trim()}
         isLoading={isLoading}
       />

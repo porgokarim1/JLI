@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, CheckCircle2, Circle } from "lucide-react";
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
+import { useRef, useEffect } from 'react';
 
 interface ContactInfoStepProps {
   formData: {
@@ -17,6 +18,14 @@ interface ContactInfoStepProps {
 }
 
 export const ContactInfoStep = ({ formData, onChange, onNext, onBack, isLoading }: ContactInfoStepProps) => {
+  const phoneInputRef = useRef<HTMLDivElement>(null);
+  const emailInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    // Auto-focus email input when component mounts
+    emailInputRef.current?.focus();
+  }, []);
+
   const handlePhoneChange = (value: string | undefined) => {
     onChange("phone", value || "");
   };
@@ -24,6 +33,23 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, isLoading 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
+  };
+
+  const handleEmailKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Tab' && !e.shiftKey && validateEmail(formData.email)) {
+      e.preventDefault();
+      const phoneInput = phoneInputRef.current?.querySelector('input');
+      if (phoneInput) {
+        phoneInput.focus();
+      }
+    }
+  };
+
+  const handlePhoneKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && formData.phone) {
+      e.preventDefault();
+      onNext();
+    }
   };
 
   const isEmailValid = validateEmail(formData.email);
@@ -41,8 +67,10 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, isLoading 
             id="email"
             type="email"
             required
+            ref={emailInputRef}
             value={formData.email}
             onChange={(e) => onChange("email", e.target.value)}
+            onKeyDown={handleEmailKeyDown}
             className={!isEmailValid && formData.email ? "border-red-500" : ""}
           />
           {!isEmailValid && formData.email && (
@@ -52,13 +80,14 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, isLoading 
 
         <div>
           <Label htmlFor="phone">Phone Number</Label>
-          <div className="phone-input-container">
+          <div className="phone-input-container" ref={phoneInputRef}>
             <PhoneInput
               international
               countryCallingCodeEditable={false}
               defaultCountry="US"
               value={formData.phone || ''}
               onChange={handlePhoneChange}
+              onKeyDown={handlePhoneKeyDown}
             />
           </div>
         </div>

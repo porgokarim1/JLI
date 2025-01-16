@@ -38,17 +38,10 @@ const DashboardHeader = () => {
     getProfile();
   }, []);
 
-  const getGreeting = () => {
-    const hour = new Date().getHours();
-    if (hour < 12) return "Good morning";
-    if (hour < 18) return "Good afternoon";
-    return "Good evening";
-  };
-
   return (
     <div className="flex items-start px-2">
       <h1 className="text-lg font-semibold text-slate-800">
-        {getGreeting()}{firstName ? `, ${firstName}` : ''}
+        Welcome back{firstName ? `, ${firstName}` : ''}
       </h1>
     </div>
   );

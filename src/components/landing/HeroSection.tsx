@@ -5,7 +5,7 @@ const HeroSection = () => {
   const navigate = useNavigate();
   
   return (
-    <div className="container mx-auto px-4 min-h-[calc(100vh-64px)] flex items-center justify-center mt-16 md:mt-0">
+    <div className="container mx-auto px-4 min-h-[calc(100vh-64px)] flex items-center justify-center mt-0 md:mt-16">
       <div className="grid md:grid-cols-2 gap-2 items-center w-full max-w-3xl mx-auto">
         <div className="text-center space-y-2 relative z-10 bg-white/80 md:bg-transparent p-3 rounded-lg">
           <div className="space-y-2">

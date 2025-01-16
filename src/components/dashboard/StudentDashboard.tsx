@@ -119,9 +119,6 @@ const StudentDashboard = () => {
       <DashboardHeader />
       
       <div className="space-y-4 max-w-md mx-auto w-full px-2">
-        {firstName && (
-          <h1 className="text-xl font-medium text-gray-900">Welcome back, {firstName}</h1>
-        )}
         <NextLessonCard onAttendanceClick={() => setShowAttendanceForm(true)} />
         <ReferralCard onShareLink={handleCopyReferralLink} onEmailShare={handleEmailShare} />
         <EngagementCard 

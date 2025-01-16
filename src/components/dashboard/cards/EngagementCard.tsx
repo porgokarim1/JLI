@@ -27,10 +27,7 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
         .select('participant_count')
         .eq('user_id', user.id);
 
-      if (error) {
-        console.error('Error fetching conversations:', error);
-        throw error;
-      }
+      if (error) throw error;
       
       const total = data.reduce((sum, conv) => sum + (conv.participant_count || 0), 0);
       return total;
@@ -94,16 +91,18 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
         <div className="border-t border-gray-200 pt-4">
           <div className="flex items-center justify-between mb-4">
             <span className="font-medium">Conversations</span>
-            <button
-              onClick={() => setShowEngagements(!showEngagements)}
-              className="flex items-center"
-            >
-              {showEngagements ? (
-                <ChevronUp className="h-5 w-5 text-gray-500" />
-              ) : (
-                <ChevronDown className="h-5 w-5 text-gray-500" />
-              )}
-            </button>
+            {recentEngagements.length > 0 && (
+              <button
+                onClick={() => setShowEngagements(!showEngagements)}
+                className="flex items-center"
+              >
+                {showEngagements ? (
+                  <ChevronUp className="h-5 w-5 text-gray-500" />
+                ) : (
+                  <ChevronDown className="h-5 w-5 text-gray-500" />
+                )}
+              </button>
+            )}
           </div>
 
           {showEngagements && (
@@ -144,8 +143,17 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
                   </div>
                 ))
               ) : (
-                <div className="text-center py-4 text-gray-500 text-sm">
-                  No conversation logged yet. Start <button onClick={onNewEngagement} className="text-primary hover:underline">here</button>
+                <div className="flex flex-col items-center justify-center py-8 space-y-4">
+                  <div className="bg-yellow-100 rounded-full p-4">
+                    <Handshake className="h-8 w-8 text-yellow-600" />
+                  </div>
+                  <h3 className="text-xl font-semibold">Engage with peers</h3>
+                  <Button
+                    onClick={onNewEngagement}
+                    className="bg-yellow-400 hover:bg-yellow-500 text-black font-medium"
+                  >
+                    Log
+                  </Button>
                 </div>
               )}
             </div>

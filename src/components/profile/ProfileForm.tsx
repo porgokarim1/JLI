@@ -27,7 +27,6 @@ export const ProfileForm = ({
 }: ProfileFormProps) => {
   const { data: universities = [], isLoading: isLoadingUniversities } = useUniversities();
   
-  // Initialize formData with profile data only when editing starts
   useEffect(() => {
     if (isEditing && !formData.first_name) {
       onChange('first_name', profile.first_name || '');

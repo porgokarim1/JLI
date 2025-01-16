@@ -70,6 +70,39 @@ export type Database = {
           },
         ]
       }
+      email_logs: {
+        Row: {
+          created_at: string | null
+          html_content: string
+          id: number
+          response: Json | null
+          status: string
+          subject: string
+          to_email: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          html_content: string
+          id?: number
+          response?: Json | null
+          status: string
+          subject: string
+          to_email: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          html_content?: string
+          id?: number
+          response?: Json | null
+          status?: string
+          subject?: string
+          to_email?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       lesson_attendance: {
         Row: {
           attendance_time: string | null
@@ -887,6 +920,22 @@ export type Database = {
           value: string
         }
         Returns: boolean
+      }
+      send_and_log_email: {
+        Args: {
+          to_email: string
+          subject: string
+          html_content: string
+        }
+        Returns: Json
+      }
+      send_email: {
+        Args: {
+          to_email: string
+          subject: string
+          html_content: string
+        }
+        Returns: Json
       }
       send_test_email: {
         Args: Record<PropertyKey, never>

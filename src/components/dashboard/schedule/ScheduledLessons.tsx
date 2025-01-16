@@ -5,10 +5,8 @@ import { LoadingSkeleton } from "../LoadingSkeleton";
 
 interface ScheduledLesson {
   id: string;
-  lesson: {
-    title: string;
-    description: string;
-  };
+  title: string;
+  description: string;
   lesson_date: string;
   start_time: string;
   end_time: string;
@@ -29,15 +27,16 @@ const ScheduledLessons = ({ schedules, refetchSchedules }: ScheduledLessonsProps
       if (!user) throw new Error("No user found");
 
       const { data, error } = await supabase
-        .from("lessons_schedule")
+        .from("lessons_view_simple")
         .select(`
           id,
+          title,
+          description,
           lesson_date,
           start_time,
           end_time,
           location,
-          attendance_code,
-          lesson:lessons(title, description)
+          attendance_code
         `)
         .eq("instructor_id", user.id)
         .order("lesson_date", { ascending: true });
@@ -49,7 +48,7 @@ const ScheduledLessons = ({ schedules, refetchSchedules }: ScheduledLessonsProps
 
       return data as ScheduledLesson[];
     },
-    enabled: !schedules, // Only run the query if schedules prop is not provided
+    enabled: !schedules,
   });
 
   if (isLoading) return <LoadingSkeleton />;
@@ -63,8 +62,8 @@ const ScheduledLessons = ({ schedules, refetchSchedules }: ScheduledLessonsProps
           key={schedule.id}
           className="p-4 bg-white rounded-lg shadow-sm border border-gray-200"
         >
-          <h3 className="text-lg font-semibold">{schedule.lesson.title}</h3>
-          <p className="text-gray-600">{schedule.lesson.description}</p>
+          <h3 className="text-lg font-semibold">{schedule.title}</h3>
+          <p className="text-gray-600">{schedule.description}</p>
           <div className="mt-2 text-sm text-gray-500">
             <p>Date: {new Date(schedule.lesson_date).toLocaleDateString()}</p>
             <p>

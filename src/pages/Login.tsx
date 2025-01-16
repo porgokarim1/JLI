@@ -29,6 +29,7 @@ const Login = () => {
     setIsLoading(true);
 
     try {
+      // First, attempt to sign in
       const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
         email: formData.email,
         password: formData.password,
@@ -36,7 +37,7 @@ const Login = () => {
 
       if (signInError) throw signInError;
 
-      // Check user role
+      // Check user role before proceeding with navigation
       const { data: profileData, error: profileError } = await supabase
         .from('profiles')
         .select('role')
@@ -46,15 +47,13 @@ const Login = () => {
       if (profileError) throw profileError;
 
       if (profileData.role === 'instructor') {
-        // Sign out the instructor and show dialog
+        // Sign out the instructor immediately
         await supabase.auth.signOut();
-        setIsLoading(false);
         setShowInstructorDialog(true);
-        return;
+      } else {
+        toast.success("Successfully logged in!");
+        navigate("/");
       }
-
-      toast.success("Successfully logged in!");
-      navigate("/");
     } catch (error: any) {
       toast.error("Error during login: " + error.message);
     } finally {

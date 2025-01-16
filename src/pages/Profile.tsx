@@ -115,7 +115,7 @@ const ProfileContent = ({ profile, onSignOut }: { profile: Profile, onSignOut: (
             </Button>
           </CardTitle>
         </CardHeader>
-        <CardContent className="py-2">
+        <CardContent className="pt-0">
           <ProfileForm 
             profile={profile}
             isEditing={isEditing}

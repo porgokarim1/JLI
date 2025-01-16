@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Profile } from "@/components/dashboard/types";
 import { ProfileForm } from "@/components/profile/ProfileForm";
-import { LogOut, User } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
@@ -100,10 +100,7 @@ const ProfileContent = ({ profile, onSignOut }: { profile: Profile, onSignOut: (
 
       <Card className="border-2 border-gray-400 bg-white/80 backdrop-blur-sm mb-4">
         <CardHeader className="py-2">
-          <CardTitle className="flex justify-between items-center text-lg">
-            <span className="flex items-center gap-2">
-              👤 Profile Information
-            </span>
+          <CardTitle className="flex justify-end items-center text-lg">
             <Button 
               variant={isEditing ? "destructive" : "outline"}
               onClick={() => {
@@ -168,15 +165,6 @@ const ProfilePage = () => {
       <NavigationBar />
       <div className="container mx-auto px-4 pt-16 pb-4">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-4">
-            <h1 className="text-2xl md:text-3xl font-bold flex items-center justify-center gap-2">
-              <User className="h-6 w-6 text-gray-600" />
-              <span className="text-gray-800">
-                Your Profile 📝
-              </span>
-            </h1>
-          </div>
-
           <ErrorBoundary FallbackComponent={ErrorFallback} onReset={() => window.location.reload()}>
             <Suspense fallback={<LoadingSpinner />}>
               <ProfileContent profile={profile} onSignOut={handleSignOut} />

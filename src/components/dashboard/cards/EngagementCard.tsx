@@ -15,7 +15,7 @@ interface EngagementCardProps {
 
 export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngagements }: EngagementCardProps) => {
   const [showEngagements, setShowEngagements] = useState(true);
-  
+
   const { data: totalPeers = 0, isLoading } = useQuery({
     queryKey: ['total-peers'],
     queryFn: async () => {
@@ -28,7 +28,7 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
         .eq('user_id', user.id);
 
       if (error) throw error;
-      
+
       const total = data.reduce((sum, conv) => sum + (conv.participant_count || 0), 0);
       return total;
     }
@@ -65,8 +65,16 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
   const getProgressMessage = (count: number) => {
     const nextTarget = getNextTarget(count);
     const remaining = nextTarget - count;
-    return `Congrats, you've engaged ${count} ${count === 1 ? 'peer' : 'peers'}.\n${remaining} more to reach goal ${nextTarget === 7 ? '1' : nextTarget === 15 ? '2' : '3'}`;
+
+    if (count === 0) {
+      return `No peers engaged yet. ${remaining} more needed to reach first goal!`;
+    }
+
+    const goalNumber = nextTarget === 7 ? 1 : nextTarget === 15 ? 2 : 3;
+
+    return `Congrats, you've engaged ${count} ${count === 1 ? 'peer' : 'peers'}.\n${remaining} more to reach goal ${goalNumber}`;
   };
+
 
   return (
     <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
@@ -75,18 +83,10 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
           <div className="flex items-center gap-3">
             <Handshake className="h-6 w-6 text-primary" />
             <div className="flex-1">
-              {isLoading ? (
-                <p className="text-lg font-semibold text-black">Loading...</p>
-              ) : totalPeers > 0 ? (
-                <p className="text-lg font-semibold text-black whitespace-pre-line">
-                  {getProgressMessage(totalPeers)}
-                </p>
-              ) : (
-                <p className="text-lg font-semibold text-black">Engage with peers</p>
-              )}
+              <p className="text-lg font-semibold text-black">Engage with peers</p>
             </div>
           </div>
-          <Button 
+          <Button
             variant="default"
             className="text-black h-8 text-xs ml-4"
             onClick={onNewEngagement}
@@ -94,6 +94,13 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
             Log
           </Button>
         </div>
+        {isLoading ? (
+          <p className="text-lg font-semibold text-black">Loading...</p>
+        ) : (
+          <p className="text-sm font-semibold text-black whitespace-pre-line mt-2">
+            {getProgressMessage(totalPeers)}
+          </p>
+        )}
 
         <RewardTierInfo totalPeers={totalPeers} />
 
@@ -117,7 +124,7 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
             <div className="space-y-2">
               {recentEngagements.length > 0 ? (
                 recentEngagements.map((engagement) => (
-                  <div 
+                  <div
                     key={engagement.id}
                     className="flex items-center justify-between py-2 border-t border-gray-200"
                   >

@@ -15,6 +15,7 @@ import Lessons from "./pages/Lessons";
 import BottomNav from "./components/navigation/BottomNav";
 import AIChat from "./pages/AIChat";
 import LessonView from "./pages/LessonView";
+import ResetPassword from "./pages/ResetPassword";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -112,6 +113,10 @@ const App = () => {
         {
           path: "/",
           element: <Index />,
+        },
+        {
+          path: "/reset-password",
+          element: <ResetPassword />,
         },
         {
           path: "/register",

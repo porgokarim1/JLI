@@ -13,7 +13,7 @@ export const ReferralCard = ({ onShareLink, onEmailShare }: ReferralCardProps) =
     try {
       if (navigator.share) {
         await navigator.share({
-          title: "Join K'NOW ISRAEL",
+          title: "Join me in the Know Israel Program",
           text: "Hey! Want to learn how to communicate about Israel? Join here",
           url: 'https://knowisrael.app'
         });

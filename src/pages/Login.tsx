@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -116,6 +116,7 @@ const Login = () => {
                     onChange={(e) => setFormData({...formData, password: e.target.value})}
                     disabled={isLoading}
                   />
+                  <p className="text-xs text-gray-500">Forgot password? <Link to="/reset-password" className="text-primary">Reset password</Link></p>
                 </div>
               </div>
 

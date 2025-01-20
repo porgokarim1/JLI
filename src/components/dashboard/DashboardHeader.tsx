@@ -4,9 +4,12 @@ import { toast } from "sonner";
 
 const DashboardHeader = () => {
   const [firstName, setFirstName] = useState<string>("");
+  const [campus, setCampus] = useState<string>("");
+  const [instructorFirstName, setInstructorFirstName] = useState<string>("");
+  const [instructorLastName, setInstructorLastName] = useState<string>("");
 
   useEffect(() => {
-    const getProfile = async () => {
+    const getProfileAndInstructor = async () => {
       try {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) {
@@ -14,20 +17,42 @@ const DashboardHeader = () => {
           return;
         }
 
-        const { data: profile, error } = await supabase
+
+        const { data: profile, error: profileError } = await supabase
           .from('profiles')
-          .select('first_name')
+          .select('first_name, campus')
           .eq('id', user.id)
           .maybeSingle();
-        
-        if (error) {
-          console.error('Error fetching profile:', error);
+
+        if (profileError) {
+          console.error('Error fetching profile:', profileError);
           toast.error('Failed to load profile');
           return;
         }
-        
+
         if (profile?.first_name) {
           setFirstName(profile.first_name);
+        }
+        if (profile?.campus) {
+          setCampus(profile.campus);
+
+          const { data: instructor, error: instructorError } = await supabase
+            .from('profiles')
+            .select('first_name, last_name')
+            .eq('role', 'instructor')
+            .eq('campus', profile.campus)
+            .maybeSingle();
+
+          if (instructorError) {
+            console.error('Error fetching instructor:', instructorError);
+            toast.error('Failed to load instructor');
+            return;
+          }
+
+          if (instructor) {
+            setInstructorFirstName(instructor.first_name || "");
+            setInstructorLastName(instructor.last_name || "");
+          }
         }
       } catch (error) {
         console.error('Error:', error);
@@ -35,14 +60,19 @@ const DashboardHeader = () => {
       }
     };
 
-    getProfile();
+    getProfileAndInstructor();
   }, []);
 
   return (
-    <div className="flex items-start px-2">
+    <div className="flex flex-col items-start px-2">
       <h1 className="text-lg font-semibold text-slate-800">
         Welcome back{firstName ? `, ${firstName}` : ''}
       </h1>
+      {instructorFirstName && instructorLastName && (
+        <p className="text-sm text-slate-600">
+          Instructor: Rabbi {instructorFirstName} {instructorLastName}
+        </p>
+      )}
     </div>
   );
 };

@@ -26,7 +26,7 @@ export const RewardTierInfo = ({ totalPeers }: RewardTierInfoProps) => {
       count: 25,
       title: "Goal 3",
       subtitle: "25 peers",
-      reward: "Participate in our grand raffle at the end of the semester (Draw on June 1st 2025)",
+      reward: "Participate in our grand raffle at the end of the semester (drawing on June 1st).",
       color: "bg-soft-pink",
       icon: Gift,
     },

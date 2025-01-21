@@ -1,17 +1,17 @@
-import { useEffect, useState, Suspense } from "react";
+import { useState, Suspense } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import NavigationBar from "@/components/navigation/NavigationBar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
 import { Profile } from "@/components/dashboard/types";
 import { ProfileForm } from "@/components/profile/ProfileForm";
 import { LogOut } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
+import { useToast } from "@/components/ui/use-toast";;
+
 
 const fetchProfile = async () => {
   const { data: { user } } = await supabase.auth.getUser();
@@ -57,22 +57,31 @@ const ErrorFallback = ({ error, resetErrorBoundary }: { error: Error, resetError
 );
 
 const ProfileContent = ({ profile, onSignOut }: { profile: Profile, onSignOut: () => Promise<void> }) => {
+  const { toast } = useToast();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState<Partial<Profile>>({});
   const queryClient = useQueryClient();
   const isMobile = useIsMobile();
 
+
   const updateProfileMutation = useMutation({
     mutationFn: updateProfile,
     onSuccess: () => {
-      toast.success('Profile updated successfully');
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
       setIsEditing(false);
-      queryClient.invalidateQueries({ queryKey: ['profile'] });
+      toast({
+        title: "Profile updated",
+        description: "Your changes have been saved successfully.",
+      });
     },
-    onError: (error: Error) => {
-      console.error('Error updating profile:', error);
-      toast.error(`Error updating profile: ${error.message}`);
-    }
+    onError: (error) => {
+      console.error("Error updating profile:", error);
+      toast({
+        title: "Error",
+        description: "Failed to update profile. Please try again.",
+        variant: "destructive",
+      });
+    },
   });
 
   const handleUpdate = async () => {
@@ -108,9 +117,9 @@ const ProfileContent = ({ profile, onSignOut }: { profile: Profile, onSignOut: (
             variant={isEditing ? "destructive" : "outline"}
             onClick={() => {
               if (isEditing) {
-                setFormData({}); // Limpia los datos del formulario si se cancela la edición
+                setFormData({});
               }
-              setIsEditing(!isEditing); // Cambia el estado de edición
+              setIsEditing(!isEditing);
             }}
             className={`transition-all hover:scale-105 text-black text-sm ml-4 ${!isEditing ? 'block' : 'hidden'}`} // Se oculta cuando está editando
           >
@@ -136,6 +145,7 @@ const ProfileContent = ({ profile, onSignOut }: { profile: Profile, onSignOut: (
 };
 
 const ProfilePage = () => {
+  const { toast } = useToast();
   const navigate = useNavigate();
   const isMobile = useIsMobile();
 
@@ -143,18 +153,42 @@ const ProfilePage = () => {
     queryKey: ['profile'],
     queryFn: fetchProfile,
     retry: 1,
-    staleTime: 1000 * 60 * 5, // Cache for 5 minutes
+    staleTime: 1000 * 60 * 5,
   });
 
   const handleSignOut = async () => {
+    console.log("Starting sign out process...");
     try {
+      localStorage.clear();
+      console.log("Local storage cleared");
+      
       const { error } = await supabase.auth.signOut();
-      if (error) throw error;
-      navigate("/");
-      toast.success("Signed out successfully");
+      
+      if (error) {
+        console.error("Error during sign out:", error);
+        navigate("/login");
+        toast({
+          title: "Sign Out Error",
+          description: "There was an error signing out, but you've been logged out locally.",
+          variant: "destructive",
+        });
+      } else {
+        console.log("Sign out successful");
+        toast({
+          title: "Signed Out",
+          description: "You have been successfully signed out.",
+        });
+        navigate("/login");
+      }
     } catch (error) {
-      console.error("Error signing out:", error);
-      toast.error("Error signing out");
+      console.error("Unexpected error during sign out:", error);
+      localStorage.clear();
+      navigate("/login");
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred. Please try logging in again.",
+        variant: "destructive",
+      });
     }
   };
 

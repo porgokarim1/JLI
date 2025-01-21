@@ -118,9 +118,9 @@ const StudentDashboard = () => {
   return (
     <div className="min-h-[100dvh] p-4 md:p-0 mx-auto space-y-4 pb-20">
       <NavigationBar />
-      <DashboardHeader />
       
       <div className="space-y-4 max-w-md mx-auto w-full px-2">
+        <DashboardHeader />
         <NextLessonCard onAttendanceClick={() => setShowAttendanceForm(true)} />
         <ReferralCard onShareLink={handleCopyReferralLink} onEmailShare={handleEmailShare} />
         <EngagementCard 

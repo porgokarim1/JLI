@@ -4,18 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
+import { useToast } from "@/components/ui/use-toast";;
 import { supabase } from "@/integrations/supabase/client";
 import { LogIn } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
 
 const Login = () => {
+  const { toast } = useToast();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -35,12 +29,15 @@ const Login = () => {
       });
 
       if (signInError) throw signInError;
-
-      toast.success("Successfully logged in!");
+      toast({
+        title: "Successfully logged in!",
+      });
       navigate("/");
     } catch (error: any) {
       setIsLoading(false);
-      toast.error("Error during login: " + error.message);
+      toast({
+        title: "Error during login: " + error.message,
+      });
     } finally {
       setIsLoading(false);
     }

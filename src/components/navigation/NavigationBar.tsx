@@ -1,30 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { Menu, X, Home, BookOpen, PieChart, User, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
 import AuthenticatedButtons from "./AuthenticatedButtons";
 import MobileMenu from "./MobileMenu";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 const NavigationBar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isAIChatOpen, setIsAIChatOpen] = useState(false);
   const navigate = useNavigate();
   const isMobile = useIsMobile();
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setIsAuthenticated(!!session);
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setIsAuthenticated(!!session);
-    });
-    return () => subscription.unsubscribe();
-  }, []);
 
   // Hide the entire navbar on mobile
   if (isMobile) {
@@ -46,7 +32,6 @@ const NavigationBar = () => {
             <span className="font-bold text-xl text-black">KNOW ISRAEL</span>
           </button>
 
-          {isAuthenticated && (
             <div className="hidden md:flex md:items-center space-x-2 ml-auto">
               <Button
                 variant="ghost"
@@ -90,7 +75,7 @@ const NavigationBar = () => {
               </Button>
               <AuthenticatedButtons />
             </div>
-          )}
+          
 
           <div className="md:hidden flex items-center">
             <Button
@@ -110,7 +95,7 @@ const NavigationBar = () => {
 
       <div className={`md:hidden ${isOpen ? "block" : "hidden"}`}>
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white shadow-lg">
-          <MobileMenu isAuthenticated={isAuthenticated} setIsOpen={setIsOpen} />
+          <MobileMenu setIsOpen={setIsOpen} />
         </div>
       </div>
     </nav>

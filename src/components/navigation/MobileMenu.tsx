@@ -5,11 +5,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 interface MobileMenuProps {
-  isAuthenticated: boolean;
   setIsOpen: (isOpen: boolean) => void;
 }
 
-const MobileMenu = ({ isAuthenticated, setIsOpen }: MobileMenuProps) => {
+const MobileMenu = ({ setIsOpen }: MobileMenuProps) => {
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
@@ -25,7 +24,6 @@ const MobileMenu = ({ isAuthenticated, setIsOpen }: MobileMenuProps) => {
     }
   };
 
-  if (isAuthenticated) {
     return (
       <>
         <Button
@@ -94,33 +92,5 @@ const MobileMenu = ({ isAuthenticated, setIsOpen }: MobileMenuProps) => {
       </>
     );
   }
-
-  return (
-    <>
-      <Button
-        variant="ghost"
-        className="w-full text-left text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
-        onClick={() => {
-          navigate("/login");
-          setIsOpen(false);
-        }}
-      >
-        <LogIn className="h-5 w-5 mr-2" />
-        Login
-      </Button>
-      <Button
-        variant="outline"
-        className="w-full flex items-center border-2 border-gray-500 text-gray-500 hover:bg-gray-500/10"
-        onClick={() => {
-          navigate("/register");
-          setIsOpen(false);
-        }}
-      >
-        <UserPlus className="h-5 w-5 mr-2" />
-        Register
-      </Button>
-    </>
-  );
-};
 
 export default MobileMenu;

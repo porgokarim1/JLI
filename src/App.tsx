@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { createBrowserRouter, RouterProvider, Navigate, Outlet } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate, Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -15,7 +15,12 @@ import Lessons from "./pages/Lessons";
 import BottomNav from "./components/navigation/BottomNav";
 import AIChat from "./pages/AIChat";
 import LessonView from "./pages/LessonView";
+<<<<<<< HEAD
 import ResetPassword from "./pages/ResetPassword";
+=======
+import { SessionProvider, useSession } from "./contexts/SessionContext";
+import StudentDashboard from "./components/dashboard/StudentDashboard";
+>>>>>>> main
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,6 +38,70 @@ const AppLayout = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
       {isAuthenticated && <BottomNav />}
     </div>
   );
+};
+
+const AuthenticatedRoute = ({ children }: { children: React.ReactNode }) => {
+  const navigate = useNavigate();
+  const { session, loading } = useSession();
+  const [teacherValidated, setTeacherValidated] = useState(false);
+  const [validatingTeacher, setValidatingTeacher] = useState(false);
+
+  useEffect(() => {
+    if (!loading && !session) {
+      console.log("Loading value " + loading + " session: " + session);
+      navigate('/login');
+      return;
+    }
+
+    if(!teacherValidated)
+    {
+      setValidatingTeacher(true);
+
+      const checkTeacherRole = async () => {
+        
+        if (!session?.user?.id) 
+          {
+              return;
+          }
+        
+        try {
+          const { data: profile, error: profileError } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', session.user.id)
+            .single();
+  
+          if (!profileError && profile && profile.role === 'student') {
+            setTeacherValidated(true);
+            setValidatingTeacher(false);
+          } else {
+            // If not an instructor, sign them out
+            setTeacherValidated(false);
+            setValidatingTeacher(false);
+          }
+        } catch (error) {
+          console.error('Error checking teacher role:', error);
+          setValidatingTeacher(false);
+        }
+      };
+      
+      checkTeacherRole();
+    }
+
+  }, [session, loading, navigate]);
+
+  return session && teacherValidated ? (
+    <>
+      {children}
+    </>
+  ) : validatingTeacher ? null : (
+      <div>
+        <h1>Not Authorized</h1>
+        <button onClick={() => supabase.auth.signOut().then(() => navigate('/login'))}>
+          Logout
+        </button>
+      </div>
+    );
 };
 
 const App = () => {
@@ -112,7 +181,7 @@ const App = () => {
       children: [
         {
           path: "/",
-          element: <Index />,
+          element: <AuthenticatedRoute><StudentDashboard /></AuthenticatedRoute>,
         },
         {
           path: "/reset-password",
@@ -128,29 +197,30 @@ const App = () => {
         },
         {
           path: "/profile",
-          element: !isAuthenticated ? <Navigate to="/login" /> : <Profile />,
+          element: !isAuthenticated ? <Navigate to="/login" /> : <AuthenticatedRoute><Profile /></AuthenticatedRoute>,
         },
         {
           path: "/about",
-          element: !isAuthenticated ? <Navigate to="/login" /> : <About />,
+          element: !isAuthenticated ? <Navigate to="/login" /> : <AuthenticatedRoute><About /></AuthenticatedRoute>,
         },
         {
           path: "/lessons",
-          element: !isAuthenticated ? <Navigate to="/login" /> : <Lessons />,
+          element: !isAuthenticated ? <Navigate to="/login" /> : <AuthenticatedRoute><Lessons /></AuthenticatedRoute>,
         },
         {
           path: "/ai-chat",
-          element: !isAuthenticated ? <Navigate to="/login" /> : <AIChat />,
+          element: !isAuthenticated ? <Navigate to="/login" /> : <AuthenticatedRoute><AIChat /></AuthenticatedRoute>,
         },
         {
           path: "/lessons/:id",
-          element: !isAuthenticated ? <Navigate to="/login" /> : <LessonView />,
+          element: !isAuthenticated ? <Navigate to="/login" /> : <AuthenticatedRoute><LessonView /></AuthenticatedRoute>,
         }
       ]
     }
   ]);
 
   return (
+    <SessionProvider>
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
@@ -158,6 +228,7 @@ const App = () => {
         <RouterProvider router={router} />
       </TooltipProvider>
     </QueryClientProvider>
+    </SessionProvider>
   );
 };
 

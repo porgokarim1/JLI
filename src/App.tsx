@@ -178,7 +178,7 @@ const App = () => {
       children: [
         {
           path: "/",
-          element: isAuthenticated ? <StudentDashboard /> : <Index />,
+          element: isAuthenticated ? <AuthenticatedRoute><StudentDashboard /> </AuthenticatedRoute>: <Index />,
         },
         {
           path: "/reset-password",

@@ -4,6 +4,7 @@ import { BookOpen, MapPin, Calendar, Clock } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
+import { useState, useEffect } from "react";
 
 interface NextLessonCardProps {
   onAttendanceClick: () => void;
@@ -18,42 +19,83 @@ type NextLesson = {
   start_time: string | null;
   end_time: string | null;
   university_name: string | null;
-}
+};
 
 export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
+  const [instructorFirstName, setInstructorFirstName] = useState<string>("");
+  const [instructorLastName, setInstructorLastName] = useState<string>("");
+
   const { data: nextLesson, isLoading } = useQuery({
-    queryKey: ['next-lesson'],
+    queryKey: ["next-lesson"],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Not authenticated');
+      if (!user) throw new Error("Not authenticated");
 
       // Get user's profile
       const { data: profile } = await supabase
-        .from('profiles')
-        .select('campus')
-        .eq('id', user.id)
+        .from("profiles")
+        .select("campus")
+        .eq("id", user.id)
         .single();
 
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-      
+
       const { data, error } = await supabase
-        .from('lessons_view_simple')
-        .select('*')
-        .eq('university_name', profile?.campus)
-        .gte('lesson_date', today.toISOString())
-        .order('lesson_date', { ascending: true })
+        .from("lessons_view_simple")
+        .select("*")
+        .eq("university_name", profile?.campus)
+        .gte("lesson_date", today.toISOString())
+        .order("lesson_date", { ascending: true })
         .limit(1)
         .maybeSingle();
 
       if (error) {
-        console.error('Error fetching next lesson:', error);
+        console.error("Error fetching next lesson:", error);
         throw error;
       }
-      
+
       return data as NextLesson;
-    }
+    },
   });
+
+  useEffect(() => {
+    const getInstructor = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("campus")
+          .eq("id", user.id)
+          .maybeSingle();
+
+        if (profile?.campus) {
+          const { data: instructor, error: instructorError } = await supabase
+            .from("profiles")
+            .select("first_name, last_name")
+            .eq("role", "instructor")
+            .eq("campus", profile.campus)
+            .maybeSingle();
+
+          if (instructorError) {
+            console.error("Error fetching instructor:", instructorError);
+            return;
+          }
+
+          if (instructor) {
+            setInstructorFirstName(instructor.first_name || "");
+            setInstructorLastName(instructor.last_name || "");
+          }
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    getInstructor();
+  }, []);
 
   if (isLoading) {
     return (
@@ -70,8 +112,13 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
       <CardContent className="p-4">
         <div className="space-y-3">
           {nextLesson?.university_name && (
-            <p className="text-xs text-muted-foreground font-medium border-b pb-2">
+            <p className="text-xs text-muted-foreground font-medium">
               {nextLesson.university_name}
+            </p>
+          )}
+          {instructorFirstName && instructorLastName && (
+            <p className="text-xs text-muted-foreground border-b pb-2">
+              Instructor: Rabbi {instructorFirstName} {instructorLastName}
             </p>
           )}
           <div className="flex items-center justify-between">
@@ -83,13 +130,24 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
                   <div className="flex items-center gap-1 text-xs text-muted-foreground">
                     <Calendar className="h-4 w-4 flex-shrink-0" />
                     <span>
-                      {nextLesson?.lesson_date && format(new Date(nextLesson.lesson_date), 'EEE. MM/dd/yyyy')}
-                      {nextLesson?.start_time ? ` ⏰ ${format(new Date(`2000-01-01T${nextLesson.start_time}`), 'h:mm a')}` : ' ⏰ TBD'}
+                      {nextLesson?.lesson_date &&
+                        format(
+                          new Date(nextLesson.lesson_date),
+                          "EEE. MM/dd/yyyy"
+                        )}
+                      {nextLesson?.start_time
+                        ? ` ⏰ ${format(
+                          new Date(`2000-01-01T${nextLesson.start_time}`),
+                          "h:mm a"
+                        )}`
+                        : " ⏰ TBD"}
                     </span>
                   </div>
                   <div className="flex items-center gap-1 text-xs text-muted-foreground">
                     <MapPin className="h-4 w-4 flex-shrink-0" />
-                    <span className="truncate">{nextLesson?.location || 'Location TBD'}</span>
+                    <span className="truncate">
+                      {nextLesson?.location || "Location TBD"}
+                    </span>
                   </div>
                   {nextLesson?.title && (
                     <p className="text-sm font-semibold leading-relaxed">
@@ -99,7 +157,7 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
                 </div>
               </div>
             </div>
-            <Button 
+            <Button
               variant="default"
               className="text-black h-8 text-xs whitespace-nowrap"
               onClick={onAttendanceClick}

@@ -104,21 +104,21 @@ const ProfileContent = ({ profile, onSignOut }: { profile: Profile, onSignOut: (
           <CardTitle className="text-2xl font-bold">
             {profile.first_name} {profile.last_name}
           </CardTitle>
-          <Button 
+          <Button
             variant={isEditing ? "destructive" : "outline"}
             onClick={() => {
               if (isEditing) {
-                setFormData({});
+                setFormData({}); // Limpia los datos del formulario si se cancela la edición
               }
-              setIsEditing(!isEditing);
+              setIsEditing(!isEditing); // Cambia el estado de edición
             }}
-            className="transition-all hover:scale-105 text-black text-sm ml-4"
+            className={`transition-all hover:scale-105 text-black text-sm ml-4 ${!isEditing ? 'block' : 'hidden'}`} // Se oculta cuando está editando
           >
             {isEditing ? '❌ Cancel' : '✏️ Edit Profile'}
           </Button>
         </CardHeader>
         <CardContent className="pt-4">
-          <ProfileForm 
+          <ProfileForm
             profile={profile}
             isEditing={isEditing}
             formData={formData}

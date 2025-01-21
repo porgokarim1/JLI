@@ -116,7 +116,7 @@ const StudentDashboard = () => {
   };
 
   return (
-    <div className="min-h-[100dvh] p-4 md:p-0 max-w-7xl mx-auto space-y-4 pb-20">
+    <div className="min-h-[100dvh] p-4 md:p-0 mx-auto space-y-4 pb-20">
       <NavigationBar />
       <DashboardHeader />
       

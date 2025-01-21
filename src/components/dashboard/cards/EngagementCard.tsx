@@ -105,6 +105,9 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
         <RewardTierInfo totalPeers={totalPeers} />
 
         <div className="border-t border-gray-200 pt-4">
+          <p className="text-sm font-semibold text-black whitespace-pre-line mt-2">
+            Conversations
+          </p>
           <div className="flex items-center justify-end">
             {recentEngagements.length > 0 && (
               <button

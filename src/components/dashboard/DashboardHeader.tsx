@@ -64,7 +64,7 @@ const DashboardHeader = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-start px-2">
+    <div className="flex flex-col items-start px-2 pt-0 md:pt-16">
       <h1 className="text-lg font-semibold text-slate-800">
         Welcome back{firstName ? `, ${firstName}` : ''}
       </h1>

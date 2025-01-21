@@ -54,7 +54,7 @@ export default function ForgotPassword() {
       const { error: procedureError } = await supabase.rpc(
         "resend_student_password_email",
         { user_id: userId }
-      );
+      );  
 
       if (procedureError) {
         console.error("Error calling procedure:", procedureError);

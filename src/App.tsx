@@ -15,12 +15,9 @@ import Lessons from "./pages/Lessons";
 import BottomNav from "./components/navigation/BottomNav";
 import AIChat from "./pages/AIChat";
 import LessonView from "./pages/LessonView";
-<<<<<<< HEAD
 import ResetPassword from "./pages/ResetPassword";
-=======
 import { SessionProvider, useSession } from "./contexts/SessionContext";
 import StudentDashboard from "./components/dashboard/StudentDashboard";
->>>>>>> main
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -181,7 +178,7 @@ const App = () => {
       children: [
         {
           path: "/",
-          element: <AuthenticatedRoute><StudentDashboard /></AuthenticatedRoute>,
+          element: isAuthenticated ? <StudentDashboard /> : <Index />,
         },
         {
           path: "/reset-password",

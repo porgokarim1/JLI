@@ -13,6 +13,7 @@ import { ReferralCard } from "./cards/ReferralCard";
 import { Button } from "@/components/ui/button";
 import { X, FilePenLine } from "lucide-react";
 import { format } from "date-fns";
+import NavigationBar from "../navigation/NavigationBar";
 
 const REFERRAL_URL = "knowisrael.app";
 
@@ -115,7 +116,8 @@ const StudentDashboard = () => {
   };
 
   return (
-    <div className="min-h-[100dvh] p-4 max-w-7xl mx-auto space-y-4 pb-20">
+    <div className="min-h-[100dvh] p-4 md:p-0 max-w-7xl mx-auto space-y-4 pb-20">
+      <NavigationBar />
       <DashboardHeader />
       
       <div className="space-y-4 max-w-md mx-auto w-full px-2">

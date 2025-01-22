@@ -78,8 +78,8 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
           <RewardTierInfo totalPeers={totalPeers} />
         )}
 
-        <div className="border-t border-gray-200 pt-4">
-          <p className="text-sm font-semibold text-black whitespace-pre-line mt-2">
+        <div className="pt-4">
+          <p className="text-sm font-semibold text-black whitespace-pre-line mb-3">
             Conversations
           </p>
           <div className="space-y-2">

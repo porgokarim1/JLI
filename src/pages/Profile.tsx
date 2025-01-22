@@ -10,7 +10,8 @@ import { LogOut } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
-import { useToast } from "@/components/ui/use-toast";;
+import { useToast } from "@/components/ui/use-toast";import BottomNav from "@/components/navigation/BottomNav";
+;
 
 
 const fetchProfile = async () => {
@@ -161,9 +162,9 @@ const ProfilePage = () => {
     try {
       localStorage.clear();
       console.log("Local storage cleared");
-      
+
       const { error } = await supabase.auth.signOut();
-      
+
       if (error) {
         console.error("Error during sign out:", error);
         navigate("/login");
@@ -192,7 +193,17 @@ const ProfilePage = () => {
     }
   };
 
-  if (isLoading) return <LoadingSpinner />;
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
+        <NavigationBar />
+        <div className="pt-20 container mx-auto px-4">
+          <LoadingSpinner />
+        </div>
+        {isMobile && <BottomNav />}
+      </div>
+    );
+  }
   if (error) return <div>Error loading profile</div>;
   if (!profile) return null;
 

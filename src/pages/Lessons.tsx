@@ -13,21 +13,18 @@ const Lessons = () => {
   const { data: lessons, isLoading } = useLessons();
   const [showAttendanceForm, setShowAttendanceForm] = useState(false);
   const isMobile = useIsMobile();
+  const LoadingSpinner = () => (
+    <div className="flex items-center justify-center p-8">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+    </div>
+  );
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
         <NavigationBar />
         <div className="pt-20 container mx-auto px-4">
-          <div className="animate-pulse space-y-4">
-            <div className="h-8 bg-gray-200 rounded w-1/4"></div>
-            <div className="h-4 bg-gray-200 rounded w-1/2"></div>
-            <div className="space-y-4">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="h-24 bg-gray-200 rounded"></div>
-              ))}
-            </div>
-          </div>
+          <LoadingSpinner />
         </div>
         {isMobile && <BottomNav />}
       </div>

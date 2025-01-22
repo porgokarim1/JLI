@@ -1,10 +1,9 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, MapPin, Calendar, Clock } from "lucide-react";
+import { BookOpen, MapPin, Calendar } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
-import { useState, useEffect } from "react";
 
 interface NextLessonCardProps {
   onAttendanceClick: () => void;
@@ -19,83 +18,66 @@ type NextLesson = {
   start_time: string | null;
   end_time: string | null;
   university_name: string | null;
+  instructor: {
+    first_name: string;
+    last_name: string;
+  } | null;
 };
 
 export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
-  const [instructorFirstName, setInstructorFirstName] = useState<string>("");
-  const [instructorLastName, setInstructorLastName] = useState<string>("");
-
   const { data: nextLesson, isLoading } = useQuery({
     queryKey: ["next-lesson"],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      // Get user's profile
+      // Fetch the user's campus
       const { data: profile } = await supabase
         .from("profiles")
         .select("campus")
         .eq("id", user.id)
         .single();
 
+      if (!profile?.campus) {
+        throw new Error("User profile or campus not found.");
+      }
+
       const today = new Date();
       today.setHours(0, 0, 0, 0);
 
-      const { data, error } = await supabase
+      // Fetch the next lesson
+      const { data: lesson, error: lessonError } = await supabase
         .from("lessons_view_simple")
         .select("*")
-        .eq("university_name", profile?.campus)
+        .eq("university_name", profile.campus)
         .gte("lesson_date", today.toISOString())
         .order("lesson_date", { ascending: true })
         .limit(1)
         .maybeSingle();
 
-      if (error) {
-        console.error("Error fetching next lesson:", error);
-        throw error;
+      if (lessonError || !lesson) {
+        console.error("Error fetching lesson:", lessonError);
+        throw new Error("No lessons found.");
       }
 
-      return data as NextLesson;
+      // Fetch the instructor details
+      const { data: instructor, error: instructorError } = await supabase
+        .from("profiles")
+        .select("first_name, last_name")
+        .eq("id", lesson.instructor_id)
+        .maybeSingle();
+
+      if (instructorError) {
+        console.error("Error fetching instructor:", instructorError);
+        throw new Error("Instructor not found.");
+      }
+
+      return {
+        ...lesson,
+        instructor: instructor || null, // Attach instructor data to the lesson
+      } as NextLesson;
     },
   });
-
-  useEffect(() => {
-    const getInstructor = async () => {
-      try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return;
-
-        const { data: profile } = await supabase
-          .from("profiles")
-          .select("campus")
-          .eq("id", user.id)
-          .maybeSingle();
-
-        if (profile?.campus) {
-          const { data: instructor, error: instructorError } = await supabase
-            .from("profiles")
-            .select("first_name, last_name")
-            .eq("role", "instructor")
-            .eq("campus", profile.campus)
-            .maybeSingle();
-
-          if (instructorError) {
-            console.error("Error fetching instructor:", instructorError);
-            return;
-          }
-
-          if (instructor) {
-            setInstructorFirstName(instructor.first_name || "");
-            setInstructorLastName(instructor.last_name || "");
-          }
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-
-    getInstructor();
-  }, []);
 
   if (isLoading) {
     return (
@@ -116,9 +98,9 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
               {nextLesson.university_name}
             </p>
           )}
-          {instructorFirstName && instructorLastName && (
+          {nextLesson?.instructor && (
             <p className="text-xs text-muted-foreground border-b pb-2">
-              Instructor: Rabbi {instructorFirstName} {instructorLastName}
+              Instructor: {nextLesson.instructor.first_name} {nextLesson.instructor.last_name}
             </p>
           )}
           <div className="flex items-center justify-between">
@@ -137,9 +119,9 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
                         )}
                       {nextLesson?.start_time
                         ? ` ⏰ ${format(
-                          new Date(`2000-01-01T${nextLesson.start_time}`),
-                          "h:mm a"
-                        )}`
+                            new Date(`2000-01-01T${nextLesson.start_time}`),
+                            "h:mm a"
+                          )}`
                         : " ⏰ TBD"}
                     </span>
                   </div>

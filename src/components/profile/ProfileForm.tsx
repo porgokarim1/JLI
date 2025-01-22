@@ -18,16 +18,16 @@ interface ProfileFormProps {
   onChange: (field: string, value: any) => void;
 }
 
-export const ProfileForm = ({ 
-  profile, 
-  isEditing, 
-  formData, 
-  onSave, 
+export const ProfileForm = ({
+  profile,
+  isEditing,
+  formData,
+  onSave,
   onCancel,
-  onChange 
+  onChange
 }: ProfileFormProps) => {
   const { data: universities = [], isLoading: isLoadingUniversities } = useUniversities();
-  
+
   useEffect(() => {
     if (isEditing && !formData.first_name) {
       onChange('first_name', profile.first_name || '');
@@ -118,25 +118,13 @@ export const ProfileForm = ({
         </div>
         <div className="space-y-2">
           <Label htmlFor="campus">Campus</Label>
-          <Select 
+          <Input
+            id="campus"
+            name="campus"
             value={formData.campus || ''}
-            onValueChange={(value) => handleInputChange('campus', value)}
-          >
-            <SelectTrigger className="bg-white" disabled={isLoadingUniversities}>
-              <SelectValue placeholder={isLoadingUniversities ? "Loading universities..." : "Select your campus"} />
-            </SelectTrigger>
-            <SelectContent className="bg-white border shadow-lg">
-              {universities.map((university) => (
-                <SelectItem 
-                  key={university} 
-                  value={university}
-                  className="hover:bg-gray-100 cursor-pointer"
-                >
-                  {university}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+            readOnly
+            className="bg-gray-100 cursor-not-allowed"
+          />
         </div>
       </div>
       <div className="flex justify-end gap-4 mt-4">

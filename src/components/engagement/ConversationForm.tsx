@@ -51,11 +51,10 @@ const ComfortLevelSelector = ({ value, onChange }: { value: string, onChange: (v
           key={option.value}
           type="button"
           onClick={() => onChange(option.value)}
-          className={`flex items-center justify-center p-2 rounded-lg border transition-all ${
-            value === option.value
+          className={`flex items-center justify-center p-2 rounded-lg border transition-all ${value === option.value
               ? "border-primary bg-primary/10"
               : "border-gray-200 hover:border-primary/50"
-          }`}
+            }`}
         >
           <span className="text-2xl">{option.emoji}</span>
         </button>
@@ -67,7 +66,7 @@ const ComfortLevelSelector = ({ value, onChange }: { value: string, onChange: (v
 const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const queryClient = useQueryClient();
-  
+
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -108,13 +107,13 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
     try {
       setIsSubmitting(true);
       const formData = form.getValues();
-      
+
       const { data: { user }, error: userError } = await supabase.auth.getUser();
       if (userError) {
         toast.error("Authentication error. Please try logging in again.");
         return;
       }
-      
+
       if (!user) {
         toast.error("You must be logged in to record a conversation");
         return;
@@ -136,7 +135,7 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
 
       queryClient.invalidateQueries({ queryKey: ['conversations'] });
       queryClient.invalidateQueries({ queryKey: ['total-peers'] });
-      
+
     } catch (error: any) {
       toast.error("Error recording conversation: " + error.message);
       if (onClose) onSuccess?.();
@@ -147,8 +146,8 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
 
   return (
     <Form {...form}>
-      <form 
-        onSubmit={form.handleSubmit(onSubmit)} 
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-4 w-full max-w-md mx-auto px-2 sm:px-4"
       >
         <FormField
@@ -157,13 +156,14 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
           render={({ field }) => (
             <FormItem>
               <div className="flex items-center gap-2">
-                <FormLabel className="text-sm whitespace-nowrap">When? </FormLabel>
+                <FormLabel className="text-sm whitespace-nowrap">When?</FormLabel>
                 <FormControl>
-                  <Input 
-                    type="date" 
-                    {...field} 
+                  <Input
+                    type="date"
+                    {...field}
                     max={today}
-                    className="h-8 text-sm w-[120px] border border-gray-300" 
+                    className="h-8 text-sm w-[120px] border border-gray-300"
+                    onFocus={(e) => e.target.showPicker()}
                   />
                 </FormControl>
               </div>
@@ -174,9 +174,9 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
 
         <div className="space-y-2">
           <FormLabel className="text-sm">How many peers involved?</FormLabel>
-          <ParticipantCounter 
-            value={form.watch("participant_count")} 
-            onChange={(value) => form.setValue("participant_count", value)} 
+          <ParticipantCounter
+            value={form.watch("participant_count")}
+            onChange={(value) => form.setValue("participant_count", value)}
           />
           <div className="flex items-center gap-2">
             <FormField
@@ -185,8 +185,8 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
               render={({ field, fieldState }) => (
                 <FormItem>
                   <FormControl>
-                    <Input 
-                      type="number" 
+                    <Input
+                      type="number"
                       min="1"
                       max="99"
                       {...field}
@@ -225,9 +225,9 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
             <FormItem className="space-y-1">
               <FormLabel className="text-sm">Any thoughts? (Optional)</FormLabel>
               <FormControl>
-                <Textarea 
-                  placeholder="Share your experience..." 
-                  {...field} 
+                <Textarea
+                  placeholder="Share your experience..."
+                  {...field}
                   className="min-h-[60px] text-sm resize-none w-full border border-gray-300"
                 />
               </FormControl>
@@ -237,8 +237,8 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
         />
 
         <div className="pt-2">
-          <Button 
-            type="submit" 
+          <Button
+            type="submit"
             className="w-full h-10 text-base"
             disabled={isSubmitting}
           >

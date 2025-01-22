@@ -115,13 +115,13 @@ const StudentDashboard = () => {
 
       {/* Engagement Form Dialog */}
       <Dialog open={showEngagementForm} onOpenChange={handleFormClose}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="mx-auto w-full max-w-[90%] sm:max-w-lg">
           <DialogHeader>
             <DialogTitle className="text-center">Log Engagement</DialogTitle>
             <Button
               variant="ghost"
               size="icon"
-              className="absolute right-4 top-4"
+              className="absolute right-2 top-2 h-8 w-8 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
               onClick={handleFormClose}
             >
               <X className="h-4 w-4" />

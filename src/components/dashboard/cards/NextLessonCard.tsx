@@ -30,54 +30,67 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
-
+  
       // Fetch the user's campus
       const { data: profile } = await supabase
         .from("profiles")
         .select("campus")
         .eq("id", user.id)
         .single();
-
+  
       if (!profile?.campus) {
         throw new Error("User profile or campus not found.");
       }
-
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-
+  
+      const now = new Date();
+  
       // Fetch the next lesson
-      const { data: lesson, error: lessonError } = await supabase
+      const { data: lessons, error: lessonError } = await supabase
         .from("lessons_view_simple")
         .select("*")
         .eq("university_name", profile.campus)
-        .gte("lesson_date", today.toISOString())
         .order("lesson_date", { ascending: true })
-        .limit(1)
-        .maybeSingle();
-
-      if (lessonError || !lesson) {
-        console.error("Error fetching lesson:", lessonError);
+        .order("start_time", { ascending: true });
+  
+      if (lessonError || !lessons || lessons.length === 0) {
+        console.error("Error fetching lessons:", lessonError);
         throw new Error("No lessons found.");
       }
-
+  
+      // Filter lessons to find the next one in time
+      const nextLesson = lessons.find((lesson) => {
+        const lessonDate = new Date(lesson.lesson_date);
+        const lessonStartTime = new Date(
+          `${lesson.lesson_date}T${lesson.start_time}`
+        );
+        return (
+          (lessonDate > now || (lessonDate.toDateString() === now.toDateString() && lessonStartTime > now))
+        );
+      });
+  
+      if (!nextLesson) {
+        throw new Error("No upcoming lessons found.");
+      }
+  
       // Fetch the instructor details
       const { data: instructor, error: instructorError } = await supabase
         .from("profiles")
         .select("first_name, last_name")
-        .eq("id", lesson.instructor_id)
+        .eq("id", nextLesson.instructor_id)
         .maybeSingle();
-
+  
       if (instructorError) {
         console.error("Error fetching instructor:", instructorError);
         throw new Error("Instructor not found.");
       }
-
+  
       return {
-        ...lesson,
+        ...nextLesson,
         instructor: instructor || null, // Attach instructor data to the lesson
       } as NextLesson;
     },
   });
+  
 
   if (isLoading) {
     return (

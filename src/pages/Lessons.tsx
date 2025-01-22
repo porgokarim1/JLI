@@ -14,18 +14,16 @@ const Lessons = () => {
   const [showAttendanceForm, setShowAttendanceForm] = useState(false);
   const isMobile = useIsMobile();
   const LoadingSpinner = () => (
-    <div className="flex items-center justify-center p-8">
+    <div className="flex items-center justify-center min-h-screen">
       <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
     </div>
   );
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 flex flex-col">
         <NavigationBar />
-        <div className="pt-20 container mx-auto px-4">
-          <LoadingSpinner />
-        </div>
+        <LoadingSpinner />
         {isMobile && <BottomNav />}
       </div>
     );

@@ -77,7 +77,7 @@ const StudentDashboard = () => {
 
   const handleEmailShare = () => {
     const subject = encodeURIComponent("Join me in the Know Israel Program");
-    const body = encodeURIComponent(`Hey! Want to learn how to communicate about Israel? Join here https://${REFERRAL_URL}`);
+    const body = encodeURIComponent(`Hey! There’s a new course on Israel that addresses all the hot-topic issues and I think you’d find it interesting. You can sign up here https://${REFERRAL_URL}`);
     window.location.href = `mailto:?subject=${subject}&body=${body}`;
   };
 

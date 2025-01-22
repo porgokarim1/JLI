@@ -1,9 +1,10 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Handshake, FilePenLine } from "lucide-react";
+import { Handshake, FilePenLine} from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
+import { Link } from "react-router-dom";
 import { RewardTierInfo } from "./RewardTierInfo";
 
 interface EngagementCardProps {
@@ -60,7 +61,9 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
           <div className="flex items-center gap-3">
             <Handshake className="h-6 w-6 text-primary" />
             <div className="flex-1">
-              <p className="text-lg font-semibold text-black">Engage with peers</p>
+              <Link to="/about">
+                <p className="text-lg font-semibold text-black">Engage with Peers</p>
+              </Link>
             </div>
           </div>
           <Button

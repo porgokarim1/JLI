@@ -12,10 +12,7 @@ const NavigationBar = () => {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
 
-  // Hide the entire navbar on mobile
-  if (isMobile) {
-    return null;
-  }
+
   return (
     <nav className="bg-white border-b border-gray-200 fixed w-full top-0 z-50">
       <div className="mx-auto px-4 sm:px-6 lg:px-8">

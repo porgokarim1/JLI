@@ -40,7 +40,7 @@ const StudentDashboard = () => {
         }
 
         const [profileResponse, engagementsResponse] = await Promise.all([
-          supabase.from("profiles").select().eq("id", user.id).single(),
+          supabase.from("profiles").select("first_name").eq("id", user.id).single(),
           supabase.from("conversations").select("*").eq("user_id", user.id).order("conversation_date", { ascending: false }),
         ]);
 
@@ -60,9 +60,10 @@ const StudentDashboard = () => {
           setRecentEngagements(engagements);
         }
 
-        const userAcceptedEula = !!profile?.terms_agreed;
-        if (!userAcceptedEula) {
+        const userJustRegistered = localStorage.getItem("userRegistered") === "true";
+        if (userJustRegistered) {
           setIsPopupOpen(true);
+          localStorage.removeItem("userRegistered");
         }
 
       } catch (error) {
@@ -72,7 +73,7 @@ const StudentDashboard = () => {
         setLoading(false);
       }
     };
-
+    console.log(showEngagementForm)
     fetchData();
   }, [showEngagementForm]);
 
@@ -105,6 +106,11 @@ const StudentDashboard = () => {
     setIsPopupOpen(false);
   };
 
+  const handleNewEngagement = () => {
+    console.log("Opening engagement form");
+    setShowEngagementForm(true);
+  };
+
   return (
     <div className="min-h-[100dvh] p-4 md:p-0 mx-auto space-y-4 pb-20 pl-0">
       <NavigationBar />
@@ -123,7 +129,35 @@ const StudentDashboard = () => {
           recentEngagements={recentEngagements}
         />
       </div>
+      <Dialog open={showEngagementForm} onOpenChange={handleFormClose}>
+        <DialogContent className="mx-auto w-full max-w-[90%] sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="text-center">Log Engagement</DialogTitle>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-2 top-2 h-8 w-8 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+              onClick={handleFormClose}
+            >
+              <X className="h-4 w-4" />
+              <span className="sr-only">Close</span>
+            </Button>
+          </DialogHeader>
+          <ConversationForm
+            initialData={selectedEngagement}
+            onSuccess={handleFormClose}
+            onClose={handleFormClose}
+          />
+        </DialogContent>
+      </Dialog>
 
+      {/* Attendance Dialog */}
+      <CompletionCodeDialog
+        lessonId="placeholder-id"
+        onSuccess={() => setShowAttendanceForm(false)}
+        open={showAttendanceForm}
+        onOpenChange={setShowAttendanceForm}
+      />
       <WelcomePopup isOpen={isPopupOpen} onClose={handlePopupClose} />
     </div>
   );

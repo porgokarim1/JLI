@@ -12,6 +12,7 @@ interface WelcomePopupProps {
 }
 
 const WelcomePopup = ({ isOpen, onClose }: WelcomePopupProps) => {
+  console.log("isOpen", isOpen);
   const [formData, setFormData] = useState({
     agreeToTerms: false,
     agreeToDisclaimer: false,

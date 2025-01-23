@@ -17,8 +17,8 @@ export const FinalStep = ({ formData, onChange, onSubmit, onBack, isLoading }: F
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="text-center space-y-2">
-        <h2 className="text-2xl font-bold">One last thing! 🎉</h2>
-        <p className="text-muted-foreground">Please review our terms</p>
+        <h2 className="text-2xl font-bold">Welcome!🎉</h2>
+        <p className="text-muted-foreground">Thank you for joining the Know Israel program. We're excited to have you on board!</p>
       </div>
 
       <TermsSection

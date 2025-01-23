@@ -8,7 +8,6 @@ export const useLessons = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      // Get user's profile to determine campus
       const { data: profile } = await supabase
         .from('profiles')
         .select('campus, role')
@@ -17,36 +16,37 @@ export const useLessons = () => {
 
       console.log('User profile:', profile);
 
-      // Base query for lessons
       let query = supabase
         .from('lessons_view_simple')
         .select()
         .order('lesson_order', { ascending: true });
 
-      // Filter by campus for students and instructors
       if (profile?.role !== 'administrator') {
         query = query.eq('university_name', profile?.campus);
       }
 
       const { data, error } = await query;
-
+      console.log(data);
       if (error) {
         console.error('Error fetching lessons:', error);
         throw error;
       }
 
-      // Transform the data to match the expected LessonWithProgress type
       const transformedData = data?.map(lesson => ({
         ...lesson,
-        created_at: new Date().toISOString(), // Since view doesn't include this field
-        lesson_media: [], // Empty array since we're not fetching media
+        lesson_date: lesson.lesson_date
+          ? new Date(lesson.lesson_date + "T00:00:00Z").toISOString()
+          : null,
+        created_at: new Date().toISOString(),
+        lesson_media: [],
         progress: {
           status: "not_started",
           time_spent: 0,
           last_position: 0
         }
       }));
-
+      
+      console.log(transformedData);
       return transformedData;
     },
   });

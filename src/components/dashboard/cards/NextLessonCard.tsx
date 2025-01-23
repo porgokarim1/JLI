@@ -30,20 +30,20 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
-  
+
       // Fetch the user's campus
       const { data: profile } = await supabase
         .from("profiles")
         .select("campus")
         .eq("id", user.id)
         .single();
-  
+
       if (!profile?.campus) {
         throw new Error("User profile or campus not found.");
       }
-  
+
       const now = new Date();
-  
+
       // Fetch the next lesson
       const { data: lessons, error: lessonError } = await supabase
         .from("lessons_view_simple")
@@ -51,46 +51,48 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
         .eq("university_name", profile.campus)
         .order("lesson_date", { ascending: true })
         .order("start_time", { ascending: true });
-  
+
       if (lessonError || !lessons || lessons.length === 0) {
         console.error("Error fetching lessons:", lessonError);
         throw new Error("No lessons found.");
       }
-  
+
       // Filter lessons to find the next one in time
       const nextLesson = lessons.find((lesson) => {
-        const lessonDate = new Date(lesson.lesson_date);
-        const lessonStartTime = new Date(
-          `${lesson.lesson_date}T${lesson.start_time}`
-        );
+        const [year, month, day] = lesson.lesson_date.split('-').map(Number);
+        const lessonDate = new Date(year, month - 1, day);
+
+        const [startHours, startMinutes] = lesson.start_time.split(':').map(Number);
+        const lessonStartTime = new Date(year, month - 1, day, startHours, startMinutes);
+
         return (
-          (lessonDate > now || (lessonDate.toDateString() === now.toDateString() && lessonStartTime > now))
+          lessonDate > now ||
+          (lessonDate.toDateString() === now.toDateString() && lessonStartTime > now)
         );
       });
-  
+
       if (!nextLesson) {
         throw new Error("No upcoming lessons found.");
       }
-  
+
       // Fetch the instructor details
       const { data: instructor, error: instructorError } = await supabase
         .from("profiles")
         .select("first_name, last_name")
         .eq("id", nextLesson.instructor_id)
         .maybeSingle();
-  
+
       if (instructorError) {
         console.error("Error fetching instructor:", instructorError);
         throw new Error("Instructor not found.");
       }
-  
+
       return {
         ...nextLesson,
         instructor: instructor || null, // Attach instructor data to the lesson
       } as NextLesson;
     },
   });
-  
 
   if (isLoading) {
     return (
@@ -125,11 +127,10 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
                   <div className="flex items-center gap-1 text-xs text-muted-foreground">
                     <Calendar className="h-4 w-4 flex-shrink-0" />
                     <span>
-                      {nextLesson?.lesson_date &&
-                        format(
-                          new Date(nextLesson.lesson_date),
-                          "EEE. MM/dd/yyyy"
-                        )}
+                      {nextLesson?.lesson_date && (() => {
+                        const [year, month, day] = nextLesson.lesson_date.split('-').map(Number);
+                        return format(new Date(year, month - 1, day), "EEE. MM/dd/yyyy");
+                      })()}
                       {nextLesson?.start_time
                         ? ` ⏰ ${format(
                             new Date(`2000-01-01T${nextLesson.start_time}`),

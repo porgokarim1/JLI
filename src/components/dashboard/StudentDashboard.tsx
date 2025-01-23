@@ -10,6 +10,9 @@ import { ReferralCard } from "./cards/ReferralCard";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import NavigationBar from "../navigation/NavigationBar";
+import confetti from "canvas-confetti";
+import { Sparkles } from "lucide-react";
+import WelcomePopup from "@/components/welcome/WelcomePopup";
 
 const REFERRAL_URL = "knowisrael.app";
 
@@ -24,6 +27,7 @@ const StudentDashboard = () => {
   const [selectedEngagement, setSelectedEngagement] = useState<any>(null);
   const [firstName, setFirstName] = useState<string>("");
   const [loading, setLoading] = useState(true);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,6 +59,13 @@ const StudentDashboard = () => {
         } else {
           setRecentEngagements(engagements);
         }
+
+        const userJustRegistered = localStorage.getItem("userRegistered") === "true";
+        if (userJustRegistered) {
+          setIsPopupOpen(true);
+          localStorage.removeItem("userRegistered"); 
+        }
+
       } catch (error) {
         console.error("Error fetching data:", error);
         toast.error("An error occurred");
@@ -91,58 +102,30 @@ const StudentDashboard = () => {
     setSelectedEngagement(null);
   };
 
+  const handlePopupClose = () => {
+    setIsPopupOpen(false);
+  };
+
   return (
     <div className="min-h-[100dvh] p-4 md:p-0 mx-auto space-y-4 pb-20 pl-0">
-      {/* Navigation Bar */}
       <NavigationBar />
-        <div className="space-y-4 max-w-md mx-auto w-full px-2 pl-6">
-          {/* Dashboard Header */}
-          <div className="flex flex-col items-start px-2 pt-0 pt-14 md:pt-16">
-            <h1 className="text-lg font-semibold text-slate-800">
-              Welcome back{firstName ? `, ${firstName}` : <LoadingSpinner />}
-            </h1>
-          </div>
-
-          {/* Dashboard Cards */}
-          <NextLessonCard onAttendanceClick={() => setShowAttendanceForm(true)} />
-          <ReferralCard onShareLink={handleCopyReferralLink} onEmailShare={handleEmailShare} />
-          <EngagementCard
-            onNewEngagement={() => setShowEngagementForm(true)}
-            onEditEngagement={handleEditEngagement}
-            recentEngagements={recentEngagements}
-          />
+      <div className="space-y-4 max-w-md mx-auto w-full px-2 pl-6">
+        <div className="flex flex-col items-start px-2 pt-0 pt-14 md:pt-16">
+          <h1 className="text-lg font-semibold text-slate-800">
+            Welcome back{firstName ? `, ${firstName}` : <LoadingSpinner />}
+          </h1>
         </div>
 
-      {/* Engagement Form Dialog */}
-      <Dialog open={showEngagementForm} onOpenChange={handleFormClose}>
-        <DialogContent className="mx-auto w-full max-w-[90%] sm:max-w-lg">
-          <DialogHeader>
-            <DialogTitle className="text-center">Log Engagement</DialogTitle>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="absolute right-2 top-2 h-8 w-8 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
-              onClick={handleFormClose}
-            >
-              <X className="h-4 w-4" />
-              <span className="sr-only">Close</span>
-            </Button>
-          </DialogHeader>
-          <ConversationForm
-            initialData={selectedEngagement}
-            onSuccess={handleFormClose}
-            onClose={handleFormClose}
-          />
-        </DialogContent>
-      </Dialog>
+        <NextLessonCard onAttendanceClick={() => setShowAttendanceForm(true)} />
+        <ReferralCard onShareLink={handleCopyReferralLink} onEmailShare={handleEmailShare} />
+        <EngagementCard
+          onNewEngagement={() => setShowEngagementForm(true)}
+          onEditEngagement={handleEditEngagement}
+          recentEngagements={recentEngagements}
+        />
+      </div>
 
-      {/* Attendance Dialog */}
-      <CompletionCodeDialog
-        lessonId="placeholder-id"
-        onSuccess={() => setShowAttendanceForm(false)}
-        open={showAttendanceForm}
-        onOpenChange={setShowAttendanceForm}
-      />
+      <WelcomePopup isOpen={isPopupOpen} onClose={handlePopupClose} />
     </div>
   );
 };

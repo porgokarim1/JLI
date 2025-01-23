@@ -71,7 +71,6 @@ const Register = () => {
       }
 
       toast.success("Registration successful! Your password is: " + password + ". Please save it for future login.");
-      localStorage.setItem("userRegistered", "true");
       navigate("/");
     } catch (error: any) {
       const errorMessage = error instanceof AuthError 

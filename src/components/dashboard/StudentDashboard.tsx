@@ -40,7 +40,7 @@ const StudentDashboard = () => {
         }
 
         const [profileResponse, engagementsResponse] = await Promise.all([
-          supabase.from("profiles").select("first_name").eq("id", user.id).single(),
+          supabase.from("profiles").select().eq("id", user.id).single(),
           supabase.from("conversations").select("*").eq("user_id", user.id).order("conversation_date", { ascending: false }),
         ]);
 
@@ -60,10 +60,9 @@ const StudentDashboard = () => {
           setRecentEngagements(engagements);
         }
 
-        const userJustRegistered = localStorage.getItem("userRegistered") === "true";
-        if (userJustRegistered) {
+        const userAcceptedEula = !!profile?.terms_agreed;
+        if (!userAcceptedEula) {
           setIsPopupOpen(true);
-          localStorage.removeItem("userRegistered"); 
         }
 
       } catch (error) {

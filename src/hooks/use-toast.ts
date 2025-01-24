@@ -1,8 +1,12 @@
 import * as React from "react"
-import type { ToastActionElement, ToastProps } from "@/components/ui/toast"
+
+import type {
+  ToastActionElement,
+  ToastProps,
+} from "@/components/ui/toast"
 
 const TOAST_LIMIT = 1
-const TOAST_REMOVE_DELAY = 1000000
+const TOAST_REMOVE_DELAY = 3000
 
 type ToasterToast = ToastProps & {
   id: string
@@ -67,7 +71,7 @@ const addToRemoveQueue = (toastId: string) => {
   toastTimeouts.set(toastId, timeout)
 }
 
-const reducer = (state: State, action: Action): State => {
+export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "ADD_TOAST":
       return {
@@ -86,6 +90,8 @@ const reducer = (state: State, action: Action): State => {
     case "DISMISS_TOAST": {
       const { toastId } = action
 
+      // ! Side effects ! - This could be extracted into a dismissToast() action,
+      // but I'll keep it here for simplicity
       if (toastId) {
         addToRemoveQueue(toastId)
       } else {
@@ -150,10 +156,15 @@ function toast({ ...props }: Toast) {
       id,
       open: true,
       onOpenChange: (open) => {
-        if (!open) dismiss()
+        if (!open) {
+          dismiss()
+        }
       },
     },
   })
+
+  // Automatically dismiss toast after TOAST_REMOVE_DELAY
+  setTimeout(dismiss, TOAST_REMOVE_DELAY)
 
   return {
     id: id,

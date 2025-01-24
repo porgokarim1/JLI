@@ -27,7 +27,7 @@ const Index = () => {
           setIsLoading(false);
           return;
         }
-        
+
         if (!session) {
           setIsLoggedIn(false);
           setIsLoading(false);
@@ -35,13 +35,13 @@ const Index = () => {
         }
 
         setIsLoggedIn(true);
-        
+
         const { data: profile, error: profileError } = await supabase
           .from('profiles')
           .select('role, terms_agreed')
           .eq('id', session.user.id)
           .single();
-          
+
         if (profileError) {
           console.error('Profile error:', profileError);
           toast.error('Error loading user profile');
@@ -49,7 +49,7 @@ const Index = () => {
         }
 
         setUserRole(profile?.role || null);
-        
+
         // Show welcome popup if terms haven't been agreed to
         if (profile && !profile.terms_agreed) {
           setShowWelcomePopup(true);
@@ -74,16 +74,16 @@ const Index = () => {
 
       if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
         setIsLoggedIn(!!session);
-        
+
         if (session?.user) {
           const { data: profile } = await supabase
             .from('profiles')
             .select('role, terms_agreed')
             .eq('id', session.user.id)
             .single();
-            
+
           setUserRole(profile?.role || null);
-          
+
           // Show welcome popup if terms haven't been agreed to
           if (profile && !profile.terms_agreed) {
             setShowWelcomePopup(true);
@@ -134,7 +134,20 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
-      <NavigationBar />
+      <nav className="h-14 sm:h-16 bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+          <div className="flex items-center h-full">
+            <div className="flex items-center">
+              <img
+                src="https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/lesson_images/logo.png?t=2025-01-02T06%3A41%3A20.422Z"
+                alt="Know Israel"
+                className="h-6 sm:h-8 w-auto"
+              />
+              <span className="font-bold text-lg sm:text-xl text-black ml-2">KNOW ISRAEL</span>
+            </div>
+          </div>
+        </div>
+      </nav>
       <div className="pt-4">
         {!isLoggedIn ? (
           <HeroSection />
@@ -142,9 +155,9 @@ const Index = () => {
           renderDashboard()
         )}
       </div>
-      <WelcomePopup 
-        isOpen={showWelcomePopup} 
-        onClose={() => setShowWelcomePopup(false)} 
+      <WelcomePopup
+        isOpen={showWelcomePopup}
+        onClose={() => setShowWelcomePopup(false)}
       />
     </div>
   );

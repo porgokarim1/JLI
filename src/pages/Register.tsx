@@ -7,6 +7,7 @@ import { CampusInfoStep } from "@/components/registration/steps/CampusInfoStep";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { AuthError } from "@supabase/supabase-js";
+import WelcomePopup from "@/components/welcome/WelcomePopup";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ const Register = () => {
     campus: "",
     organization: "",
   });
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const handleFieldChange = (field: string, value: any) => {
     setFormData((prev) => ({
@@ -69,7 +71,7 @@ const Register = () => {
       }
 
       toast.success("Registration successful! Your password is: " + password + ". Please save it for future login.");
-      navigate("/login");
+      navigate("/");
     } catch (error: any) {
       const errorMessage = error instanceof AuthError 
         ? error.message
@@ -132,6 +134,7 @@ const Register = () => {
           <CurrentStepComponent {...steps[currentStep].props} />
         </div>
       </div>
+      <WelcomePopup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} />
     </div>
   );
 };

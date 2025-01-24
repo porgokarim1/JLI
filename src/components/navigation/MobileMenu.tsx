@@ -1,33 +1,65 @@
 import { Button } from "@/components/ui/button";
-import { LogOut, User, LogIn, UserPlus, Library, MessageSquare, BookOpen } from "lucide-react";
+import { LogOut, User, LogIn, UserPlus, Library, MessageSquare, BookOpen, Home } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "sonner";
+import { useToast } from "@/hooks/use-toast";
 
 interface MobileMenuProps {
-  isAuthenticated: boolean;
   setIsOpen: (isOpen: boolean) => void;
 }
 
-const MobileMenu = ({ isAuthenticated, setIsOpen }: MobileMenuProps) => {
+const MobileMenu = ({ setIsOpen }: MobileMenuProps) => {
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const handleSignOut = async () => {
+    console.log("Starting sign out process...");
     try {
+      localStorage.clear();
+      console.log("Local storage cleared");
+      
       const { error } = await supabase.auth.signOut();
-      if (error) throw error;
-      navigate("/");
-      setIsOpen(false);
-      toast.success("Signed out successfully");
+      
+      if (error) {
+        console.error("Error during sign out:", error);
+        navigate("/login");
+        toast({
+          title: "Sign Out Error",
+          description: "There was an error signing out, but you've been logged out locally.",
+          variant: "destructive",
+        });
+      } else {
+        console.log("Sign out successful");
+        toast({
+          title: "Signed Out",
+          description: "You have been successfully signed out.",
+        });
+        navigate("/login");
+      }
     } catch (error) {
-      console.error("Error signing out:", error);
-      toast.error("Error signing out");
+      console.error("Unexpected error during sign out:", error);
+      localStorage.clear();
+      navigate("/login");
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred. Please try logging in again.",
+        variant: "destructive",
+      });
     }
   };
-
-  if (isAuthenticated) {
     return (
       <>
+        <Button
+          variant="ghost"
+          className="w-full text-left text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
+          onClick={() => {
+            navigate("/");
+            setIsOpen(false);
+          }}
+        >
+          <Home className="h-5 w-5 mr-2" />
+          Engage
+        </Button>
         <Button
           variant="ghost"
           className="w-full text-left text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
@@ -38,17 +70,6 @@ const MobileMenu = ({ isAuthenticated, setIsOpen }: MobileMenuProps) => {
         >
           <BookOpen className="h-5 w-5 mr-2" />
           Lessons
-        </Button>
-        <Button
-          variant="ghost"
-          className="w-full text-left text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
-          onClick={() => {
-            navigate("/");
-            setIsOpen(false);
-          }}
-        >
-          <MessageSquare className="h-5 w-5 mr-2" />
-          Engage
         </Button>
         <Button
           variant="ghost"
@@ -70,7 +91,7 @@ const MobileMenu = ({ isAuthenticated, setIsOpen }: MobileMenuProps) => {
           }}
         >
           <Library className="h-5 w-5 mr-2" />
-          Program Overview
+          Overview
         </Button>
         <Button
           variant="ghost"
@@ -94,33 +115,5 @@ const MobileMenu = ({ isAuthenticated, setIsOpen }: MobileMenuProps) => {
       </>
     );
   }
-
-  return (
-    <>
-      <Button
-        variant="ghost"
-        className="w-full text-left text-gray-700 hover:text-primary hover:bg-gray-50 flex items-center"
-        onClick={() => {
-          navigate("/login");
-          setIsOpen(false);
-        }}
-      >
-        <LogIn className="h-5 w-5 mr-2" />
-        Login
-      </Button>
-      <Button
-        variant="outline"
-        className="w-full flex items-center border-2 border-gray-500 text-gray-500 hover:bg-gray-500/10"
-        onClick={() => {
-          navigate("/register");
-          setIsOpen(false);
-        }}
-      >
-        <UserPlus className="h-5 w-5 mr-2" />
-        Register
-      </Button>
-    </>
-  );
-};
 
 export default MobileMenu;

@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Profile } from "@/components/dashboard/types";
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
+import { formatPhoneNumber } from 'react-phone-number-input';
 import { useUniversities } from "@/hooks/use-universities";
 
 interface ProfileFormProps {
@@ -17,16 +18,16 @@ interface ProfileFormProps {
   onChange: (field: string, value: any) => void;
 }
 
-export const ProfileForm = ({ 
-  profile, 
-  isEditing, 
-  formData, 
-  onSave, 
+export const ProfileForm = ({
+  profile,
+  isEditing,
+  formData,
+  onSave,
   onCancel,
-  onChange 
+  onChange
 }: ProfileFormProps) => {
   const { data: universities = [], isLoading: isLoadingUniversities } = useUniversities();
-  
+
   useEffect(() => {
     if (isEditing && !formData.first_name) {
       onChange('first_name', profile.first_name || '');
@@ -45,7 +46,7 @@ export const ProfileForm = ({
   if (!isEditing) {
     return (
       <div className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
           <div>
             <Label className="text-sm text-gray-500">First Name</Label>
             <p className="text-lg">{profile.first_name}</p>
@@ -55,14 +56,14 @@ export const ProfileForm = ({
             <p className="text-lg">{profile.last_name}</p>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
           <div>
             <Label className="text-sm text-gray-500">Email</Label>
             <p className="text-lg">{profile.email}</p>
           </div>
           <div>
             <Label className="text-sm text-gray-500">Phone</Label>
-            <p className="text-lg">{profile.phone}</p>
+            <p className="text-lg">{profile.phone ? formatPhoneNumber(profile.phone) : ''}</p>
           </div>
         </div>
         <div>
@@ -79,7 +80,7 @@ export const ProfileForm = ({
 
   return (
     <div>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
         <div className="space-y-2">
           <Label htmlFor="first_name">First Name</Label>
           <Input
@@ -101,7 +102,7 @@ export const ProfileForm = ({
           />
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-4 mt-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
         <div className="space-y-2">
           <Label htmlFor="phone">Phone</Label>
           <div className="phone-input-container">
@@ -117,25 +118,13 @@ export const ProfileForm = ({
         </div>
         <div className="space-y-2">
           <Label htmlFor="campus">Campus</Label>
-          <Select 
+          <Input
+            id="campus"
+            name="campus"
             value={formData.campus || ''}
-            onValueChange={(value) => handleInputChange('campus', value)}
-          >
-            <SelectTrigger className="bg-white" disabled={isLoadingUniversities}>
-              <SelectValue placeholder={isLoadingUniversities ? "Loading universities..." : "Select your campus"} />
-            </SelectTrigger>
-            <SelectContent className="bg-white border shadow-lg">
-              {universities.map((university) => (
-                <SelectItem 
-                  key={university} 
-                  value={university}
-                  className="hover:bg-gray-100 cursor-pointer"
-                >
-                  {university}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+            readOnly
+            className="bg-gray-100 cursor-not-allowed"
+          />
         </div>
       </div>
       <div className="flex justify-end gap-4 mt-4">

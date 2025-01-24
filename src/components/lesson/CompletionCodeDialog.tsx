@@ -93,40 +93,40 @@ export const CompletionCodeDialog = ({ lessonId, onSuccess, open, onOpenChange }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>Enter Attendance Code</DialogTitle>
-          <DialogDescription>
-            Please enter the attendance code provided by your instructor to confirm your presence at this lesson.
-          </DialogDescription>
-        </DialogHeader>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="absolute right-2 top-2 h-8 w-8 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
-          onClick={() => onOpenChange(false)}
-        >
-          <X className="h-4 w-4" />
-          <span className="sr-only">Close</span>
+    <DialogContent className="mx-auto w-full max-w-[90%] sm:max-w-lg px-4">
+      <DialogHeader>
+        <DialogTitle>Enter Attendance Code</DialogTitle>
+        <DialogDescription>
+          Please enter the attendance code provided by your instructor to confirm your presence at this lesson.
+        </DialogDescription>
+      </DialogHeader>
+      <Button
+        variant="ghost"
+        size="icon"
+        className="absolute right-2 top-2 h-8 w-8 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+        onClick={() => onOpenChange(false)}
+      >
+        <X className="h-4 w-4" />
+        <span className="sr-only">Close</span>
+      </Button>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="space-y-2">
+          <Input
+            placeholder="Enter attendance code"
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            className="w-full"
+            required
+          />
+          {error && (
+            <p className="text-sm text-red-500">{error}</p>
+          )}
+        </div>
+        <Button type="submit" className="w-full" disabled={isLoading}>
+          {isLoading ? "Verifying..." : "Submit"}
         </Button>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Input
-              placeholder="Enter attendance code"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              className="w-full"
-              required
-            />
-            {error && (
-              <p className="text-sm text-red-500">{error}</p>
-            )}
-          </div>
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? "Verifying..." : "Submit"}
-          </Button>
-        </form>
-      </DialogContent>
-    </Dialog>
+      </form>
+    </DialogContent>
+  </Dialog>
   );
 };

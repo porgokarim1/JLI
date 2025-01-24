@@ -27,7 +27,8 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
     lesson_date: lesson.lesson_date || '',
     lesson_time: lesson.lesson_time || ''
   });
-  
+  console.log(lesson)
+
   useEffect(() => {
     const checkRole = async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -59,7 +60,7 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
         .eq('id', lesson.id);
 
       if (error) throw error;
-      
+
       toast.success('Lesson updated successfully');
       setShowEditDialog(false);
     } catch (error) {
@@ -68,18 +69,47 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
     }
   };
 
+  const formatLessonDate = (date: string | null) => {
+  
+    if (date) {
+      const dateOnly = date.split('T')[0]; 
+  
+      const [year, month, day] = dateOnly.split('-').map(Number);
+  
+
+      const lessonDate = new Date(year, month - 1, day);
+  
+
+      if (lessonDate.getTime()) {
+        const formattedDate = format(lessonDate, 'MMM d');
+        return formattedDate;
+      }
+    }
+    return 'TBD';
+  };
+  
+  
+  
+  const formatLessonTime = (time: string | null) => {
+    if (time) {
+      const parsedTime = new Date(`2000-01-01T${time}`);
+      if (!isNaN(parsedTime.getTime())) {
+        return format(parsedTime, 'p');
+      }
+    }
+    return 'TBD'; // Fallback if invalid
+  };
+
   if (isMobile) {
     return (
       <>
         <Card className="flex h-32 hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-gray-900">
-          {/* Left section (20%) with lesson order */}
           <div className="w-[20%] bg-primary flex items-center justify-center border-r border-gray-900">
             <span className="text-4xl font-bold text-primary-foreground">
               {lesson.lesson_order || '1'}
             </span>
           </div>
 
-          {/* Right section (80%) with lesson details */}
           <div className="w-[80%] p-3 flex flex-col justify-between">
             <div>
               <h3 className="text-sm font-semibold mb-1">{lesson.title}</h3>
@@ -87,15 +117,14 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
             </div>
 
             <div className="flex justify-between items-end">
-              {/* Icons and details in a row */}
               <div className="flex space-x-3 text-xs text-gray-600">
                 <div className="flex items-center gap-1">
                   <Calendar className="h-3 w-3 text-primary" />
-                  <span>{lesson.lesson_date ? format(new Date(lesson.lesson_date), 'MMM d') : 'TBD'}</span>
+                  <span>{formatLessonDate(lesson.lesson_date)}</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <Clock className="h-3 w-3 text-primary" />
-                  <span>{lesson.lesson_time ? format(new Date(`2000-01-01T${lesson.lesson_time}`), 'p') : 'TBD'}</span>
+                  <span>{formatLessonTime(lesson.lesson_time)}</span>
                 </div>
                 <div className="flex items-center gap-1">
                   <MapPin className="h-3 w-3 text-primary" />
@@ -124,24 +153,21 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
                 <Input
                   id="title"
                   value={editedLesson.title}
-                  onChange={(e) => setEditedLesson(prev => ({ ...prev, title: e.target.value }))}
-                />
+                  onChange={(e) => setEditedLesson(prev => ({ ...prev, title: e.target.value }))} />
               </div>
               <div className="grid gap-2">
                 <label htmlFor="description" className="text-sm font-medium">Description</label>
                 <Textarea
                   id="description"
                   value={editedLesson.description}
-                  onChange={(e) => setEditedLesson(prev => ({ ...prev, description: e.target.value }))}
-                />
+                  onChange={(e) => setEditedLesson(prev => ({ ...prev, description: e.target.value }))} />
               </div>
               <div className="grid gap-2">
                 <label htmlFor="location" className="text-sm font-medium">Location</label>
                 <Input
                   id="location"
                   value={editedLesson.location}
-                  onChange={(e) => setEditedLesson(prev => ({ ...prev, location: e.target.value }))}
-                />
+                  onChange={(e) => setEditedLesson(prev => ({ ...prev, location: e.target.value }))} />
               </div>
               <div className="grid gap-2">
                 <label htmlFor="date" className="text-sm font-medium">Date</label>
@@ -149,8 +175,7 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
                   id="date"
                   type="date"
                   value={editedLesson.lesson_date}
-                  onChange={(e) => setEditedLesson(prev => ({ ...prev, lesson_date: e.target.value }))}
-                />
+                  onChange={(e) => setEditedLesson(prev => ({ ...prev, lesson_date: e.target.value }))} />
               </div>
               <div className="grid gap-2">
                 <label htmlFor="time" className="text-sm font-medium">Time</label>
@@ -158,8 +183,7 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
                   id="time"
                   type="time"
                   value={editedLesson.lesson_time}
-                  onChange={(e) => setEditedLesson(prev => ({ ...prev, lesson_time: e.target.value }))}
-                />
+                  onChange={(e) => setEditedLesson(prev => ({ ...prev, lesson_time: e.target.value }))} />
               </div>
             </div>
             <DialogFooter>
@@ -172,33 +196,34 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
     );
   }
 
-  // Desktop view
   return (
     <>
       <Card className="h-full flex flex-col hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-gray-900">
-        {/* Top section with lesson order */}
         <div className="bg-primary p-4 border-b border-gray-900">
           <span className="text-4xl font-bold text-primary-foreground leading-none flex items-center justify-center w-full">
             {lesson.lesson_order || '1'}
           </span>
         </div>
 
-        {/* Bottom section with lesson details */}
         <div className="p-4 flex flex-col flex-grow">
           <div className="flex-1">
             <h3 className="text-sm font-semibold mb-2">{lesson.title}</h3>
             <p className="text-xs text-gray-600 mb-4 line-clamp-2">{lesson.description}</p>
           </div>
 
-          {/* Date, Time, and Location in a row */}
           <div className="flex space-x-3 text-xs text-gray-600">
             <div className="flex items-center gap-1">
               <Calendar className="h-3 w-3 text-primary" />
-              <span>{lesson.lesson_date ? format(new Date(lesson.lesson_date), 'MMM d') : 'TBD'}</span>
+              <span>
+                {(() => {
+                  console.log("desde main" + lesson.lesson_date);
+                  return formatLessonDate(lesson.lesson_date);
+                })()}
+              </span>
             </div>
             <div className="flex items-center gap-1">
               <Clock className="h-3 w-3 text-primary" />
-              <span>{lesson.lesson_time ? format(new Date(`2000-01-01T${lesson.lesson_time}`), 'p') : 'TBD'}</span>
+              <span>{formatLessonTime(lesson.lesson_time)}</span>
             </div>
             <div className="flex items-center gap-1">
               <MapPin className="h-3 w-3 text-primary" />
@@ -206,7 +231,6 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
             </div>
           </div>
 
-          {/* Action buttons */}
           {isInstructor && (
             <div className="flex justify-between items-center mt-4 pt-4 border-t border-gray-200">
               <Button
@@ -240,24 +264,21 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
               <Input
                 id="title"
                 value={editedLesson.title}
-                onChange={(e) => setEditedLesson(prev => ({ ...prev, title: e.target.value }))}
-              />
+                onChange={(e) => setEditedLesson(prev => ({ ...prev, title: e.target.value }))} />
             </div>
             <div className="grid gap-2">
               <label htmlFor="description" className="text-sm font-medium">Description</label>
               <Textarea
                 id="description"
                 value={editedLesson.description}
-                onChange={(e) => setEditedLesson(prev => ({ ...prev, description: e.target.value }))}
-              />
+                onChange={(e) => setEditedLesson(prev => ({ ...prev, description: e.target.value }))} />
             </div>
             <div className="grid gap-2">
               <label htmlFor="location" className="text-sm font-medium">Location</label>
               <Input
                 id="location"
                 value={editedLesson.location}
-                onChange={(e) => setEditedLesson(prev => ({ ...prev, location: e.target.value }))}
-              />
+                onChange={(e) => setEditedLesson(prev => ({ ...prev, location: e.target.value }))} />
             </div>
             <div className="grid gap-2">
               <label htmlFor="date" className="text-sm font-medium">Date</label>
@@ -265,8 +286,7 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
                 id="date"
                 type="date"
                 value={editedLesson.lesson_date}
-                onChange={(e) => setEditedLesson(prev => ({ ...prev, lesson_date: e.target.value }))}
-              />
+                onChange={(e) => setEditedLesson(prev => ({ ...prev, lesson_date: e.target.value }))} />
             </div>
             <div className="grid gap-2">
               <label htmlFor="time" className="text-sm font-medium">Time</label>
@@ -274,8 +294,7 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
                 id="time"
                 type="time"
                 value={editedLesson.lesson_time}
-                onChange={(e) => setEditedLesson(prev => ({ ...prev, lesson_time: e.target.value }))}
-              />
+                onChange={(e) => setEditedLesson(prev => ({ ...prev, lesson_time: e.target.value }))} />
             </div>
           </div>
           <DialogFooter>

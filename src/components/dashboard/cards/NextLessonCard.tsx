@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, MapPin, Calendar, Clock } from "lucide-react";
+import { BookOpen, MapPin, Calendar } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
@@ -18,41 +18,80 @@ type NextLesson = {
   start_time: string | null;
   end_time: string | null;
   university_name: string | null;
-}
+  instructor: {
+    first_name: string;
+    last_name: string;
+  } | null;
+};
 
 export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
   const { data: nextLesson, isLoading } = useQuery({
-    queryKey: ['next-lesson'],
+    queryKey: ["next-lesson"],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Not authenticated');
+      if (!user) throw new Error("Not authenticated");
 
-      // Get user's profile
+      // Fetch the user's campus
       const { data: profile } = await supabase
-        .from('profiles')
-        .select('campus')
-        .eq('id', user.id)
+        .from("profiles")
+        .select("campus")
+        .eq("id", user.id)
         .single();
 
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      
-      const { data, error } = await supabase
-        .from('lessons_view_simple')
-        .select('*')
-        .eq('university_name', profile?.campus)
-        .gte('lesson_date', today.toISOString())
-        .order('lesson_date', { ascending: true })
-        .limit(1)
+      if (!profile?.campus) {
+        throw new Error("User profile or campus not found.");
+      }
+
+      const now = new Date();
+
+      // Fetch the next lesson
+      const { data: lessons, error: lessonError } = await supabase
+        .from("lessons_view_simple")
+        .select("*")
+        .eq("university_name", profile.campus)
+        .order("lesson_date", { ascending: true })
+        .order("start_time", { ascending: true });
+
+      if (lessonError || !lessons || lessons.length === 0) {
+        console.error("Error fetching lessons:", lessonError);
+        throw new Error("No lessons found.");
+      }
+
+      // Filter lessons to find the next one in time
+      const nextLesson = lessons.find((lesson) => {
+        const [year, month, day] = lesson.lesson_date.split('-').map(Number);
+        const lessonDate = new Date(year, month - 1, day);
+
+        const [startHours, startMinutes] = lesson.start_time.split(':').map(Number);
+        const lessonStartTime = new Date(year, month - 1, day, startHours, startMinutes);
+
+        return (
+          lessonDate > now ||
+          (lessonDate.toDateString() === now.toDateString() && lessonStartTime > now)
+        );
+      });
+
+      if (!nextLesson) {
+        throw new Error("No upcoming lessons found.");
+      }
+
+      // Fetch the instructor details
+      const { data: instructor, error: instructorError } = await supabase
+        .from("profiles")
+        .select("first_name, last_name")
+        .eq("id", nextLesson.instructor_id)
         .maybeSingle();
 
-      if (error) {
-        console.error('Error fetching next lesson:', error);
-        throw error;
+      if (instructorError) {
+        console.error("Error fetching instructor:", instructorError);
+        throw new Error("Instructor not found.");
       }
-      
-      return data as NextLesson;
-    }
+
+      return {
+        ...nextLesson,
+        instructor: instructor || null, // Attach instructor data to the lesson
+      } as NextLesson;
+    },
   });
 
   if (isLoading) {
@@ -70,8 +109,13 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
       <CardContent className="p-4">
         <div className="space-y-3">
           {nextLesson?.university_name && (
-            <p className="text-xs text-muted-foreground font-medium border-b pb-2">
+            <p className="text-xs text-muted-foreground font-medium">
               {nextLesson.university_name}
+            </p>
+          )}
+          {nextLesson?.instructor && (
+            <p className="text-xs text-muted-foreground border-b pb-2">
+              Instructor: {nextLesson.instructor.first_name} {nextLesson.instructor.last_name}
             </p>
           )}
           <div className="flex items-center justify-between">
@@ -83,13 +127,23 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
                   <div className="flex items-center gap-1 text-xs text-muted-foreground">
                     <Calendar className="h-4 w-4 flex-shrink-0" />
                     <span>
-                      {nextLesson?.lesson_date && format(new Date(nextLesson.lesson_date), 'EEE. MM/dd/yyyy')}
-                      {nextLesson?.start_time ? ` ⏰ ${format(new Date(`2000-01-01T${nextLesson.start_time}`), 'h:mm a')}` : ' ⏰ TBD'}
+                      {nextLesson?.lesson_date && (() => {
+                        const [year, month, day] = nextLesson.lesson_date.split('-').map(Number);
+                        return format(new Date(year, month - 1, day), "EEE. MM/dd/yyyy");
+                      })()}
+                      {nextLesson?.start_time
+                        ? ` ⏰ ${format(
+                            new Date(`2000-01-01T${nextLesson.start_time}`),
+                            "h:mm a"
+                          )}`
+                        : " ⏰ TBD"}
                     </span>
                   </div>
                   <div className="flex items-center gap-1 text-xs text-muted-foreground">
                     <MapPin className="h-4 w-4 flex-shrink-0" />
-                    <span className="truncate">{nextLesson?.location || 'Location TBD'}</span>
+                    <span className="truncate">
+                      {nextLesson?.location || "Location TBD"}
+                    </span>
                   </div>
                   {nextLesson?.title && (
                     <p className="text-sm font-semibold leading-relaxed">
@@ -99,7 +153,7 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
                 </div>
               </div>
             </div>
-            <Button 
+            <Button
               variant="default"
               className="text-black h-8 text-xs whitespace-nowrap"
               onClick={onAttendanceClick}

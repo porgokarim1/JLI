@@ -270,7 +270,7 @@ const ProfilePage = () => {
             </Suspense>
           </ErrorBoundary>
           <div className="mt-8">
-              <h3 className="text-lg font-semibold mb-4">Contact Support</h3>
+              <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
               <form onSubmit={handleContactSubmit} className="space-y-4">
                 <div>
                   <Label htmlFor="subject" className="block text-sm font-medium mb-2">

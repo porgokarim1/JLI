@@ -48,6 +48,10 @@ export const RewardTierInfo = ({ totalPeers }: RewardTierInfoProps) => {
 
     const goalNumber = nextTarget === 7 ? 1 : nextTarget === 15 ? 2 : 3;
 
+    if (count >= 25 ) {
+      return `Congrats, you've engaged ${count} ${count === 1 ? "peer" : "peers"}.`;
+    }
+
     return `Congrats, you've engaged ${count} ${count === 1 ? "peer" : "peers"}.\n${remaining} more to reach goal ${goalNumber}`;
   };
 

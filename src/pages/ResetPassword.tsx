@@ -116,6 +116,11 @@ export default function ForgotPassword() {
         >
           {loading ? "Sending..." : "Send reset email"}
         </Button>
+        <div className="text-center mt-4">
+          <a href="/" className="text-sm px-4 py-2 text-yellow-600">
+            Go Back to Home
+          </a>
+        </div>
       </div>
     </div>
   );

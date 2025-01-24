@@ -219,7 +219,7 @@ const ProfilePage = () => {
       if (!profile) throw new Error('Profile not found');
 
       const response = await supabase.rpc('send_email', {
-        to_email: 'stern@trisso.com',
+        to_email: 'zlatopolsky@sinaischolars.com',
         subject: contactForm.subject,
         html_content: `<p><strong>Sender:</strong> ${profile.first_name} ${profile.last_name} (${profile.email})</p>
         <p>From: Contact Us - Student App</p>

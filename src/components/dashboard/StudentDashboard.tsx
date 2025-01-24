@@ -10,8 +10,6 @@ import { ReferralCard } from "./cards/ReferralCard";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import NavigationBar from "../navigation/NavigationBar";
-import confetti from "canvas-confetti";
-import { Sparkles } from "lucide-react";
 import WelcomePopup from "@/components/welcome/WelcomePopup";
 
 const REFERRAL_URL = "knowisrael.app";

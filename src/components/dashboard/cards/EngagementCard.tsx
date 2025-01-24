@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Handshake, FilePenLine} from "lucide-react";
+import { Handshake, FilePenLine } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
@@ -47,11 +47,36 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
     }
   };
 
+  const options = [
+    {
+      count: 1,
+      image: "https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/General%20images/onePersonBlack.png",
+      sublabel: "1"
+    },
+    {
+      count: 2,
+      image: "https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/General%20images/twoPeopleBlack.png",
+      sublabel: "2"
+    },
+    {
+      count: 3,
+      image: "https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/General%20images/threePeopleBlack.png",
+      sublabel: "3"
+    },
+    {
+      count: 4,
+      image: "https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/General%20images/fourPeopleBlack.png",
+      sublabel: "4+"
+    }
+  ];
+
   const getPeersIcon = (count: number) => {
-    if (count === 1) return "👤";
-    if (count === 2) return "👥";
-    if (count === 3) return "👤👥";
-    return "👥👤+";
+    const option = options.find((opt) => opt.count === count) || options[options.length - 1];
+    return (
+      <div className="flex flex-col items-center">
+        <img src={option.image} alt={`Peers: ${option.sublabel}`} className="h-6 w-6" />
+      </div>
+    );
   };
 
   return (
@@ -114,7 +139,7 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
                     variant="ghost"
                     size="icon"
                     onClick={() => onEditEngagement(engagement)}
-                    className="h-8 w-8 text-gray-400 hover:text-primary shrink-0 ml-1 absolute right-4"
+                    className="h-8 w-8 text-gray-400 shrink-0 ml-1 absolute right-4"
                   >
                     <FilePenLine className="h-4 w-4" />
                     <span className="sr-only">Edit engagement</span>

@@ -94,7 +94,7 @@ const Login = () => {
                     onChange={(e) => setFormData({...formData, password: e.target.value})}
                     disabled={isLoading}
                   />
-                  {/* <p className="text-xs text-gray-500">Forgot password? <Link to="/reset-password" className="text-primary">Reset password</Link></p> */}
+                 <p className="text-xs text-gray-500">Forgot password? <Link to="/reset-password" className="text-primary">Reset password</Link></p>
                 </div>
               </div>
 

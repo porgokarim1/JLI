@@ -10,6 +10,14 @@ export default function ForgotPassword() {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
+  const generatePassword = (firstName, lastName, phone) => {
+    const firstInitial = firstName.charAt(0).toUpperCase();
+    const lastInitial = lastName.charAt(0).toUpperCase();
+    const cleanPhone = phone.replace(/\D/g, "");
+    const last4Digits = cleanPhone.slice(-4);
+    return `${firstInitial}${lastInitial}${last4Digits}`;
+  };
+
   const handlePasswordReset = async () => {
     if (!email) {
       toast({
@@ -25,12 +33,12 @@ export default function ForgotPassword() {
     try {
       const { data, error } = await supabase
         .from("profiles")
-        .select("id")
+        .select("id, first_name, last_name, phone")
         .eq("email", email)
         .single();
 
-      if (error) {
-        console.error("Error searching for user:", error);
+      if (error || !data) {
+        console.error("Error fetching profile:", error);
         toast({
           title: "Error",
           description: "No user found with that email.",
@@ -40,24 +48,24 @@ export default function ForgotPassword() {
         return;
       }
 
-      const userId = data?.id;
-      if (!userId) {
-        toast({
-          title: "Error",
-          description: "User not found.",
-          variant: "destructive",
-        });
-        setLoading(false);
-        return;
-      }
+      const { first_name, last_name, phone } = data;
+      const generatedPassword = generatePassword(first_name, last_name, phone);
 
-      const { error: procedureError } = await supabase.rpc(
-        "resend_student_password_email",
-        { user_id: userId }
-      );  
+      const subject = "Your Password Reset";
+      const htmlContent = `
+        <p>Hello ${first_name},</p>
+        <p>Your password is: <b>${generatedPassword}</b></p>
+        <p>Thank you.</p>
+      `;
 
-      if (procedureError) {
-        console.error("Error calling procedure:", procedureError);
+      const { error: emailError } = await supabase.rpc("send_email", {
+        to_email: email,
+        subject,
+        html_content: htmlContent,
+      });
+
+      if (emailError) {
+        console.error("Error sending email:", emailError);
         toast({
           title: "Error",
           description: "The email could not be sent. Please try again later.",
@@ -72,7 +80,7 @@ export default function ForgotPassword() {
         description: "Reset email sent successfully.",
       });
     } catch (err) {
-      console.error("Error in handlePasswordReset:", err);
+      console.error("Unexpected error:", err);
       toast({
         title: "Error",
         description: "An unexpected error occurred. Please try again later.",

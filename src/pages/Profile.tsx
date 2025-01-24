@@ -11,7 +11,9 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
 import { useToast } from "@/components/ui/use-toast";import BottomNav from "@/components/navigation/BottomNav";
-;
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 
 
 const fetchProfile = async () => {
@@ -193,6 +195,57 @@ const ProfilePage = () => {
       });
     }
   };
+  const [contactForm, setContactForm] = useState({
+    subject: '',
+    message: '',
+  });
+
+  const [sendingEmail, setSendingEmail] = useState(false);
+
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSendingEmail(true);
+
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) throw new Error('No session found');
+
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('first_name, last_name, email')
+        .eq('id', session.user.id)
+        .single();
+
+      if (!profile) throw new Error('Profile not found');
+
+      const response = await supabase.rpc('send_email', {
+        to_email: 'stern@trisso.com',
+        subject: contactForm.subject,
+        html_content: `<p><strong>Sender:</strong> ${profile.first_name} ${profile.last_name} (${profile.email})</p>
+        <p>From: Contact Us - Student App</p>
+        <p>${contactForm.message}</p>`
+      });
+
+      if (response.error) throw new Error(response.error.message);
+
+      toast({
+        title: "Message Sent",
+        description: "Your message has been sent successfully.",
+      });
+
+      setContactForm({ subject: '', message: '' });
+    } catch (error) {
+      console.error('Error sending contact email:', error);
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setSendingEmail(false);
+    }
+  };
+
 
   if (isLoading) {
     return (
@@ -216,6 +269,42 @@ const ProfilePage = () => {
               <ProfileContent profile={profile} onSignOut={handleSignOut} />
             </Suspense>
           </ErrorBoundary>
+          <div className="mt-8">
+              <h3 className="text-lg font-semibold mb-4">Contact Support</h3>
+              <form onSubmit={handleContactSubmit} className="space-y-4">
+                <div>
+                  <Label htmlFor="subject" className="block text-sm font-medium mb-2">
+                    Subject
+                  </Label>
+                  <Input
+                    id="subject"
+                    value={contactForm.subject}
+                    onChange={(e) => setContactForm({ ...contactForm, subject: e.target.value })}
+                    required
+                    placeholder="Subject of your message"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="message" className="block text-sm font-medium mb-2">
+                    Message
+                  </Label>
+                  <Textarea
+                    id="message"
+                    value={contactForm.message}
+                    onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+                    required
+                    placeholder="Write your message here"
+                  />
+                </div>
+                <Button
+                  type="submit"
+                  className="w-full sm:w-auto"
+                  disabled={sendingEmail}
+                >
+                  {sendingEmail ? "Sending..." : "Send Message"}
+                </Button>
+              </form>
+            </div>
         </div>
       </div>
     </div>

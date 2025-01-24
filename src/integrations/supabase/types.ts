@@ -1153,3 +1153,12 @@ export type CompositeTypes<
   : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
     ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
+
+declare module '@supabase/supabase-js' {
+  interface SupabaseClient {
+    rpc<T = any>(
+      fn: 'resend_password_email' | Database['public']['Functions']['Name'],
+      args?: Record<string, unknown>
+    ): Promise<{ data: T; error: null } | { data: null; error: any }>;
+  }
+}

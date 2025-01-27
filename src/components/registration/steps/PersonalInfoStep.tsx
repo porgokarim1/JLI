@@ -36,7 +36,12 @@ export const PersonalInfoStep = ({ formData, onChange, onNext, isLoading }: Pers
             required
             autoFocus
             value={formData.firstName}
-            onChange={(e) => onChange("firstName", e.target.value)}
+            onChange={(e) => {
+              if (/^[a-zA-Z\s]*$/.test(e.target.value)) {
+                onChange("firstName", e.target.value);
+              }
+            }}
+            pattern="^[a-zA-Z\s]*$"
           />
         </div>
 
@@ -46,8 +51,13 @@ export const PersonalInfoStep = ({ formData, onChange, onNext, isLoading }: Pers
             id="lastName"
             required
             value={formData.lastName}
-            onChange={(e) => onChange("lastName", e.target.value)}
             onKeyDown={handleLastNameKeyDown}
+            onChange={(e) => {
+              if (/^[a-zA-Z\s]*$/.test(e.target.value)) {
+                onChange("lastName", e.target.value);
+              }
+            }}
+            pattern="^[a-zA-Z\s]*$"
           />
         </div>
       </div>

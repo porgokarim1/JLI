@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, MapPin, Calendar } from "lucide-react";
+import { BookOpen, MapPin, Calendar, Clock } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
@@ -125,22 +125,30 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
                 <h3 className="font-medium text-sm">Next Lesson</h3>
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                    <Calendar className="h-4 w-4 flex-shrink-0" />
+                    <Calendar className="h-3 w-3 text-primary flex-shrink-0" />
                     <span>
                       {nextLesson?.lesson_date && (() => {
                         const [year, month, day] = nextLesson.lesson_date.split('-').map(Number);
                         return format(new Date(year, month - 1, day), "EEE. MM/dd/yyyy");
                       })()}
-                      {nextLesson?.start_time
-                        ? ` ⏰ ${format(
-                            new Date(`2000-01-01T${nextLesson.start_time}`),
-                            "h:mm a"
-                          )}`
-                        : " ⏰ TBD"}
                     </span>
+                    {nextLesson?.start_time ? (
+                      <span className="flex items-center gap-1">
+                        <Clock className="h-3 w-3 text-primary flex-shrink-0" />
+                        {format(
+                          new Date(`2000-01-01T${nextLesson.start_time}`),
+                          "h:mm a"
+                        )}
+                      </span>
+                    ) : (
+                      <span className="flex items-center gap-1">
+                        <Clock className="h-3 w-3 text-primary flex-shrink-0" />
+                        TBD
+                      </span>
+                    )}
                   </div>
                   <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                    <MapPin className="h-4 w-4 flex-shrink-0" />
+                    <MapPin className="h-3 w-3 text-primary flex-shrink-0" />
                     <span className="truncate">
                       {nextLesson?.location || "Location TBD"}
                     </span>

@@ -24,8 +24,14 @@ export const CampusInfoStep = ({ formData, onChange, onNext, onBack, isLoading }
         <div>
           <Label htmlFor="campus">Your Campus</Label>
           <CampusSelector
-            value={formData.campus}
-            onChange={(value) => onChange("campus", value)}
+            value={
+              formData.campus
+                ? { value: formData.campus, label: formData.campus }
+                : null
+            }
+            onChange={(selectedOption) =>
+              onChange("campus", selectedOption?.value || "")
+            }
           />
         </div>
       </div>
@@ -40,7 +46,7 @@ export const CampusInfoStep = ({ formData, onChange, onNext, onBack, isLoading }
           </div>
 
           <div className="flex gap-4">
-            <Button 
+            <Button
               variant="outline"
               onClick={onBack}
               className="flex-1"
@@ -49,7 +55,7 @@ export const CampusInfoStep = ({ formData, onChange, onNext, onBack, isLoading }
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back
             </Button>
-            <Button 
+            <Button
               onClick={onNext}
               className="flex-1"
               disabled={isLoading || !formData.campus}

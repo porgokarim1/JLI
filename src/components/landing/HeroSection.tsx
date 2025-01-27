@@ -20,7 +20,7 @@ const HeroSection = () => {
             <div className="pt-2 flex flex-col sm:flex-row gap-2 justify-center">
               <Button 
                 size="lg"
-                className="w-full sm:w-auto bg-[#FFD700] text-black hover:bg-[#FFD700]/90"
+                className="w-full sm:w-auto"
                 onClick={() => navigate("/register")}
               >
                 Join
@@ -28,7 +28,7 @@ const HeroSection = () => {
               <Button 
                 size="lg"
                 variant="outline"
-                className="w-full sm:w-auto border-2 border-[#8E9196] text-[#8E9196] hover:bg-[#8E9196] hover:text-white"
+                className="w-full sm:w-auto"
                 onClick={() => navigate("/login")}
               >
                 Login

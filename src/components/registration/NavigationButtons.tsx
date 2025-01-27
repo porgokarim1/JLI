@@ -37,7 +37,7 @@ export const NavigationButtons = ({
           <Button
             variant="outline"
             onClick={onBack}
-            className="flex-1 border-[#8E9196] text-[#8E9196] hover:bg-gray-50"
+            className="flex-1"
             disabled={isLoading}
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
@@ -48,7 +48,7 @@ export const NavigationButtons = ({
           <Button
             variant="outline"
             onClick={() => navigate("/")}
-            className={`flex-1 border-[#8E9196] text-[#8E9196] hover:bg-gray-50 ${homeButtonClassName}`}
+            className={`flex-1 ${homeButtonClassName}`}
             disabled={isLoading}
           >
             <Home className="mr-2 h-4 w-4" />
@@ -57,7 +57,7 @@ export const NavigationButtons = ({
         )}
         <Button
           onClick={onNext}
-          className="flex-1 bg-[#FFD700] text-black hover:bg-[#FFD700]/90"
+          className="flex-1"
           disabled={isLoading || isNextDisabled}
         >
           Next

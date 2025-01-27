@@ -101,7 +101,7 @@ const Login = () => {
               <div className="flex flex-col space-y-4 sticky bottom-4 bg-white/70 backdrop-blur-sm py-4">
                 <Button 
                   type="submit"
-                  className="w-full bg-[#FFD700] hover:bg-[#FFD700]/90 text-black"
+                  className="w-full"
                   disabled={isLoading}
                 >
                   {isLoading ? "Logging in..." : "Login"}
@@ -110,7 +110,7 @@ const Login = () => {
                   type="button"
                   variant="outline"
                   onClick={() => navigate("/register")}
-                  className="w-full border-gray-500 text-gray-500 hover:bg-gray-500/10"
+                  className="w-full"
                   disabled={isLoading}
                 >
                   Join

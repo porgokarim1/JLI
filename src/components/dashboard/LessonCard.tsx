@@ -103,7 +103,7 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
   if (isMobile) {
     return (
       <>
-        <Card className="flex h-32 hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-gray-900">
+        <Card className="flex h-36 hover:shadow-lg transition-shadow bg-white/90 backdrop-blur-sm border-gray-900">
           <div className="w-[20%] bg-primary flex items-center justify-center border-r border-gray-900">
             <span className="text-4xl font-bold text-primary-foreground">
               {lesson.lesson_order || '1'}
@@ -117,7 +117,7 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
             </div>
 
             <div className="flex justify-between items-end">
-              <div className="flex space-x-3 text-xs text-gray-600">
+              <div className="flex space-x-2 text-xs text-gray-600">
                 <div className="flex items-center gap-1">
                   <Calendar className="h-3 w-3 text-primary" />
                   <span>{formatLessonDate(lesson.lesson_date)}</span>
@@ -126,6 +126,10 @@ export const LessonCard = ({ lesson }: LessonCardProps) => {
                   <Clock className="h-3 w-3 text-primary" />
                   <span>{formatLessonTime(lesson.lesson_time)}</span>
                 </div>
+              </div>
+            </div>
+            <div className="flex justify-between items-end">
+              <div className="flex space-x-1 text-xs text-gray-600">
                 <div className="flex items-center gap-1">
                   <MapPin className="h-3 w-3 text-primary" />
                   <span className="truncate">{lesson.location || 'TBD'}</span>

@@ -87,7 +87,11 @@ export const ProfileForm = ({
             id="first_name"
             name="first_name"
             value={formData.first_name || ''}
-            onChange={(e) => handleInputChange('first_name', e.target.value)}
+            onChange={(e) => {
+              if (/^[a-zA-Z\s]*$/.test(e.target.value)) 
+                {handleInputChange('first_name', e.target.value)}}
+            }
+            pattern="^[a-zA-Z\s]*$"
             className="bg-white"
           />
         </div>
@@ -97,7 +101,11 @@ export const ProfileForm = ({
             id="last_name"
             name="last_name"
             value={formData.last_name || ''}
-            onChange={(e) => handleInputChange('last_name', e.target.value)}
+            onChange={(e) => {
+              if (/^[a-zA-Z\s]*$/.test(e.target.value)) 
+                {handleInputChange('last_name', e.target.value)}}
+            }
+            pattern="^[a-zA-Z\s]*$"
             className="bg-white"
           />
         </div>

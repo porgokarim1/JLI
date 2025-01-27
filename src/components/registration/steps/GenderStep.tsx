@@ -65,7 +65,7 @@ export const GenderStep = ({ formData, onChange, onNext, onBack }: GenderStepPro
           <Button
             variant="outline"
             onClick={onBack}
-            className="flex-1 border-[#8E9196] text-[#8E9196] hover:bg-gray-50"
+            className="flex-1"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back

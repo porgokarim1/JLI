@@ -103,7 +103,7 @@ const ProfileContent = ({ profile, onSignOut }: { profile: Profile, onSignOut: (
     <>
       {isMobile && (
         <Button
-          variant="destructive"
+          variant="outline"
           onClick={onSignOut}
           className="w-full mb-4 flex items-center justify-center gap-2"
         >
@@ -118,16 +118,15 @@ const ProfileContent = ({ profile, onSignOut }: { profile: Profile, onSignOut: (
             {profile.first_name} {profile.last_name}
           </CardTitle>
           <Button
-            variant={isEditing ? "destructive" : "outline"}
             onClick={() => {
               if (isEditing) {
                 setFormData({});
               }
               setIsEditing(!isEditing);
             }}
-            className={`transition-all hover:scale-105 text-black text-sm ml-4 ${!isEditing ? 'block' : 'hidden'}`} // Se oculta cuando está editando
+            className={`text-black text-sm ml-4 ${!isEditing ? 'block' : 'hidden'}`} // Se oculta cuando está editando
           >
-            {isEditing ? '❌ Cancel' : '✏️ Edit Profile'}
+            {isEditing ? '❌ Cancel' : 'Edit Profile'}
           </Button>
         </CardHeader>
         <CardContent className="pt-4">

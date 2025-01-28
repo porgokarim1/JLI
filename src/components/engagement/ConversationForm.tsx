@@ -229,6 +229,7 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
                   placeholder="Share your experience..."
                   {...field}
                   className="min-h-[60px] text-sm resize-none w-full border border-gray-300"
+                  autoFocus
                 />
               </FormControl>
               <FormMessage />

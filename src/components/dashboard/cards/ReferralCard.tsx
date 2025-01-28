@@ -18,7 +18,7 @@ export const ReferralCard = ({ onShareLink, onEmailShare }: ReferralCardProps) =
           url: 'https://knowisrael.app'
         });
       } else {
-        // Fallback to copying to clipboard
+
         await navigator.clipboard.writeText('https://knowisrael.app');
         toast.success('Link copied to clipboard!');
       }

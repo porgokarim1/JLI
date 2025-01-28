@@ -117,6 +117,7 @@ export const CompletionCodeDialog = ({ lessonId, onSuccess, open, onOpenChange }
             onChange={(e) => setCode(e.target.value)}
             className="w-full"
             required
+            autoFocus
           />
           {error && (
             <p className="text-sm text-red-500">{error}</p>

@@ -124,9 +124,9 @@ const ProfileContent = ({ profile, onSignOut }: { profile: Profile, onSignOut: (
               }
               setIsEditing(!isEditing);
             }}
-            className={`text-black text-sm ml-4 ${!isEditing ? 'block' : 'hidden'}`} // Se oculta cuando está editando
+            className={`text-black text-sm ml-4 ${!isEditing ? 'block' : 'hidden'}`}
           >
-            {isEditing ? '❌ Cancel' : 'Edit Profile'}
+            Edit Profile
           </Button>
         </CardHeader>
         <CardContent className="pt-4">
@@ -268,42 +268,48 @@ const ProfilePage = () => {
               <ProfileContent profile={profile} onSignOut={handleSignOut} />
             </Suspense>
           </ErrorBoundary>
-          <div className="mt-8">
-              <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
-              <form onSubmit={handleContactSubmit} className="space-y-4">
-                <div>
-                  <Label htmlFor="subject" className="block text-sm font-medium mb-2">
-                    Subject
-                  </Label>
-                  <Input
-                    id="subject"
-                    value={contactForm.subject}
-                    onChange={(e) => setContactForm({ ...contactForm, subject: e.target.value })}
-                    required
-                    placeholder="Subject of your message"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="message" className="block text-sm font-medium mb-2">
-                    Message
-                  </Label>
-                  <Textarea
-                    id="message"
-                    value={contactForm.message}
-                    onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-                    required
-                    placeholder="Write your message here"
-                  />
-                </div>
-                <Button
-                  type="submit"
-                  className="w-full sm:w-auto"
-                  disabled={sendingEmail}
-                >
-                  {sendingEmail ? "Sending..." : "Send Message"}
-                </Button>
-              </form>
-            </div>
+          {/* Contact Us Card */}
+          <Card className="bg-white border-2 border-gray-400">
+          <CardContent className="p-4 sm:p-6">
+            <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
+            <form onSubmit={handleContactSubmit} className="space-y-4">
+              <div>
+                <Label htmlFor="subject" className="block text-sm font-medium mb-2">
+                  Subject
+                </Label>
+                <Input
+                  id="subject"
+                  value={contactForm.subject}
+                  onChange={(e) => setContactForm({ ...contactForm, subject: e.target.value })}
+                  required
+                  placeholder="Subject of your message"
+                  className="bg-white"
+                />
+              </div>
+              <div>
+                <Label htmlFor="message" className="block text-sm font-medium mb-2">
+                  Message
+                </Label>
+                <Textarea
+                  id="message"
+                  value={contactForm.message}
+                  onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+                  required
+                  placeholder="Write your message here"
+                  className="bg-white"
+                />
+              </div>
+              <Button
+                type="submit"
+                className="w-full sm:w-auto"
+                disabled={sendingEmail}
+              >
+                {sendingEmail ? "Sending..." : "Send Message"}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+
         </div>
       </div>
     </div>

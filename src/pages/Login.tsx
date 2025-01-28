@@ -16,33 +16,49 @@ const Login = () => {
     email: "",
     password: "",
   });
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      // Proceed with login only if not an instructor
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        email: formData.email,
-        password: formData.password,
-      });
+        const email = formData.email;
 
-      if (signInError) throw signInError;
-      toast({
-        title: "Successfully logged in!",
-      });
-      navigate("/");
+        const { data: profileData, error: profileError } = await supabase
+            .from("profiles")
+            .select("role")
+            .eq("email", email)
+            .single();
+
+        if (profileError) throw profileError;
+
+        if (profileData?.role === "instructor") {
+            window.location.href = "https://teacher.knowisrael.app/";
+            return;
+        }
+
+
+        const { error: signInError } = await supabase.auth.signInWithPassword({
+            email: formData.email,
+            password: formData.password,
+        });
+
+        if (signInError) throw signInError;
+
+        toast({
+            title: "Successfully logged in!",
+        });
+        navigate("/");
     } catch (error: any) {
-      setIsLoading(false);
-      toast({
-        title: "Error during login: " + error.message,
-      });
+        setIsLoading(false);
+        toast({
+            title: "Error during login: " + error.message,
+        });
     } finally {
-      setIsLoading(false);
+        setIsLoading(false);
     }
-  };
-
+};
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md mx-auto">

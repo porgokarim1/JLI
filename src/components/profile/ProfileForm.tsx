@@ -88,8 +88,8 @@ export const ProfileForm = ({
             name="first_name"
             value={formData.first_name || ''}
             onChange={(e) => {
-              if (/^[a-zA-Z\s]*$/.test(e.target.value)) 
-                {handleInputChange('first_name', e.target.value)}}
+              if (/^[a-zA-Z\s]*$/.test(e.target.value)) { handleInputChange('first_name', e.target.value) }
+            }
             }
             pattern="^[a-zA-Z\s]*$"
             className="bg-white"
@@ -102,8 +102,8 @@ export const ProfileForm = ({
             name="last_name"
             value={formData.last_name || ''}
             onChange={(e) => {
-              if (/^[a-zA-Z\s]*$/.test(e.target.value)) 
-                {handleInputChange('last_name', e.target.value)}}
+              if (/^[a-zA-Z\s]*$/.test(e.target.value)) { handleInputChange('last_name', e.target.value) }
+            }
             }
             pattern="^[a-zA-Z\s]*$"
             className="bg-white"
@@ -111,6 +111,10 @@ export const ProfileForm = ({
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
+        <div className="space-y-2">
+          <Label>Email</Label>
+          <p className="text-lg">{profile.email}</p>
+        </div>
         <div className="space-y-2">
           <Label htmlFor="phone">Phone</Label>
           <div className="phone-input-container">
@@ -124,15 +128,11 @@ export const ProfileForm = ({
             />
           </div>
         </div>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
         <div className="space-y-2">
-          <Label htmlFor="campus">Campus</Label>
-          <Input
-            id="campus"
-            name="campus"
-            value={formData.campus || ''}
-            readOnly
-            className="bg-gray-100 cursor-not-allowed"
-          />
+          <Label>Campus</Label>
+          <p className="text-lg">{profile.campus}</p>
         </div>
       </div>
       <div className="flex justify-end gap-4 mt-4">

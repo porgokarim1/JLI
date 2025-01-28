@@ -89,7 +89,7 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
 
       return {
         ...nextLesson,
-        instructor: instructor || null, // Attach instructor data to the lesson
+        instructor: instructor || null,
       } as NextLesson;
     },
   });

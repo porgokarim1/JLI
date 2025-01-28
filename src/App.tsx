@@ -73,7 +73,6 @@ const AuthenticatedRoute = ({ children }: { children: React.ReactNode }) => {
             setTeacherValidated(true);
             setValidatingTeacher(false);
           } else {
-            // If not an instructor, sign them out
             setTeacherValidated(false);
             setValidatingTeacher(false);
           }

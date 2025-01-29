@@ -311,6 +311,7 @@ export type Database = {
           role: Database["public"]["Enums"]["user_role"] | null
           terms_agreed: boolean | null
           terms_agreed_at: string | null
+          password: string | null
           updated_at: string
         }
         Insert: {

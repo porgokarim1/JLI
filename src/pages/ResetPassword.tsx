@@ -10,14 +10,6 @@ export default function ForgotPassword() {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
-  const generatePassword = (firstName, lastName, phone) => {
-    const firstInitial = firstName.charAt(0).toUpperCase();
-    const lastInitial = lastName.charAt(0).toUpperCase();
-    const cleanPhone = phone.replace(/\D/g, "");
-    const last4Digits = cleanPhone.slice(-4);
-    return `${firstInitial}${lastInitial}${last4Digits}`;
-  };
-
   const handlePasswordReset = async () => {
     if (!email) {
       toast({
@@ -33,7 +25,7 @@ export default function ForgotPassword() {
     try {
       const { data, error } = await supabase
         .from("profiles")
-        .select("id, first_name, last_name, phone")
+        .select("id, first_name, password")
         .eq("email", email)
         .single();
 
@@ -48,13 +40,12 @@ export default function ForgotPassword() {
         return;
       }
 
-      const { first_name, last_name, phone } = data;
-      const generatedPassword = generatePassword(first_name, last_name, phone);
+      const { first_name, password } = data;
 
       const subject = "Your Password Reset";
       const htmlContent = `
         <p>Hello ${first_name},</p>
-        <p>Your password is: <b>${generatedPassword}</b></p>
+        <p>Your password is: <b>${password}</b></p>
         <p>Thank you.</p>
       `;
 

@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState } from "react"; 
 import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/components/ui/use-toast";;
+import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { LogIn } from "lucide-react";
 
@@ -16,49 +16,57 @@ const Login = () => {
     email: "",
     password: "",
   });
-  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-        const email = formData.email;
-
-        const { data: profileData, error: profileError } = await supabase
-            .from("profiles")
-            .select("role")
-            .eq("email", email)
-            .single();
-
-        if (profileError) throw profileError;
-
-        if (profileData?.role === "instructor") {
-            window.location.href = "https://teacher.knowisrael.app/";
-            return;
-        }
+      const email = formData.email.trim().toLowerCase();
 
 
-        const { error: signInError } = await supabase.auth.signInWithPassword({
-            email: formData.email,
-            password: formData.password,
-        });
+      const { data: profileData, error: profileError } = await supabase
+        .from("profiles")
+        .select("email, role")
+        .eq("email", email)
+        .single();
 
-        if (signInError) throw signInError;
-
+      if (profileError || !profileData) {
         toast({
-            title: "Successfully logged in!",
+          title: "Error",
+          description: "The email entered is incorrect. Please try again.",
         });
-        navigate("/");
+        setIsLoading(false);
+        return;
+      }
+
+      if (profileData.role === "instructor") {
+        window.location.href = "https://teacher.knowisrael.app/";
+        return;
+      }
+
+
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (signInError) throw signInError;
+
+      toast({
+        title: "Successfully logged in!",
+      });
+      navigate("/");
     } catch (error: any) {
-        setIsLoading(false);
-        toast({
-            title: "Error during login: " + error.message,
-        });
+      setIsLoading(false);
+      toast({
+        title: "Error during login: " + error.message,
+      });
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
-};
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md mx-auto">

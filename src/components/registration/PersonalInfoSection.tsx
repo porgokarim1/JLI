@@ -1,7 +1,8 @@
+import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import PhoneInput from 'react-phone-number-input';
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 
 interface PersonalInfoSectionProps {
@@ -17,7 +18,14 @@ interface PersonalInfoSectionProps {
 }
 
 export const PersonalInfoSection = ({ formData, onChange }: PersonalInfoSectionProps) => {
+  const [phoneError, setPhoneError] = useState<string | null>(null);
+
   const handlePhoneChange = (value: string | undefined) => {
+    if (value && !isValidPhoneNumber(value)) {
+      setPhoneError("Invalid phone number. Please enter a valid one.");
+    } else {
+      setPhoneError(null);
+    }
     onChange("phone", value || "");
   };
 
@@ -37,7 +45,7 @@ export const PersonalInfoSection = ({ formData, onChange }: PersonalInfoSectionP
           <Label htmlFor="middleName">Middle Name (Optional)</Label>
           <Input
             id="middleName"
-            value={formData.middleName || ''}
+            value={formData.middleName || ""}
             onChange={(e) => onChange("middleName", e.target.value)}
           />
         </div>
@@ -92,10 +100,11 @@ export const PersonalInfoSection = ({ formData, onChange }: PersonalInfoSectionP
             international
             countryCallingCodeEditable={false}
             defaultCountry="US"
-            value={formData.phone || ''}
+            value={formData.phone || ""}
             onChange={handlePhoneChange}
           />
         </div>
+        {phoneError && <p className="text-red-500 text-sm mt-1">{phoneError}</p>}
       </div>
     </div>
   );

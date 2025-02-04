@@ -1,10 +1,10 @@
+import { useState, useRef, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, CheckCircle2, Circle } from "lucide-react";
-import PhoneInput from 'react-phone-number-input';
-import 'react-phone-number-input/style.css';
-import { useRef, useEffect } from 'react';
+import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 
 interface ContactInfoStepProps {
   formData: {
@@ -18,6 +18,7 @@ interface ContactInfoStepProps {
 }
 
 export const ContactInfoStep = ({ formData, onChange, onNext, onBack, isLoading }: ContactInfoStepProps) => {
+  const [phoneError, setPhoneError] = useState<string | null>(null);
   const phoneInputRef = useRef<HTMLDivElement>(null);
   const emailInputRef = useRef<HTMLInputElement>(null);
 
@@ -27,6 +28,11 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, isLoading 
   }, []);
 
   const handlePhoneChange = (value: string | undefined) => {
+    if (value && !isValidPhoneNumber(value)) {
+      setPhoneError("Invalid phone number. Please enter a valid one.");
+    } else {
+      setPhoneError(null);
+    }
     onChange("phone", value || "");
   };
 
@@ -36,9 +42,9 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, isLoading 
   };
 
   const handleEmailKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Tab' && !e.shiftKey && validateEmail(formData.email)) {
+    if (e.key === "Tab" && !e.shiftKey && validateEmail(formData.email)) {
       e.preventDefault();
-      const phoneInput = phoneInputRef.current?.querySelector('input');
+      const phoneInput = phoneInputRef.current?.querySelector("input");
       if (phoneInput) {
         phoneInput.focus();
       }
@@ -46,13 +52,14 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, isLoading 
   };
 
   const handlePhoneKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && formData.phone) {
+    if (e.key === "Enter" && formData.phone && !phoneError) {
       e.preventDefault();
       onNext();
     }
   };
 
   const isEmailValid = validateEmail(formData.email);
+  const isFormValid = isEmailValid && formData.phone && !phoneError;
 
   return (
     <div className="space-y-6 p-8">
@@ -85,11 +92,12 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, isLoading 
               international
               countryCallingCodeEditable={false}
               defaultCountry="US"
-              value={formData.phone || ''}
+              value={formData.phone || ""}
               onChange={handlePhoneChange}
               onKeyDown={handlePhoneKeyDown}
             />
           </div>
+          {phoneError && <p className="text-red-500 text-sm mt-1">{phoneError}</p>}
         </div>
       </div>
 
@@ -103,20 +111,11 @@ export const ContactInfoStep = ({ formData, onChange, onNext, onBack, isLoading 
           </div>
 
           <div className="flex gap-4">
-            <Button
-              variant="outline"
-              onClick={onBack}
-              className="flex-1"
-              disabled={isLoading}
-            >
+            <Button variant="outline" onClick={onBack} className="flex-1" disabled={isLoading}>
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back
             </Button>
-            <Button
-              onClick={onNext}
-              className="flex-1"
-              disabled={isLoading || !formData.email || !formData.phone || !isEmailValid}
-            >
+            <Button onClick={onNext} className="flex-1" disabled={isLoading || !isFormValid}>
               Next
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>

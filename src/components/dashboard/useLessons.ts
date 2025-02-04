@@ -19,11 +19,8 @@ export const useLessons = () => {
       let query = supabase
         .from('lessons_view_simple')
         .select()
-        .order('lesson_order', { ascending: true });
-
-      if (profile?.role !== 'administrator') {
-        query = query.eq('university_name', profile?.campus);
-      }
+        .order('lesson_order', { ascending: true })
+        .eq(profile?.role !== 'administrator' ? 'university_name' : '', profile?.campus);
 
       const { data, error } = await query;
       console.log(data);

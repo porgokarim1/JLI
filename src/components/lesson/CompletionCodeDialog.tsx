@@ -56,9 +56,10 @@ export const CompletionCodeDialog = ({ lessonId, onSuccess, open, onOpenChange }
 
       // Find the lesson with matching completion code
       const { data: lessons } = await supabase
-        .from('lessons')
+        .from('lessons_schedule')
         .select('*')
-        .eq('completion_code', code.toUpperCase());
+        .eq('attendance_code', code.toUpperCase())
+        .eq('campus', userProfile.campus);
 
       if (!lessons || lessons.length === 0) {
         setError("Invalid attendance code. Please try again.");
@@ -72,7 +73,7 @@ export const CompletionCodeDialog = ({ lessonId, onSuccess, open, onOpenChange }
         .from('user_lesson_progress')
         .upsert({
           user_id: user.id,
-          lesson_id: lesson.id,
+          lesson_id: lesson.lesson_id,
           status: 'completed',
           completed_at: new Date().toISOString(),
         });

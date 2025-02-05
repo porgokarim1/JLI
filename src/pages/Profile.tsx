@@ -10,7 +10,8 @@ import { LogOut } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
-import { useToast } from "@/components/ui/use-toast";import BottomNav from "@/components/navigation/BottomNav";
+import { useToast } from "@/components/ui/use-toast";
+import BottomNav from "@/components/navigation/BottomNav";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -201,8 +202,19 @@ const ProfilePage = () => {
 
   const [sendingEmail, setSendingEmail] = useState(false);
 
+
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+
+    if (!contactForm.subject.trim() || !contactForm.message.trim()) {
+      toast({
+        title: "Validation Error",
+        description: "Subject and message must contain at least one character.",
+        variant: "destructive"
+      });
+      return;
+    }
     setSendingEmail(true);
 
     try {

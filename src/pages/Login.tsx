@@ -24,10 +24,9 @@ const Login = () => {
     try {
       const email = formData.email.trim().toLowerCase();
 
-
       const { data: profileData, error: profileError } = await supabase
         .from("profiles")
-        .select("email, role")
+        .select("email, role, active")
         .eq("email", email)
         .single();
 
@@ -45,6 +44,14 @@ const Login = () => {
         return;
       }
 
+      if (!profileData.active) {
+        toast({
+          title: "Error",
+          description: "This account is deactivated. For details, please contact the instructor.",
+        });
+        setIsLoading(false);
+        return;
+      }
 
       const { error: signInError } = await supabase.auth.signInWithPassword({
         email: formData.email,

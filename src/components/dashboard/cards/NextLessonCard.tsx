@@ -1,12 +1,13 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, MapPin, Calendar, Clock } from "lucide-react";
+import { Calendar, Clock, MapPin, BookOpen } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
 
 interface NextLessonCardProps {
   onAttendanceClick: () => void;
+  profile?: { campus?: string };
 }
 
 type NextLesson = {
@@ -16,6 +17,7 @@ type NextLesson = {
   location: string | null;
   lesson_date: string | null;
   start_time: string | null;
+  lesson_order: string | null;
   end_time: string | null;
   university_name: string | null;
   instructor: {
@@ -24,22 +26,24 @@ type NextLesson = {
   } | null;
 };
 
-export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
+export const NextLessonCard = ({ onAttendanceClick, profile }: NextLessonCardProps) => {
   const { data: nextLesson, isLoading } = useQuery({
-    queryKey: ["next-lesson"],
+    queryKey: ["next-lesson", profile?.campus],
     queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
-
-      // Fetch the user's campus
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("campus")
-        .eq("id", user.id)
-        .single();
-
       if (!profile?.campus) {
-        throw new Error("User profile or campus not found.");
+        const { data: user } = await supabase.auth.getUser();
+        if (!user) throw new Error("Not authenticated");
+
+        const { data: profileData } = await supabase
+          .from("profiles")
+          .select("campus")
+          .eq("id", user.user.id)
+          .single();
+        if (!profileData?.campus) {
+          throw new Error("User profile or campus not found.");
+        }
+
+        profile = profileData;
       }
 
       const now = new Date();
@@ -96,81 +100,84 @@ export const NextLessonCard = ({ onAttendanceClick }: NextLessonCardProps) => {
 
   if (isLoading) {
     return (
-      <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg animate-pulse">
+      <Card className="bg-[#FEF7CD] border-none shadow-none animate-pulse">
         <CardContent className="p-4">
-          <div className="h-20 bg-gray-200 rounded"></div>
+          <div className="h-20 bg-gray-200/50 rounded"></div>
         </CardContent>
       </Card>
     );
   }
 
   return (
-    <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
-      <CardContent className="p-4">
-        <div className="space-y-3">
-          {nextLesson?.university_name && (
-            <p className="text-xs text-muted-foreground font-medium">
-              {nextLesson.university_name}
-            </p>
+    <div className="flex items-start gap-4">
+      <div className="relative">
+        <BookOpen className="absolute -z-10 text-gray-100 h-12 w-12 -left-2 top-1/2 -translate-y-1/2" />
+        <div className="relative">
+          <span className="writing-mode-vertical transform rotate-180 text-sm font-bold uppercase text-black relative px-2 flex items-center">
+            <span className="relative">
+              <span className="relative z-10">YOUR NEXT LESSON</span>
+              <span className="absolute left-1 top-1/2 -translate-y-1/2 w-[6px] h-[100%] bg-[#FFD700]"></span>
+            </span>
+          </span>
+        </div>
+      </div>
+      <Card className="bg-[#FEF7CD] border-none shadow-none flex-1">
+        <CardContent className="p-4">
+          <div className="flex items-start gap-6">
+          {nextLesson?.lesson_order && (
+            <div className="text-4xl font-bold text-[#FFD700]">{nextLesson.lesson_order}</div>
           )}
-          {nextLesson?.instructor && (
-            <p className="text-xs text-muted-foreground border-b pb-2">
-              Instructor: {nextLesson.instructor.first_name} {nextLesson.instructor.last_name}
-            </p>
-          )}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <BookOpen className="h-6 w-6 text-primary" />
-              <div className="space-y-0.5">
-                <h3 className="font-medium text-sm">Next Lesson</h3>
-                <div className="flex flex-col gap-1">
-                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                    <Calendar className="h-3 w-3 text-primary flex-shrink-0" />
-                    <span>
-                      {nextLesson?.lesson_date && (() => {
-                        const [year, month, day] = nextLesson.lesson_date.split('-').map(Number);
-                        return format(new Date(year, month - 1, day), "EEE. MM/dd/yyyy");
-                      })()}
-                    </span>
-                    {nextLesson?.start_time ? (
-                      <span className="flex items-center gap-1">
-                        <Clock className="h-3 w-3 text-primary flex-shrink-0" />
-                        {format(
-                          new Date(`2000-01-01T${nextLesson.start_time}`),
-                          "h:mm a"
-                        )}
-                      </span>
-                    ) : (
-                      <span className="flex items-center gap-1">
-                        <Clock className="h-3 w-3 text-primary flex-shrink-0" />
-                        TBD
-                      </span>
-                    )}
+            <div className="flex-1">
+              {nextLesson?.title && (
+                <h3 className="text-xl font-bold text-[#1A1F2C] mb-3">
+                  {nextLesson.title}
+                </h3>
+              )}
+              <div className="space-y-1">
+                <div className="flex items-center gap-4">
+                  <div className="w-4">
+                    <Calendar className="h-4 w-4 text-black" />
                   </div>
-                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                    <MapPin className="h-3 w-3 text-primary flex-shrink-0" />
-                    <span className="truncate">
-                      {nextLesson?.location || "Location TBD"}
-                    </span>
+                  <span className="text-sm text-[#555555]"> {nextLesson?.lesson_date && (() => {
+                    const [year, month, day] = nextLesson.lesson_date.split('-').map(Number);
+                    return format(new Date(year, month - 1, day), "EEE. MM/dd/yyyy");
+                  })()}
+                  {!(nextLesson?.lesson_date) && "TBD"}
+                  </span>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="w-4">
+                    <Clock className="h-4 w-4 text-black" />
                   </div>
-                  {nextLesson?.title && (
-                    <p className="text-sm font-semibold leading-relaxed">
-                      {nextLesson.title}
-                    </p>
+                  <span className="text-sm text-[#555555]">
+                  {nextLesson?.start_time ? (
+                    format(new Date(`2000-01-01T${nextLesson.start_time}`),
+                      "h:mm a"
+                    )
+                  ) : (
+                    "TBD"
                   )}
+                  </span>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="w-4">
+                    <MapPin className="h-4 w-4 text-black" />
+                  </div>
+                  <span className="text-sm text-[#555555]"> {nextLesson?.location || "Location TBD"}</span>
                 </div>
               </div>
+              <div className="mt-4">
+                <Button
+                  onClick={onAttendanceClick}
+                  className="bg-[#FFD700] hover:bg-[#FFD700]/90 text-[#1A1F2C] font-bold shadow-lg"
+                >
+                  Attend
+                </Button>
+              </div>
             </div>
-            <Button
-              variant="default"
-              className="text-black h-8 text-xs whitespace-nowrap"
-              onClick={onAttendanceClick}
-            >
-              Attend
-            </Button>
           </div>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </div>
   );
 };

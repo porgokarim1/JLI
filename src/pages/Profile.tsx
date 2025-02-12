@@ -10,8 +10,7 @@ import { LogOut } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
-import { useToast } from "@/components/ui/use-toast";
-import BottomNav from "@/components/navigation/BottomNav";
+import { useToast } from "@/components/ui/use-toast"; import BottomNav from "@/components/navigation/BottomNav";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -102,35 +101,10 @@ const ProfileContent = ({ profile, onSignOut }: { profile: Profile, onSignOut: (
 
   return (
     <>
-      {isMobile && (
-        <Button
-          variant="outline"
-          onClick={onSignOut}
-          className="w-full mb-4 flex items-center justify-center gap-2"
-        >
-          <LogOut className="h-4 w-4" />
-          Sign Out
-        </Button>
-      )}
-
-      <Card className="border-2 border-gray-400 bg-white/80 backdrop-blur-sm mb-4">
-        <CardHeader className="flex flex-row items-center justify-between p-4">
-          <CardTitle className="text-2xl font-bold">
-            {profile.first_name} {profile.last_name}
-          </CardTitle>
-          <Button
-            onClick={() => {
-              if (isEditing) {
-                setFormData({});
-              }
-              setIsEditing(!isEditing);
-            }}
-            className={`text-black text-sm ml-4 ${!isEditing ? 'block' : 'hidden'}`}
-          >
-            Edit Profile
-          </Button>
+      <Card className="bg-white border-none">
+        <CardHeader className="flex flex-row items-center justify-between p-4 pt-0">
         </CardHeader>
-        <CardContent className="pt-4">
+        <CardContent className="p-6 pt-0">
           <ProfileForm
             profile={profile}
             isEditing={isEditing}
@@ -142,6 +116,23 @@ const ProfileContent = ({ profile, onSignOut }: { profile: Profile, onSignOut: (
             }}
             onChange={handleChange}
           />
+          <div className="space-y-6">
+            <div className="pt-4 flex justify-end">
+              {!isEditing && (
+                <Button
+                  onClick={() => {
+                    if (isEditing) {
+                      setFormData({});
+                    }
+                    setIsEditing(!isEditing);
+                  }}
+                  className="w-24 bg-[#F4D32F] text-black hover:bg-[#F4D32F]-hover font-semibold"
+                >
+                  Edit Profile
+                </Button>
+              )}
+            </div>
+          </div>
         </CardContent>
       </Card>
     </>
@@ -202,11 +193,8 @@ const ProfilePage = () => {
 
   const [sendingEmail, setSendingEmail] = useState(false);
 
-
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-
     if (!contactForm.subject.trim() || !contactForm.message.trim()) {
       toast({
         title: "Validation Error",
@@ -273,54 +261,61 @@ const ProfilePage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
       <NavigationBar />
-      <div className="container mx-auto px-4 pt-24 pb-4">
-        <div className="max-w-4xl mx-auto">
+      <div className="container mx-auto px-4 pt-24 pb-4 bg-white">
+        <div className="max-w-4xl mx-auto space-y-6">
           <ErrorBoundary FallbackComponent={ErrorFallback} onReset={() => window.location.reload()}>
             <Suspense fallback={<LoadingSpinner />}>
               <ProfileContent profile={profile} onSignOut={handleSignOut} />
             </Suspense>
           </ErrorBoundary>
           {/* Contact Us Card */}
-          <Card className="bg-white border-2 border-gray-400">
-          <CardContent className="p-4 sm:p-6">
-            <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
-            <form onSubmit={handleContactSubmit} className="space-y-4">
-              <div>
-                <Label htmlFor="subject" className="block text-sm font-medium mb-2">
-                  Subject
-                </Label>
-                <Input
-                  id="subject"
-                  value={contactForm.subject}
-                  onChange={(e) => setContactForm({ ...contactForm, subject: e.target.value })}
-                  required
-                  placeholder="Subject of your message"
-                  className="bg-white"
-                />
+          <Card className="bg-white border-none">
+            <CardContent className="p-4 sm:p-6">
+              <div className="relative mb-6">
+                <span className="text-xl font-bold">
+                  <span className="relative">
+                    <span className="relative z-10">CONTACT US</span>
+                    <span className="absolute bottom-0 left-0 w-full h-[8px] bg-[#FFD700] -z-0"></span>
+                  </span>
+                </span>
               </div>
-              <div>
-                <Label htmlFor="message" className="block text-sm font-medium mb-2">
-                  Message
-                </Label>
-                <Textarea
-                  id="message"
-                  value={contactForm.message}
-                  onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-                  required
-                  placeholder="Write your message here"
-                  className="bg-white"
-                />
-              </div>
-              <Button
-                type="submit"
-                className="w-full sm:w-auto"
-                disabled={sendingEmail}
-              >
-                {sendingEmail ? "Sending..." : "Send Message"}
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
+              <form onSubmit={handleContactSubmit} className="space-y-4">
+                <div>
+                  <Label htmlFor="subject" className="block text-sm font-medium mb-2">
+                    Subject
+                  </Label>
+                  <Input
+                    id="subject"
+                    value={contactForm.subject}
+                    onChange={(e) => setContactForm({ ...contactForm, subject: e.target.value })}
+                    required
+                    placeholder="Subject of your message"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="message" className="block text-sm font-medium mb-2">
+                    Message
+                  </Label>
+                  <Textarea
+                    id="message"
+                    value={contactForm.message}
+                    onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+                    required
+                    placeholder="Write your message here"
+                  />
+                </div>
+                <div className="flex justify-end">
+                  <Button
+                    type="submit"
+                    className="w-32 bg-[#F4D32F] text-black hover:bg-primary-hover font-semibold"
+                    disabled={sendingEmail}
+                  >
+                    {sendingEmail ? "Sending..." : "Send Message"}
+                  </Button>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
 
         </div>
       </div>

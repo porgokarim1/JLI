@@ -8,7 +8,7 @@ import { NextLessonCard } from "./cards/NextLessonCard";
 import { EngagementCard } from "./cards/EngagementCard";
 import { ReferralCard } from "./cards/ReferralCard";
 import { Button } from "@/components/ui/button";
-import { X } from "lucide-react";
+import { Key, Users, X } from "lucide-react";
 import NavigationBar from "../navigation/NavigationBar";
 import WelcomePopup from "@/components/welcome/WelcomePopup";
 
@@ -69,7 +69,7 @@ const StudentDashboard = () => {
         setLoading(false);
       }
     };
-    console.log(showEngagementForm)
+    console.log(showEngagementForm);
     fetchData();
   }, [showEngagementForm]);
 
@@ -84,7 +84,7 @@ const StudentDashboard = () => {
 
   const handleEmailShare = () => {
     const subject = encodeURIComponent("Join me in the Know Israel Program");
-    const body = encodeURIComponent(`Hey! There’s a new course on Israel that addresses all the hot-topic issues and I think you’d find it interesting. You can sign up here https://${REFERRAL_URL}`);
+    const body = encodeURIComponent(`Hey! There's a new course on Israel that addresses all the hot-topic issues and I think you'd find it interesting. You can sign up here https://${REFERRAL_URL}`);
     window.location.href = `mailto:?subject=${subject}&body=${body}`;
   };
 
@@ -108,37 +108,51 @@ const StudentDashboard = () => {
   };
 
   return (
-    <div className="min-h-[100dvh] p-4 md:p-0 mx-auto space-y-4 pb-20 pl-0">
+    <div className="min-h-[100dvh] bg-[#FFFFFF]">
       <NavigationBar />
-      <div className="space-y-4 max-w-md mx-auto w-full px-2 pl-6">
-        <div className="flex flex-col items-start px-2 pt-0 pt-14 md:pt-16">
-          <h1 className="text-lg font-semibold text-slate-800">
-            Welcome back{firstName ? `, ${firstName}` : <LoadingSpinner />}
-          </h1>
+      <div className="space-y-8 max-w-md mx-auto w-full px-4 pt-20 pb-24">
+        <div className="flex flex-col items-start relative mb-4">
+          <div className="relative">
+            <span className="text-2xl font-bold text-[#1A1F2C] inline-block">
+              <span className="relative">
+                <span className="relative z-10 uppercase"> WELCOME BACK{firstName ? `, ${firstName}` : ''}{firstName ? '!' : <LoadingSpinner />}</span>
+                <span className="absolute bottom-1 left-0 w-full h-[8px] bg-[#FFD700] -z-0"></span>
+              </span>
+            </span>
+          </div>
         </div>
 
         <NextLessonCard onAttendanceClick={() => setShowAttendanceForm(true)} />
         <ReferralCard onShareLink={handleCopyReferralLink} onEmailShare={handleEmailShare} />
         <EngagementCard
-          onNewEngagement={() => setShowEngagementForm(true)}
+          onNewEngagement={handleNewEngagement}
           onEditEngagement={handleEditEngagement}
           recentEngagements={recentEngagements}
         />
       </div>
+
       <Dialog open={showEngagementForm} onOpenChange={handleFormClose}>
-        <DialogContent className="mx-auto w-full max-w-[90%] sm:max-w-lg">
-          <DialogHeader>
-            <DialogTitle className="text-center">Log Engagement</DialogTitle>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="absolute right-2 top-2 h-8 w-8 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
-              onClick={handleFormClose}
-            >
-              <X className="h-4 w-4" />
-              <span className="sr-only">Close</span>
-            </Button>
+        <DialogContent className="mx-auto w-full max-w-[90%] sm:max-w-md px-6 py-8 rounded-lg bg-white shadow-lg">
+          <div className="flex justify-center">
+            <div className="p-3 bg-yellow-400 rounded-full">
+              <Users className="w-8 h-8 text-black" />
+            </div>
+          </div>
+          <DialogHeader className="text-center">
+            <DialogTitle className="text-lg font-bold text-black">
+              LOG ENGAGEMENT
+            </DialogTitle>
           </DialogHeader>
+
+
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute right-2 top-2 h-8 w-8 opacity-70 transition-opacity hover:opacity-100"
+            onClick={handleFormClose}
+          >
+            <X className="h-4 w-4 text-gray-500" />
+          </Button>
           <ConversationForm
             initialData={selectedEngagement}
             onSuccess={handleFormClose}
@@ -147,13 +161,13 @@ const StudentDashboard = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Attendance Dialog */}
       <CompletionCodeDialog
         lessonId="placeholder-id"
         onSuccess={() => setShowAttendanceForm(false)}
         open={showAttendanceForm}
         onOpenChange={setShowAttendanceForm}
       />
+
       <WelcomePopup isOpen={isPopupOpen} onClose={handlePopupClose} />
     </div>
   );

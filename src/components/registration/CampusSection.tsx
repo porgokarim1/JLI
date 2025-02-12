@@ -3,9 +3,9 @@ import { CampusSelector } from "./CampusSelector";
 
 interface CampusSectionProps {
   formData: {
-    campus: string;
+    campus: { value: string; label: string; } | null;
   };
-  onChange: (field: string, value: string) => void;
+  onChange: (field: string, value: { value: string; label: string; } | null) => void;
 }
 
 export const CampusSection = ({ formData, onChange }: CampusSectionProps) => {

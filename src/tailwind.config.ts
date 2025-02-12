@@ -18,11 +18,14 @@ export default {
       }
     },
     extend: {
+      fontFamily: {
+        sans: ['"brown-pro"', 'sans-serif'],
+      },
       colors: {
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
+        border: '#374151', // Updated to a dark grey color
+        input: '#374151', // Updated to match border
+        ring: '#374151', // Updated to match border
+        background: '#f3f3f3',
         foreground: 'hsl(var(--foreground))',
         primary: {
           DEFAULT: '#FFD700',
@@ -31,7 +34,7 @@ export default {
           foreground: '#000000'
         },
         secondary: {
-          DEFAULT: '#403E43',
+          DEFAULT: '#000000',
           foreground: '#FFFFFF'
         },
         destructive: {
@@ -39,8 +42,8 @@ export default {
           foreground: 'hsl(var(--destructive-foreground))'
         },
         muted: {
-          DEFAULT: '#8A898C',
-          foreground: '#C8C8C9'
+          DEFAULT: '#8E9196',
+          foreground: '#4A4A4A'
         },
         accent: {
           DEFAULT: '#FFD700',
@@ -48,13 +51,12 @@ export default {
         },
         soft: {
           green: '#F2FCE2',
-          yellow: '#FEF7CD',
+          brown: '#D2B48C',
           orange: '#FEC6A1',
           purple: '#E5DEFF',
           pink: '#FFDEE2',
           peach: '#FDE1D3',
-          blue: '#D3E4FD',
-          gray: '#F1F0FB'
+          blue: '#D3E4FD'
         }
       },
       borderRadius: {

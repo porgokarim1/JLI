@@ -68,10 +68,30 @@
  
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border font-sans;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+  }
+
+  .font-medium {
+    font-family: "brown-pro", sans-serif;
+    font-weight: 400;
+  }
+
+  .font-semibold {
+    font-family: "brown-pro", sans-serif;
+    font-weight: 500;
+  }
+
+  .font-bold {
+    font-family: "brown-pro", sans-serif;
+    font-weight: 700;
+  }
+
+  .font-black {
+    font-family: "brown-pro", sans-serif;
+    font-weight: 800;
   }
 }
 
@@ -116,4 +136,10 @@
 
 .PhoneInputInput:focus {
   outline: none;
+}
+
+/* Vertical Writing Mode */
+.writing-mode-vertical {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
 }

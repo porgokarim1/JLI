@@ -1,11 +1,11 @@
-import { Card, CardContent } from "@/components/ui/card";
+
 import { Button } from "@/components/ui/button";
-import { Handshake, FilePenLine } from "lucide-react";
+import { FilePenLine, Users } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
-import { Link } from "react-router-dom";
 import { RewardTierInfo } from "./RewardTierInfo";
+import { Link } from "react-router-dom";
 
 interface EngagementCardProps {
   onNewEngagement: () => void;
@@ -47,113 +47,87 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
     }
   };
 
-  const options = [
-    {
-      count: 1,
-      image: "https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/General%20images/onePersonBlack.png",
-      sublabel: "1"
-    },
-    {
-      count: 2,
-      image: "https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/General%20images/twoPeopleBlack.png",
-      sublabel: "2"
-    },
-    {
-      count: 3,
-      image: "https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/General%20images/threePeopleBlack.png",
-      sublabel: "3"
-    },
-    {
-      count: 4,
-      image: "https://ngvjxscjejkjojvntjay.supabase.co/storage/v1/object/public/General%20images/fourPeopleBlack.png",
-      sublabel: "4+"
-    }
-  ];
-
-  const getPeersIcon = (count: number) => {
-    const option = options.find((opt) => opt.count === count) || options[options.length - 1];
-    return (
-      <div className="flex flex-col items-center">
-        <img src={option.image} alt={`Peers: ${option.sublabel}`} className="h-6 w-6" />
-      </div>
-    );
-  };
-
   return (
-    <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
-      <CardContent className="p-4 space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Handshake className="h-6 w-6 text-primary" />
-            <div className="flex-1">
-              <Link to="/about">
-                <p className="text-lg font-semibold text-black">Engage with Peers</p>
+    <div className="space-y-6">
+      <div className="flex flex-col gap-4">
+        <div className="relative flex flex-col">
+          <Link to="/about" className="font-bold text-lg text-center">
+            <span className="relative">
+              <span className="relative z-10">ENGAGE WITH PEERS</span>
+              <span className="absolute bottom-0 left-0 w-full h-[10px] bg-[#FFD700] -z-0"></span>
+            </span>
+          </Link>
+        </div>
+        <div>
+          <Link to="/about" className="block">
+            <h3 className="text-base font-bold text-black">CONGRATS, YOU'VE ENGAGED</h3>
+          </Link>
+          <div className="flex justify-between items-center mt-2">
+            <div className="relative">
+              <Link to="/about" className="text-base font-bold">
+                <span className="relative">
+                  <span className="relative z-10">{totalPeers} PEERS</span>
+                  <span className="absolute bottom-0 left-0 w-full h-[8px] bg-[#FFD700] -z-0"></span>
+                </span>
               </Link>
             </div>
+            <Button
+              variant="default"
+              onClick={onNewEngagement}
+              className="bg-[#FFD700] hover:bg-[#FFD700]/90 text-black font-bold rounded px-6"
+            >
+              Log
+            </Button>
           </div>
-          <Button
-            variant="default"
-            className="text-black h-8 text-xs ml-4"
-            onClick={onNewEngagement}
-          >
-            Log
-          </Button>
         </div>
+      </div>
 
-        {isLoading ? (
-          <p className="text-lg font-semibold text-black">Loading...</p>
-        ) : (
-          <RewardTierInfo totalPeers={totalPeers} />
-        )}
+      {isLoading ? (
+        <p className="text-lg font-semibold text-[#1A1F2C]">Loading...</p>
+      ) : (
+        <RewardTierInfo totalPeers={totalPeers} />
+      )}
 
-        <div className="pt-4">
-          <p className="text-sm font-semibold text-black whitespace-pre-line mb-3">
-            Conversations
-          </p>
-          <div className="space-y-2">
-            {recentEngagements.length > 0 ? (
-              recentEngagements.map((engagement) => (
-                <div
-                  key={engagement.id}
-                  className="flex items-center justify-between py-2 border-t border-gray-200"
-                >
-                  <div className="grid grid-cols-4 gap-1 items-center min-w-0 flex-1 divide-x divide-gray-200">
-                    <span className="text-sm text-gray-600 whitespace-nowrap px-1">
-                      {format(new Date(engagement.conversation_date), "MMM d")}
-                    </span>
-                    <span className="text-lg px-1 text-center">
-                      {getComfortEmoji(engagement.comfort_level || "")}
-                    </span>
-                    <span className="text-sm whitespace-nowrap px-1 text-center">
-                      {getPeersIcon(engagement.participant_count)}
-                    </span>
-                    <div className="px-1 min-w-0 pr-10 relative">
-                      {engagement.comments && (
-                        <span className="text-sm text-gray-600 block truncate">
-                          {engagement.comments}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => onEditEngagement(engagement)}
-                    className="h-8 w-8 text-gray-400 shrink-0 ml-1 absolute right-4"
-                  >
-                    <FilePenLine className="h-4 w-4" />
-                    <span className="sr-only">Edit engagement</span>
-                  </Button>
+      <div className="space-y-4">
+        <div className="flex justify-center">
+          <span className="text-base font-bold text-black relative inline-block">
+            <span className="relative">
+              <span className="relative z-10">CONVERSATIONS</span>
+              <span className="absolute bottom-0 left-0 w-full h-[8px] bg-[#FFD700] -z-0"></span>
+            </span>
+          </span>
+        </div>
+        <div className="space-y-2">
+          {recentEngagements.map((engagement) => (
+            <div
+              key={engagement.id}
+              onClick={() => onEditEngagement(engagement)}
+              className="bg-gray-100 rounded-lg p-4 cursor-pointer hover:bg-gray-200 transition-colors"
+            >
+              <div className="flex justify-between items-start">
+                <div className="flex-1">
+                  <p className="text-sm font-medium">
+                    {format(new Date(engagement.conversation_date), "MM/dd/yyyy")}
+                  </p>
+                  <p className="text-sm text-gray-600 mt-1">
+                    {engagement.comments || "Note note notes"}
+                  </p>
                 </div>
-              ))
-            ) : (
-              <div className="text-center py-4 text-gray-500 text-sm">
-                No conversation logged yet
+
+                <div className="flex items-center gap-4 pl-4 border-l border-gray-300">
+                  <div className="flex items-center gap-1">
+                    <Users className="h-4 w-4 text-gray-500" />
+                    <span className="text-sm font-medium">{engagement.participant_count}</span>
+                  </div>
+                  <span className="text-xl">
+                    {getComfortEmoji(engagement.comfort_level || "")}
+                  </span>
+                </div>
               </div>
-            )}
-          </div>
+            </div>
+          ))}
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };

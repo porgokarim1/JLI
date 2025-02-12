@@ -6,6 +6,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Users, GraduationCap, CalendarDays, BarChart3 } from "lucide-react";
 import { format } from "date-fns";
 
+interface LessonSchedule {
+  id: string;
+  lesson?: {
+    title: string;
+    description: string;
+    instructor_name?: string;
+  };
+  lesson_date: string;
+  start_time: string;
+}
+
 const AdminDashboard = () => {
   const { data: stats } = useQuery({
     queryKey: ['admin-stats'],
@@ -55,12 +66,12 @@ const AdminDashboard = () => {
         .from('lessons_schedule')
         .select(`
           *,
-          lesson:lessons(title, description)
+          lesson:lessons(title, description, instructor_name)
         `)
         .order('lesson_date', { ascending: true })
         .limit(5);
       if (error) throw error;
-      return data;
+      return data as LessonSchedule[];
     }
   });
 

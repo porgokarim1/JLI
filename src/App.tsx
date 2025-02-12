@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { createBrowserRouter, RouterProvider, Navigate, Outlet, useNavigate } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -29,9 +29,14 @@ const queryClient = new QueryClient({
   },
 });
 
+
 const AppLayout = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
+  const location = useLocation();
+  const noPaddingPaths = ["/login, /register"];
+  const shouldRemovePadding = noPaddingPaths.includes(location.pathname);
+  const isIndex = !isAuthenticated;
   return (
-    <div className="pb-16 md:pb-0">
+    <div className={`pb-12 md:pb-0 ${shouldRemovePadding || isIndex ? "!pb-0" : ""}`}>
       <Outlet />
       {isAuthenticated && <BottomNav />}
     </div>
@@ -51,24 +56,22 @@ const AuthenticatedRoute = ({ children }: { children: React.ReactNode }) => {
       return;
     }
 
-    if(!teacherValidated)
-    {
+    if (!teacherValidated) {
       setValidatingTeacher(true);
 
       const checkTeacherRole = async () => {
-        
-        if (!session?.user?.id) 
-          {
-              return;
-          }
-        
+
+        if (!session?.user?.id) {
+          return;
+        }
+
         try {
           const { data: profile, error: profileError } = await supabase
             .from('profiles')
             .select('role')
             .eq('id', session.user.id)
             .single();
-  
+
           if (!profileError && profile && profile.role === 'student') {
             setTeacherValidated(true);
             setValidatingTeacher(false);
@@ -81,7 +84,7 @@ const AuthenticatedRoute = ({ children }: { children: React.ReactNode }) => {
           setValidatingTeacher(false);
         }
       };
-      
+
       checkTeacherRole();
     }
 
@@ -92,13 +95,13 @@ const AuthenticatedRoute = ({ children }: { children: React.ReactNode }) => {
       {children}
     </>
   ) : validatingTeacher ? null : (
-      <div>
-        <h1>Not Authorized</h1>
-        <button onClick={() => supabase.auth.signOut().then(() => navigate('/login'))}>
-          Logout
-        </button>
-      </div>
-    );
+    <div>
+      <h1>Not Authorized</h1>
+      <button onClick={() => supabase.auth.signOut().then(() => navigate('/login'))}>
+        Logout
+      </button>
+    </div>
+  );
 };
 
 const App = () => {
@@ -109,7 +112,7 @@ const App = () => {
     const checkSession = async () => {
       try {
         const { data: { session }, error } = await supabase.auth.getSession();
-        
+
         if (error) {
           console.error("Session error:", error);
           setIsAuthenticated(false);
@@ -133,7 +136,7 @@ const App = () => {
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log("Auth state changed:", event, !!session);
-      
+
       if (event === 'SIGNED_OUT' || event === 'TOKEN_REFRESHED') {
         // Clear any cached data
         queryClient.clear();
@@ -178,7 +181,7 @@ const App = () => {
       children: [
         {
           path: "/",
-          element: isAuthenticated ? <AuthenticatedRoute><StudentDashboard /> </AuthenticatedRoute>: <Index />,
+          element: isAuthenticated ? <AuthenticatedRoute><StudentDashboard /> </AuthenticatedRoute> : <Index />,
         },
         {
           path: "/reset-password",
@@ -222,13 +225,13 @@ const App = () => {
 
   return (
     <SessionProvider>
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <RouterProvider router={router} />
-      </TooltipProvider>
-    </QueryClientProvider>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <RouterProvider router={router} />
+        </TooltipProvider>
+      </QueryClientProvider>
     </SessionProvider>
   );
 };

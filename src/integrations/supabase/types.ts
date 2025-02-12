@@ -312,6 +312,7 @@ export type Database = {
           terms_agreed: boolean | null
           terms_agreed_at: string | null
           password: string | null
+          active: boolean | null
           updated_at: string
         }
         Insert: {

@@ -1,7 +1,5 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Megaphone, Mail, Share2 } from "lucide-react";
-import { toast } from "sonner";
+import { Share2, Mail, Share } from "lucide-react";
 
 interface ReferralCardProps {
   onShareLink: () => void;
@@ -9,57 +7,38 @@ interface ReferralCardProps {
 }
 
 export const ReferralCard = ({ onShareLink, onEmailShare }: ReferralCardProps) => {
-  const handleShare = async () => {
-    try {
-      if (navigator.share) {
-        await navigator.share({
-          title: "Join me in the Know Israel Program",
-          text: "Hey! Want to learn how to communicate about Israel? Join here",
-          url: 'https://knowisrael.app'
-        });
-      } else {
-
-        await navigator.clipboard.writeText('https://knowisrael.app');
-        toast.success('Link copied to clipboard!');
-      }
-    } catch (err) {
-      console.error('Error sharing:', err);
-      toast.error('Failed to share');
-    }
-  };
-
   return (
-    <Card className="bg-white/90 backdrop-blur-sm border-primary shadow-lg">
-      <CardContent className="p-4">
-        <div className="flex flex-col space-y-3">
-          <div className="flex items-center gap-3">
-            <Megaphone className="h-6 w-6 text-primary flex-shrink-0" />
-            <div>
-              <h3 className="font-medium text-sm">Refer a Friend</h3>
-            </div>
-          </div>
-          <div className="flex gap-2">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="flex-1 text-xs flex items-center justify-center gap-2 border-[#878787] text-[#878787] hover:bg-[#878787]/10 hover:text-[#878787] hover:border-[#878787]"
-              onClick={handleShare}
-            >
-              <Share2 className="h-4 w-4" />
-              Share
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="flex-1 text-xs flex items-center justify-center gap-2 border-[#878787] text-[#878787] hover:bg-[#878787]/10 hover:text-[#878787] hover:border-[#878787]"
-              onClick={onEmailShare}
-            >
-              <Mail className="h-4 w-4" />
-              Email
-            </Button>
-          </div>
+    <div className="space-y-4">
+      <div className="relative flex justify-center mb-6">
+        <Share className="absolute text-gray-100 h-12 w-12 -z-10" />
+        <div className="relative">
+          <span className="font-bold text-lg text-center">
+            <span className="relative">
+              <span className="relative z-10">REFER A FRIEND</span>
+              <span className="absolute bottom-0 left-0 w-full h-[10px] bg-[#FFD700] -z-0"></span>
+            </span>
+          </span>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+
+      <div className="flex gap-2">
+        <Button
+          variant="default"
+          className="flex-1 bg-[#FFD700] hover:bg-[#FFD700]/90 text-black font-bold rounded-md"
+          onClick={onShareLink}
+        >
+          <Share2 className="h-4 w-4" />
+          Share Text
+        </Button>
+        <Button
+          variant="default"
+          className="flex-1 bg-[#FFD700] hover:bg-[#FFD700]/90 text-black font-bold rounded-md"
+          onClick={onEmailShare}
+        >
+          <Mail className="h-4 w-4" />
+          Send Email
+        </Button>
+      </div>
+    </div>
   );
 };

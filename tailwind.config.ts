@@ -19,9 +19,9 @@ export default {
     },
     extend: {
       colors: {
-        border: '#374151', // Updated to a dark grey color
-        input: '#374151', // Updated to match border
-        ring: '#374151', // Updated to match border
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
         background: '#f3f3f3',
         foreground: 'hsl(var(--foreground))',
         primary: {

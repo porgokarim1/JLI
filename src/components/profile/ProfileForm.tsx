@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Mail, Phone, UniversityIcon, User } from "lucide-react";
 import { Profile } from "@/components/dashboard/types";
 import PhoneInput, { isValidPhoneNumber, formatPhoneNumber } from "react-phone-number-input";
 import "react-phone-number-input/style.css";
@@ -52,104 +52,117 @@ export const ProfileForm = ({
     onChange(field, value);
   };
 
-  if (!isEditing) {
-    return (
+  return (
+    <div className="space-y-6">
+      <div className="relative mb-6">
+        <span className="text-xl font-bold">
+          <span className="relative">
+            <span className="relative z-10">PROFILE</span>
+            <span className="absolute bottom-0 left-0 w-full h-[8px] bg-[#FFD700] -z-0"></span>
+          </span>
+        </span>
+      </div>
       <div className="space-y-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
-          <div>
-            <Label className="text-sm text-gray-500">First Name</Label>
-            <p className="text-lg">{profile.first_name}</p>
-          </div>
-          <div>
-            <Label className="text-sm text-gray-500">Last Name</Label>
-            <p className="text-lg">{profile.last_name}</p>
-          </div>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
-          <div>
-            <Label className="text-sm text-gray-500">Email</Label>
-            <p className="text-lg">{profile.email}</p>
-          </div>
-          <div>
-            <Label className="text-sm text-gray-500">Phone</Label>
-            <p className="text-lg">{profile.phone ? formatPhoneNumber(profile.phone) : ""}</p>
+        <div>
+          <label className="text-sm text-gray-500 mb-1 block">First Name</label>
+          <div className={`flex items-center ${isEditing ? 'border rounded p-2' : 'bg-[#F1F1F1] p-2'}`}>
+            <User className="h-5 w-5 text-gray-400 mr-2" />
+            {isEditing ? (
+              <input
+                id="first_name"
+                name="first_name"
+                value={formData.first_name || ""}
+                onChange={(e) => {
+                  if (/^[a-zA-Z\s]*$/.test(e.target.value)) {
+                    handleInputChange("first_name", e.target.value);
+                  }
+                }}
+                className="w-full bg-transparent focus:outline-none"
+              />
+            ) : (
+              <span>{profile?.first_name}</span>
+            )}
           </div>
         </div>
         <div>
-          <Label className="text-sm text-gray-500">Campus</Label>
-          <p className="text-lg">{profile.campus}</p>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
-        <div className="space-y-2">
-          <Label htmlFor="first_name">First Name</Label>
-          <Input
-            id="first_name"
-            name="first_name"
-            value={formData.first_name || ""}
-            onChange={(e) => {
-              if (/^[a-zA-Z\s]*$/.test(e.target.value)) {
-                handleInputChange("first_name", e.target.value);
-              }
-            }}
-            pattern="^[a-zA-Z\s]*$"
-            className="bg-white"
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="last_name">Last Name</Label>
-          <Input
-            id="last_name"
-            name="last_name"
-            value={formData.last_name || ""}
-            onChange={(e) => {
-              if (/^[a-zA-Z\s]*$/.test(e.target.value)) {
-                handleInputChange("last_name", e.target.value);
-              }
-            }}
-            pattern="^[a-zA-Z\s]*$"
-            className="bg-white"
-          />
-        </div>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
-        <div className="space-y-2">
-          <Label>Email</Label>
-          <p className="text-lg">{profile.email}</p>
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="phone">Phone</Label>
-          <div className="phone-input-container">
-            <PhoneInput
-              international
-              countryCallingCodeEditable={false}
-              defaultCountry="US"
-              value={formData.phone || ""}
-              onChange={handlePhoneChange}
-              className="bg-white"
-            />
+          <label className="text-sm text-gray-500 mb-1 block">Last Name</label>
+          <div className={`flex items-center ${isEditing ? 'border rounded p-2' : 'bg-[#F1F1F1] p-2'}`}>
+            <User className="h-5 w-5 text-gray-400 mr-2" />
+            {isEditing ? (
+              <input
+                type="text"
+                className="w-full bg-transparent focus:outline-none"
+                id="last_name"
+                name="last_name"
+                value={formData.last_name || ""}
+                onChange={(e) => {
+                  if (/^[a-zA-Z\s]*$/.test(e.target.value)) {
+                    handleInputChange("last_name", e.target.value);
+                  }
+                }}
+                pattern="^[a-zA-Z\s]*$"
+              />
+            ) : (
+              <span>{profile?.last_name}</span>
+            )}
           </div>
-          {phoneError && <p className="text-red-500 text-sm mt-1">{phoneError}</p>}
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
-        <div className="space-y-2">
-          <Label>Campus</Label>
-          <p className="text-lg">{profile.campus}</p>
+      <div>
+        <label className="text-sm text-gray-500 mb-1 block">Email</label>
+        <div className={"flex items-center bg-[#F1F1F1] p-2"}>
+          <Mail className="h-5 w-5 text-gray-400 mr-2" />
+          <span>{profile?.email}</span>
         </div>
       </div>
-      <div className="flex justify-end gap-4 mt-4">
-        <Button variant="outline" onClick={onCancel}>
-          Cancel
-        </Button>
-        <Button onClick={onSave} disabled={!!phoneError}>
-          Save Changes
-        </Button>
+      <div>
+        <label className="text-sm text-gray-500 mb-1 block">Phone Number</label>
+        <div className={`flex items-center ${isEditing ? 'border rounded p-2' : 'bg-[#F1F1F1] p-2'}`}>
+          <Phone className="h-5 w-5 text-gray-400 mr-2" />
+          {isEditing ? (
+            <div className="w-full">
+              <PhoneInput
+                international
+                countryCallingCodeEditable={false}
+                defaultCountry="US"
+                value={formData.phone || ""}
+                onChange={handlePhoneChange}
+                className="bg-transparent"
+              />
+            </div>
+          ) : (
+            <span>{profile?.phone ? formatPhoneNumber(profile.phone) : ''}</span>
+          )}
+        </div>
+      </div>
+      <div>
+        <label className="text-sm text-gray-500 mb-1 block">Campus</label>
+        <div className={"flex items-center bg-[#F1F1F1] p-2"}>
+          <UniversityIcon className="h-5 w-5 text-gray-400 mr-2" />
+          <span>{profile?.campus}</span>
+        </div>
+      </div>
+      <div className="pt-4 flex justify-end">
+        {isEditing ? (
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={onCancel}
+              className="w-24"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={onSave}
+              disabled={!!phoneError}
+              className="w-24 bg-[#F4D32F] text-black hover:bg-[#F4D32F]-hover font-semibold"
+            >
+              Save
+            </Button>
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

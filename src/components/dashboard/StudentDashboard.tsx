@@ -160,14 +160,6 @@ const StudentDashboard = () => {
           />
         </DialogContent>
       </Dialog>
-
-      <CompletionCodeDialog
-        lessonId="placeholder-id"
-        onSuccess={() => setShowAttendanceForm(false)}
-        open={showAttendanceForm}
-        onOpenChange={setShowAttendanceForm}
-      />
-
       <WelcomePopup isOpen={isPopupOpen} onClose={handlePopupClose} />
     </div>
   );

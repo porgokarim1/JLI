@@ -166,14 +166,6 @@ export const NextLessonCard = ({ onAttendanceClick, profile }: NextLessonCardPro
                   <span className="text-sm text-[#555555]"> {nextLesson?.location || "Location TBD"}</span>
                 </div>
               </div>
-              <div className="mt-4">
-                <Button
-                  onClick={onAttendanceClick}
-                  className="bg-[#FFD700] hover:bg-[#FFD700]/90 text-[#1A1F2C] font-bold shadow-lg"
-                >
-                  Attend
-                </Button>
-              </div>
             </div>
           </div>
         </CardContent>

@@ -47,6 +47,12 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
     }
   };
 
+  const formatDisplayDate = (dateString: string) => {
+    const [year, month, day] = dateString.split('-').map(Number);
+    const date = new Date(year, month - 1, day);
+    return format(date, "MM/dd/yyyy");
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4">
@@ -107,10 +113,10 @@ export const EngagementCard = ({ onNewEngagement, onEditEngagement, recentEngage
               <div className="flex justify-between items-start">
                 <div className="flex-1">
                   <p className="text-sm font-medium">
-                    {format(new Date(engagement.conversation_date), "MM/dd/yyyy")}
+                    {formatDisplayDate(engagement.conversation_date)}
                   </p>
                   <p className="text-sm text-gray-600 mt-1">
-                    {engagement.comments || "Note note notes"}
+                    {engagement.comments}
                   </p>
                 </div>
 

@@ -207,22 +207,18 @@ const ConversationForm = ({ initialData, onSuccess, onClose }: ConversationFormP
                     mode="single"
                     selected={(() => {
                       if (field.value) {
-                        console.log("field.value:", field.value);
                         const [year, month, day] = field.value.split('-').map(Number);
                         const date = new Date(year, month - 1, day);
-                        console.log("Fecha creada desde field.value:", date);
                         return date;
                       }
                       return undefined;
                     })()}
                     onSelect={(newDate) => {
                       if (newDate) {
-                        console.log("Fecha antes de modificarse:", newDate);
                         const year = newDate.getFullYear();
                         const month = String(newDate.getMonth() + 1).padStart(2, '0');
                         const day = String(newDate.getDate()).padStart(2, '0');
                         const dateString = `${year}-${month}-${day}`;
-                        console.log("Fecha string final:", dateString);
                         field.onChange(dateString);
                         setIsCalendarOpen(false);
                       }

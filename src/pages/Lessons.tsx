@@ -145,13 +145,6 @@ const Lessons = () => {
             ))}
           </div>
         </div>
-
-        <CompletionCodeDialog
-          lessonId={lessons?.[0]?.id || ''}
-          onSuccess={() => setShowAttendanceForm(false)}
-          open={showAttendanceForm}
-          onOpenChange={setShowAttendanceForm}
-        />
       </div>
       {isMobile && <BottomNav />}
     </div>

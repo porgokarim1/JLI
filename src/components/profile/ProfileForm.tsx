@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Mail, Phone, UniversityIcon, User } from "lucide-react";
+import { Building2, House, Mail, Phone, UniversityIcon, User } from "lucide-react";
 import { Profile } from "@/components/dashboard/types";
 import PhoneInput, { isValidPhoneNumber, formatPhoneNumber } from "react-phone-number-input";
 import "react-phone-number-input/style.css";
@@ -35,6 +33,8 @@ export const ProfileForm = ({
       onChange("email", profile.email || "");
       onChange("phone", profile.phone || "");
       onChange("campus", profile.campus || "");
+      onChange("address", profile.address || "");
+      onChange("city", profile.city || "");
       onChange("gender", profile.gender || "");
     }
   }, [isEditing]);
@@ -140,6 +140,49 @@ export const ProfileForm = ({
         <div className={"flex items-center bg-[#F1F1F1] p-2"}>
           <UniversityIcon className="h-5 w-5 text-gray-400 mr-2" />
           <span>{profile?.campus}</span>
+        </div>
+      </div>
+      <div><span className="text-l font-bold">Leave your address so we can send you your rewards</span></div>
+      <div>
+        <label className="text-sm text-gray-500 mb-1 block">Address</label>
+        <div className={`flex items-center ${isEditing ? 'border rounded p-2' : 'bg-[#F1F1F1] p-2'}`}>
+          <House className="h-5 w-5 text-gray-400 mr-2" />
+          {isEditing ? (
+            <input
+              type="text"
+              className="w-full bg-transparent focus:outline-none"
+              id="address"
+              name="address"
+              value={formData.address || ""}
+              onChange={(e) => {
+                handleInputChange("address", e.target.value);
+              }}
+              pattern="^[a-zA-Z\s]*$"
+            />
+          ) : (
+            <span>{profile?.address ? profile.address : "Your Adress"}</span>
+          )}
+        </div>
+      </div>
+      <div>
+        <label className="text-sm text-gray-500 mb-1 block">City</label>
+        <div className={`flex items-center ${isEditing ? 'border rounded p-2' : 'bg-[#F1F1F1] p-2'}`}>
+          <Building2 className="h-5 w-5 text-gray-400 mr-2" />
+          {isEditing ? (
+            <input
+              type="text"
+              className="w-full bg-transparent focus:outline-none"
+              id="city"
+              name="city"
+              value={formData.city || ""}
+              onChange={(e) => {
+                handleInputChange("city", e.target.value);
+              }}
+              pattern="^[a-zA-Z\s]*$"
+            />
+          ) : (
+            <span>{profile?.city ? profile.city : "Your City"}</span>
+          )}
         </div>
       </div>
       <div className="pt-4 flex justify-end">

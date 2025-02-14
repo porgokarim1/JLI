@@ -304,6 +304,8 @@ export type Database = {
           middle_name: string | null
           organization: string | null
           phone: string | null
+          address: string | null
+          city: string | null
           referal_code: string | null
           reward_claimed: boolean | null
           reward_tier: string | null
@@ -326,6 +328,8 @@ export type Database = {
           middle_name?: string | null
           organization?: string | null
           phone?: string | null
+          address?: string | null
+          city?: string | null
           referal_code?: string | null
           reward_claimed?: boolean | null
           reward_tier?: string | null
@@ -346,6 +350,8 @@ export type Database = {
           middle_name?: string | null
           organization?: string | null
           phone?: string | null
+          address?: string | null
+          city?: string | null
           referal_code?: string | null
           reward_claimed?: boolean | null
           reward_tier?: string | null

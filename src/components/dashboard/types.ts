@@ -49,6 +49,8 @@ export type Profile = {
   gender: string | null;
   phone: string | null;
   campus: string | null;
+  address: string | null;
+  city: string | null;
   organization: string | null;
   reward_tier: string | null;
   reward_claimed?: boolean;

@@ -10,12 +10,12 @@ const LessonsList = () => {
     return <LoadingSkeleton />;
   }
 
-  // Sort lessons by lesson_order
+
   const sortedLessons = [...(lessons || [])].sort((a, b) => {
     return (a.lesson_order || '').localeCompare(b.lesson_order || '');
   }).map(lesson => ({
     ...lesson,
-    media: lesson.lesson_media || [], // Map lesson_media to media property
+    media: lesson.lesson_media || [],
     progress: {
       status: (lesson.progress?.status || 'not_started') as LessonProgress['status'],
       time_spent: lesson.progress?.time_spent || 0,

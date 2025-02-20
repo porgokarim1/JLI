@@ -1,49 +1,65 @@
 import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import NavigationBar from "@/components/navigation/NavigationBar";
 import { Card } from "@/components/ui/card";
 
-/* declare global {
+declare global {
   interface Window {
-    AgentInitializer: {
-      init: (config: any) => void;
-    }
+    PICKAXE?: {
+      pickaxes: { id: string; type: string }[];
+      style?: string;
+    };
   }
-} */
+}
 
 const AIChat = () => {
- /*  useEffect(() => {
-    // Cargar el script dinámicamente
-    const script = document.createElement("script");
-    script.src = "https://cdn.jotfor.ms/s/umd/latest/for-embedded-agent.js";
-    script.async = true;
-    script.onload = () => {
-      if (window.AgentInitializer) {
-        window.AgentInitializer.init({
-          rootId: "JotformAgent-0194f10c92c47b609a5a530c58949a445613",
-          formID: "0194f10c92c47b609a5a530c58949a445613",
-          queryParams: ["skipWelcome=1", "maximizable=1"],
-          domain: "https://www.jotform.com",
-          isInitialOpen: false,
-          isDraggable: false,
-          background: "linear-gradient(180deg, #C8CEED 0%, #C8CEED 100%)",
-          buttonBackgroundColor: "#0a1551",
-          buttonIconColor: "#fff",
-          variant: false,
-          customizations: {
-            greeting: "No",
-            greetingMessage: "Hi! How can I assist you?",
-            pulse: "No",
-            position: "right",
-          },
-        });
-      }
-    };
-    document.body.appendChild(script);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname !== "/ai-chat") return;
+
+    if (window.PICKAXE) {
+      return;
+    }
+
+
+    window.PICKAXE = { pickaxes: [], style: "kHsjoCQGgI0GWASmgIdIAxiDA6wgM6CMbgC4UgDDAXYEAvDIBoGEBgG4CAWQIGYBgwCqApdoEjggjIaCcCoCA9gGzOBUToIQygtAyDw4IGoGgCkxAAC6AQCsAAD4BILgJ6AkV0ALDQAFA+ZiAkjEDFLoEEywHkKgMCHAzVmBfPMBUIIAaXQC7ggIDFAilWBXGkAmVIFVJQAAigADFAFGCB6IMBcQoBEJQAAKgGrsABOAQRmANK6AWEKAIgyAAAiACEoA+oB6QADwgB5IgBEjgAkmgGksgCEwAG6ACTSAPTiAJUGAUq6AQU2AQhaAEHyAK3iAgy8AaoB1cIBDP4CBfYAYCYBJPICJhIBjjYAjkYAbloA7c4B7nYBPf4BVpYCtVoBhi4BpZYC7F4B5m4CjR4AqL4CmTIBIDYAUDIDfUoAAzYAA4oDgM4C4sIABEIAWwIAugIAxEIAYwIAIGIDAoYA8AoBQCoAxYEAwqGAFCCAFKANQVAAGEgFpAQBF0YAADEAKFCATBpABC5gEABQCQXoBFGMAmcaAcGhAJDigAEhwAvFYBoJUA8ciATxHACWRgFUnwCCDIBABEAOM2AFQ1ANiigDRQQBLUYANJ0AQR6AGntAAIJgGVywAARIAvNEAMFaAQNhANKFgAJNwA+moAk8sAKlKAVQDAIlBgE3HQCBoIADQ0ADRSAcAXABfTgCjFQBFXYAKM0AYKIAIEAR8iAABRAIFGgHGCwDLdYA38EABQiAMBpABBIgAweQAKBIBOGsAKgSAVexAJfhgAACQAARYAbQUANm+AYTGAIuAQF9AAKtgA0QQBAA4B380A0OeAeSnAGu9gEwOQDesIAUZUATNKANjJAPU6gDj1QCqGYBAlkAAxWAcVjANNQgHgsQAxqIAKAUAEwiAXK1ABKGgDGnQAMCYBBCEAGQiALwVAHD4gGLxQAe7IADI8Ao3OAMvlAATvgEWgQAL9oBuwMABLiAExCAFiAULHAK4GgECEQCCkIArViABWugCaZYAWAiAOMfgACEYAsAaAMJ4gBQX4AaN2AN+wgCZfYAMpSADqOgAwyoAzfOANA7gAilAAAEAA===" };
+    window.PICKAXE.pickaxes.push({ id: "JLI_KI_L1_OMWIM", type: "fab" });
+
+    const scriptUrl = "https://cdn.jsdelivr.net/gh/pickaxeproject/cdn@latest/dist/bundle.js";
+
+
+    if (!document.querySelector(`script[src="${scriptUrl}"]`)) {
+      const script = document.createElement("script");
+      script.src = scriptUrl;
+      script.defer = true;
+      script.id = "pickaxe-bundle";
+      document.head.appendChild(script);
+    }
 
     return () => {
-      document.body.removeChild(script);
+
+
+      document.getElementById("pickaxe-bundle")?.remove();
+
+
+      document.querySelectorAll("iframe").forEach((iframe) => {
+        if (iframe.src.includes("pickaxeproject")) {
+          iframe.remove();
+        }
+      });
+
+
+      document.querySelectorAll("div").forEach((div) => {
+        if (div.id.includes("pickaxe")) {
+          div.remove();
+        }
+      });
+
+
+      delete window.PICKAXE;
     };
-  }, []); */
+  }, [location.pathname]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50">
